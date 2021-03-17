@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import icVisibility from '@iconify/icons-ic/twotone-visibility';
 import icVisibilityOff from '@iconify/icons-ic/twotone-visibility-off';
 import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
+import { AuthenticationService } from '../../../../Services/AuthenticationService';
 
 @Component({
   selector: 'vex-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private fb: FormBuilder,
               private cd: ChangeDetectorRef,
-              private snackbar: MatSnackBar
+              private snackbar: MatSnackBar,
+              private AuthenticationService: AuthenticationService,
   ) {}
 
   ngOnInit() {
@@ -39,10 +41,29 @@ export class LoginComponent implements OnInit {
   }
 
   send() {
-    this.router.navigate(['/']);
-    this.snackbar.open('Lucky you! Looks like you didn\'t need a password or email address! For a real application we provide validators to prevent this. ;)', 'LOL THANKS', {
-      duration: 10000
-    });
+    const admin = this.form.value;
+    this.AuthenticationService.login(admin.email, admin.password)
+    .subscribe(
+        data => {
+          if(data.success){
+            console.log(data)
+            this.router.navigate(['/']);
+
+          }
+        },
+        error => {
+          console.log(error.error)
+          let message="Error";
+          if(!error.error.success)
+            message = error.error.type;
+          this.router.navigate(['/login']);
+          this.snackbar.open(message, 'OK', {
+            duration: 10000
+          });
+        });
+
+
+    
   }
 
   toggleVisibility() {

@@ -1,0 +1,1 @@
+export const CryptoSecret = window.CryptoSecret || 'NO-CryptoSecret-FOUND';

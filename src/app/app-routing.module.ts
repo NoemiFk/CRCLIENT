@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CustomLayoutComponent } from './custom-layout/custom-layout.component';
 import { VexRoutes } from '../@vex/interfaces/vex-route.interface';
+import { AuthGuard } from './Services/AuthGuard';
 
 const routes: VexRoutes = [
   {
@@ -23,6 +24,7 @@ const routes: VexRoutes = [
   {
     path: '',
     component: CustomLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboards/analytics',

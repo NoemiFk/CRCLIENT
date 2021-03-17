@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VexModule } from '../@vex/vex.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomLayoutModule } from './custom-layout/custom-layout.module';
+import { AuthenticationService } from './Services/AuthenticationService';
+import { Services } from './Services/services'
+import { AuthGuard } from './Services/AuthGuard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +23,11 @@ import { CustomLayoutModule } from './custom-layout/custom-layout.module';
     VexModule,
     CustomLayoutModule
   ],
-  providers: [],
+  providers: [
+    AuthenticationService,
+    Services,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
