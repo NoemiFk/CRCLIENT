@@ -109,6 +109,45 @@ export class AppComponent {
         icon: icLayers,
         routerLinkActiveOptions: { exact: true }
       },
+      /////////////////////
+      {
+        type: 'subheading',
+        label: 'Clientes',
+        children: [
+          {
+            type: 'link',
+            label: 'Clientes',
+            route: '/admin/customers',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
+            label: 'Portafolios',
+            route: '/admin/briefcase',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
+            label: 'Analisis',
+            route: '/admin/analysis',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
+            label: 'Segmentación',
+            route: '/admin/segmentacion',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
+            label: 'Estrategias',
+            route: '/admin/strategy',
+            icon: icAssigment
+          },
+        ]
+      },
+      ///////////////////////
+/*
       {
         type: 'subheading',
         label: 'Apps',
@@ -627,6 +666,7 @@ export class AppComponent {
         route: () => this.layoutService.openConfigpanel(),
         icon: icSettings
       }
+      */
     ];
   }
 }

@@ -24,7 +24,7 @@ const routes: VexRoutes = [
   {
     path: '',
     component: CustomLayoutComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboards/analytics',
@@ -72,6 +72,10 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/apps/aio-table/aio-table.module').then(m => m.AioTableModule),
           },
           {
+            path: 'customers',
+            loadChildren: () => import('./pages/admin/customers/aio-table.module').then(m => m.AioTableModule),
+          },
+          {
             path: 'help-center',
             loadChildren: () => import('./pages/apps/help-center/help-center.module').then(m => m.HelpCenterModule),
           },
@@ -82,6 +86,32 @@ const routes: VexRoutes = [
           {
             path: 'editor',
             loadChildren: () => import('./pages/apps/editor/editor.module').then(m => m.EditorModule),
+          },
+        ]
+      },
+      {
+        path: 'admin',
+        children: [
+         
+          {
+            path: 'customers',
+            loadChildren: () => import('./pages/admin/customers/aio-table.module').then(m => m.AioTableModule),
+          },
+          {
+            path: 'briefcase',
+            loadChildren: () => import('./pages/admin/briefcase/briefcase.module').then(m => m.BriefcaseModule),
+          },
+          {
+            path: 'analysis',
+            loadChildren: () => import('./pages/admin/analysis/analysis.module').then(m => m.AnalysisModule),
+          },
+          {
+            path: 'segmentacion',
+            loadChildren: () => import('./pages/admin/segmentacion/segmentacion.module').then(m => m.SegmentacionModule),
+          },
+          {
+            path: 'strategy',
+            loadChildren: () => import('./pages/admin/strategy/strategy.module').then(m => m.StrategyModule),
           },
         ]
       },
