@@ -7,6 +7,7 @@ import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-l
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
 import { MapCreateUpdateModule } from './map-create-update/map-create-update.module';
+import { MapUpdateModule } from './map-update/map-update.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -31,6 +32,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     FlexLayoutModule,
     BreadcrumbsModule,
     MapCreateUpdateModule,
+    MapUpdateModule,
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,

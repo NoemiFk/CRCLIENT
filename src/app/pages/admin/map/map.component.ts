@@ -9,8 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { MapCreateUpdateComponent } from './map-create-update/map-create-update.component';
+import { MapUpdateComponent } from './map-update/map-update.component';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
+import icLoad from '@iconify/icons-ic/arrow-drop-down-circle';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icUpload from '@iconify/icons-ic/file-upload';
@@ -90,6 +92,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
+  icLoad=icLoad;
   icAdd = icAdd;
   icUpload=icUpload;
   icFilterList = icFilterList;
@@ -175,8 +178,50 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   upload(){
-
+    let body={
+      "cart":this.jsonData.Datos,
+      "type":"upload"
+    }
+    this.dialog.open(MapUpdateComponent, {
+      data: body
+    }).afterClosed().subscribe(updatedCustomer => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (updatedCustomer) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        const index = this.customers.findIndex((existingCustomer) => existingCustomer.id === updatedCustomer.id);
+        this.customers[index] = new Customer(updatedCustomer);
+        this.subject$.next(this.customers);
+      }
+    });
   }
+  load(){
+    let body={
+      "cart":this.jsonData.Datos,
+      "type":"load"
+    }
+    this.dialog.open(MapUpdateComponent, {
+      data: body
+    }).afterClosed().subscribe(updatedCustomer => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (updatedCustomer) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        const index = this.customers.findIndex((existingCustomer) => existingCustomer.id === updatedCustomer.id);
+        this.customers[index] = new Customer(updatedCustomer);
+        this.subject$.next(this.customers);
+      }
+    });
+  }
+  
   updateCustomer(customer: Customer) {
     this.dialog.open(MapCreateUpdateComponent, {
       data: customer
