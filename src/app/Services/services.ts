@@ -115,5 +115,13 @@ export class Services {
               return resp;
           });
     }
+    updateRegister(body:object, id:string) {
+      return this.http.put<any>(URL+'/map/'+id,body)
+          .map(resp => {
+          
+              console.log("createRegister",resp)
+              return resp;
+          });
+    }
 
 }
