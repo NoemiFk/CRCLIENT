@@ -99,5 +99,21 @@ export class Services {
               return resp;
           });
     }
+    createMap(body:object) {
+      return this.http.post<any>(URL+'/map/',body)
+          .map(resp => {
+          
+              console.log("createMap",resp)
+              return resp;
+          });
+    }
+    createRegister(body:object, id:string) {
+      return this.http.post<any>(URL+'/map/'+id,body)
+          .map(resp => {
+          
+              console.log("createRegister",resp)
+              return resp;
+          });
+    }
 
 }
