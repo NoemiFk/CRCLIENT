@@ -98,10 +98,14 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/admin/customers/aio-table.module').then(m => m.AioTableModule),
           },
           {
-            path: 'briefcase',
-            loadChildren: () => import('./pages/admin/briefcase/briefcase.module').then(m => m.BriefcaseModule),
+            path: 'portafolios',
+            loadChildren: () => import('./pages/admin/portafolios/portafolios.module').then(m => m.AioTableModule),
           },
           {
+            path: 'map',
+            loadChildren: () => import('./pages/admin/map/map.module').then(m => m.MapModule),
+          },
+          {   
             path: 'analysis',
             loadChildren: () => import('./pages/admin/analysis/analysis.module').then(m => m.AnalysisModule),
           },

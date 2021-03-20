@@ -1,15 +1,15 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Customer } from './interfaces/customer.model';
+import { Portafolio } from './interfaces/Portafolio.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
-import { CustomerCreateUpdateComponent } from './customer-create-update/customer-create-update.component';
-import { CustomerDeleteComponent } from './customer-delete/customer-delete.component';
+import { PortafolioCreateUpdateComponent } from './portafolio-create-update/portafolio-create-update.component';
+import { PortafolioDeleteComponent } from './portafolio-delete/portafolio-delete.component';
 
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
@@ -35,8 +35,8 @@ import {Services} from '../../../Services/services'
 @UntilDestroy()
 @Component({
   selector: 'vex-aio-table',
-  templateUrl: './aio-table.component.html',
-  styleUrls: ['./aio-table.component.scss'],
+  templateUrl: './portafolios.component.html',
+  styleUrls: ['./portafolios.component.scss'],
   animations: [
     fadeInUp400ms,
     stagger40ms
@@ -58,36 +58,27 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    * Simulating a service with HTTP that returns Observables
    * You probably want to remove this and do all requests in a service with HTTP
    */
-  subject$: ReplaySubject<Customer[]> = new ReplaySubject<Customer[]>(1);
-  data$: Observable<Customer[]> = this.subject$.asObservable();
-  customers: Customer[];
-  CustomersList:[];
+  subject$: ReplaySubject<Portafolio[]> = new ReplaySubject<Portafolio[]>(1);
+  data$: Observable<Portafolio[]> = this.subject$.asObservable();
+  portafolios: Portafolio[];
+  PortafoliosList:[];
+  selectClient={};
 
 
 
   @Input()
-  columns: TableColumn<Customer>[] = [
+  columns: TableColumn<Portafolio>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Imagen', property: 'image', type: 'image', visible: true },
-    { label: 'Cliente', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    { label: 'RFC', property: 'RFC', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Portafolio', property: 'name_portafolio', type: 'text', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Descripción', property: 'description', type: 'text', visible: true },
     { label: 'Tipo', property: 'type', type: 'text', visible: true },
-    { label: 'E-mail', property: 'email', type: 'text', visible: true },
-    { label: 'Telefono', property: 'phone', type: 'text', visible: true },
-    { label: 'Calle', property: 'address1', type: 'object', object:'address',visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'No. Int', property: 'int', type: 'object', object:'address', visible: true },
-    { label: 'No. Ext', property: 'ext', type: 'object', object:'address', visible: false },
-    { label: 'C.P', property: 'zipcode', type: 'object', object:'address', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Colonia', property: 'address2', type: 'object', object:'address', visible: false },
-    { label: 'Municipio', property: 'municipality', type: 'object', object:'address', visible: false },
-    { label: 'Ciudad', property: 'city', type: 'object', object:'address', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Estado', property: 'state', type: 'object', object:'address', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Cliente', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
-  dataSource: MatTableDataSource<Customer> | null;
-  selection = new SelectionModel<Customer>(true, []);
+  dataSource: MatTableDataSource<Portafolio> | null;
+  selection = new SelectionModel<Portafolio>(true, []);
   searchCtrl = new FormControl();
 
   labels = aioTableLabels;
@@ -105,7 +96,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   // User 
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
+  client_id=""
   agency={}
+  agency_id=""
+  CustomersList=[];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -123,20 +117,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    */
   getData(list) {
     console.log("-->",list)
-    return of(list.map(customer => customer));
-  }
-  getAgency() {
-    this.Services.getAgency(this.client.agency_id)
-    .subscribe(
-        data => {
-          if(data.success){
-            this.agency=data.data
-            console.log(this.agency)
-          }
-        },
-        error => {
-          //this.error=true
-        });
+    return of(list.map(portafolio => portafolio));
   }
   getCustomersList() {
     this.Services.getCustomersList(this.client.agency_id)
@@ -146,18 +127,80 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           if(data.success){
             this.CustomersList=data.data
             
-            //return this.CustomersList;
-            this.getData(this.CustomersList).subscribe(customers => {
-              this.subject$.next(customers);
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  getAgency() {
+    this.Services.getAgency(this.client.agency_id)
+    .subscribe(
+        data => {
+          if(data.success){
+            this.agency=data.data
+            this.agency_id=data.data._id;
+            console.log("----",this.agency)
+            this.getPortafoliosListAgency()
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  getPortafoliosListAgency() {
+    console.log("Agency", this.agency_id)
+    this.Services.getPortafoliosListAgency(this.agency_id)
+    .subscribe(
+        data => {
+          if(data.success){
+            this.PortafoliosList=data.data
+            
+            //return this.PortafoliosList;
+            this.getData(this.PortafoliosList).subscribe(portafolios => {
+              this.subject$.next(portafolios);
             });
             //this.dataSource = new MatTableDataSource();
 
           this.data$.pipe(
-            filter<Customer[]>(Boolean)
-          ).subscribe(customers => {
-            console.log(customers)
-            this.customers = customers;
-            this.dataSource.data = customers; //this.CustomersList;
+            filter<Portafolio[]>(Boolean)
+          ).subscribe(portafolios => {
+            console.log(portafolios)
+            this.portafolios = portafolios;
+            this.dataSource.data = portafolios; //this.PortafoliosList;
+          });
+          console.log("-------->",this.dataSource)
+          this.searchCtrl.valueChanges.pipe(
+            untilDestroyed(this)
+          ).subscribe(value => this.onFilterChange(value));
+            //this.ClientAddList=data.data
+            //console.log("--",this.usersList)
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  getPortafoliosList() {
+    this.Services.getPortafoliosList(this.client_id)
+    .subscribe(
+        data => {
+          console.log("Portafolios ", data)
+          if(data.success){
+            this.PortafoliosList=data.data
+            
+            //return this.PortafoliosList;
+            this.getData(this.PortafoliosList).subscribe(portafolios => {
+              this.subject$.next(portafolios);
+            });
+            //this.dataSource = new MatTableDataSource();
+
+          this.data$.pipe(
+            filter<Portafolio[]>(Boolean)
+          ).subscribe(portafolios => {
+            console.log(portafolios)
+            this.portafolios = portafolios;
+            this.dataSource.data = portafolios; //this.PortafoliosList;
           });
           console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
@@ -174,8 +217,9 @@ export class AioTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     console.log(this.client)
-    this.getAgency() 
     this.dataSource = new MatTableDataSource();
+    this.getAgency() 
+    
     this.getCustomersList();
   }
 
@@ -185,71 +229,71 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     console.log("-->",this.dataSource)
   }
 
-  createCustomer() {
-    this.dialog.open(CustomerCreateUpdateComponent).afterClosed().subscribe((customer: Customer) => {
+  createPortafolio() {
+    this.dialog.open(PortafolioCreateUpdateComponent).afterClosed().subscribe((portafolio: Portafolio) => {
       /**
-       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
        */
-      if (customer) {
+      if (portafolio) {
         /**
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.customers.unshift(customer);
-        this.subject$.next(this.customers);
+        this.portafolios.unshift(portafolio);
+        this.subject$.next(this.portafolios);
       }
     });
   }
 
-  updateCustomer(customer: Customer) {
-    this.dialog.open(CustomerCreateUpdateComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedCustomer => {
+  updatePortafolio(portafolio: Portafolio) {
+    this.dialog.open(PortafolioCreateUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(updatedPortafolio => {
       /**
-       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
        */
-      if (updatedCustomer) {
+      if (updatedPortafolio) {
         /**
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        const index = this.customers.findIndex((existingCustomer) => existingCustomer._id === updatedCustomer._id);
-        this.customers[index] = new Customer(updatedCustomer);
-        this.subject$.next(this.customers);
+        const index = this.portafolios.findIndex((existingPortafolio) => existingPortafolio._id === updatedPortafolio._id);
+        this.portafolios[index] = new Portafolio(updatedPortafolio);
+        this.subject$.next(this.portafolios);
       }
     });
   }
 
-  deleteCustomer(customer: Customer) {
+  deletePortafolio(portafolio: Portafolio) {
     /**
      * Here we are updating our local array.
      * You would probably make an HTTP request here.
      */
 
-    this.dialog.open(CustomerDeleteComponent, {
-      data: customer
-    }).afterClosed().subscribe(updatedCustomer => {
+    this.dialog.open(PortafolioDeleteComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(updatedPortafolio => {
       /**
-       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
        */
-      if (updatedCustomer) {
+      if (updatedPortafolio) {
         /**
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.customers.splice(this.customers.findIndex((existingCustomer) => existingCustomer._id === customer._id), 1);
-        this.selection.deselect(customer);
-        this.subject$.next(this.customers);
+        this.portafolios.splice(this.portafolios.findIndex((existingPortafolio) => existingPortafolio._id === portafolio._id), 1);
+        this.selection.deselect(portafolio);
+        this.subject$.next(this.portafolios);
       }
     });
   }
 
-  deleteCustomers(customers: Customer[]) {
+  deletePortafolios(portafolios: Portafolio[]) {
     /**
      * Here we are updating our local array.
      * You would probably make an HTTP request here.
      */
-    customers.forEach(c => this.deleteCustomer(c));
+    portafolios.forEach(c => this.deletePortafolio(c));
   }
 
   onFilterChange(value: string) {
@@ -285,9 +329,14 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     return column.property;
   }
 
-  onLabelChange(change: MatSelectChange, row: Customer) {
-    const index = this.customers.findIndex(c => c === row);
-    //this.customers[index].labels = change.value;
-    this.subject$.next(this.customers);
+  onLabelChange(change: MatSelectChange, row: Portafolio) {
+    const index = this.portafolios.findIndex(c => c === row);
+    //this.portafolios[index].labels = change.value;
+    this.subject$.next(this.portafolios);
+  }
+  onChangeClient(x){
+    console.log(x)
+    this.client_id=x.value;
+    this.getPortafoliosList()
   }
 }

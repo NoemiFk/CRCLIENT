@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AioTableRoutingModule } from './aio-table-routing.module';
-import { AioTableComponent } from './aio-table.component';
+import { MapRoutingModule } from './map-routing.module';
+import { MapComponent } from './map.component';
 import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-layout.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
-import { CustomerCreateUpdateModule } from './customer-create-update/customer-create-update.module';
-import { CustomerDeleteModule } from './customer-delete/customer-delete.module';
+import { MapCreateUpdateModule } from './map-create-update/map-create-update.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -24,14 +23,14 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 @NgModule({
-  declarations: [AioTableComponent],
+  declarations: [MapComponent],
   imports: [
     CommonModule,
-    AioTableRoutingModule,
+    MapRoutingModule,
     PageLayoutModule,
     FlexLayoutModule,
     BreadcrumbsModule,
-    CustomerCreateUpdateModule,
+    MapCreateUpdateModule,
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,
@@ -45,9 +44,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ReactiveFormsModule,
     ContainerModule,
     MatSelectModule,
-    MatButtonToggleModule,
-    CustomerDeleteModule
+    MatButtonToggleModule
   ]
 })
-export class AioTableModule {
+export class MapModule {
 }

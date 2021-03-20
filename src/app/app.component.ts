@@ -123,7 +123,13 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Portafolios',
-            route: '/admin/briefcase',
+            route: '/admin/portafolios',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
+            label: 'Mapeo',
+            route: '/admin/map',
             icon: icAssigment
           },
           {

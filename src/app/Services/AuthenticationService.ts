@@ -31,23 +31,23 @@ export class AuthenticationService {
         }
 
         console.log("Login",body)
-        return this.http.post<any>(URL+'/admin/login',body)
+        return this.http.post<any>(URL+'/agency/login',body)
         
-            .map(admin => {
+            .map(agency => {
                 
-                console.log("login admin",admin)
-                if (admin) {
-                    localStorage.setItem('currentAdmin', JSON.stringify(admin));
-                    localStorage.setItem('Token', JSON.stringify(admin.token));
+                console.log("login agency",agency)
+                if (agency) {
+                    localStorage.setItem('currentAgency', JSON.stringify(agency.data));
+                    localStorage.setItem('Token', JSON.stringify(agency.data.token));
                 }
 
-                return admin;
+                return agency;
             });
     }
 
     logout() {
         // remove user from local storage to log user out
-        localStorage.removeItem('currentAdmin');
+        localStorage.removeItem('currentAgency');
         localStorage.removeItem('oken');
     }
     encryptUsingAES256(pass) {

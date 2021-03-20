@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AioTableRoutingModule } from './aio-table-routing.module';
-import { AioTableComponent } from './aio-table.component';
+import { AioTableRoutingModule } from './portafolios-routing.module';
+import { AioTableComponent } from './portafolios.component';
 import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-layout.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
-import { CustomerCreateUpdateModule } from './customer-create-update/customer-create-update.module';
-import { CustomerDeleteModule } from './customer-delete/customer-delete.module';
+import { PortafolioCreateUpdateModule } from './portafolio-create-update/portafolio-create-update.module';
+import { PortafolioDeleteModule } from './portafolio-delete/portafolio-delete.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -31,7 +31,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     PageLayoutModule,
     FlexLayoutModule,
     BreadcrumbsModule,
-    CustomerCreateUpdateModule,
+    PortafolioCreateUpdateModule,
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,
@@ -46,7 +46,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ContainerModule,
     MatSelectModule,
     MatButtonToggleModule,
-    CustomerDeleteModule
+    PortafolioDeleteModule
   ]
 })
 export class AioTableModule {

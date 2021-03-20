@@ -12,6 +12,7 @@ import icPerson from '@iconify/icons-ic/twotone-person';
 import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
+import {Services} from '../../../../Services/services'
 
 @Component({
   selector: 'vex-customer-create-update',
@@ -24,6 +25,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
+  agency={};
 
   icMoreVert = icMoreVert;
   icClose = icClose;
@@ -37,29 +39,60 @@ export class CustomerCreateUpdateComponent implements OnInit {
   icLocationCity = icLocationCity;
   icEditLocation = icEditLocation;
   icPhone = icPhone;
-
+  info_client=localStorage.getItem('currentAgency')
+  client=JSON.parse(this.info_client);
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
               private dialogRef: MatDialogRef<CustomerCreateUpdateComponent>,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private Services: Services) {
   }
 
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'update';
+      let customer= this.defaults;
+      console.log(this.defaults)
+      this.defaults= {
+        "_id":customer._id,
+      "name": customer.name,
+      "nameClient": customer.nameClient,
+      "email": customer.email,
+      "phone": customer.phone,
+      "emailOptional": customer.emailOptional,
+      "phoneOptional": customer.phoneOptional,
+      "RFC": customer.RFC,
+      "city": customer.address.city,
+      "state": customer.address.state,
+      "municipality": customer.address.municipality,
+      "address1": customer.address.address1,
+      "address2": customer.address.address2,
+      "int": customer.address.int,
+      "ext": customer.address.ext,
+      "zipcode": customer.address.zipcode,
+      }
+      console.log(this.defaults)
     } else {
       this.defaults = {} as Customer;
     }
-
     this.form = this.fb.group({
-      id: [CustomerCreateUpdateComponent.id++],
       imageSrc: this.defaults.imageSrc,
-      firstName: [this.defaults.firstName || ''],
-      lastName: [this.defaults.lastName || ''],
-      street: this.defaults.street || '',
+      type: [this.defaults.type || ''],
+      name: [this.defaults.name || ''],
+      nameClient: [this.defaults.nameClient || ''],
+      RFC: [this.defaults.RFC || ''],
+      address1: this.defaults.address1 || '',
+      address2: this.defaults.address2 || '',
       city: this.defaults.city || '',
       zipcode: this.defaults.zipcode || '',
-      phoneNumber: this.defaults.phoneNumber || '',
-      notes: this.defaults.notes || ''
+      country: this.defaults.country || '', 
+      municipality: this.defaults.municipality || '',
+      state: this.defaults.state || '',
+      int: this.defaults.int || '',
+      ext: this.defaults.ext || '',
+      phone: this.defaults.phone || '',
+      phoneOptional: this.defaults.phoneOptional || '',
+      email: this.defaults.email || '',
+      emailOptional: this.defaults.emailOptional || ''
     });
   }
 
@@ -78,7 +111,47 @@ export class CustomerCreateUpdateComponent implements OnInit {
       customer.imageSrc = 'assets/img/avatars/1.jpg';
     }
 
-    this.dialogRef.close(customer);
+    let body= {
+      "agency_id": this.client.agency_id,
+      "nameClient": customer.nameClient,
+      "name": customer.name,
+      "type": customer.type,
+      "email": customer.email,
+      "phone": customer.phone,
+      "emailOptional": customer.emailOptional,
+      "phoneOptional": customer.phoneOptional,
+      "RFC": customer.RFC,
+      "address": {
+        "city": customer.city,
+        "state": customer.state,
+        "municipality": customer.municipality,
+        "address1": customer.address1,
+        "address2": customer.address2,
+        "int": customer.int,
+        "ext": customer.ext,
+        "zipcode": customer.zipcode
+      },
+    }
+     console.log(body)
+      this.createCustomerA(body);
+     
+
+    
+  }
+
+  createCustomerA(body) {
+    this.Services.createCustomer(body)
+    .subscribe(
+        data => {
+          console.log("Hola ", data)
+          if(data.success){
+            this.agency=data.data
+            this.dialogRef.close(data.data);
+          }
+        },
+        error => {
+          //this.error=true
+        });
   }
 
   updateCustomer() {
