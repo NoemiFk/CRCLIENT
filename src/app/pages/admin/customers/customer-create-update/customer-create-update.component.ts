@@ -12,6 +12,7 @@ import icPerson from '@iconify/icons-ic/twotone-person';
 import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
+import icEmail from '@iconify/icons-ic/email';
 import {Services} from '../../../../Services/services'
 
 @Component({
@@ -39,6 +40,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
   icLocationCity = icLocationCity;
   icEditLocation = icEditLocation;
   icPhone = icPhone;
+  icEmail = icEmail;
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,

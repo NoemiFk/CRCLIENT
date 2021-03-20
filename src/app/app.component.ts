@@ -7,6 +7,10 @@ import { NavigationService } from '../@vex/services/navigation.service';
 import icLayers from '@iconify/icons-ic/twotone-layers';
 import icAssigment from '@iconify/icons-ic/twotone-assignment';
 import icContactSupport from '@iconify/icons-ic/twotone-contact-support';
+import icPerson from '@iconify/icons-ic/person';
+import icPortafolio from '@iconify/icons-ic/twotone-folder';
+import icAnalisis from '@iconify/icons-ic/graphic-eq';
+import icSegmentacion from '@iconify/icons-ic/twotone-pause-circle-outline';
 import icDateRange from '@iconify/icons-ic/twotone-date-range';
 import icChat from '@iconify/icons-ic/twotone-chat';
 import icContacts from '@iconify/icons-ic/twotone-contacts';
@@ -118,13 +122,13 @@ export class AppComponent {
             type: 'link',
             label: 'Clientes',
             route: '/admin/customers',
-            icon: icAssigment
+            icon: icPerson
           },
           {
             type: 'link',
             label: 'Portafolios',
             route: '/admin/portafolios',
-            icon: icAssigment
+            icon: icPortafolio
           },
           {
             type: 'link',
@@ -136,13 +140,13 @@ export class AppComponent {
             type: 'link',
             label: 'Analisis',
             route: '/admin/analysis',
-            icon: icAssigment
+            icon: icAnalisis
           },
           {
             type: 'link',
             label: 'Segmentación',
             route: '/admin/segmentacion',
-            icon: icAssigment
+            icon: icSegmentacion
           },
           {
             type: 'link',
