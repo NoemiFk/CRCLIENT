@@ -13,6 +13,7 @@ import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
+import icUpload from '@iconify/icons-ic/file-upload';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
@@ -90,12 +91,16 @@ export class MapComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icAdd = icAdd;
+  icUpload=icUpload;
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
-
+  info_client=localStorage.getItem('currentAgency')
+  client=JSON.parse(this.info_client);
+  agency_id=this.client.agency_id
+  portafolio_id="60558e719a5a98d506ce1fa7";
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  //@ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private dialog: MatDialog) {
   }
@@ -103,6 +108,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
+    
+
 
   /**
    * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
@@ -133,11 +140,26 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.sort = this.sort;
+  }
+  get displayedColumns() {
+    var keys = [];
+    if(this.jsonData &&this.jsonData.Datos.length){
+
+      for(var k in this.jsonData.Datos[0])  keys.push(k);
+      this.datos=keys;
+    }
+    return keys;
+
   }
 
-  createCustomer() {
-    this.dialog.open(MapCreateUpdateComponent).afterClosed().subscribe((customer: Customer) => {
+  createMapeo() {
+    let data={
+      datos:this.datos,
+      agency_id:this.agency_id,
+      portafolio_id:this.portafolio_id||"60558e719a5a98d506ce1fa7"
+    }
+    this.dialog.open(MapCreateUpdateComponent, {data: data}).afterClosed().subscribe((customer: Customer) => {
       /**
        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
        */
@@ -146,12 +168,15 @@ export class MapComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.customers.unshift(new Customer(customer));
+        //this.customers.unshift(new Customer(customer));
         this.subject$.next(this.customers);
       }
     });
   }
 
+  upload(){
+
+  }
   updateCustomer(customer: Customer) {
     this.dialog.open(MapCreateUpdateComponent, {
       data: customer
@@ -229,7 +254,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   //MAP
-   jsonData = null;
+   jsonData = {Datos:[]};
+   datos: String[];
   onFileChange(ev) {
     let workBook = null;
     let jsonData = null;
@@ -254,21 +280,14 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.jsonData=jsonData;
       const dataString = JSON.stringify(jsonData);
       console.log(dataString)
-      var coche = JSON.parse(dataString, this.reviver );
-console.log(coche, this.datos);
-      document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
+   
+      //document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
       this.setDownload(dataString);
     }
     reader.readAsBinaryString(file);
   }
-  datos: String[];
-  reviver(clave, valor) {
+ 
 
-    console.log(clave)
-    this.datos.push(clave);
-
-    return valor;
-}
   
   setDownload(data) {
     this.willDownload = true;
@@ -278,4 +297,5 @@ console.log(coche, this.datos);
       el.setAttribute("download", 'xlsxtojson.json');
     }, 1000)
   }
+  
 }

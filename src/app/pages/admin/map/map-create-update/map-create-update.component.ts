@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Customer } from '../interfaces/map.model';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
+import icAdd from '@iconify/icons-ic/twotone-add';
 import icClose from '@iconify/icons-ic/twotone-close';
 import icPrint from '@iconify/icons-ic/twotone-print';
 import icDownload from '@iconify/icons-ic/twotone-cloud-download';
@@ -12,6 +13,7 @@ import icPerson from '@iconify/icons-ic/twotone-person';
 import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
+import {Services} from '../../../../Services/services'
 
 @Component({
   selector: 'vex-map-create-update',
@@ -36,30 +38,49 @@ export class MapCreateUpdateComponent implements OnInit {
   icMyLocation = icMyLocation;
   icLocationCity = icLocationCity;
   icEditLocation = icEditLocation;
+  icAdd = icAdd;
   icPhone = icPhone;
-
+  CustomersList=[];
+  info_client=localStorage.getItem('currentAgency')
+  client=JSON.parse(this.info_client);
+  datos=[]
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
               private dialogRef: MatDialogRef<MapCreateUpdateComponent>,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,private Services: Services) {
   }
-
+  getCustomersList() {
+    this.Services.getCustomersList(this.client.agency_id)
+    .subscribe(
+        data => {
+          console.log("Hola ", data)
+          if(data.success){
+            this.CustomersList=data.data
+            
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  
   ngOnInit() {
+    this.getCustomersList()
+    console.log("-------!!!!",this.defaults)
+    this.datos=this.defaults.datos;
     if (this.defaults) {
-      this.mode = 'update';
+      this.mode = 'create';
     } else {
       this.defaults = {} as Customer;
     }
 
     this.form = this.fb.group({
-      id: [MapCreateUpdateComponent.id++],
-      imageSrc: this.defaults.imageSrc,
-      firstName: [this.defaults.firstName || ''],
-      lastName: [this.defaults.lastName || ''],
-      street: this.defaults.street || '',
-      city: this.defaults.city || '',
-      zipcode: this.defaults.zipcode || '',
-      phoneNumber: this.defaults.phoneNumber || '',
-      notes: this.defaults.notes || ''
+      name: [this.defaults.name || ''],
+      client_id: [this.defaults.client_id || ''],
+      agency_id: [this.defaults.agency_id || ''],
+      datos: [this.defaults.datos || ''],
+      portafolio_id: [this.defaults.portafolio_id || ''],
+      type: [this.defaults.type || ''],
+      column: [this.defaults.column || ''],
     });
   }
 
@@ -72,13 +93,35 @@ export class MapCreateUpdateComponent implements OnInit {
   }
 
   createCustomer() {
-    const customer = this.form.value;
+    const map = this.form.value;
 
-    if (!customer.imageSrc) {
-      customer.imageSrc = 'assets/img/avatars/1.jpg';
+    let body={
+     
+        "name": map.name,
+        "agency_id": map.agency_id,
+        "client_id": map.client_id,
+        "portafolio_id": "60558e719a5a98d506ce1fa7",
+        "identifier":map.identifier,
+        "validations": this.validate,
+        "datos":this.datos
+  
     }
 
-    this.dialogRef.close(customer);
+    this.create(body)
+  }
+  create(body){
+      this.Services.createMap(body)
+      .subscribe(
+          data => {
+            if(data.success){
+              console.log(data.data)
+              this.dialogRef.close(true);
+            }
+          },
+          error => {
+            //this.error=true
+          });
+
   }
 
   updateCustomer() {
@@ -94,5 +137,13 @@ export class MapCreateUpdateComponent implements OnInit {
 
   isUpdateMode() {
     return this.mode === 'update';
+  }
+ validate=[]
+  cart(){
+    const map = this.form.value;
+    this.validate.push({
+      "type": map.type,
+      "column": map.column
+    })
   }
 }

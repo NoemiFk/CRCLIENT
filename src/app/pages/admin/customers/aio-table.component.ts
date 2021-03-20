@@ -115,6 +115,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
 
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
+    
   }
 
   /**
