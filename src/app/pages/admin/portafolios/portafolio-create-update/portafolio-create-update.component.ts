@@ -51,7 +51,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -67,7 +67,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     if (this.defaults) {
       this.mode = 'update';
       let portafolio= this.defaults;
-      console.log(this.defaults)
+      //console.log(this.defaults)
       this.defaults= {
         "_id":portafolio._id,
       "name_portafolio": portafolio.name,
@@ -76,7 +76,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
       "type": portafolio.type,
       "client_id": portafolio.client_id,
       }
-      console.log(this.defaults)
+      //console.log(this.defaults)
     } else {
       this.defaults = {} as Portafolio;
     }
@@ -111,7 +111,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
       "type": portafolio.type,
       "client_id": portafolio.client_id,
     }
-     console.log(body)
+     //console.log(body)
       this.createPortafolioA(body);
      
 
@@ -122,7 +122,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     this.Services.createPortafolio(body)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.agency=data.data
             this.dialogRef.close(data.data);

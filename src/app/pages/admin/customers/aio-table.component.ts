@@ -122,7 +122,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    * We are simulating this request here.
    */
   getData(list) {
-    console.log("-->",list)
+    //console.log("-->",list)
     return of(list.map(customer => customer));
   }
   getAgency() {
@@ -131,7 +131,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         data => {
           if(data.success){
             this.agency=data.data
-            console.log(this.agency)
+            //console.log(this.agency)
           }
         },
         error => {
@@ -142,7 +142,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -155,16 +155,16 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Customer[]>(Boolean)
           ).subscribe(customers => {
-            console.log(customers)
+            //console.log(customers)
             this.customers = customers;
             this.dataSource.data = customers; //this.CustomersList;
           });
-          console.log("-->",this.dataSource)
+          //console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
@@ -173,7 +173,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log(this.client)
+    //console.log(this.client)
     this.getAgency() 
     this.dataSource = new MatTableDataSource();
     this.getCustomersList();
@@ -182,7 +182,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log("-->",this.dataSource)
+    //console.log("-->",this.dataSource)
   }
 
   createCustomer() {

@@ -116,14 +116,14 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    * We are simulating this request here.
    */
   getData(list) {
-    console.log("-->",list)
+    //console.log("-->",list)
     return of(list.map(portafolio => portafolio));
   }
   getCustomersList() {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -140,7 +140,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           if(data.success){
             this.agency=data.data
             this.agency_id=data.data._id;
-            console.log("----",this.agency)
+            //console.log("----",this.agency)
             this.getPortafoliosListAgency()
           }
         },
@@ -149,7 +149,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         });
   }
   getPortafoliosListAgency() {
-    console.log("Agency", this.agency_id)
+    //console.log("Agency", this.agency_id)
     this.Services.getPortafoliosListAgency(this.agency_id)
     .subscribe(
         data => {
@@ -165,16 +165,16 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            console.log(portafolios)
+            //console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          console.log("-------->",this.dataSource)
+          //console.log("-------->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
@@ -185,7 +185,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.Services.getPortafoliosList(this.client_id)
     .subscribe(
         data => {
-          console.log("Portafolios ", data)
+          //console.log("Portafolios ", data)
           if(data.success){
             this.PortafoliosList=data.data
             
@@ -198,16 +198,16 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            console.log(portafolios)
+            //console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          console.log("-->",this.dataSource)
+          //console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
@@ -216,7 +216,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log(this.client)
+    //console.log(this.client)
     this.dataSource = new MatTableDataSource();
     this.getAgency() 
     
@@ -226,7 +226,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log("-->",this.dataSource)
+    //console.log("-->",this.dataSource)
   }
 
   createPortafolio() {
@@ -335,7 +335,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.subject$.next(this.portafolios);
   }
   onChangeClient(x){
-    console.log(x)
+    //console.log(x)
     this.client_id=x.value;
     this.getPortafoliosList()
   }

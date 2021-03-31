@@ -240,7 +240,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       workBook = XLSX.read(data, { type: 'binary' });
       workBook.SheetNames.forEach(element => {
         
-        console.log("--",element)
+        //console.log("--",element)
       });
       for (let i = 0, l = workBook.SheetNames.length; i < l; i += 1) {
         //this.processSheet(workBook.Sheets[workBook.SheetNames[i]]);
@@ -250,12 +250,12 @@ export class MapComponent implements OnInit, AfterViewInit {
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
       }, {});
-      console.log(jsonData)
+      //console.log(jsonData)
       this.jsonData=jsonData;
       const dataString = JSON.stringify(jsonData);
-      console.log(dataString)
+      //console.log(dataString)
       var coche = JSON.parse(dataString, this.reviver );
-console.log(coche, this.datos);
+//console.log(coche, this.datos);
       document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
       this.setDownload(dataString);
     }
@@ -264,7 +264,7 @@ console.log(coche, this.datos);
   datos: String[];
   reviver(clave, valor) {
 
-    console.log(clave)
+    //console.log(clave)
     this.datos.push(clave);
 
     return valor;

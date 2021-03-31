@@ -24,18 +24,18 @@ export class AuthenticationService {
 
     login(email: string, password: string) {
         let pass= this.encryptUsingAES256(password)
-        console.log("PAss",pass)
+        //console.log("PAss",pass)
         let body={
             "email":email,
             "password":password
         }
 
-        console.log("Login",body)
+        //console.log("Login",body)
         return this.http.post<any>(URL+'/agency/login',body)
         
             .map(agency => {
                 
-                console.log("login agency",agency)
+                //console.log("login agency",agency)
                 if (agency) {
                     localStorage.setItem('currentAgency', JSON.stringify(agency.data));
                     localStorage.setItem('Token', JSON.stringify(agency.data.token));

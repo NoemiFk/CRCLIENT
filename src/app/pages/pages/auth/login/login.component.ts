@@ -46,13 +46,13 @@ export class LoginComponent implements OnInit {
     .subscribe(
         data => {
           if(data.success){
-            console.log(data)
+            //console.log(data)
             this.router.navigate(['/']);
 
           }
         },
         error => {
-          console.log(error.error)
+          //console.log(error.error)
           let message="Error";
           if(!error.error.success)
             message = error.error.type;

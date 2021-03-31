@@ -53,7 +53,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
     if (this.defaults) {
       this.mode = 'update';
       let customer= this.defaults;
-      console.log(this.defaults)
+      //console.log(this.defaults)
       this.defaults= {
         "_id":customer._id,
       "name": customer.name,
@@ -72,7 +72,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       "ext": customer.address.ext,
       "zipcode": customer.address.zipcode,
       }
-      console.log(this.defaults)
+      //console.log(this.defaults)
     } else {
       this.defaults = {} as Customer;
     }
@@ -134,7 +134,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
         "zipcode": customer.zipcode
       },
     }
-     console.log(body)
+     //console.log(body)
       this.createCustomerA(body);
      
 
@@ -145,7 +145,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
     this.Services.createCustomer(body)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.agency=data.data
             this.dialogRef.close(data.data);

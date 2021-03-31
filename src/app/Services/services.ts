@@ -23,7 +23,7 @@ export class Services {
       return this.http.get<any>(URL+'/clients/'+id )
           .map(resp => {
           
-              console.log(" getCustomersList",resp)
+              //console.log(" getCustomersList",resp)
               return resp;
           });
     }
@@ -31,7 +31,7 @@ export class Services {
       return this.http.put<any>(URL+'/client/'+id,body)
           .map(resp => {
           
-              console.log("updateCustomer",resp)
+              //console.log("updateCustomer",resp)
               return resp;
           });
     }
@@ -39,7 +39,7 @@ export class Services {
       return this.http.delete<any>(URL+'/client/'+id)
           .map(resp => {
           
-              console.log("deleteCustomer",resp)
+              //console.log("deleteCustomer",resp)
               return resp;
           });
     }
@@ -47,7 +47,7 @@ export class Services {
       return this.http.post<any>(URL+'/client/',body)
           .map(resp => {
           
-              console.log("createCustomer",resp)
+              //console.log("createCustomer",resp)
               return resp;
           });
     }
@@ -55,7 +55,7 @@ export class Services {
       return this.http.get<any>(URL+'/agency/'+id)
           .map(resp => {
           
-              console.log("createAgency",resp)
+              //console.log("createAgency",resp)
               return resp;
           });
     }
@@ -63,7 +63,7 @@ export class Services {
       return this.http.get<any>(URL+'/portafolios/'+id )
           .map(resp => {
           
-              console.log(" getPortafoliosList",resp)
+              //console.log(" getPortafoliosList",resp)
               return resp;
           });
     }
@@ -71,7 +71,7 @@ export class Services {
       return this.http.get<any>(URL+'/portafolios/agency/'+id )
           .map(resp => {
           
-              console.log(" getPortafoliosListAgency",resp)
+              //console.log(" getPortafoliosListAgency",resp)
               return resp;
           });
     }
@@ -79,7 +79,7 @@ export class Services {
       return this.http.put<any>(URL+'/portafolio/'+id,body)
           .map(resp => {
           
-              console.log("updatePortafolio",resp)
+              //console.log("updatePortafolio",resp)
               return resp;
           });
     }
@@ -87,7 +87,7 @@ export class Services {
       return this.http.delete<any>(URL+'/portafolio/'+id)
           .map(resp => {
           
-              console.log("deletePortafolio",resp)
+              //console.log("deletePortafolio",resp)
               return resp;
           });
     }
@@ -95,7 +95,7 @@ export class Services {
       return this.http.post<any>(URL+'/portafolio/',body)
           .map(resp => {
           
-              console.log("createPortafolio",resp)
+              //console.log("createPortafolio",resp)
               return resp;
           });
     }
