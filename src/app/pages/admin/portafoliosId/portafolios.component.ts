@@ -10,7 +10,7 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { PortafolioCreateUpdateComponent } from './portafolio-create-update/portafolio-create-update.component';
 import { PortafolioDeleteComponent } from './portafolio-delete/portafolio-delete.component';
-
+import { ActivatedRoute } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
@@ -104,9 +104,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog,  private Services: Services,) {
+  constructor(private dialog: MatDialog,  private Services: Services, private route:ActivatedRoute) {
   }
-
+  id_client = this.route.snapshot.params.id;
+  
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
@@ -218,10 +219,11 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log("PARAMS",this.client_id)
     console.log("Clientt",this.client)
     this.dataSource = new MatTableDataSource();
-    this.getAgency() 
-    this.getPortafoliosListAgency();
+    //this.getAgency() 
+    this.getPortafoliosList(this.client_id);
     this.getCustomersList();
   }
 

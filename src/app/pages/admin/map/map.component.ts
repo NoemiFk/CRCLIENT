@@ -64,7 +64,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   @Input()
   columns: TableColumn<Customer>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+    { label: 'INDICE', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Image', property: 'image', type: 'image', visible: true },
     { label: 'Name', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
     { label: 'First Name', property: 'firstName', type: 'text', visible: false },
@@ -113,7 +113,9 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
     
 
-
+  displayedColumns1: string[] = [ "INDICE", "Agencia Previa 1", "Agencia Previa 3", "Monto Agencia Previa", "Monto Agencia Previa 1", "Monto Agencia Previa 2", "Monto Agencia Previa 3", "Monto Agencia Previa 4", "Fecha Agencia Previa 5", "Fecha de mora", "Fecha Nacimiento Cliente", "Fecha primer carga", "Fecha Quebranto", "Límite credito", "Monto Agencia Previa 5", "Monto Capital por Vencer", "Monto de Capital Pagado", "Monto Referencia Agencia Actual", "Monto total a disposición", "Monto Ult Pago", "Monto Ultimo Pago", "Monto Vencido", "Moratorios", "Nombre Cliente", "Nombre Empresa", "Ordinario Vencido", "Ordinarios Pagados", "Originadora", "Pago Liquidacion Anticipada", "Pago Minimo", "Pago Vencido", "Plaza", "PRIORIDAD", "Propietario", "Referencia Bancaria", "RFC Cliente", "Saldo Total", "Sexo Cliente", "Situacion Especial", "Sub Producto", "Tel Cliente", "Telefono 3", "Tipo Producto", "Total pagado", "Ultima Accion", "Gestor ", "Monto a disposición", "CP Cliente", "Credito / Numero Tarjeta", "Dias Corte", "Dias Mora", "Direccion 2", "Direccion Cliente", "Estado Cliente", "Estatus", "Fecha Actualizacion", "Fecha Agencia Previa", "Fecha Agencia Previa 1", "Fecha Agencia Previa 2", "Fecha Agencia Previa 3"];
+  jsDatos1 = [];
+  jsDatos = [];
   /**
    * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
    * We are simulating this request here.
@@ -148,14 +150,18 @@ export class MapComponent implements OnInit, AfterViewInit {
   get displayedColumns() {
     var keys = [];
     if(this.jsonData &&this.jsonData.Datos.length){
-
-      for(var k in this.jsonData.Datos[0])  keys.push(k);
+      
+      for(var k in this.jsonData.Datos[0]){
+        keys.push(k);
+      }  
       this.datos=keys;
     }
+    //keys=[ "INDICE", "Agencia Previa 1", "Agencia Previa 3", "Monto Agencia Previa", "Monto Agencia Previa 1", "Monto Agencia Previa 2", "Monto Agencia Previa 3", "Monto Agencia Previa 4", "Fecha Agencia Previa 5", "Fecha de mora", "Fecha Nacimiento Cliente", "Fecha primer carga", "Fecha Quebranto", "Límite credito", "Monto Agencia Previa 5", "Monto Capital por Vencer", "Monto de Capital Pagado", "Monto Referencia Agencia Actual", "Monto total a disposición", "Monto Ult Pago", "Monto Ultimo Pago", "Monto Vencido", "Moratorios", "Nombre Cliente", "Nombre Empresa", "Ordinario Vencido", "Ordinarios Pagados", "Originadora", "Pago Liquidacion Anticipada", "Pago Minimo", "Pago Vencido", "Plaza", "PRIORIDAD", "Propietario", "Referencia Bancaria", "RFC Cliente", "Saldo Total", "Sexo Cliente", "Situacion Especial", "Sub Producto", "Tel Cliente", "Telefono 3", "Tipo Producto", "Total pagado", "Ultima Accion", "Gestor ", "Monto a disposición", "CP Cliente", "Credito / Numero Tarjeta", "Dias Corte", "Dias Mora", "Direccion 2", "Direccion Cliente", "Estado Cliente", "Estatus", "Fecha Actualizacion", "Fecha Agencia Previa", "Fecha Agencia Previa 1", "Fecha Agencia Previa 2", "Fecha Agencia Previa 3"]
+
     return keys;
 
   }
-
+  
   createMapeo() {
     let data={
       datos:this.datos,
@@ -321,13 +327,16 @@ export class MapComponent implements OnInit, AfterViewInit {
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
       }, {});
-      console.log(jsonData)
+      //console.log(jsonData)
       this.jsonData=jsonData;
       const dataString = JSON.stringify(jsonData);
-      console.log(dataString)
+      //console.log(dataString)
    
       //document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
-      this.setDownload(dataString);
+      //this.setDownload(dataString);
+      setTimeout(() => {
+        this.jsDatos =this.jsonData.Datos
+      }, 300);
     }
     reader.readAsBinaryString(file);
   }
@@ -340,7 +349,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       const el = document.querySelector("#download");
       el.setAttribute("href", `data:text/json;charset=utf-8,${encodeURIComponent(data)}`);
       el.setAttribute("download", 'xlsxtojson.json');
-    }, 1000)
+    }, 100)
   }
   
 }

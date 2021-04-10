@@ -102,6 +102,10 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/admin/portafolios/portafolios.module').then(m => m.AioTableModule),
           },
           {
+            path: 'portafoliosId/:id',
+            loadChildren: () => import('./pages/admin/portafoliosId/portafolios.module').then(m => m.AioTableModule),
+          },
+          {
             path: 'map',
             loadChildren: () => import('./pages/admin/map/map.module').then(m => m.MapModule),
           },

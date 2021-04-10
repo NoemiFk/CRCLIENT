@@ -1,0 +1,23 @@
+<div>
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <h2 class="headline m-0"
+        fxFlex="auto">ELIMINAR PORTAFOLIO</h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+   
+    <div style="padding: 60px;"><h4>¿Seguro que deseas eliminar este Portafolio?</h4></div>
+    
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCELAR</button>
+    <button color="warn" mat-button (click)="save()">ELIMINAR PORTAFOLIO</button>
+  </mat-dialog-actions>
+</div>

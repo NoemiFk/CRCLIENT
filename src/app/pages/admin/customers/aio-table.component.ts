@@ -10,10 +10,11 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { CustomerCreateUpdateComponent } from './customer-create-update/customer-create-update.component';
 import { CustomerDeleteComponent } from './customer-delete/customer-delete.component';
-
+import { Router } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
+import icPortafolio from '@iconify/icons-ic/twotone-folder';
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -97,6 +98,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icMap = icMap;
   icEdit = icEdit;
   icSearch = icSearch;
+  icPortafolio=icPortafolio;
   icDelete = icDelete;
   icAdd = icAdd;
   icFilterList = icFilterList;
@@ -110,7 +112,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog,  private Services: Services,) {
+  constructor(private dialog: MatDialog,  private Services: Services,private router: Router) {
   }
 
   get visibleColumns() {
@@ -290,5 +292,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     const index = this.customers.findIndex(c => c === row);
     //this.customers[index].labels = change.value;
     this.subject$.next(this.customers);
+  }
+  portafolios(id){
+    this.router.navigate(['/admin/portafoliosId/'+id]);
   }
 }

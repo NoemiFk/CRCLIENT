@@ -231,11 +231,15 @@
   <ng-template let-customer="customer" matMenuContent>
     <button (click)="updateCustomer(customer)" mat-menu-item>
       <mat-icon [icIcon]="icEdit"></mat-icon>
-      <span>Modify</span>
+      <span>Modificar</span>
     </button>
     <button (click)="deleteCustomer(customer)" mat-menu-item>
       <mat-icon [icIcon]="icDelete"></mat-icon>
-      <span>Delete</span>
+      <span>Eliminar</span>
+    </button>
+    <button (click)="portafolios(customer._id)" mat-menu-item>
+      <mat-icon [icIcon]="icPortafolio"></mat-icon>
+      <span>Portafolios</span>
     </button>
   </ng-template>
 </mat-menu>

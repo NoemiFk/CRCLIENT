@@ -55,7 +55,7 @@ export class Services {
       return this.http.get<any>(URL+'/agency/'+id)
           .map(resp => {
           
-              console.log("createAgency",resp)
+              console.log("getAgency",resp)
               return resp;
           });
     }
