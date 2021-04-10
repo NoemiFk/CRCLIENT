@@ -162,7 +162,6 @@ export class AioTableComponent implements OnInit, AfterViewInit {
             this.customers = customers;
             this.dataSource.data = customers; //this.CustomersList;
           });
-          console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));

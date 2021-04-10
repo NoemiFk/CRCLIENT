@@ -70,8 +70,8 @@ export class PortafolioCreateUpdateComponent implements OnInit {
       console.log(this.defaults)
       this.defaults= {
         "_id":portafolio._id,
-      "name_portafolio": portafolio.name,
-      "description": portafolio.nameClient,
+      "name_portafolio": portafolio.name_portafolio,
+      "description": portafolio.description,
       "agency_id": portafolio.agency_id,
       "type": portafolio.type,
       "client_id": portafolio.client_id,

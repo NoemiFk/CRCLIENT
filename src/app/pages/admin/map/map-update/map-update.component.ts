@@ -14,7 +14,7 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import {Services} from '../../../../Services/services'
-
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'vex-map-update',
   templateUrl: './map-update.component.html',
@@ -45,9 +45,11 @@ export class MapUpdateComponent implements OnInit {
   client=JSON.parse(this.info_client);
   datos=[]
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-              private dialogRef: MatDialogRef<MapUpdateComponent>,
-              private fb: FormBuilder,private Services: Services) {
+  private dialogRef: MatDialogRef<MapUpdateComponent>,
+  private fb: FormBuilder,private Services: Services,private route:ActivatedRoute) {
   }
+
+  
   getCustomersList() {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
@@ -62,9 +64,11 @@ export class MapUpdateComponent implements OnInit {
           //this.error=true
         });
   }
-  
+  portafolio_id='';
   ngOnInit() {
     console.log("-------!!!!",this.defaults)
+    this.portafolio_id = this.defaults.portafolio_id;
+    console.log("portafolio ",this.portafolio_id);
     if (this.defaults.type!='load') {
       this.mode = 'create';
     } else {
@@ -76,9 +80,9 @@ export class MapUpdateComponent implements OnInit {
 
   save() {
     if (this.mode === 'create') {
-      this.createCustomer();
+      this.createRegister();
     } else if (this.mode === 'update') {
-      this.updateCustomer();
+      this.updateRegister();
     }
   }
 info={  "validate": [
@@ -97,11 +101,14 @@ info={  "validate": [
   "updated": 0,
   "eliminated": 0
 }}
-  createCustomer() {
+ closeValid(){
+  this.dialogRef.close(this.info);
+ }
+  createRegister() {
 
-    console.log("CREAR")
+    console.log("CREAR", this.portafolio_id)
 
-    this.Services.createRegister(this.defaults.cart,"60558e719a5a98d506ce1fa7")
+    this.Services.createRegister(this.defaults.cart,this.portafolio_id)
     .subscribe(
         data => {
           if(data.success){
@@ -115,9 +122,9 @@ info={  "validate": [
 
   }
 
-  updateCustomer() {
+  updateRegister() {
     console.log("UPDATE")
-    this.Services.updateRegister(this.defaults.cart,"60558e719a5a98d506ce1fa7")
+    this.Services.updateRegister(this.defaults.cart,this.portafolio_id)
     .subscribe(
         data => {
           if(data.success){

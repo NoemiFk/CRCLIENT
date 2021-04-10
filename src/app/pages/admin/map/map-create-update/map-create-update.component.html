@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
     <h2 
         class="headline m-0"
-        fxFlex="auto">Nuevo Mapeo</h2>
+        fxFlex="auto">Mapeo</h2>
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -17,83 +17,120 @@
 
   <mat-dialog-content fxLayout="column">
     
-
-    <mat-form-field class="flex-auto">
-      <mat-label>Nombre</mat-label>
-      <input formControlName="name" matInput>
-
-      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
-    <mat-form-field class="flex-auto" >
-      <mat-label>Selecciona</mat-label>
-            <mat-select matNativeControl name="client_id"  formControlName="client_id">
-              <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
-            </mat-select>
-
-      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
-    <mat-form-field class="flex-auto" >
-      <mat-label>Selecciona Identificador principal</mat-label>
-            <mat-select matNativeControl name="identifier"  formControlName="identifier">
-              <mat-option [value]="option" *ngFor="let option of datos;">{{option}}</mat-option>
-            </mat-select>
-
-      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
     <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto" >
-        <mat-label>Selecciona el elemento a validar</mat-label>
-              <mat-select matNativeControl name="column"  formControlName="column">
-                <mat-option [value]="option" *ngFor="let option of datos;">{{option}}</mat-option>
-              </mat-select>
-  
-        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+      <mat-form-field class="flex-auto">
+        <mat-label>Fecha de creación</mat-label>
+        <input [matDatepicker]="startDatepicker" formControlName="dateInit" matInput>
+        <mat-datepicker-toggle [for]="startDatepicker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #startDatepicker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
-        <mat-label>Tipo</mat-label>
-          
-          <select matNativeControl name="type"  formControlName="type">
-            <option value="no">Seleccione uno...</option>
-            <option value="Email">Email</option>
-            <option value="phone">Telefono (10 Digitos)</option>
-            <option value="RFC">RFC</option>
-            <option value="date">Fechas</option>
-          </select>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      <mat-form-field class="sm:ml-6 flex-auto">
+        <mat-label>Fecha de actualizacion</mat-label>
+        <input [matDatepicker]="updateDatepicker" formControlName="dateUpdate" matInput>
+        <mat-datepicker-toggle [for]="updateDatepicker" matSuffix></mat-datepicker-toggle>
+        <mat-datepicker #updateDatepicker></mat-datepicker>
       </mat-form-field>
-      <div class="sm:mt-6 sm:ml-6 flex-auto">
-        <button (click)="cart()"
-              class="ml-4"
-              color="primary"
-              fxFlex="none"
-              mat-mini-fab
-              matTooltip="Cargar Validación"
-              type="button">
-        <mat-icon [icIcon]="icAdd"></mat-icon>
-      </button>
-      </div>
     </div>
-    <div class="flex flex-col sm:flex-row" *ngFor="let val of validate">
-      <div class="flex-auto text-center" >
-         <h3>{{val.column}}</h3>
-      </div>
-      <div class="flex-auto text-center" >
-        <b>-></b>
-      </div>
-      <div class="flex-auto text-center" >
-        <h3>{{val.type}}</h3>
-      </div>
-      <div class="flex-auto text-center" >
-        <mat-icon [icIcon]="icDelete"></mat-icon>
-      </div>
-    </div>
+    <mat-tab-group>
+      <mat-tab label="Segmentación"> 
+        <div>
+          <br>
+          <h3>Selecciona aquí los campos que seran utilizados en tu segmentación.</h3>
+        </div>
+        <div>
+            <li (click)="addSeg(i)" *ngFor="let data of dataS ;  let i = index;"
+          class="checkbox-item mat-menu-item">
+            <mat-checkbox (click)="$event.stopPropagation()"  color="primary">
+              {{ data.data }}
+            </mat-checkbox>
+          </li>
+        </div>
+      </mat-tab>
+      <mat-tab label="Análisis"> 
+        <div>
+          <br>
+          <h3>Selecciona aquí los campos que seran utilizados en tu Análisis.</h3>
+        </div>
+        <div>
+            <li (click)="addAna(i)" *ngFor="let data of dataA ;  let i = index;"
+          class="checkbox-item mat-menu-item">
+            <mat-checkbox (click)="$event.stopPropagation()"  color="primary">
+              {{ data.data }}
+            </mat-checkbox>
+          </li>
+        </div> </mat-tab>
+      <mat-tab label="Estrategias"> 
+        <div>
+          <br>
+          <h3>Selecciona aquí los campos que seran utilizados para la creación de estrategias y templetes de emails y mensaje de txt.</h3>
+        </div>
+        <div>
+            <li (click)="addEst(i)" *ngFor="let data of dataE ;  let i = index;"
+          class="checkbox-item mat-menu-item">
+            <mat-checkbox (click)="$event.stopPropagation()"  color="primary">
+              {{ data.data }}
+            </mat-checkbox>
+          </li>
+        </div>  </mat-tab>
+      <mat-tab label="Portal del cliente"> 
+        <div>
+          <br>
+          <h3>Selecciona aquí los campos que seran utilizados para que el cliente final visaulice información importante.</h3>
+        </div>
+        <div>
+            <li (click)="addEst(i)" *ngFor="let data of dataE ;  let i = index;"
+          class="checkbox-item mat-menu-item">
+            <mat-checkbox (click)="$event.stopPropagation()"  color="primary">
+              {{ data.data }}
+            </mat-checkbox>
+          </li>
+        </div> 
+       </mat-tab>
+      <mat-tab label="Reporteo"> 
+        <div>
+          <br>
+          <h3>Selecciona aquí los campos que seran utilizados para la creación de reporteo.</h3>
+        </div>
+        <div>
+            <li (click)="addRep(i)" *ngFor="let data of dataR ;  let i = index;"
+          class="checkbox-item mat-menu-item">
+            <mat-checkbox (click)="$event.stopPropagation()"  color="primary">
+              {{ data.data }}
+            </mat-checkbox>
+          </li>
+        </div> 
+      </mat-tab>
+      <mat-tab label="Analisis">
+        <div>
+          <br>
+          <h3>Selecciona aquí los campos que seran utilizados para realizar una validacion de datos de tu portafolio.</h3>
+          <mat-checkbox (click)="$event.stopPropagation()"  color="primary">
+            Activar Validacion
+          </mat-checkbox>
+        </div>
+        <div>
+            <li (click)="addRep(i)" *ngFor="let data of dataR ;  let i = index;"
+          class="checkbox-item mat-menu-item">
+            <mat-checkbox (click)="$event.stopPropagation()"  color="primary">
+              {{ data.data }}
+            </mat-checkbox>
+            <select class="sm:ml-6" name="type"  >
+              <option value="no">Seleccione uno...</option>
+              <option value="Email">E-mail</option>
+              <option value="number">Numero Telefonico</option>
+              <option value="date">Fecha</option>
+            </select>
+          </li>
+        </div> 
+      </mat-tab>
+    </mat-tab-group>
 
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">CANCEL</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREAR MAPEO</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREAR GUARDAR
+    </button>
     <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">UPDATE CUSTOMER</button>
   </mat-dialog-actions>
 </form>

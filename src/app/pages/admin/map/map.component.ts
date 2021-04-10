@@ -30,7 +30,7 @@ import icPhone from '@iconify/icons-ic/twotone-phone';
 import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
 import * as XLSX from 'xlsx';
-
+import { ActivatedRoute } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -100,12 +100,11 @@ export class MapComponent implements OnInit, AfterViewInit {
   icFolder = icFolder;
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
-  agency_id=this.client.agency_id
-  portafolio_id="60558e719a5a98d506ce1fa7";
+  agency_id=this.client.agency_id;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   //@ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  constructor(private dialog: MatDialog) {
+  portafolio_id = this.route.snapshot.params.id;
+  constructor(private dialog: MatDialog, private route:ActivatedRoute) {
   }
 
   get visibleColumns() {
@@ -166,7 +165,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     let data={
       datos:this.datos,
       agency_id:this.agency_id,
-      portafolio_id:this.portafolio_id||"60558e719a5a98d506ce1fa7"
+      portafolio_id:this.portafolio_id
     }
     this.dialog.open(MapCreateUpdateComponent, {data: data}).afterClosed().subscribe((customer: Customer) => {
       /**
@@ -182,11 +181,13 @@ export class MapComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  uploadActive=true;
+  dataSourceUpload=[]
   upload(){
     let body={
       "cart":this.jsonData.Datos,
-      "type":"upload"
+      "type":"upload",
+      portafolio_id:this.portafolio_id
     }
     this.dialog.open(MapUpdateComponent, {
       data: body
@@ -199,9 +200,14 @@ export class MapComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        const index = this.customers.findIndex((existingCustomer) => existingCustomer.id === updatedCustomer.id);
-        this.customers[index] = new Customer(updatedCustomer);
-        this.subject$.next(this.customers);
+        this.uploadActive=false;
+        this.columns=[];
+        this.datos.forEach(element => {
+          console.log(element)
+          this.columns.push({ label: element.toString(), property: element.toString(), type: 'text', visible: true })
+        });
+        this.dataSourceUpload=this.jsonData.Datos
+        console.log(this.columns)
       }
     });
   }

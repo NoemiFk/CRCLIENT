@@ -135,14 +135,14 @@ export class AppComponent {
             label: 'Portafolios',
             route: '/admin/portafoliosId/:id',
             icon: icPortafolio
-          },*/
-          
+          },
+
           {
             type: 'link',
             label: 'Mapeo',
             route: '/admin/map',
             icon: icAssigment
-          },
+          },*/
           {
             type: 'link',
             label: 'Analisis',
