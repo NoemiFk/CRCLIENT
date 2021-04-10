@@ -16,11 +16,11 @@ import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import {Services} from '../../../../Services/services'
 
 @Component({
-  selector: 'vex-map-create-update',
-  templateUrl: './map-create-update.component.html',
-  styleUrls: ['./map-create-update.component.scss']
+  selector: 'vex-map-update',
+  templateUrl: './map-update.component.html',
+  styleUrls: ['./map-update.component.scss']
 })
-export class MapCreateUpdateComponent implements OnInit {
+export class MapUpdateComponent implements OnInit {
 
   static id = 100;
 
@@ -45,7 +45,7 @@ export class MapCreateUpdateComponent implements OnInit {
   client=JSON.parse(this.info_client);
   datos=[]
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-              private dialogRef: MatDialogRef<MapCreateUpdateComponent>,
+              private dialogRef: MatDialogRef<MapUpdateComponent>,
               private fb: FormBuilder,private Services: Services) {
   }
   getCustomersList() {
@@ -64,24 +64,14 @@ export class MapCreateUpdateComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.getCustomersList()
     console.log("-------!!!!",this.defaults)
-    this.datos=this.defaults.datos;
-    if (this.defaults) {
+    if (this.defaults.type!='load') {
       this.mode = 'create';
     } else {
-      this.defaults = {} as Customer;
+      this.mode = 'update';
     }
+    this.save()
 
-    this.form = this.fb.group({
-      name: [this.defaults.name || ''],
-      client_id: [this.defaults.client_id || ''],
-      agency_id: [this.defaults.agency_id || ''],
-      datos: [this.defaults.datos || ''],
-      portafolio_id: [this.defaults.portafolio_id || ''],
-      type: [this.defaults.type || ''],
-      column: [this.defaults.column || ''],
-    });
   }
 
   save() {
@@ -91,44 +81,53 @@ export class MapCreateUpdateComponent implements OnInit {
       this.updateCustomer();
     }
   }
-
-  createCustomer() {
-    const map = this.form.value;
-
-    let body={
-     
-        "name": map.name,
-        "agency_id": map.agency_id,
-        "client_id": map.client_id,
-        "portafolio_id": "60558e719a5a98d506ce1fa7",
-        "identifier":map.identifier,
-        "validations": this.validate,
-        "datos":this.datos
-  
-    }
-
-    this.create(body)
+info={  "validate": [
+  {
+    "name": "CPEmpleo",
+    "count": 0
+  },
+  {
+    "name": "TelCliente",
+    "count": 0
   }
-  create(body){
-      this.Services.createMap(body)
-      .subscribe(
-          data => {
-            if(data.success){
-              console.log(data.data)
-              this.dialogRef.close(true);
-            }
-          },
-          error => {
-            //this.error=true
-          });
+],
+"insertedCount": 0,
+"update": {
+  "new": 0,
+  "updated": 0,
+  "eliminated": 0
+}}
+  createCustomer() {
+
+    console.log("CREAR")
+
+    this.Services.createRegister(this.defaults.cart,"60558e719a5a98d506ce1fa7")
+    .subscribe(
+        data => {
+          if(data.success){
+            console.log(data.data)
+            this.info=data.data
+          }
+        },
+        error => {
+          //this.error=true
+        });
 
   }
 
   updateCustomer() {
-    const customer = this.form.value;
-    customer.id = this.defaults.id;
-
-    this.dialogRef.close(customer);
+    console.log("UPDATE")
+    this.Services.updateRegister(this.defaults.cart,"60558e719a5a98d506ce1fa7")
+    .subscribe(
+        data => {
+          if(data.success){
+            console.log(data.data)
+            this.info=data.data
+          }
+        },
+        error => {
+          //this.error=true
+        });
   }
 
   isCreateMode() {
@@ -137,13 +136,5 @@ export class MapCreateUpdateComponent implements OnInit {
 
   isUpdateMode() {
     return this.mode === 'update';
-  }
- validate=[]
-  cart(){
-    const map = this.form.value;
-    this.validate.push({
-      "type": map.type,
-      "column": map.column
-    })
   }
 }

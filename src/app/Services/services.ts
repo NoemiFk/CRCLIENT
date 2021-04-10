@@ -55,7 +55,7 @@ export class Services {
       return this.http.get<any>(URL+'/agency/'+id)
           .map(resp => {
           
-              //console.log("createAgency",resp)
+              console.log("getAgency",resp)
               return resp;
           });
     }
@@ -96,6 +96,30 @@ export class Services {
           .map(resp => {
           
               //console.log("createPortafolio",resp)
+              return resp;
+          });
+    }
+    createMap(body:object) {
+      return this.http.post<any>(URL+'/map/',body)
+          .map(resp => {
+          
+              console.log("createMap",resp)
+              return resp;
+          });
+    }
+    createRegister(body:object, id:string) {
+      return this.http.post<any>(URL+'/map/'+id,body)
+          .map(resp => {
+          
+              console.log("createRegister",resp)
+              return resp;
+          });
+    }
+    updateRegister(body:object, id:string) {
+      return this.http.put<any>(URL+'/map/'+id,body)
+          .map(resp => {
+          
+              console.log("createRegister",resp)
               return resp;
           });
     }

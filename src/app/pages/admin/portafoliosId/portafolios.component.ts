@@ -10,7 +10,7 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { PortafolioCreateUpdateComponent } from './portafolio-create-update/portafolio-create-update.component';
 import { PortafolioDeleteComponent } from './portafolio-delete/portafolio-delete.component';
-
+import { ActivatedRoute } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
@@ -104,9 +104,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog,  private Services: Services,) {
+  constructor(private dialog: MatDialog,  private Services: Services, private route:ActivatedRoute) {
   }
-
+  id_client = this.route.snapshot.params.id;
+  
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
@@ -116,14 +117,14 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    * We are simulating this request here.
    */
   getData(list) {
-    //console.log("-->",list)
+    console.log("-->",list)
     return of(list.map(portafolio => portafolio));
   }
   getCustomersList() {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          //console.log("Hola ", data)
+          console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -166,16 +167,16 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            //console.log(portafolios)
+            console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          //console.log("-------->",this.dataSource)
+          console.log("-------->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            ////console.log("--",this.usersList)
+            //console.log("--",this.usersList)
           }
         },
         error => {
@@ -187,7 +188,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.Services.getPortafoliosList(client_id)
     .subscribe(
         data => {
-          //console.log("Portafolios ", data)
+          console.log("Portafolios ", data)
           if(data.success){
             this.PortafoliosList=data.data
             
@@ -200,16 +201,16 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            //console.log(portafolios)
+            console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          //console.log("-->",this.dataSource)
+          console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            ////console.log("--",this.usersList)
+            //console.log("--",this.usersList)
           }
         },
         error => {
@@ -218,17 +219,18 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    console.log("PARAMS",this.client_id)
     console.log("Clientt",this.client)
     this.dataSource = new MatTableDataSource();
-    this.getAgency() 
-    this.getPortafoliosListAgency();
+    //this.getAgency() 
+    this.getPortafoliosList(this.client_id);
     this.getCustomersList();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    //console.log("-->",this.dataSource)
+    console.log("-->",this.dataSource)
   }
 
   createPortafolio() {

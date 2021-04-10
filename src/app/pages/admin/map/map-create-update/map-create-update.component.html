@@ -1,13 +1,8 @@
 <form (ngSubmit)="save()" [formGroup]="form">
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
-    <img *ngIf="form.get('imageSrc').value" [src]="form.get('imageSrc').value" class="avatar mr-5">
-
-    <h2 *ngIf="form.get('firstName').value || form.get('lastName').value"
+    <h2 
         class="headline m-0"
-        fxFlex="auto">{{ form.get('firstName').value + ' ' + form.get('lastName').value }}</h2>
-    <h2 *ngIf="!form.get('firstName').value && !form.get('lastName').value"
-        class="headline m-0"
-        fxFlex="auto">New Customer</h2>
+        fxFlex="auto">Nuevo Mapeo</h2>
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -21,61 +16,84 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content fxLayout="column">
-    <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="mt-6 flex-auto">
-        <mat-label>First Name</mat-label>
-        <input cdkFocusInitial formControlName="firstName" matInput>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
-
-      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
-        <mat-label>Last Name</mat-label>
-        <input cdkFocusInitial formControlName="lastName" matInput>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
-    </div>
+    
 
     <mat-form-field class="flex-auto">
-      <mat-label>Street</mat-label>
-      <input formControlName="street" matInput>
+      <mat-label>Nombre</mat-label>
+      <input formControlName="name" matInput>
 
       <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
     </mat-form-field>
+    <mat-form-field class="flex-auto" >
+      <mat-label>Selecciona</mat-label>
+            <mat-select matNativeControl name="client_id"  formControlName="client_id">
+              <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
+            </mat-select>
 
+      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+    </mat-form-field>
+    <mat-form-field class="flex-auto" >
+      <mat-label>Selecciona Identificador principal</mat-label>
+            <mat-select matNativeControl name="identifier"  formControlName="identifier">
+              <mat-option [value]="option" *ngFor="let option of datos;">{{option}}</mat-option>
+            </mat-select>
+
+      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+    </mat-form-field>
     <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="flex-auto">
-        <mat-label>Zipcode</mat-label>
-        <input formControlName="zipcode" matInput>
-
-        <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto" >
+        <mat-label>Selecciona el elemento a validar</mat-label>
+              <mat-select matNativeControl name="column"  formControlName="column">
+                <mat-option [value]="option" *ngFor="let option of datos;">{{option}}</mat-option>
+              </mat-select>
+  
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
+      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+        <mat-label>Tipo</mat-label>
+          
+          <select matNativeControl name="type"  formControlName="type">
+            <option value="no">Seleccione uno...</option>
+            <option value="Email">Email</option>
+            <option value="phone">Telefono (10 Digitos)</option>
+            <option value="RFC">RFC</option>
+            <option value="date">Fechas</option>
+          </select>
 
-      <mat-form-field class="sm:ml-6 flex-auto">
-        <mat-label>City</mat-label>
-        <input formControlName="city" matInput>
-
-        <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
+      <div class="sm:mt-6 sm:ml-6 flex-auto">
+        <button (click)="cart()"
+              class="ml-4"
+              color="primary"
+              fxFlex="none"
+              mat-mini-fab
+              matTooltip="Cargar Validación"
+              type="button">
+        <mat-icon [icIcon]="icAdd"></mat-icon>
+      </button>
+      </div>
+    </div>
+    <div class="flex flex-col sm:flex-row" *ngFor="let val of validate">
+      <div class="flex-auto text-center" >
+         <h3>{{val.column}}</h3>
+      </div>
+      <div class="flex-auto text-center" >
+        <b>-></b>
+      </div>
+      <div class="flex-auto text-center" >
+        <h3>{{val.type}}</h3>
+      </div>
+      <div class="flex-auto text-center" >
+        <mat-icon [icIcon]="icDelete"></mat-icon>
+      </div>
     </div>
 
-    <mat-form-field class="flex-auto">
-      <mat-label>Phone Number</mat-label>
-      <input formControlName="phoneNumber" matInput>
-
-      <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
-
-    <mat-form-field class="flex-auto">
-      <mat-label>Notes</mat-label>
-      <textarea formControlName="notes" matInput></textarea>
-    </mat-form-field>
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">CANCEL</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREATE CUSTOMER</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREAR MAPEO</button>
     <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">UPDATE CUSTOMER</button>
   </mat-dialog-actions>
 </form>
@@ -93,6 +111,6 @@
 
   <button mat-menu-item>
     <mat-icon [icIcon]="icDelete"></mat-icon>
-    <span>Delete</span>
+    <span>Eliminar</span>
   </button>
 </mat-menu>

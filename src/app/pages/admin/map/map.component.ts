@@ -9,10 +9,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { MapCreateUpdateComponent } from './map-create-update/map-create-update.component';
+import { MapUpdateComponent } from './map-update/map-update.component';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
+import icLoad from '@iconify/icons-ic/arrow-drop-down-circle';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
+import icUpload from '@iconify/icons-ic/file-upload';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
@@ -61,7 +64,7 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   @Input()
   columns: TableColumn<Customer>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+    { label: 'INDICE', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Image', property: 'image', type: 'image', visible: true },
     { label: 'Name', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
     { label: 'First Name', property: 'firstName', type: 'text', visible: false },
@@ -89,13 +92,18 @@ export class MapComponent implements OnInit, AfterViewInit {
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
+  icLoad=icLoad;
   icAdd = icAdd;
+  icUpload=icUpload;
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
-
+  info_client=localStorage.getItem('currentAgency')
+  client=JSON.parse(this.info_client);
+  agency_id=this.client.agency_id
+  portafolio_id="60558e719a5a98d506ce1fa7";
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  //@ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(private dialog: MatDialog) {
   }
@@ -103,7 +111,11 @@ export class MapComponent implements OnInit, AfterViewInit {
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
+    
 
+  displayedColumns1: string[] = [ "INDICE", "Agencia Previa 1", "Agencia Previa 3", "Monto Agencia Previa", "Monto Agencia Previa 1", "Monto Agencia Previa 2", "Monto Agencia Previa 3", "Monto Agencia Previa 4", "Fecha Agencia Previa 5", "Fecha de mora", "Fecha Nacimiento Cliente", "Fecha primer carga", "Fecha Quebranto", "Límite credito", "Monto Agencia Previa 5", "Monto Capital por Vencer", "Monto de Capital Pagado", "Monto Referencia Agencia Actual", "Monto total a disposición", "Monto Ult Pago", "Monto Ultimo Pago", "Monto Vencido", "Moratorios", "Nombre Cliente", "Nombre Empresa", "Ordinario Vencido", "Ordinarios Pagados", "Originadora", "Pago Liquidacion Anticipada", "Pago Minimo", "Pago Vencido", "Plaza", "PRIORIDAD", "Propietario", "Referencia Bancaria", "RFC Cliente", "Saldo Total", "Sexo Cliente", "Situacion Especial", "Sub Producto", "Tel Cliente", "Telefono 3", "Tipo Producto", "Total pagado", "Ultima Accion", "Gestor ", "Monto a disposición", "CP Cliente", "Credito / Numero Tarjeta", "Dias Corte", "Dias Mora", "Direccion 2", "Direccion Cliente", "Estado Cliente", "Estatus", "Fecha Actualizacion", "Fecha Agencia Previa", "Fecha Agencia Previa 1", "Fecha Agencia Previa 2", "Fecha Agencia Previa 3"];
+  jsDatos1 = [];
+  jsDatos = [];
   /**
    * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
    * We are simulating this request here.
@@ -133,11 +145,30 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.sort = this.sort;
   }
+  get displayedColumns() {
+    var keys = [];
+    if(this.jsonData &&this.jsonData.Datos.length){
+      
+      for(var k in this.jsonData.Datos[0]){
+        keys.push(k);
+      }  
+      this.datos=keys;
+    }
+    //keys=[ "INDICE", "Agencia Previa 1", "Agencia Previa 3", "Monto Agencia Previa", "Monto Agencia Previa 1", "Monto Agencia Previa 2", "Monto Agencia Previa 3", "Monto Agencia Previa 4", "Fecha Agencia Previa 5", "Fecha de mora", "Fecha Nacimiento Cliente", "Fecha primer carga", "Fecha Quebranto", "Límite credito", "Monto Agencia Previa 5", "Monto Capital por Vencer", "Monto de Capital Pagado", "Monto Referencia Agencia Actual", "Monto total a disposición", "Monto Ult Pago", "Monto Ultimo Pago", "Monto Vencido", "Moratorios", "Nombre Cliente", "Nombre Empresa", "Ordinario Vencido", "Ordinarios Pagados", "Originadora", "Pago Liquidacion Anticipada", "Pago Minimo", "Pago Vencido", "Plaza", "PRIORIDAD", "Propietario", "Referencia Bancaria", "RFC Cliente", "Saldo Total", "Sexo Cliente", "Situacion Especial", "Sub Producto", "Tel Cliente", "Telefono 3", "Tipo Producto", "Total pagado", "Ultima Accion", "Gestor ", "Monto a disposición", "CP Cliente", "Credito / Numero Tarjeta", "Dias Corte", "Dias Mora", "Direccion 2", "Direccion Cliente", "Estado Cliente", "Estatus", "Fecha Actualizacion", "Fecha Agencia Previa", "Fecha Agencia Previa 1", "Fecha Agencia Previa 2", "Fecha Agencia Previa 3"]
 
-  createCustomer() {
-    this.dialog.open(MapCreateUpdateComponent).afterClosed().subscribe((customer: Customer) => {
+    return keys;
+
+  }
+  
+  createMapeo() {
+    let data={
+      datos:this.datos,
+      agency_id:this.agency_id,
+      portafolio_id:this.portafolio_id||"60558e719a5a98d506ce1fa7"
+    }
+    this.dialog.open(MapCreateUpdateComponent, {data: data}).afterClosed().subscribe((customer: Customer) => {
       /**
        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
        */
@@ -146,12 +177,57 @@ export class MapComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.customers.unshift(new Customer(customer));
+        //this.customers.unshift(new Customer(customer));
         this.subject$.next(this.customers);
       }
     });
   }
 
+  upload(){
+    let body={
+      "cart":this.jsonData.Datos,
+      "type":"upload"
+    }
+    this.dialog.open(MapUpdateComponent, {
+      data: body
+    }).afterClosed().subscribe(updatedCustomer => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (updatedCustomer) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        const index = this.customers.findIndex((existingCustomer) => existingCustomer.id === updatedCustomer.id);
+        this.customers[index] = new Customer(updatedCustomer);
+        this.subject$.next(this.customers);
+      }
+    });
+  }
+  load(){
+    let body={
+      "cart":this.jsonData.Datos,
+      "type":"load"
+    }
+    this.dialog.open(MapUpdateComponent, {
+      data: body
+    }).afterClosed().subscribe(updatedCustomer => {
+      /**
+       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (updatedCustomer) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        const index = this.customers.findIndex((existingCustomer) => existingCustomer.id === updatedCustomer.id);
+        this.customers[index] = new Customer(updatedCustomer);
+        this.subject$.next(this.customers);
+      }
+    });
+  }
+  
   updateCustomer(customer: Customer) {
     this.dialog.open(MapCreateUpdateComponent, {
       data: customer
@@ -229,7 +305,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   //MAP
-   jsonData = null;
+   jsonData = {Datos:[]};
+   datos: String[];
   onFileChange(ev) {
     let workBook = null;
     let jsonData = null;
@@ -254,21 +331,17 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.jsonData=jsonData;
       const dataString = JSON.stringify(jsonData);
       //console.log(dataString)
-      var coche = JSON.parse(dataString, this.reviver );
-//console.log(coche, this.datos);
-      document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
-      this.setDownload(dataString);
+   
+      //document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
+      //this.setDownload(dataString);
+      setTimeout(() => {
+        this.jsDatos =this.jsonData.Datos
+      }, 300);
     }
     reader.readAsBinaryString(file);
   }
-  datos: String[];
-  reviver(clave, valor) {
+ 
 
-    //console.log(clave)
-    this.datos.push(clave);
-
-    return valor;
-}
   
   setDownload(data) {
     this.willDownload = true;
@@ -276,6 +349,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       const el = document.querySelector("#download");
       el.setAttribute("href", `data:text/json;charset=utf-8,${encodeURIComponent(data)}`);
       el.setAttribute("download", 'xlsxtojson.json');
-    }, 1000)
+    }, 100)
   }
+  
 }

@@ -130,6 +130,13 @@ export class AppComponent {
             route: '/admin/portafolios',
             icon: icPortafolio
           },
+         /* {
+            type: 'link',
+            label: 'Portafolios',
+            route: '/admin/portafoliosId/:id',
+            icon: icPortafolio
+          },*/
+          
           {
             type: 'link',
             label: 'Mapeo',
