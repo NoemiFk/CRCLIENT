@@ -323,7 +323,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       workBook = XLSX.read(data, { type: 'binary' });
       workBook.SheetNames.forEach(element => {
         
-        console.log("--",element)
+        //console.log("--",element)
       });
       for (let i = 0, l = workBook.SheetNames.length; i < l; i += 1) {
         //this.processSheet(workBook.Sheets[workBook.SheetNames[i]]);

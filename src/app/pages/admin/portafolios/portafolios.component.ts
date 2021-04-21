@@ -116,14 +116,14 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    * We are simulating this request here.
    */
   getData(list) {
-    console.log("-->",list)
+    //console.log("-->",list)
     return of(list.map(portafolio => portafolio));
   }
   getCustomersList() {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -166,7 +166,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            console.log(portafolios)
+            //console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
@@ -174,7 +174,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
@@ -186,7 +186,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.Services.getPortafoliosList(client_id)
     .subscribe(
         data => {
-          console.log("Portafolios ", data)
+          //console.log("Portafolios ", data)
           if(data.success){
             this.PortafoliosList=data.data
             
@@ -199,7 +199,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            console.log(portafolios)
+            //console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
@@ -207,7 +207,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
