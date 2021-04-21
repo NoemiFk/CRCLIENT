@@ -333,15 +333,16 @@ export class MapComponent implements OnInit, AfterViewInit {
         initial[name] = XLSX.utils.sheet_to_json(sheet);
         return initial;
       }, {});
-      //console.log(jsonData)
+      console.log(jsonData.Datos.length)
       this.jsonData=jsonData;
       const dataString = JSON.stringify(jsonData);
       //console.log(dataString)
-   
+      document.getElementById('output').innerHTML = jsonData.Datos.length.toString();
       //document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
       //this.setDownload(dataString);
       setTimeout(() => {
-        this.jsDatos =this.jsonData.Datos
+        console.log("Tiempo")
+        //this.jsDatos =this.jsonData.Datos
       }, 300);
     }
     reader.readAsBinaryString(file);

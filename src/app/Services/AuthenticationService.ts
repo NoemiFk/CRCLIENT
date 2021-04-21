@@ -50,6 +50,11 @@ export class AuthenticationService {
         localStorage.removeItem('currentAgency');
         localStorage.removeItem('oken');
     }
+    singup() {
+      // remove user from local storage to log user out
+      localStorage.removeItem('currentAgency');
+      localStorage.removeItem('oken');
+  }
     encryptUsingAES256(pass) {
         let _key = CryptoJS.enc.Hex.parse(CryptoSecret);
         let _iv = CryptoJS.enc.Hex.parse(pass);

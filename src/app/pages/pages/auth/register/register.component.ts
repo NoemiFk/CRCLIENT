@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
+      phone: ['', Validators.required],
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required],
     });
@@ -39,6 +40,7 @@ export class RegisterComponent implements OnInit {
 
   send() {
     this.router.navigate(['/']);
+    
   }
 
   toggleVisibility() {
