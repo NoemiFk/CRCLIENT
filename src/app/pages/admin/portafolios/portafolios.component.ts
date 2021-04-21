@@ -10,7 +10,7 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { PortafolioCreateUpdateComponent } from './portafolio-create-update/portafolio-create-update.component';
 import { PortafolioDeleteComponent } from './portafolio-delete/portafolio-delete.component';
-
+import { Router } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
@@ -104,7 +104,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog,  private Services: Services,) {
+  constructor(private dialog: MatDialog,  private Services: Services,private router: Router) {
   }
 
   get visibleColumns() {
@@ -170,7 +170,6 @@ export class AioTableComponent implements OnInit, AfterViewInit {
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          //console.log("-------->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
@@ -204,7 +203,6 @@ export class AioTableComponent implements OnInit, AfterViewInit {
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          //console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
@@ -228,7 +226,6 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    //console.log("-->",this.dataSource)
   }
 
   createPortafolio() {
@@ -241,7 +238,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        //this.portafolios.unshift(portafolio);
+        this.portafolios.unshift(portafolio);
         this.subject$.next(this.portafolios);
       }
     });
@@ -340,5 +337,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     console.log(x)
     let client_id=x.value;
     this.getPortafoliosList(client_id)
+  }
+  upload(id){
+    this.router.navigate(['/admin/map/'+id]);
   }
 }

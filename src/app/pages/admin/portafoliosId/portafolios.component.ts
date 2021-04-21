@@ -28,7 +28,7 @@ import { MatSelectChange } from '@angular/material/select';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
-
+import { Router } from '@angular/router';
 import {Services} from '../../../Services/services'
 
 
@@ -96,7 +96,6 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   // User 
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
-  client_id=""
   agency={}
   agency_id=""
   CustomersList=[];
@@ -104,9 +103,9 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog,  private Services: Services, private route:ActivatedRoute) {
+  constructor(private dialog: MatDialog,  private Services: Services, private route:ActivatedRoute,private router: Router) {
   }
-  id_client = this.route.snapshot.params.id;
+  client_id = this.route.snapshot.params.id;
   
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
@@ -219,7 +218,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log("PARAMS",this.client_id)
+    console.log("PARAMS----",this.client_id)
     console.log("Clientt",this.client)
     this.dataSource = new MatTableDataSource();
     //this.getAgency() 
@@ -342,5 +341,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     console.log(x)
     let client_id=x.value;
     this.getPortafoliosList(client_id)
+  }
+  upload(id){
+    this.router.navigate(['/admin/map/'+id]);
   }
 }

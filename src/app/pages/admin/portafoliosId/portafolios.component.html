@@ -24,7 +24,7 @@
     <div class="card overflow-auto -mt-16">
       <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-          <span *ngIf="selection.isEmpty()">Portafolio</span>
+          <span *ngIf="selection.isEmpty()">Portafolios</span>
           <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
             Portafolios<span *ngIf="selection.selected.length > 1">s</span> seleccionados</span>
         </h2>
@@ -236,9 +236,9 @@
       <mat-icon [icIcon]="icDelete"></mat-icon>
       <span>Eliminar</span>
     </button>
-    <button (click)="deletePortafolio(customer)" mat-menu-item>
+    <button (click)="upload(customer._id)" mat-menu-item>
       <mat-icon [icIcon]="icDelete"></mat-icon>
-      <span>Cargar Archivos</span>
+      <span>Cargar Archivo</span>
     </button>
   </ng-template>
 </mat-menu>

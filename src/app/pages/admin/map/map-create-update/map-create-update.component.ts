@@ -14,6 +14,7 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import {Services} from '../../../../Services/services'
+import data from '@iconify/icons-ic/twotone-more-vert';
 
 @Component({
   selector: 'vex-map-create-update',
@@ -67,6 +68,7 @@ export class MapCreateUpdateComponent implements OnInit {
     this.getCustomersList()
     console.log("-------!!!!",this.defaults)
     this.datos=this.defaults.datos;
+    this.createDS(this.datos)
     if (this.defaults) {
       this.mode = 'create';
     } else {
@@ -74,16 +76,44 @@ export class MapCreateUpdateComponent implements OnInit {
     }
 
     this.form = this.fb.group({
-      name: [this.defaults.name || ''],
-      client_id: [this.defaults.client_id || ''],
-      agency_id: [this.defaults.agency_id || ''],
-      datos: [this.defaults.datos || ''],
-      portafolio_id: [this.defaults.portafolio_id || ''],
-      type: [this.defaults.type || ''],
-      column: [this.defaults.column || ''],
+      dateInit: [this.defaults.dateInit || ''],
+      dateUpdate: [this.defaults.dateUpdate || '']
     });
   }
-
+ dataS=[]
+ dataA=[]
+ dataC=[]
+ dataR=[]
+ dataE=[]
+  createDS(datos){
+    datos.forEach(element => {
+      let obj={
+        status:false,
+        data:element
+      }
+      this.dataS.push(obj)
+      this.dataA.push(obj)
+      this.dataC.push(obj)
+      this.dataR.push(obj)
+      this.dataE.push(obj)
+    });
+    console.log(this.dataS)
+  }
+  addSeg(index){
+    this.dataS[index].status=this.dataS[index].status?false:true
+  }
+  addAna(index){
+    this.dataA[index].status=this.dataA[index].status?false:true
+  }
+  addEst(index){
+    this.dataE[index].status=this.dataE[index].status?false:true
+  }
+  addPC(index){
+    this.dataC[index].status=this.dataC[index].status?false:true
+  }
+  addRep(index){
+    this.dataR[index].status=this.dataR[index].status?false:true
+  }
   save() {
     if (this.mode === 'create') {
       this.createCustomer();
@@ -96,7 +126,6 @@ export class MapCreateUpdateComponent implements OnInit {
     const map = this.form.value;
 
     let body={
-     
         "name": map.name,
         "agency_id": map.agency_id,
         "client_id": map.client_id,

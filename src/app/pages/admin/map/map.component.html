@@ -105,8 +105,30 @@
       </button>
     </div>
     
-    
-      <table mat-table [dataSource]="jsDatos" class="mat-elevation-z8">
+    <table @stagger [dataSource]="dataSourceUpload" class="w-full" mat-table matSort *ngIf="!uploadActive">
+
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+   
+
+      <!-- Text Columns -->
+      <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+        <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+          <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+        </ng-container>
+      </ng-container>
+
+
+      <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+      <tr (click)="updateCustomer(row)"
+          *matRowDef="let row; columns: visibleColumns;"
+          @fadeInUp
+          class="hover:bg-hover trans-ease-out cursor-pointer"
+          mat-row></tr>
+    </table>
+      <table mat-table [dataSource]="jsDatos" class="mat-elevation-z8" *ngIf="uploadActive">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
