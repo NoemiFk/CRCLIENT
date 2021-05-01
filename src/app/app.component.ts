@@ -5,6 +5,7 @@ import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { NavigationService } from '../@vex/services/navigation.service';
 import icLayers from '@iconify/icons-ic/twotone-layers';
+import icMoney from '@iconify/icons-ic/money-off';
 import icAssigment from '@iconify/icons-ic/twotone-assignment';
 import icContactSupport from '@iconify/icons-ic/twotone-contact-support';
 import icPerson from '@iconify/icons-ic/person';
@@ -115,25 +116,25 @@ export class AppComponent {
       },
       {
         type: 'link',
-        label: 'Contratación',
+        label: 'Contrata tu plan',
         route: '/engagement',
-        icon: icLayers,
+        icon: icMoney,
         routerLinkActiveOptions: { exact: true }
       },
       /////////////////////
       {
         type: 'subheading',
-        label: 'Clientes',
+        label: 'Funcionalidades',
         children: [
           {
             type: 'link',
-            label: 'Clientes',
+            label: 'Administración Financieras',
             route: '/admin/customers',
             icon: icPerson
           },
           {
             type: 'link',
-            label: 'Portafolios',
+            label: 'Administración Portafolios',
             route: '/admin/portafolios',
             icon: icPortafolio
           },
@@ -164,8 +165,20 @@ export class AppComponent {
           },
           {
             type: 'link',
+            label: 'Communicacion  Digital',
+            route: '#',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
             label: 'Estrategias',
             route: '/admin/strategy',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
+            label: 'Reportes',
+            route: '#',
             icon: icAssigment
           },
         ]
@@ -685,7 +698,7 @@ export class AppComponent {
         children: [
           {
             type: 'dropdown',
-            label: 'Configuracion del Sistem',
+            label: 'Configuración del Sistem',
             icon: icSettings,
             children: [
               {
