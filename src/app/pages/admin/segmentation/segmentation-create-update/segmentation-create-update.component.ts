@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit,Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Customer } from '../interfaces/segmentation.model';
@@ -14,6 +14,11 @@ import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import {Services} from '../../../../Services/services'
 import { MatSelectChange } from '@angular/material/select';
+import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
+import icCloudDownload from '@iconify/icons-ic/twotone-cloud-download';
+import { ApexOptions } from '../../../../../@vex/components/chart/chart.component';
+import { defaultChartOptions } from '../../../../../@vex/utils/default-chart-options';
+import { createDateArray } from '../../../../../@vex/utils/create-date-array';
 
 @Component({
   selector: 'vex-segmentation-create-update',
@@ -23,6 +28,63 @@ import { MatSelectChange } from '@angular/material/select';
 export class SegmentationCreateUpdateComponent implements OnInit {
 
   static id = 100;
+
+  @Input() series: ApexNonAxisChartSeries | ApexAxisChartSeries;
+  @Input() options: ApexOptions = defaultChartOptions({
+    grid: {
+      show: true,
+      strokeDashArray: 3,
+      padding: {
+        left: 16
+      }
+    },
+    chart: {
+      type: 'area',
+      height: 384,
+      sparkline: {
+        enabled: false
+      },
+      zoom: {
+        enabled: false
+      }
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 0.9,
+        opacityFrom: 0.7,
+        opacityTo: 0.5,
+        stops: [0, 90, 100]
+      }
+    },
+    colors: ['#008ffb', '#ff9800'],
+    labels: [10, 40, 70, 100],//createDateArray(12),
+    xaxis: {
+      type: 'category',
+      labels: {
+        show: true
+      },
+    },
+    yaxis: {
+      labels: {
+        show: true
+      }
+    },
+    legend: {
+      show: true,
+      itemMargin: {
+        horizontal: 4,
+        vertical: 4
+      }
+    }
+  });
+
+  salesSeries: ApexAxisChartSeries = [{
+    name: 'Clientes',
+    data: [10, 20, 10, 60]
+  }];
+
+  
 
   form: FormGroup;
   mode: 'create' | 'update' = 'create';
@@ -50,6 +112,7 @@ export class SegmentationCreateUpdateComponent implements OnInit {
   }
 
   ngOnInit() {
+     console.log(createDateArray(12))
     this.getCustomersList();
     if (this.defaults) {
       this.mode = 'update';
@@ -62,8 +125,27 @@ export class SegmentationCreateUpdateComponent implements OnInit {
       description: [this.defaults.description || ''],
       client_id: [this.defaults.client_id || ''],
       portafolio_id: [this.defaults.portafolio_id || ''],
-      criterio: [this.defaults.firstName || ''],
+      criterio1: [this.defaults.criterio1 || ''],
+      rango1A: [this.defaults.rango1A || ''],
+      rango1B: [this.defaults.rango1B || ''],
     });
+  }
+  analizar(){
+    const segmentacion = this.form.value;
+    console.log(segmentacion.criterio1)
+    this.Services.getASegmentacion(segmentacion.criterio1,segmentacion.portafolio_id)
+      .subscribe(
+          data => {
+            console.log("Hola ", data)
+            if(data.success){
+              this.segmentacion=data.data.segmentation
+             // this.CustomersList=data.data
+              
+            }
+          },
+          error => {
+            //this.error=true
+          });
   }
   segmentacion=[];
   getMap(id){

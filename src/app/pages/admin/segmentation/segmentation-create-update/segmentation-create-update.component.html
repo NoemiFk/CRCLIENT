@@ -55,19 +55,39 @@
       <textarea formControlName="description" matInput></textarea>
     </mat-form-field>
 
+    
     <div class="flex flex-col sm:flex-row">
-      <div class="flex flex-col sm:flex-row">
 
-        <mat-form-field class="flex-auto mt-6" >
-          <mat-label>Selecciona</mat-label>
-          <mat-select matNativeControl name="criterio"  formControlName="criterio">
+      <div class=" flex flex-col mt-6">
+
+        <mat-form-field>
+          <mat-label>Selecciona Criterio</mat-label>
+          <mat-select matNativeControl name="criterio1"  formControlName="criterio1">
             <mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option>
           </mat-select>
     
           <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
+        <button (click)="analizar()" color="primary" mat-button >AGREGAR</button>
+        <mat-form-field>
+            <mat-label>Rango A</mat-label>
+            <input cdkFocusInitial formControlName="rango1A" matInput>
+    
+            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Rango B</mat-label>
+          <input cdkFocusInitial formControlName="rango1B" matInput>
+  
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+      </div>
+      <div class="flex-auto mt-6">
+
+        <vex-chart [options]="options" [series]="salesSeries"></vex-chart>
       </div>
     </div>
+    
   </mat-dialog-content>
 
 

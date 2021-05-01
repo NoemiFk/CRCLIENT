@@ -12,6 +12,7 @@ import { SegmentationCreateUpdateComponent } from './segmentation-create-update.
 import { MatMenuModule } from '@angular/material/menu';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
+import { ChartModule } from '../../../../../@vex/components/chart/chart.module';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatSelectModule,
     MatMenuModule,
     IconModule,
-    MatDividerModule
+    MatDividerModule,
+    ChartModule
   ],
   declarations: [SegmentationCreateUpdateComponent],
   entryComponents: [SegmentationCreateUpdateComponent],

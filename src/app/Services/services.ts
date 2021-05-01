@@ -132,6 +132,14 @@ export class Services {
                 return resp;
             });
       }
+    getASegmentacion(criterio:string,id:string) {
+    return this.http.get<any>(URL+'/map/'+id+'/'+criterio)
+        .map(resp => {
+        
+            //console.log("getMap",resp)
+            return resp;
+        });
+    }
     createRegister(body:object, id:string) {
       return this.http.post<any>(URL+'/map/'+id,body)
           .map(resp => {
