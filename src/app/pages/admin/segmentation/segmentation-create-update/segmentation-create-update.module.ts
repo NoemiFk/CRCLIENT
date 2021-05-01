@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { SegmentacionCreateUpdateComponent } from './segmentacion-create-update.component';
+import { SegmentationCreateUpdateComponent } from './segmentation-create-update.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
@@ -28,9 +28,9 @@ import { MatDividerModule } from '@angular/material/divider';
     IconModule,
     MatDividerModule
   ],
-  declarations: [SegmentacionCreateUpdateComponent],
-  entryComponents: [SegmentacionCreateUpdateComponent],
-  exports: [SegmentacionCreateUpdateComponent]
+  declarations: [SegmentationCreateUpdateComponent],
+  entryComponents: [SegmentationCreateUpdateComponent],
+  exports: [SegmentationCreateUpdateComponent]
 })
-export class SegmentacionCreateUpdateModule {
+export class SegmentationCreateUpdateModule {
 }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 export type ResponseType = 'arraybuffer' | 'blob' | 'json' | 'text';;
 import 'rxjs/add/operator/map'
 const URL="http://localhost:3002"
+//const URL="http://54.200.250.80:3002"
 const httpOptions = {
     headers: new HttpHeaders({
       'Authorization': 'my-auth-token',
@@ -55,10 +56,18 @@ export class Services {
       return this.http.get<any>(URL+'/agency/'+id)
           .map(resp => {
           
-              console.log("getAgency",resp)
+             //console.log("getAgency",resp)
               return resp;
           });
     }
+    updateAgency(id:string, body:object) {
+        return this.http.put<any>(URL+'/agency/'+id,body,httpOptions)
+            .map(resp => {
+             
+                //console.log("updateAgency",resp)
+                return resp;
+            });
+      }
     getPortafoliosList(id:string) {
       return this.http.get<any>(URL+'/portafolios/'+id )
           .map(resp => {
@@ -92,7 +101,7 @@ export class Services {
           });
     }
     createPortafolio(body:object) {
-      return this.http.post<any>(URL+'/portafolio/',body)
+      return this.http.post<any>(URL+'/portafolio',body)
           .map(resp => {
           
               //console.log("createPortafolio",resp)
@@ -103,15 +112,31 @@ export class Services {
       return this.http.post<any>(URL+'/map/',body)
           .map(resp => {
           
-              console.log("createMap",resp)
+             //console.log("createMap",resp)
               return resp;
           });
     }
+    getDataMap(id:string) {
+        return this.http.get<any>(URL+'/map/data/'+id)
+            .map(resp => {
+            
+               //console.log("getMap",resp)
+                return resp;
+            });
+      }
+      getMap(id:string) {
+        return this.http.get<any>(URL+'/map/'+id)
+            .map(resp => {
+            
+               //console.log("getMap",resp)
+                return resp;
+            });
+      }
     createRegister(body:object, id:string) {
       return this.http.post<any>(URL+'/map/'+id,body)
           .map(resp => {
           
-              console.log("createRegister",resp)
+             //console.log("createRegister",resp)
               return resp;
           });
     }
@@ -119,9 +144,28 @@ export class Services {
       return this.http.put<any>(URL+'/map/'+id,body)
           .map(resp => {
           
-              console.log("createRegister",resp)
+             //console.log("createRegister",resp)
               return resp;
           });
     }
+    //Planes
+    getPlansList() {
+        return this.http.get<any>(URL+'/plans')
+            .map(resp => {
+             
+                //console.log(" getPlansList",resp)
+                return resp;
+            });
+    }
+    getPlan(id:string) {
+        return this.http.get<any>(URL+'/plan/'+id,httpOptions)
+            .map(resp => {
+             
+                //console.log("updatePlan",resp)
+                return resp;
+  
+            });
+      }
+    
 
 }

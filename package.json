@@ -38,6 +38,7 @@
     "date-fns": "~2.16.1",
     "highlight.js": "~10.3.2",
     "luxon": "~1.25.0",
+    "moment": "^2.29.1",
     "ngx-quill": "~12.0.1",
     "ngx-showdown": "~6.0.0",
     "observable": "^2.1.4",

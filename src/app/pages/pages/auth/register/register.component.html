@@ -1,4 +1,4 @@
-<div class="w-full h-full bg-pattern" fxLayout="column" fxLayoutAlign="center center">
+<div class="w-full h-full bg-pattern register" fxLayout="column" fxLayoutAlign="center center">
   <div @fadeInUp class="card overflow-hidden w-full max-w-xs">
     <div class="p-6 pb-0" fxLayout="column" fxLayoutAlign="center center">
       <div class="fill-current text-center">
@@ -14,19 +14,21 @@
     <div [formGroup]="form" class="p-6" fxLayout="column" fxLayoutGap="16px">
       <div fxFlex="auto" fxLayout="column">
         <mat-form-field fxFlex="grow">
-          <mat-label>Nombre</mat-label>
+          <mat-label>Nombre de Empresa</mat-label>
+          <input formControlName="nameAgency" matInput required>
+        </mat-form-field>
+        <mat-form-field fxFlex="grow">
+          <mat-label>Tipo de empresa</mat-label>
+          <mat-select matNativeControl name="typeClient"  formControlName="type">
+            <mat-option value="Ninguno">Seleccione uno...</mat-option>
+            <mat-option value="Agencia de cobranza">Agencia de cobranza</mat-option>
+            <mat-option value="Financiera">Financiera</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field fxFlex="grow">
+          <mat-label>Nombre de Usuario</mat-label>
           <input formControlName="name" matInput required>
         </mat-form-field>
-
-        <mat-form-field fxFlex="grow">
-          <mat-label>Telefono</mat-label>
-          <input formControlName="phone" matInput required>
-        </mat-form-field> 
-        <mat-form-field fxFlex="grow">
-          <mat-label>RFC</mat-label>
-          <input formControlName="rfc" matInput required>
-        </mat-form-field>
-
         <mat-form-field fxFlex="grow">
           <mat-label>E-Mail</mat-label>
           <input formControlName="email" matInput required>

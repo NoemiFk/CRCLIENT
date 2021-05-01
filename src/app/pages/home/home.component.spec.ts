@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { SegmentacionComponent } from './segmentacion.component';
+import { HelpCenterComponent } from './home.component';
 
-describe('SegmentacionComponent', () => {
-  let component: SegmentacionComponent;
-  let fixture: ComponentFixture<SegmentacionComponent>;
+describe('FaqComponent', () => {
+  let component: HelpCenterComponent;
+  let fixture: ComponentFixture<HelpCenterComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SegmentacionComponent]
+      declarations: [HelpCenterComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SegmentacionComponent);
+    fixture = TestBed.createComponent(HelpCenterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

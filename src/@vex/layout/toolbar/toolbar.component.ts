@@ -18,7 +18,7 @@ import icArrowDropDown from '@iconify/icons-ic/twotone-arrow-drop-down';
 import { PopoverService } from '../../components/popover/popover.service';
 import { MegaMenuComponent } from '../../components/mega-menu/mega-menu.component';
 import icSearch from '@iconify/icons-ic/twotone-search';
-
+import * as moment from 'moment';
 @Component({
   selector: 'vex-toolbar',
   templateUrl: './toolbar.component.html',
@@ -58,8 +58,37 @@ export class ToolbarComponent implements OnInit {
               private navigationService: NavigationService,
               private popoverService: PopoverService) { }
 
+  info_admin=localStorage.getItem('currentAgency')
+  client=JSON.parse(this.info_admin);
+  info_plan=localStorage.getItem('Plan')
+  plan=JSON.parse(this.info_plan);
+  info_agency=localStorage.getItem('Agency')
+  agency=JSON.parse(this.info_agency);
+  days=8;
   ngOnInit() {
+   //console.log("Client",this.client)
+   //console.log("Agencia",this.agency)
+   //console.log("Plan",this.plan)
+    
+    if(this.plan && this.agency.contract.type=='test')
+    this.calculate()
   }
+  calculate(){
+    let dateRegister= new Date(this.client.created);
+   //console.log(this.plan.trialPeriod)
+    let newDates= dateRegister.setDate(dateRegister.getDate() + this.plan.trialPeriod.days);
+   //console.log(new Date(newDates))
+    let fin=new Date(newDates)
+    //newDates = new Date(newDates);
+    let days=new Date(fin.getDate() - dateRegister.getDate());
+   //console.log(days)
+    var fecha1 = moment();
+    var fecha2 = moment(fin);
+    this.days=fecha2.diff(fecha1, 'days')
+
+console.log(fecha2.diff(fecha1, 'days'), ' dias de diferencia');
+  }
+  
 
   openQuickpanel() {
     this.layoutService.openQuickpanel();

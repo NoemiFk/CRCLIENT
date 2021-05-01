@@ -1,0 +1,63 @@
+
+  <main class="content home">
+    <div class="text-center py-24 header">
+      <div class="container">
+        <h2 @fadeInUp class="display-2 mt-16 mb-8">Collection Robot</h2>
+        <h3>La plataforma de cobranza ideal para tu financiera.</h3>
+        <button class="rounded-full max-w-full w-200" color="primary" (click)="goto('login')" mat-raised-button type="button">INICIAR SESIÓN</button>
+      </div>
+    </div>
+    
+    
+    
+    <div class="my-12 container"
+         fxLayout="row"
+         fxLayout.xs="column"
+         fxLayoutAlign="start start"
+         fxLayoutAlign.xs="start stretch"
+         fxLayoutGap="24px">
+    
+      <div class="card p-6" fxFlex fxLayout="column" fxLayoutAlign="start center">
+        <div class="inline-block p-6 rounded-full bg-primary-light text-primary mx-auto"
+             fxLayout="row"
+             fxLayoutAlign="center center">
+             <ic-icon [icon]="icBeenhere" size="48px"></ic-icon>
+        </div>
+        <h2 class="headline my-6">Plan de Prueba</h2>
+    
+        <div class="body-1"><span class="body-2">2</span> Usuarios</div>
+        <div class="body-1"><span class="body-2">20 </span> Clientes</div>
+        <div class="body-1"><span class="body-2">5GB</span> Almacenamiento</div>
+        <div class="body-1"><span class="body-2">10 Días</span> Prueba</div>
+    
+        <h3 class="display-2 font-bold my-6"><span class="text-secondary headline align-top">$</span> 0.00</h3>
+    
+        <button class="rounded-full max-w-full w-200" color="primary" (click)="goto('register')" mat-raised-button type="button">ADQUIRIR</button>
+      </div>
+    
+      <div class="card p-6" fxFlex fxLayout="column" fxLayoutAlign="start center">
+        <div class="inline-block p-6 rounded-full bg-primary-light text-primary mx-auto"
+             fxLayout="row"
+             fxLayoutAlign="center center">
+             <ic-icon [icon]="icStars" size="48px"></ic-icon>
+        </div>
+    
+        <h2 class="headline my-6">Plan de Pago</h2>
+    
+        <div class="body-1"><span class="body-2">10</span> Usuarios</div>
+        <div class="body-1"><span class="body-2">500</span> Clientes</div>
+        <div class="body-1"><span class="body-2">10GB</span> Almacenamiento</div>
+        <div class="body-1"><span class="body-2">Soporte</span> Personalizado</div>
+    
+        <h3 class="display-2 font-bold my-6"><span class="text-secondary headline align-top">$</span>3,00.00</h3>
+    
+        <button class="rounded-full max-w-full w-200" color="primary" (click)="goto('registerPago')" mat-raised-button type="button">ADQUIRIR</button>
+      </div>
+    
+      
+    
+    </div>
+  </main>
+
+
+

@@ -54,7 +54,7 @@ export class MapUpdateComponent implements OnInit {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+         //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -66,9 +66,9 @@ export class MapUpdateComponent implements OnInit {
   }
   portafolio_id='';
   ngOnInit() {
-    console.log("-------!!!!",this.defaults)
+   //console.log("-------!!!!",this.defaults)
     this.portafolio_id = this.defaults.portafolio_id;
-    console.log("portafolio ",this.portafolio_id);
+   //console.log("portafolio ",this.portafolio_id);
     if (this.defaults.type!='load') {
       this.mode = 'create';
     } else {
@@ -106,13 +106,13 @@ info={  "validate": [
  }
   createRegister() {
 
-    console.log("CREAR", this.portafolio_id)
+   //console.log("CREAR Mapa", this.portafolio_id)
 
     this.Services.createRegister(this.defaults.cart,this.portafolio_id)
     .subscribe(
         data => {
           if(data.success){
-            console.log(data.data)
+           //console.log(data.data)
             this.info=data.data
           }
         },
@@ -123,12 +123,12 @@ info={  "validate": [
   }
 
   updateRegister() {
-    console.log("UPDATE")
+   //console.log("UPDATE")
     this.Services.updateRegister(this.defaults.cart,this.portafolio_id)
     .subscribe(
         data => {
           if(data.success){
-            console.log(data.data)
+           //console.log(data.data)
             this.info=data.data
           }
         },

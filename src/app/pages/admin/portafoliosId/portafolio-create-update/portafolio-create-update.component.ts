@@ -51,7 +51,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+         //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -61,27 +61,28 @@ export class PortafolioCreateUpdateComponent implements OnInit {
           //this.error=true
         });
   }
-
+  _id_cliente=""
   ngOnInit() {
     this.getCustomersList();
-    if (this.defaults) {
+   //console.log("-->",this.defaults)
+    this._id_cliente=this.defaults.client_id
+   //console.log(this.defaults.client_id)
+    if (this.defaults._id) {
       this.mode = 'update';
       let portafolio= this.defaults;
-      console.log(this.defaults)
+     //console.log(this.defaults)
       this.defaults= {
         "_id":portafolio._id,
-      "name_portafolio": portafolio.name,
+      "name_portafolio": portafolio.name_portafolio,
       "description": portafolio.nameClient,
       "agency_id": portafolio.agency_id,
-      "type": portafolio.type,
       "client_id": portafolio.client_id,
       }
-      console.log(this.defaults)
+     //console.log(this.defaults)
     } else {
       this.defaults = {} as Portafolio;
     }
     this.form = this.fb.group({
-      type: [this.defaults.type || ''],
       name_portafolio: [this.defaults.name_portafolio || ''],
       description: [this.defaults.description || ''],
       agency_id: [this.defaults.agency_id || ''],
@@ -98,6 +99,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
   }
 
   createPortafolio() {
+   //console.log("CREATE")
     const portafolio = this.form.value;
 
     if (!portafolio.imageSrc) {
@@ -108,10 +110,9 @@ export class PortafolioCreateUpdateComponent implements OnInit {
       "agency_id": this.client.agency_id,
       "name_portafolio": portafolio.name_portafolio,
       "description": portafolio.description,
-      "type": portafolio.type,
-      "client_id": portafolio.client_id,
+      "client_id": this._id_cliente||portafolio.client_id,
     }
-     console.log(body)
+    //console.log("BODY",body)
       this.createPortafolioA(body);
      
 
@@ -122,7 +123,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     this.Services.createPortafolio(body)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+         //console.log("Hola ", data)
           if(data.success){
             this.agency=data.data
             this.dialogRef.close(data.data);
@@ -135,8 +136,26 @@ export class PortafolioCreateUpdateComponent implements OnInit {
 
   updatePortafolio() {
     const portafolio = this.form.value;
-    portafolio.id = this.defaults.id;
-
+    let portafolio_id = this.defaults._id;
+    
+    let body= {
+      "agency_id": this.client.agency_id,
+      "name_portafolio": portafolio.name_portafolio,
+      "description": portafolio.description,
+      "client_id": portafolio.client_id,
+    }
+    this.Services.updatePortafolio(portafolio_id,body)
+    .subscribe(
+        data => {
+         //console.log("Hola ", data)
+          if(data.success){
+            this.agency=data.data
+            this.dialogRef.close(data.data);
+          }
+        },
+        error => {
+          //this.error=true
+        });
     this.dialogRef.close(portafolio);
   }
 

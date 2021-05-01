@@ -10,7 +10,7 @@ import icContactSupport from '@iconify/icons-ic/twotone-contact-support';
 import icPerson from '@iconify/icons-ic/person';
 import icPortafolio from '@iconify/icons-ic/twotone-folder';
 import icAnalisis from '@iconify/icons-ic/graphic-eq';
-import icSegmentacion from '@iconify/icons-ic/twotone-pause-circle-outline';
+import icSegmentation from '@iconify/icons-ic/twotone-pause-circle-outline';
 import icDateRange from '@iconify/icons-ic/twotone-date-range';
 import icChat from '@iconify/icons-ic/twotone-chat';
 import icContacts from '@iconify/icons-ic/twotone-contacts';
@@ -113,6 +113,13 @@ export class AppComponent {
         icon: icLayers,
         routerLinkActiveOptions: { exact: true }
       },
+      {
+        type: 'link',
+        label: 'Contratación',
+        route: '/engagement',
+        icon: icLayers,
+        routerLinkActiveOptions: { exact: true }
+      },
       /////////////////////
       {
         type: 'subheading',
@@ -152,8 +159,8 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Segmentación',
-            route: '/admin/segmentacion',
-            icon: icSegmentacion
+            route: '/admin/segmentation',
+            icon: icSegmentation
           },
           {
             type: 'link',
@@ -671,19 +678,47 @@ export class AppComponent {
             routerLinkActiveOptions: { exact: true }
           },
         ]
-      },
+      },*/
       {
         type: 'subheading',
-        label: 'Customize',
-        children: []
+        label: 'Configuración',
+        children: [
+          {
+            type: 'dropdown',
+            label: 'Configuracion del Sistem',
+            icon: icSettings,
+            children: [
+              {
+                type: 'link',
+                label: 'General',
+                route: '/login'
+              },
+              {
+                type: 'link',
+                label: 'Facturación',
+                route: '/login'
+              },
+              {
+                type: 'link',
+                label: 'Costos',
+                route: '/login'
+              },
+              {
+                type: 'link',
+                label: 'Seguridad',
+                route: '/login'
+              },
+              {
+                type: 'link',
+                label: 'Proveedores',
+                route: '/login'
+              },
+            ]
+          }
+        ]
       },
-      {
-        type: 'link',
-        label: 'Configuration',
-        route: () => this.layoutService.openConfigpanel(),
-        icon: icSettings
-      }
-      */
+      
+      
     ];
   }
 }

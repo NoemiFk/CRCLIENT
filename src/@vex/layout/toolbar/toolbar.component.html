@@ -12,13 +12,7 @@
     <h1 [fxHide]="mobileQuery" class="title ltr:pl-4 rtl:pr-4 m-0 select-none">VEX</h1>
   </a>
 
-  <!--button *ngIf="isHorizontalLayout$ | async"
-          [fxHide]="mobileQuery"
-          [matMenuTriggerFor]="addNewMenu"
-          color="primary"
-          mat-raised-button
-          type="button">ADD NEW
-  </button-->
+  <h2><b></b></h2>
 
   <mat-menu #addNewMenu="matMenu" [overlapTrigger]="false" xPosition="after" yPosition="below">
     <button mat-menu-item>
@@ -104,6 +98,9 @@
         <mat-icon [icIcon]="emojioneUS"></mat-icon>
       </button>
     </div-->
+    <button _ngcontent-ypn-c303="" mat-stroked-button="" *ngIf="agency&&agency.contract.type=='test'&&days>=0"type="button" class="mat-focus-indicator ng-tns-c303-274 mat-stroked-button mat-button-base mt-1 text-orange" style="margin-right: 12px;"><span class="mat-button-wrapper"></span><span matripple="" class="mat-ripple mat-button-ripple"></span><span class="mat-button-focus-overlay"></span>Días de Prueba: <b>{{days}}</b></button>
+
+
 
     <div class="px-1">
       <vex-toolbar-user></vex-toolbar-user>
@@ -122,6 +119,7 @@
     </mat-menu>
   </div>
 </div>
+
 
 <vex-navigation *ngIf="(isVerticalLayout$ | async) && isNavbarBelowToolbar$ | async"
                 [fxHide]="mobileQuery"></vex-navigation>

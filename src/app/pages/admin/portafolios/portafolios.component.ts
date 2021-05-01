@@ -71,8 +71,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'text', visible: true, cssClasses: ['font-medium'] },
     { label: 'Descripción', property: 'description', type: 'text', visible: true },
-    { label: 'Tipo', property: 'type', type: 'text', visible: true },
     { label: 'Cliente', property: 'name', type: 'object', object:'client_id', visible: true },
+    { label: 'Mapeo', property: 'map', type: 'boolean', visible: true },
+    { label: 'Fecha', property: 'updatemap', type: 'date', visible: true },
+    { label: 'Registros', property: 'register', type: 'text', visible: true },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
   pageSize = 10;
@@ -134,15 +136,15 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         });
   }
   getAgency() {
-    console.log("Clientt",this.client.agency_id)
+   //console.log("Clientt",this.client.agency_id)
     this.Services.getAgency(this.client.agency_id)
     .subscribe(
         data => {
           if(data.success){
             this.agency=data.data
-            console.log("----",this.agency)
+           //console.log("----",this.agency)
             //this.agency_id=data.data._id;
-            this.getPortafoliosListAgency()
+           
           }
         },
         error => {
@@ -150,7 +152,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         });
   }
   getPortafoliosListAgency() {
-    console.log("Agency   ------", this.client.agency_id)
+   //console.log("Agency   ------", this.client.agency_id)
     this.Services.getPortafoliosListAgency(this.client.agency_id)
     .subscribe(
         data => {
@@ -182,7 +184,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         });
   }
   getPortafoliosList(client_id) {
-    console.log("GET PORTAFOLOS",this.client.agency_id, client_id)
+   //console.log("GET PORTAFOLOS",this.client.agency_id, client_id)
     this.Services.getPortafoliosList(client_id)
     .subscribe(
         data => {
@@ -216,7 +218,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log("Clientt",this.client)
+   //console.log("Clientt",this.client)
     this.dataSource = new MatTableDataSource();
     this.getAgency() 
     this.getPortafoliosListAgency();
@@ -238,8 +240,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.portafolios.unshift(portafolio);
-        this.subject$.next(this.portafolios);
+        this.getPortafoliosListAgency();
       }
     });
   }
@@ -334,11 +335,11 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.subject$.next(this.portafolios);
   }
   onChangeClient(x){
-    console.log(x)
+   //console.log(x)
     let client_id=x.value;
     this.getPortafoliosList(client_id)
   }
   upload(id){
-    this.router.navigate(['/admin/map/'+id]);
+    this.router.navigate(['/admin/map/'+id+'/'+true]);
   }
 }

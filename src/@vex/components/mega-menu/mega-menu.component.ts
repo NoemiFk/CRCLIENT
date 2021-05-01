@@ -32,6 +32,11 @@ export class MegaMenuComponent implements OnInit {
       route: '/'
     },
     {
+      icon: icLayers,
+      label: 'Contratacón',
+      route: '/engagement'
+    },
+    {
       icon: icAssigment,
       label: 'AIO-Table',
       route: '/apps/aio-table'

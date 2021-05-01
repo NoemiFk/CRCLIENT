@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SegmentacionRoutingModule } from './segmentacion-routing.module';
-import { SegmentacionComponent } from './segmentacion.component';
+import { SegmentationRoutingModule } from './segmentation-routing.module';
+import { SegmentationComponent } from './segmentation.component';
 import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-layout.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
-import { SegmentacionCreateUpdateModule } from './segmentacion-create-update/segmentacion-create-update.module';
+import { SegmentationCreateUpdateModule } from './segmentation-create-update/segmentation-create-update.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -23,14 +23,14 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 @NgModule({
-  declarations: [SegmentacionComponent],
+  declarations: [SegmentationComponent],
   imports: [
     CommonModule,
-    SegmentacionRoutingModule,
+    SegmentationRoutingModule,
     PageLayoutModule,
     FlexLayoutModule,
     BreadcrumbsModule,
-    SegmentacionCreateUpdateModule,
+    SegmentationCreateUpdateModule,
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,
@@ -47,5 +47,5 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatButtonToggleModule
   ]
 })
-export class SegmentacionModule {
+export class SegmentationModule {
 }

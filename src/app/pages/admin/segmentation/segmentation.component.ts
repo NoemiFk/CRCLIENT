@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Customer } from './interfaces/segmentacion.model';
+import { Customer } from './interfaces/segmentation.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
-import { SegmentacionCreateUpdateComponent } from './segmentacion-create-update/segmentacion-create-update.component';
+import { SegmentationCreateUpdateComponent } from './segmentation-create-update/segmentation-create-update.component';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
@@ -30,9 +30,9 @@ import icMap from '@iconify/icons-ic/twotone-map';
 
 @UntilDestroy()
 @Component({
-  selector: 'vex-segmentacion',
-  templateUrl: './segmentacion.component.html',
-  styleUrls: ['./segmentacion.component.scss'],
+  selector: 'vex-segmentation',
+  templateUrl: './segmentation.component.html',
+  styleUrls: ['./segmentation.component.scss'],
   animations: [
     fadeInUp400ms,
     stagger40ms
@@ -46,7 +46,7 @@ import icMap from '@iconify/icons-ic/twotone-map';
     }
   ]
 })
-export class SegmentacionComponent implements OnInit, AfterViewInit {
+export class SegmentationComponent implements OnInit, AfterViewInit {
 
   layoutCtrl = new FormControl('boxed');
 
@@ -116,13 +116,13 @@ export class SegmentacionComponent implements OnInit, AfterViewInit {
       this.subject$.next(customers);
     });
 
-    this.dataSource = new MatTableDataSource();
+    //this.dataSource = new MatTableDataSource();
 
     this.data$.pipe(
       filter<Customer[]>(Boolean)
     ).subscribe(customers => {
       this.customers = customers;
-      this.dataSource.data = customers;
+      this.dataSource.data = [];
     });
 
     this.searchCtrl.valueChanges.pipe(
@@ -136,7 +136,7 @@ export class SegmentacionComponent implements OnInit, AfterViewInit {
   }
 
   createCustomer() {
-    this.dialog.open(SegmentacionCreateUpdateComponent).afterClosed().subscribe((customer: Customer) => {
+    this.dialog.open(SegmentationCreateUpdateComponent).afterClosed().subscribe((customer: Customer) => {
       /**
        * Customer is the updated customer (if the user pressed Save - otherwise it's null)
        */
@@ -152,7 +152,7 @@ export class SegmentacionComponent implements OnInit, AfterViewInit {
   }
 
   updateCustomer(customer: Customer) {
-    this.dialog.open(SegmentacionCreateUpdateComponent, {
+    this.dialog.open(SegmentationCreateUpdateComponent, {
       data: customer
     }).afterClosed().subscribe(updatedCustomer => {
       /**

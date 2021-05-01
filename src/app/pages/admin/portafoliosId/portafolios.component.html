@@ -112,11 +112,40 @@
           </td>
         </ng-container>
 
+         <!-- Boolean Columns -->
+         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'boolean'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+              <div class="flex">
+                <a  *ngIf="row[column.property]==true" 
+                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-green bg-green-light"
+                  mat-stroked-button>
+                  {{ row[column.property]==true?"Cargado":"Sin Datos"}}
+                </a>
+                <a   *ngIf="row[column.property]==false" 
+                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-red bg-red-light"
+                  mat-stroked-button>
+                  {{ row[column.property]==true?"Cargado":"Sin Datos"}}
+                </a>
+              </div>
+             
+            </td>
+          </ng-container>
+        </ng-container>
+
         <!-- Text Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+          </ng-container>
+        </ng-container>
+        <!-- Date Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] | date}}</td>
           </ng-container>
         </ng-container>
 
@@ -236,8 +265,8 @@
       <mat-icon [icIcon]="icDelete"></mat-icon>
       <span>Eliminar</span>
     </button>
-    <button (click)="upload(customer._id)" mat-menu-item>
-      <mat-icon [icIcon]="icDelete"></mat-icon>
+    <button (click)="upload(customer._id,customer.map)" mat-menu-item>
+      <mat-icon [icIcon]="icEdit"></mat-icon>
       <span>Cargar Archivo</span>
     </button>
   </ng-template>

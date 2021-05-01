@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { VexRoutes } from '../../../../@vex/interfaces/vex-route.interface';
-import { SegmentacionComponent } from './segmentacion.component';
+import { SegmentationComponent } from './segmentation.component';
 
 
 const routes: VexRoutes = [
   {
     path: '',
-    component: SegmentacionComponent,
+    component: SegmentationComponent,
     data: {
       toolbarShadowEnabled: true
     }
@@ -18,5 +18,5 @@ const routes: VexRoutes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SegmentacionRoutingModule {
+export class SegmentationRoutingModule {
 }

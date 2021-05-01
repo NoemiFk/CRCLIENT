@@ -1,0 +1,41 @@
+<div>
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <h2 class="headline m-0"
+        fxFlex="auto">¡Bienvenido!</h2>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+   
+    <div class="text-center"style="padding: 20px 60px;" *ngIf="agency&&agency.contract.type=='test'"> 
+      <h2>Hola.</h2>
+      <h3>
+      <br>
+       Bienvenido a nuestra palaforma de cobranza <b>Collection Robot</b>, estamos felices de tenerte aquí
+      <br>
+      y esperamos que disfrutes tu periodo de prueba, dentro de la plataforma podrás realizar 
+      <br>
+      diferentes actividades, que ayudaran a llevar a tu financiera a otro nivel.
+    </h3>
+  </div>
+  <div class="text-center"style="padding: 20px 60px;" *ngIf="agency&&agency.contract.type=='pay'"> 
+    <h2>Hola.</h2>
+    <h3>
+    <br>
+     Bienvenido a nuestra palaforma de cobranza <b>Collection Robot</b>, estamos felices de tenerte aquí
+    <br>
+    y esperamos que disfrutes tu plan, dentro de la plataforma podrás realizar 
+    <br>
+    diferentes actividades, que ayudaran a llevar a tu financiera/Agencia a otro nivel.
+  </h3>
+  <h4>Te recordamos que tendrás 10 días naturales para  
+    generar la factura y realizar el pago.</h4>
+</div>
+    
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button color="warn" mat-button (click)="save()">ACEPTAR</button>
+  </mat-dialog-actions>
+</div>

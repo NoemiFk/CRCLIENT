@@ -21,20 +21,23 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content fxLayout="column">
-    <mat-form-field class="flex-auto" >
-      <mat-label>Financiera</mat-label>
-      <input formControlName="name" matInput>
+    <div class="flex flex-col sm:flex-row">
 
-      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
+      <mat-form-field class="flex-auto mt-6 " >
+        <mat-label>Nombre Cliente </mat-label>
+        <input formControlName="name" matInput>
+  
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
     <mat-form-field class="flex-auto" >
-      <mat-label>Nombre del Cliente</mat-label>
+      <mat-label>Nombre contacto Cliente</mat-label>
       <input formControlName="nameClient" matInput>
 
       <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
     </mat-form-field>
     <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="mt-6 flex-auto">
+      <!--mat-form-field class="flex-auto">
         <mat-label>Tipo</mat-label>
           
           <select matNativeControl name="type"  formControlName="type">
@@ -44,9 +47,9 @@
           </select>
 
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
+      </mat-form-field-->
 
-      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
+      <mat-form-field class="flex-auto">
         <mat-label>RFC</mat-label>
         <input cdkFocusInitial formControlName="RFC" matInput>
 

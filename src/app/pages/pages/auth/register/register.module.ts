@@ -11,14 +11,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IconModule } from '@visurel/iconify-angular';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [RegisterComponent],
   imports: [
     CommonModule,
+    MatSelectModule,
     RegisterRoutingModule,
     FlexLayoutModule,
+    MatSnackBarModule,
     ReactiveFormsModule,
     MatInputModule,
     MatIconModule,

@@ -53,7 +53,7 @@ export class MapCreateUpdateComponent implements OnInit {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+         //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -66,7 +66,7 @@ export class MapCreateUpdateComponent implements OnInit {
   
   ngOnInit() {
     this.getCustomersList()
-    console.log("-------!!!!",this.defaults)
+   //console.log("-------!!!!",this.defaults)
     this.datos=this.defaults.datos;
     this.createDS(this.datos)
     if (this.defaults) {
@@ -97,7 +97,7 @@ export class MapCreateUpdateComponent implements OnInit {
       this.dataR.push(obj)
       this.dataE.push(obj)
     });
-    console.log(this.dataS)
+   //console.log(this.dataS)
   }
   addSeg(index){
     this.dataS[index].status=this.dataS[index].status?false:true
@@ -135,6 +135,7 @@ export class MapCreateUpdateComponent implements OnInit {
         "datos":this.datos
   
     }
+    console.log(body)
 
     this.create(body)
   }
@@ -143,7 +144,7 @@ export class MapCreateUpdateComponent implements OnInit {
       .subscribe(
           data => {
             if(data.success){
-              console.log(data.data)
+             console.log(data.data)
               this.dialogRef.close(true);
             }
           },

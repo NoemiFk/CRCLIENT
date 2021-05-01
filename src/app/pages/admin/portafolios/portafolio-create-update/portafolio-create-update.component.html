@@ -17,7 +17,7 @@
   <mat-dialog-content fxLayout="column">
     <div class="flex flex-col sm:flex-row">
 
-      <mat-form-field class="mt-6 flex-auto" >
+      <mat-form-field class="flex-auto mt-6" >
         <mat-label>Selecciona</mat-label>
         <mat-select matNativeControl name="client_id"  formControlName="client_id">
           <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
@@ -30,17 +30,6 @@
       <mat-form-field class="flex-auto">
         <mat-label>Nombre</mat-label>
         <input cdkFocusInitial formControlName="name_portafolio" matInput>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
-      <mat-form-field class=" sm:ml-6 flex-auto">
-        <mat-label>Tipo</mat-label>
-          
-          <select matNativeControl name="type"  formControlName="type">
-            <option value="no">Seleccione uno...</option>
-            <option value="Financiera">Financiera</option>
-            <option value="Proveerdor de Cobranza">Proveerdor de Cobranza</option>
-          </select>
 
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
