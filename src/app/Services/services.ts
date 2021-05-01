@@ -4,8 +4,8 @@ import { HttpClientModule, /* other http imports */ } from "@angular/common/http
 import { Observable } from 'rxjs/Observable';
 export type ResponseType = 'arraybuffer' | 'blob' | 'json' | 'text';;
 import 'rxjs/add/operator/map'
-const URL="http://localhost:3002"
-//const URL="http://54.200.250.80:3002"
+//const URL="http://localhost:3002"
+const URL="http://54.200.250.80:3002"
 const httpOptions = {
     headers: new HttpHeaders({
       'Authorization': 'my-auth-token',

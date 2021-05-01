@@ -15,6 +15,7 @@
         <mat-button-toggle value="boxed">BOXED</mat-button-toggle>
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
+      <h1>Administración de los Portafolios en gestión</h1>
     </div>
   </vex-page-layout-header>
 
@@ -25,7 +26,7 @@
     <div class="card overflow-auto -mt-16">
       <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-          <span *ngIf="selection.isEmpty()">Portafolio</span>
+          <span *ngIf="selection.isEmpty()">Selecciona Portafolio</span>
           <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
             Portafolio<span *ngIf="selection.selected.length > 1">s</span> seleccionados</span>
         </h2>
