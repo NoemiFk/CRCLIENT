@@ -6,6 +6,7 @@ import { DashboardAnalyticsComponent } from './dashboard-analytics.component';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { WelcomeModule } from './welcome/welcome.module';
+import { NoticeModule } from './notice/notice.module';
 import { CustomerUpdateModel } from './customer-update/customer-update.module';
 import { CustomerFactModel } from './customer-fact/customer-update.module';
 
@@ -48,6 +49,7 @@ import { ContainerModule } from '../../../../@vex/directives/container/container
     PageLayoutModule,
     ContainerModule,
     WelcomeModule,
+    NoticeModule,
     CustomerUpdateModel,
     CustomerFactModel
   ]

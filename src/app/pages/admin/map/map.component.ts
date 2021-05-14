@@ -5,6 +5,7 @@ import { Customer } from './interfaces/map.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
@@ -94,7 +95,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   portafolio_id = this.route.snapshot.params.id;
   isNew = this.route.snapshot.params.isNew;
 
-  constructor(private dialog: MatDialog, private Services: Services,private route:ActivatedRoute, private snackbar: MatSnackBar,) {
+  constructor(private dialog: MatDialog, private Services: Services,private route:ActivatedRoute, private snackbar: MatSnackBar,private router: Router) {
   }
 
   get visibleColumns() {
@@ -126,8 +127,8 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.subject$.next(customers);
     });
     if(this.isNew=="false"){
-     //console.log("Es False")
-      this.getMap();
+     console.log("Es False")
+      this.getMap(this.portafolio_id);
     }
 
     this.dataSource = new MatTableDataSource();
@@ -215,12 +216,14 @@ export class MapComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  getMap(){
+  created='';
+  update='';
+  getDataMap(){
     this.Services.getDataMap(this.portafolio_id)
     .subscribe(
         data => {
           if(data.success){
-           //console.log(data.data)
+           console.log(data.data.length)
             this.dataSourceUpload=data.data;
             if(this.dataSourceUpload.length){
       let keys=[];
@@ -265,6 +268,23 @@ export class MapComponent implements OnInit, AfterViewInit {
           //this.error=true
         });
   }
+  getMap(id){
+    this.Services.getMap(id)
+    .subscribe(
+        data => {
+          console.log("Hola ", data)
+          if(data.success){
+            console.log(data.data)
+            this.created=data.data.created;
+            this.update=data.data.update;
+            //this.map=data.data;
+            this.getDataMap()
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
   load(){
     let body={
       "cart":this.jsonData.Datos,
@@ -286,6 +306,23 @@ export class MapComponent implements OnInit, AfterViewInit {
         this.subject$.next(this.customers);
       }
     });
+  }
+  updateDataMapeo(){
+
+      //console.log("CREAR Mapa", this.portafolio_id)
+   
+       this.Services.updateRegister(this.jsDatos,this.portafolio_id)
+       .subscribe(
+           data => {
+             if(data.success){
+              this.router.navigate(['/admin/portafolios']);
+              //console.log(data.data)
+               //this.info=data.data
+             }
+           },
+           error => {
+             //this.error=true
+           });
   }
   
   updateCustomer(customer: Customer) {
@@ -490,6 +527,7 @@ export class MapComponent implements OnInit, AfterViewInit {
             this.dataSourceUpload=this.jsonData.Datos
            //console.log(this.dataSourceUpload)
             this.uploadActive=false
+            this.router.navigate(['/admin/portafolios']);
           }
         },
         error => {

@@ -8,6 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
 import { PortafolioCreateUpdateModule } from './portafolio-create-update/portafolio-create-update.module';
 import { PortafolioDeleteModule } from './portafolio-delete/portafolio-delete.module';
+import { MapUpdateModule } from './mapeo-update/mapeo-update.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -39,6 +40,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    MapUpdateModule,
     IconModule,
     FormsModule,
     MatTooltipModule,

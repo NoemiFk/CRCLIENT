@@ -15,6 +15,8 @@ import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
+import icUpload from '@iconify/icons-ic/file-upload';
+import icload from '@iconify/icons-ic/update';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
@@ -30,7 +32,7 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
 import { Router } from '@angular/router';
 import {Services} from '../../../Services/services'
-
+import { MapUpdateComponent } from './mapeo-update/mapeo-update.component';
 
 @UntilDestroy()
 @Component({
@@ -92,6 +94,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icAdd = icAdd;
+  icUpload=icUpload;
+  icload=icload;
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
@@ -135,22 +139,41 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           //this.error=true
         });
   }
-  getAgency() {
+  custmer={
+    name:""
+  }
+  getClient() {
    //console.log("Clientt",this.client.agency_id)
-    this.Services.getAgency(this.client.agency_id)
+    this.Services.getCustomer(this.client_id)
     .subscribe(
         data => {
           if(data.success){
-            this.agency=data.data
-           //console.log("----",this.agency)
+            this.custmer=data.data
+           console.log("----",this.custmer)
             //this.agency_id=data.data._id;
-            this.getPortafoliosListAgency()
+            
           }
         },
         error => {
           //this.error=true
         });
   }
+  getAgency() {
+    //console.log("Clientt",this.client.agency_id)
+     this.Services.getAgency(this.client.agency_id)
+     .subscribe(
+         data => {
+           if(data.success){
+             this.agency=data.data
+            //console.log("----",this.agency)
+             //this.agency_id=data.data._id;
+             this.getPortafoliosListAgency()
+           }
+         },
+         error => {
+           //this.error=true
+         });
+   }
   getPortafoliosListAgency() {
    //console.log("Agency   ------", this.client.agency_id)
     this.Services.getPortafoliosListAgency(this.client.agency_id)
@@ -222,6 +245,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   ngOnInit() {
    //console.log("PARAMS----",this.client_id)
    //console.log("Clientt",this.client)
+   this.getClient();
     this.dataSource = new MatTableDataSource();
     //this.getAgency() 
     this.getPortafoliosList(this.client_id);
@@ -346,10 +370,31 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     let client_id=x.value;
     this.getPortafoliosList(client_id)
   }
-  upload(id,map){
-  if(map)
-    this.router.navigate(['/admin/map/'+id+'/'+false]);
-    else
+  create(id){
     this.router.navigate(['/admin/map/'+id+'/'+true]);
+  }
+  upload(id){
+    this.router.navigate(['/admin/map/'+id+'/'+false]);
+  }
+  uploadMap(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(MapUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
   }
 }

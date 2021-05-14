@@ -23,7 +23,7 @@
       <mat-form-field class="flex-auto mt-6" >
         <mat-label>Selecciona Cliente</mat-label>
         <mat-select matNativeControl name="client_id"  formControlName="client_id" (selectionChange)="changeCliente($event)" >
-          <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
+          <mat-option [value]="option" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
         </mat-select>
   
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
@@ -31,10 +31,10 @@
     </div>
     <div class="flex flex-col sm:flex-row">
 
-      <mat-form-field class="flex-auto mt-6" >
+      <mat-form-field class="flex-auto " >
         <mat-label>Selecciona Portafolio</mat-label>
         <mat-select matNativeControl name="portafolio_id"  formControlName="portafolio_id" (selectionChange)="changePortafolio($event)" >
-          <mat-option [value]="option._id" *ngFor="let option of PortafoliosList;">{{option.name_portafolio}}</mat-option>
+          <mat-option [value]="option" *ngFor="let option of PortafoliosList;">{{option.name_portafolio}}</mat-option>
         </mat-select>
   
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
@@ -48,12 +48,43 @@
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
     </div>
-
-
     <mat-form-field class="flex-auto">
       <mat-label>Descripción</mat-label>
       <textarea formControlName="description" matInput></textarea>
     </mat-form-field>
+    <div>
+      <h4><b>Informacion General</b></h4>
+      <p><b>Cliente: </b>{{portafolio.client||'Liverpool'}}</p>
+      <p><b>Portafolio: </b>{{portafolio.name_portafolio}}</p>
+      <p><b>Clientes: </b>{{portafolio.register}}</p>
+      <h4><b>Segmentación</b></h4>
+      
+    </div>
+    <div class="flex flex-col sm:flex-row text-center" *ngIf="datas.data.length">
+      <div class="flex-auto">
+        <b>{{datas.data[0]}}-{{datas.data[1]}}</b>
+        <p><b>33%</b></p>
+        <br>
+        <p>{{datas.lables[0]}} Registros</p>
+      </div>
+      <div class="flex-auto">
+        <b>{{datas.data[1]}}-{{datas.data[2]}}</b>
+        <p><b>33%</b></p>
+        <br>
+        <p>{{datas.lables[1]}} Registros</p>
+      </div>
+      <div class="flex-auto">
+        <b>{{datas.data[2]}}-{{datas.data[3]}}</b>
+        <p><b>33%</b></p>
+        <br>
+        <p>{{datas.lables[2]}} Registros</p>
+      </div>
+      <div class="flex-auto">
+        <b>Sin Información</b>
+        <br>
+        <p>{{ portafolio.register-datas.lables[0]-datas.lables[1]-datas.lables[2]}} Registros</p>
+      </div>
+    </div>
 
     
     <div class="flex flex-col sm:flex-row">
@@ -68,32 +99,129 @@
     
           <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
-        <button (click)="analizar()" color="primary" mat-button >AGREGAR</button>
-        <mat-form-field>
+        <a (click)="analizar()" color="primary" mat-button >SEGMENTAR</a>
+        <br>
+        <div class="flex flex-col sm:flex-row">
+          <mat-form-field class="flex-auto">
             <mat-label>Rango A</mat-label>
             <input cdkFocusInitial formControlName="rango1A" matInput>
     
             <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+          </mat-form-field>
+          <mat-form-field class="flex-auto">
+            <mat-label>Rango B</mat-label>
+            <input cdkFocusInitial formControlName="rango1B" matInput>
+    
+            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>Rango B</mat-label>
-          <input cdkFocusInitial formControlName="rango1B" matInput>
-  
-          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
-      </div>
-      <div class="flex-auto mt-6">
+        </div>
 
-        <vex-chart [options]="options" [series]="salesSeries"></vex-chart>
+       
+      <a (click)="guardar1()" color="primary" mat-button >AGREGAR</a>
+        <br>
+        <div *ngIf="info!=0">
+          <p>Datos segmentados:{{info}}</p>
+          <p>Datos segmentados:{{(100/total) * info}} %</p>
+          <p>Datos Libres:{{total-info}}</p>
+        </div>
+      </div>
+      <div class="flex-auto mt-6" style="width: 850px;">
+        <div *ngIf="!chart">
+           No hay Datos
+        </div>
+        <vex-chart [options]="options" *ngIf="chart" [series]="salesSeries"></vex-chart>
       </div>
     </div>
+    <a (click)="openCriterio2=true" color="primary" mat-button >AGREGAR NUERVO CRITERIO</a>
+<!--button (click)="openCriterio2=true"></button-->
+<div *ngIf="openCriterio2">
+
+<div >
+  <h4><b>Informacion General</b></h4>
+  <p><b>Cliente: </b>{{portafolio.client ||'Liverpool'}}</p>
+  <p><b>Portafolio: </b>{{portafolio.name_portafolio}}</p>
+  <p><b>Clientes: </b>{{info}}</p>
+  <h4><b>Segmentación</b></h4>
+  
+</div>
+<div class="flex flex-col sm:flex-row text-center" *ngIf="datas2.data.length">
+  <div class="flex-auto">
+    <b>{{datas2.data[0]}}-{{datas2.data[1]}}</b>
+    <p><b>33%</b></p>
+    <br>
+    <p>{{datas2.lables[0]}} Registros</p>
+  </div>
+  <div class="flex-auto">
+    <b>{{datas2.data[1]}}-{{datas2.data[2]}}</b>
+    <p><b>33%</b></p>
+    <br>
+    <p>{{datas2.lables[1]}} Registros</p>
+  </div>
+  <div class="flex-auto">
+    <b>{{datas2.data[2]}}-{{datas2.data[3]}}</b>
+    <p><b>33%</b></p>
+    <br>
+    <p>{{datas2.lables[2]}} Registros</p>
+  </div>
+  <div class="flex-auto">
+    <b>Sin Información</b>
+    <br>
+    <p> 0 Registros</p>
+  </div>
+</div>
+<div class="flex flex-col sm:flex-row">
+
+  <div class=" flex flex-col mt-6">
+
+    <mat-form-field>
+      <mat-label>Selecciona Criterio</mat-label>
+      <mat-select matNativeControl name="criterio2"  formControlName="criterio2">
+        <mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option>
+      </mat-select>
+
+      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+    </mat-form-field>
+    <a (click)="analizar2()" color="primary" mat-button >SEGMENTAR</a>
+    <br>
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
+        <mat-label>Rango A</mat-label>
+        <input cdkFocusInitial formControlName="rango2A" matInput>
+
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+      <mat-form-field class="flex-auto">
+        <mat-label>Rango B</mat-label>
+        <input cdkFocusInitial formControlName="rango2B" matInput>
+
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+    </mat-form-field>
+    </div>
+
+   
+  <a (click)="guardar1()" color="primary" mat-button >AGREGAR</a>
+    <br>
+    <div *ngIf="info!=0">
+      <p>Datos segmentados:{{info}}</p>
+      <p>Datos segmentados:{{(100/total) * info}} %</p>
+      <p>Datos Libres:{{total-info}}</p>
+    </div>
+  </div>
+  <div class="flex-auto mt-6" style="width: 850px;">
+    <div *ngIf="!chart2">
+       No hay Datos
+    </div>
+    <vex-chart [options]="options2" *ngIf="chart2" [series]="salesSeries2"></vex-chart>
+  </div>
+</div>
+</div>
     
   </mat-dialog-content>
 
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">CANCEL</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREATE CUSTOMER</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREAR SEGMENTACIÓN</button>
     <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">UPDATE CUSTOMER</button>
   </mat-dialog-actions>
 </form>

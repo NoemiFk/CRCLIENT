@@ -78,8 +78,60 @@ export class SegmentationCreateUpdateComponent implements OnInit {
       }
     }
   });
+  @Input() options2: ApexOptions = defaultChartOptions({
+    grid: {
+      show: true,
+      strokeDashArray: 3,
+      padding: {
+        left: 16
+      }
+    },
+    chart: {
+      type: 'area',
+      height: 384,
+      sparkline: {
+        enabled: false
+      },
+      zoom: {
+        enabled: false
+      }
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 0.9,
+        opacityFrom: 0.7,
+        opacityTo: 0.5,
+        stops: [0, 90, 100]
+      }
+    },
+    colors: ['#008ffb', '#ff9800'],
+    labels: [10, 40, 70, 100],//createDateArray(12),
+    xaxis: {
+      type: 'category',
+      labels: {
+        show: true
+      },
+    },
+    yaxis: {
+      labels: {
+        show: true
+      }
+    },
+    legend: {
+      show: true,
+      itemMargin: {
+        horizontal: 4,
+        vertical: 4
+      }
+    }
+  });
 
   salesSeries: ApexAxisChartSeries = [{
+    name: 'Clientes',
+    data: [10, 20, 10, 60]
+  }];
+  salesSeries2: ApexAxisChartSeries = [{
     name: 'Clientes',
     data: [10, 20, 10, 60]
   }];
@@ -95,6 +147,7 @@ export class SegmentationCreateUpdateComponent implements OnInit {
   icPrint = icPrint;
   icDownload = icDownload;
   icDelete = icDelete;
+  openCriterio2=false
 
   icPerson = icPerson;
   icMyLocation = icMyLocation;
@@ -128,19 +181,77 @@ export class SegmentationCreateUpdateComponent implements OnInit {
       criterio1: [this.defaults.criterio1 || ''],
       rango1A: [this.defaults.rango1A || ''],
       rango1B: [this.defaults.rango1B || ''],
+      criterio2: [this.defaults.criterio1 || ''],
+      rango2A: [this.defaults.rango1A || ''],
+      rango2B: [this.defaults.rango1B || ''],
     });
   }
+  chart=false
+  chart2=false
+  datas={
+    data:[],
+    lables:[]
+  }
+  datas2={
+    data:[],
+    lables:[]
+  }
   analizar(){
+    this.chart=false;
     const segmentacion = this.form.value;
-    console.log(segmentacion.criterio1)
-    this.Services.getASegmentacion(segmentacion.criterio1,segmentacion.portafolio_id)
+    console.log(segmentacion.criterio1, segmentacion.portafolio_id)
+    this.Services.getASegmentacion(segmentacion.criterio1,segmentacion.portafolio_id._id)
       .subscribe(
           data => {
             console.log("Hola ", data)
             if(data.success){
-              this.segmentacion=data.data.segmentation
-             // this.CustomersList=data.data
-              
+               console.log(this.salesSeries[0].data)
+               console.log(this.options.labels)
+               console.log(data.data)
+               this.options.labels=data.data.labelsGraph
+               this.salesSeries[0].data=data.data.dataGraph
+               this.datas=data.data
+               this.chart=true
+            }
+          },
+          error => {
+            //this.error=true
+          });
+  }
+  analizar2(){
+    this.chart2=false;
+    const segmentacion = this.form.value;
+    console.log(segmentacion.criterio1, segmentacion.portafolio_id)
+    this.Services.getASegmentacion2(segmentacion.criterio2,segmentacion.criterio1,segmentacion.portafolio_id._id,segmentacion.rango1A, segmentacion.rango1B)
+      .subscribe(
+          data => {
+            console.log("Hola ", data)
+            if(data.success){
+               console.log(this.salesSeries2[0].data)
+               console.log(this.options.labels)
+               console.log(data.data)
+               this.options2.labels=data.data.labelsGraph
+               this.salesSeries2[0].data=data.data.dataGraph
+               this.datas2=data.data
+               this.chart2=true
+            }
+          },
+          error => {
+            //this.error=true
+          });
+  }
+  info=0
+  guardar1(){
+    const segmentacion = this.form.value;
+    console.log(segmentacion.criterio1)
+    this.Services.getASR(segmentacion.criterio1,segmentacion.portafolio_id._id, segmentacion.rango1A, segmentacion.rango1B)
+      .subscribe(
+          data => {
+            console.log("Hola ", data)
+            if(data.success){
+               console.log(data.data)
+               this.info=data.data;
+               
             }
           },
           error => {
@@ -194,13 +305,23 @@ export class SegmentationCreateUpdateComponent implements OnInit {
              //this.error=true
            });
      }
+     cliente={}
     changeCliente(change: MatSelectChange,){
        console.log(change)
-      this.getPortafoliosList(change.value)
+      this.portafolio.client=change.value.name
+      this.getPortafoliosList(change.value._id)
+    }
+    total=0
+    portafolio={
+      client:'',
+      name_portafolio:'',
+      register:0
     }
     changePortafolio(change: MatSelectChange,){
-      console.log(change)
-     this.getMap(change.value)
+      console.log(change.value._id)
+      this.portafolio=change.value;
+      this.total=change.value.register;
+     this.getMap(change.value._id)
    }
   save() {
     if (this.mode === 'create') {

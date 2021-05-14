@@ -54,12 +54,12 @@ export class RegisterComponent implements OnInit {
           });
           return;
     }
-    if(user.email.includes('hotmail')||user.email.includes('gmail')||user.email.includes('outlook')){
+   /* if(user.email.includes('hotmail')||user.email.includes('gmail')||user.email.includes('outlook')){
       this.snackbar.open("Error: Ingresa un email corporativo", 'OK', {
         duration: 10000
       });
       return;
-    }
+    }*/
     let body={
       name: user.name,
       nameAgency: user.nameAgency,

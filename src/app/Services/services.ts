@@ -52,6 +52,14 @@ export class Services {
               return resp;
           });
     }
+    getCustomer(id:string) {
+        return this.http.get<any>(URL+'/client/'+id)
+            .map(resp => {
+            
+               //console.log("getAgency",resp)
+                return resp;
+            });
+      }
     getAgency(id:string) {
       return this.http.get<any>(URL+'/agency/'+id)
           .map(resp => {
@@ -116,6 +124,14 @@ export class Services {
               return resp;
           });
     }
+    updateMap(body:object, id: string) {
+        return this.http.put<any>(URL+'/map/'+id,body)
+            .map(resp => {
+            
+               //console.log("createMap",resp)
+                return resp;
+            });
+      }
     getDataMap(id:string) {
         return this.http.get<any>(URL+'/map/data/'+id)
             .map(resp => {
@@ -140,6 +156,22 @@ export class Services {
             return resp;
         });
     }
+    getASegmentacion2(criterio2:string,criterio:string,id:string,rango1:string, rango2:string) {
+        return this.http.get<any>(URL+'/map/s2/'+id+'/'+criterio2+'/'+criterio+'/'+rango1+'/'+rango2)
+            .map(resp => {
+            
+                //console.log("getMap",resp)
+                return resp;
+            });
+        }
+    getASR(criterio:string,id:string, rango1:string, rango2:string) {
+        return this.http.get<any>(URL+'/map/'+id+'/'+criterio+'/'+rango1+'/'+rango2)
+            .map(resp => {
+            
+                //console.log("getMap",resp)
+                return resp;
+            });
+        }
     createRegister(body:object, id:string) {
       return this.http.post<any>(URL+'/map/'+id,body)
           .map(resp => {
@@ -149,7 +181,7 @@ export class Services {
           });
     }
     updateRegister(body:object, id:string) {
-      return this.http.put<any>(URL+'/map/'+id,body)
+      return this.http.put<any>(URL+'/map/data/'+id,body)
           .map(resp => {
           
              //console.log("createRegister",resp)

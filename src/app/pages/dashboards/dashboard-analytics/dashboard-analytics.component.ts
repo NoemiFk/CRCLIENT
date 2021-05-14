@@ -8,6 +8,7 @@ import { Order, tableSalesData } from '../../../../static-data/table-sales-data'
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { NoticeComponent } from './notice/notice.component';
 import { CustomerUpdateComponent } from './customer-update/customer-update.component'
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerUpdateModel } from './customer-update/customer-update.module';
@@ -141,6 +142,18 @@ export class DashboardAnalyticsComponent implements OnInit {
           }
         });*/
       }
+    });
+  }
+  noticeCustomer() {
+    console.log("entrando")
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(NoticeComponent, {
+    }).afterClosed().subscribe(notice => {
+      
     });
   }
   getAgency(agency) {

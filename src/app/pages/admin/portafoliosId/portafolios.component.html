@@ -1,4 +1,4 @@
-<vex-page-layout>
+<vex-page-layout >
   <vex-page-layout-header class="pb-16" fxLayout="column" fxLayoutAlign="center start">
     <div [class.container]="layoutCtrl.value === 'boxed'"
          [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
@@ -14,6 +14,11 @@
         <mat-button-toggle value="boxed">BOXED</mat-button-toggle>
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
+      <div>
+        <h2>-Portafolios - {{custmer.name}}</h2>
+        <h4>Administración de los Portafolios en gestión</h4>
+      </div>
+      <h1></h1>
     </div>
   </vex-page-layout-header>
 
@@ -65,7 +70,7 @@
                 class="ml-4"
                 fxFlex="none"
                 mat-icon-button
-                matTooltip="Filter Columns"
+                matTooltip="Filtrar Columnas"
                 type="button">
           <mat-icon [icIcon]="icFilterList"></mat-icon>
         </button>
@@ -217,7 +222,7 @@
           </td>
         </ng-container>
 
-        <!-- Action Column -->
+        <!-- Action Column >
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
@@ -228,6 +233,76 @@
                     type="button">
               <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
             </button>
+          </td>
+        </ng-container-->
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+          <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+            <div class="flex">
+
+             
+              <a (click)="$event.stopPropagation(); create(row._id)" *ngIf="!row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Subir Portafolio">
+              <mat-icon [icIcon]="icUpload" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); upload(row._id)" *ngIf="row.register" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar portafolio">
+              <mat-icon [icIcon]="icload" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); uploadMap(row)" *ngIf="row.map" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar mapeo">
+              <mat-icon [icIcon]="icMap" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); updatePortafolio(row)" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Editar">
+             <mat-icon [icIcon]="icEdit" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); deletePortafolio(row)" 
+                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                mat-icon-button matTooltip="Eliminar">
+                <mat-icon [icIcon]="icDelete" size="18px"></mat-icon>
+              </a>
+            </div>
+            <!--div class="flex">
+
+             
+              <a (click)="upload(row._id, true)" *ngIf="!row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Subir Portafolio">
+              <mat-icon [icIcon]="icUpload" size="18px"></mat-icon>
+              </a>
+              <!--a (click)="upload(row._id)" *ngIf="row.register" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar portafolio">
+              <mat-icon [icIcon]="icload" size="18px"></mat-icon>
+              </a>
+              <a (click)="upload(row._id)" *ngIf="row.map" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar mapeo">
+              <mat-icon [icIcon]="icMap" size="18px"></mat-icon>
+              </a>
+              <a (click)="updatePortafolio(row)" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Editar">
+             <mat-icon [icIcon]="icEdit" size="18px"></mat-icon>
+              </a>
+              <a (click)="deletePortafolio(row)" 
+                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                mat-icon-button matTooltip="Eliminar">
+                <mat-icon [icIcon]="icDelete" size="18px"></mat-icon>
+              </a>
+            </div-->
+            <!--button (click)="$event.stopPropagation()"
+                    [matMenuTriggerData]="{ customer: row }"
+                    [matMenuTriggerFor]="actionsMenu"
+                    mat-icon-button
+                    type="button">
+              <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
+            </button-->
           </td>
         </ng-container>
 
@@ -265,7 +340,7 @@
       <mat-icon [icIcon]="icDelete"></mat-icon>
       <span>Eliminar</span>
     </button>
-    <button (click)="upload(customer._id,customer.map)" mat-menu-item>
+    <button (click)="upload(customer._id)" mat-menu-item>
       <mat-icon [icIcon]="icEdit"></mat-icon>
       <span>Cargar Archivo</span>
     </button>

@@ -10,11 +10,14 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { PortafolioCreateUpdateComponent } from './portafolio-create-update/portafolio-create-update.component';
 import { PortafolioDeleteComponent } from './portafolio-delete/portafolio-delete.component';
+import { MapUpdateComponent } from './mapeo-update/mapeo-update.component';
 import { Router } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
+import icUpload from '@iconify/icons-ic/file-upload';
+import icload from '@iconify/icons-ic/update';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
@@ -92,6 +95,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icAdd = icAdd;
+  icUpload=icUpload;
+  icload=icload;
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
@@ -339,7 +344,31 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     let client_id=x.value;
     this.getPortafoliosList(client_id)
   }
-  upload(id){
+  create(id){
     this.router.navigate(['/admin/map/'+id+'/'+true]);
+  }
+  upload(id){
+    this.router.navigate(['/admin/map/'+id+'/'+false]);
+  }
+  uploadMap(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(MapUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
   }
 }

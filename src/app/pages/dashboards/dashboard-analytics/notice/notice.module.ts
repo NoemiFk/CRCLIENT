@@ -8,20 +8,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { CustomerCreateUpdateComponent } from './customer-create-update.component';
+import { NoticeComponent } from './notice.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
     MatDatepickerModule,
     MatNativeDateModule,
     CommonModule,
-    MatTabsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MatDialogModule,
@@ -34,9 +32,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     IconModule,
     MatDividerModule
   ],
-  declarations: [CustomerCreateUpdateComponent],
-  entryComponents: [CustomerCreateUpdateComponent],
-  exports: [CustomerCreateUpdateComponent]
+  declarations: [NoticeComponent],
+  entryComponents: [NoticeComponent],
+  exports: [NoticeComponent]
 })
-export class CustomerCreateUpdateModule {
+export class NoticeModule {
 }

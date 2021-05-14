@@ -72,6 +72,19 @@ export class ToolbarComponent implements OnInit {
     
     if(this.plan && this.agency.contract.type=='test')
     this.calculate()
+    if(this.days>=1) this.noticeCustomer()
+  }
+  noticeCustomer() {
+    console.log("entrando")
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    /*this.dialog.open(NoticeComponent, {
+    }).afterClosed().subscribe(notice => {
+      
+    });*/
   }
   calculate(){
     let dateRegister= new Date(this.client.created);
