@@ -40,7 +40,11 @@
             </mat-step>
             <mat-step label="Vista Previa" state="chat">
               <br>
-              <p>Visualizar aquí los datos cargados.</p>
+              
+              <div class="w-full flex justify-between">
+                <p>Visualizar aquí los datos cargados.</p>
+                <button mat-button color="primary" matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
+              </div>
               <br>
               <div class="card overflow-auto" style="max-height: 500px;">
                 <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
@@ -126,7 +130,25 @@
             <mat-step label="Mapeo" >
 
               <br>
-              <p>Selecciona en la SIGUIENTE tabla los datos que desees utilizar en los SIGUIENTEs procesos de Collections Robot.</p>
+              <div class="w-full flex justify-between">
+                <p>Selecciona en la SIGUIENTE tabla los datos que desees utilizar en los SIGUIENTES procesos de Collections Robot.</p>
+                <button mat-button color="primary" matStepperNext (click)="create()">GUARDAR MAPEO</button>
+              </div>
+              <div>
+                <h4><b>SEGURIDAD</b></h4>
+                <p>Seleccione el elemento que se utilizara para accesar a portal del usuario</p>
+                <mat-form-field >
+                  <mat-label>Selecciona dato</mat-label>
+                  <mat-select  name="criterio1" [(ngModel)]="portal" >
+                    <mat-option *ngFor="let op of map" [value]="op"  >
+                      {{op.datos}}
+                    </mat-option>
+                    <!--mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option-->
+                  </mat-select>
+            
+                  <mat-icon [icIcon]="icEdit" class="mr-3" matPrefix></mat-icon>
+                </mat-form-field>
+              </div>
               <br>
               <div class="card overflow-auto" style="max-height: 500px;">
                 <div class="my-12 container"

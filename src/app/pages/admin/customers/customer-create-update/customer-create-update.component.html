@@ -23,11 +23,20 @@
   <mat-dialog-content fxLayout="column">
     <div fxLayout="row">
       
-      <div class="p-5">
+      <div class="p-5 ">
         <img
-        class="avatar h-40 w-40 flex-none align-start hidden sm:block border-3 border-white"
+        class="avatar h-40 w-40 m-auto flex-none align-start hidden sm:block border-3 border-white"
         src="assets/img/avatars/1.jpg">
-          <input type="file" name="archivosubido">
+          <!--input type="file" name="archivosubido"-->
+        
+            <div class="fileControl-wrapper text-center">
+              <br>
+                <button mat-flat-button color="primary">Subir logo de  financiera</button>
+              <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
+                multiple="multiple" accept="image/*" />
+          
+            </div>
+          
       </div>
       <div>
         <div class="flex flex-col sm:flex-row">
@@ -40,7 +49,7 @@
           </mat-form-field>
         </div>
         <div class="flex flex-col sm:flex-row">
-          <mat-form-field class="sm:ml-6 flex-auto" >
+          <mat-form-field class=" flex-auto" >
             <mat-label>Nombre de contacto Financiera</mat-label>
             <input formControlName="nameClient" matInput>
       
@@ -67,7 +76,7 @@
     </div>
     <div>
       <mat-tab-group>
-        <mat-tab label="Seguridad"> 
+        <!--mat-tab label="Seguridad"> 
             <div class="p-5">
               <h3>Seguridad</h3>
               <p>Selecciona en método de acceso a tu cartera.</p>
@@ -84,25 +93,40 @@
                 </mat-form-field>
 
             </div>
-        </mat-tab>
+        </mat-tab-->
         <mat-tab label="Método de Pago"> 
           <div class="p-5">
             <h3>Método de Pago</h3>
             <p>Selecciona en método de pago a tu cartera.</p>
 
-            <div class="flex flex-col sm:flex-row w-1/2">
+            <div class="flex flex-col sm:flex-row ">
               <mat-form-field class="flex-auto">
                 <mat-label>Pago</mat-label>
                 
-                <mat-select matNativeControl name="type"  formControlName="state" multiple>
+                <mat-select matNativeControl name="type"  formControlName="pays"  (selectionChange)="selectPay($event)" multiple>
                   <mat-option value="Tranferencia">Tranferencia</mat-option>
                   <mat-option value="Tarjeta">Pago Tarjeta Débito/Crédito </mat-option>
                   <mat-option value="Oxxo">Pago Oxxo</mat-option>
                   <mat-option value="Deposito">Depósito</mat-option>
                   </mat-select>
                 </mat-form-field>
-                <div class="p-5">
-                  <p>Métodos seleccionados</p>
+                <div class="p-5 flex-auto">
+                  <h4>Métodos seleccionados</h4>
+                  <div class="flex flex-col sm:flex-row " *ngFor="let item of pay">
+                    <mat-form-field class="flex-auto">
+                      <mat-label>Nombre</mat-label>
+                      <input  [(ngModel)]="item.name" matInput [ngModelOptions]="{standalone: true}">
+              
+                      <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="flex-auto ml-6">
+                      <mat-label>Cuenta</mat-label>
+                      <input  [(ngModel)]="item.cta" matInput [ngModelOptions]="{standalone: true}">
+              
+                      <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                    </mat-form-field>
+
+                    </div>
                 </div>
               </div>
               

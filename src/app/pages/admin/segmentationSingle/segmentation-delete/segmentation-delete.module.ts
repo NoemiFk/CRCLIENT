@@ -8,22 +8,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { SegmentationCreateUpdateComponent } from './segmentation-create-update.component';
+import { SegmentationDeleteComponent } from './segmentation-delete.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
-import { ChartModule } from '../../../../../@vex/components/chart/chart.module';
-import { MatTableModule } from '@angular/material/table';
-import { FormsModule } from '@angular/forms';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
-    FormsModule,
-    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     CommonModule,
     ReactiveFormsModule,
-    MatTableModule,
     FlexLayoutModule,
     MatDialogModule,
     MatInputModule,
@@ -33,12 +30,11 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatSelectModule,
     MatMenuModule,
     IconModule,
-    MatDividerModule,
-    ChartModule
+    MatDividerModule
   ],
-  declarations: [SegmentationCreateUpdateComponent],
-  entryComponents: [SegmentationCreateUpdateComponent],
-  exports: [SegmentationCreateUpdateComponent]
+  declarations: [SegmentationDeleteComponent],
+  entryComponents: [SegmentationDeleteComponent],
+  exports: [SegmentationDeleteComponent]
 })
-export class SegmentationCreateUpdateModule {
+export class SegmentationDeleteModule {
 }

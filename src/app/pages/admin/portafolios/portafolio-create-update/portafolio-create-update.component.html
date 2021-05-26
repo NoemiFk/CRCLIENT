@@ -18,7 +18,7 @@
     <div class="flex flex-col sm:flex-row">
 
       <mat-form-field class="flex-auto mt-6" >
-        <mat-label>Selecciona</mat-label>
+        <mat-label>Selecciona financiera</mat-label>
         <mat-select matNativeControl name="client_id"  formControlName="client_id">
           <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
         </mat-select>

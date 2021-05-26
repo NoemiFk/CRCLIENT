@@ -15,10 +15,14 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
 @NgModule({
   declarations: [RegisterComponent],
   imports: [
     CommonModule,
+    MatExpansionModule,
     MatSnackBarModule,
     MatSelectModule,
     MatCardModule,

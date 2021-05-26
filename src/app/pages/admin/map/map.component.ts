@@ -74,7 +74,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   searchCtrl = new FormControl();
   willDownload=false;
   labels = aioTableLabels;
-
+  portal=""
   icPhone = icPhone;
   icMail = icMail;
   icMap = icMap;

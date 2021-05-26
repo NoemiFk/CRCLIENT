@@ -84,6 +84,14 @@ export class Services {
               return resp;
           });
     }
+    getPortafolio(id:string) {
+        return this.http.get<any>(URL+'/portafolio/'+id )
+            .map(resp => {
+            
+                //console.log(" getPortafoliosList",resp)
+                return resp;
+            });
+      }
     getPortafoliosListAgency(id:string) {
       return this.http.get<any>(URL+'/portafolios/agency/'+id )
           .map(resp => {
@@ -156,8 +164,17 @@ export class Services {
             return resp;
         });
     }
-    getASegmentacion2(criterio2:string,criterio:string,id:string,rango1:string, rango2:string) {
-        return this.http.get<any>(URL+'/map/s2/'+id+'/'+criterio2+'/'+criterio+'/'+rango1+'/'+rango2)
+    getASegment(body:object,id:string) {
+        console.log("STRING",id)
+        return this.http.post<any>(URL+'/map/graph/'+id, body)
+            .map(resp => {
+            
+                //console.log("getMap",resp)
+                return resp;
+            });
+        }
+    getASegmentacion2(id:string, body:object) {
+        return this.http.post<any>(URL+'/map/s2/A/'+id,body)
             .map(resp => {
             
                 //console.log("getMap",resp)
@@ -166,6 +183,15 @@ export class Services {
         }
     getASR(criterio:string,id:string, rango1:string, rango2:string) {
         return this.http.get<any>(URL+'/map/'+id+'/'+criterio+'/'+rango1+'/'+rango2)
+            .map(resp => {
+            
+                //console.log("getMap",resp)
+                return resp;
+            });
+        }
+    getASR2(id:string, body:object) {
+        console.log(body)
+        return this.http.post<any>(URL+'/map/s2/'+id, body)
             .map(resp => {
             
                 //console.log("getMap",resp)
@@ -204,6 +230,58 @@ export class Services {
                 //console.log("updatePlan",resp)
                 return resp;
   
+            });
+      }
+
+      //Segmentacion
+    getSegmentationsList(id:string) {
+        return this.http.get<any>(URL+'/segmentations/'+id)
+            .map(resp => {
+             
+                //console.log(" getPlansList",resp)
+                return resp;
+            });
+    }
+    getSegmentation(id:string) {
+        return this.http.get<any>(URL+'/segmentation/'+id,httpOptions)
+            .map(resp => {
+             
+                //console.log("updatePlan",resp)
+                return resp;
+  
+            });
+      }
+
+      updateSegmentation(id:string, body:object) {
+        return this.http.put<any>(URL+'/segmentation/'+id,body)
+            .map(resp => {
+            
+                //console.log("updateCustomer",resp)
+                return resp;
+            });
+      }
+      newSegmentation(id:string, body:object) {
+        return this.http.put<any>(URL+'/segmentation/new/'+id,body)
+            .map(resp => {
+            
+                //console.log("updateCustomer",resp)
+                return resp;
+            });
+      }
+      deleteSegmentation(id:string) {
+        return this.http.delete<any>(URL+'/segmentation/'+id)
+            .map(resp => {
+            
+                //console.log("deleteCustomer",resp)
+                return resp;
+            });
+      }
+      createSegmentation(body:object) {
+        return this.http.post<any>(URL+'/segmentation/',body)
+            .map(resp => {
+            
+                //console.log("createCustomer",resp)
+                return resp;
             });
       }
     

@@ -72,9 +72,9 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @Input()
   columns: TableColumn<Portafolio>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+    { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'text', visible: true, cssClasses: ['font-medium'] },
     { label: 'Descripción', property: 'description', type: 'text', visible: true },
-    { label: 'Cliente', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Mapeo', property: 'map', type: 'boolean', visible: true },
     { label: 'Fecha', property: 'updatemap', type: 'date', visible: true },
     { label: 'Registros', property: 'register', type: 'text', visible: true },

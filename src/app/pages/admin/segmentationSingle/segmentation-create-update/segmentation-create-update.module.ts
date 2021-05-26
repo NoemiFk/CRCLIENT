@@ -15,6 +15,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ChartModule } from '../../../../../@vex/components/chart/chart.module';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
@@ -22,6 +24,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     FormsModule,
     MatProgressSpinnerModule,
     CommonModule,
+    MatFormFieldModule,
     ReactiveFormsModule,
     MatTableModule,
     FlexLayoutModule,

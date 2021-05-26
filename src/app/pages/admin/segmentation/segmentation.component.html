@@ -29,7 +29,7 @@
         </h2>
 
         <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
-          <button (click)="deleteCustomers(selection.selected)"
+          <button (click)="deleteSegmentations(selection.selected)"
                   color="primary"
                   mat-icon-button
                   matTooltip="Delete selected"
@@ -70,12 +70,12 @@
           <mat-icon [icIcon]="icFilterList"></mat-icon>
         </button>
 
-        <button (click)="createCustomer()"
+        <button (click)="createSegmentation()"
                 class="ml-4"
                 color="primary"
                 fxFlex="none"
                 mat-mini-fab
-                matTooltip="Add Customer"
+                matTooltip="Add Segmentation"
                 type="button">
           <mat-icon [icIcon]="icAdd"></mat-icon>
         </button>
@@ -119,6 +119,13 @@
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
           </ng-container>
         </ng-container>
+        <!-- Text Columns Objects-->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'object'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.object][column.property] }}</td>
+          </ng-container>
+        </ng-container>
 
         <!-- Contact Column -->
         <ng-container matColumnDef="contact">
@@ -148,34 +155,22 @@
 
         <!-- Label Column -->
         <ng-container matColumnDef="labels">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Labels</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES</th>
           <td *matCellDef="let row" mat-cell>
-            <div (click)="$event.stopPropagation()" fxLayoutAlign="start center" fxLayoutGap="4px">
-              <div *ngFor="let label of row.labels"
-                   [ngClass]="[label.textClass, label.bgClass]"
-                   class="rounded px-2 py-1 font-medium text-xs"
+            <div (click)="$event.stopPropagation();" fxLayoutAlign="start center" fxLayoutGap="4px">
+              <div *ngFor="let label of row.segmentation; let i=index"
+              (click)="Segmentation(row._id, i)"
+                   class="rounded px-2 py-1 font-medium text-xs bg-teal-light text-teal"
                    fxFlex="none">
-                {{ label.text }}
+                {{ label.name }}
               </div>
-              <div (click)="labelSelect.open()"
+              <div (click)="$event.stopPropagation(); Segmentation(row._id,row.segmentation.length)"
                    class="text-secondary bg-base text-hint cursor-pointer hover:bg-hover"
                    fxFlex="none"
                    fxLayout="row"
                    fxLayoutAlign="center center">
                 <ic-icon [icon]="icAdd" size="18px"></ic-icon>
               </div>
-              <mat-select #labelSelect="matSelect"
-                          (selectionChange)="onLabelChange($event, row)"
-                          [value]="row.labels"
-                          class="invisible w-0 h-0 text-sm"
-                          fxFlex="0 1 0px"
-                          multiple>
-                <mat-option *ngFor="let label of labels" [value]="label">
-                  <div [ngClass]="label.previewClass"
-                       class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block"></div>
-                  <span>{{ label.text }}</span>
-                </mat-option>
-              </mat-select>
             </div>
           </td>
         </ng-container>
@@ -184,18 +179,31 @@
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
-            <button (click)="$event.stopPropagation()"
+            <!--button (click)="$event.stopPropagation()"
                     [matMenuTriggerData]="{ customer: row }"
                     [matMenuTriggerFor]="actionsMenu"
                     mat-icon-button
                     type="button">
               <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
-            </button>
+            </button-->
+            <div class="flex">
+              
+              <a (click)=" $event.stopPropagation(); updateSegmentation(row)" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Editar">
+             <mat-icon [icIcon]="icEdit" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); deleteSegmentation(row)" 
+                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                mat-icon-button matTooltip="Eliminar">
+                <mat-icon [icIcon]="icDelete" size="18px"></mat-icon>
+              </a>
+            </div>
           </td>
         </ng-container>
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-        <tr (click)="updateCustomer(row)"
+        <tr (click)="updateSegmentation(row)"
             *matRowDef="let row; columns: visibleColumns;"
             @fadeInUp
             class="hover:bg-hover trans-ease-out cursor-pointer"
@@ -220,11 +228,11 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-customer="customer" matMenuContent>
-    <button (click)="updateCustomer(customer)" mat-menu-item>
+    <button (click)="updateSegmentation(customer)" mat-menu-item>
       <mat-icon [icIcon]="icEdit"></mat-icon>
       <span>Modificar</span>
     </button>
-    <button (click)="deleteCustomer(customer)" mat-menu-item>
+    <button (click)="deleteSegmentation(customer)" mat-menu-item>
       <mat-icon [icIcon]="icDelete"></mat-icon>
       <span>Eliminar</span>
     </button>

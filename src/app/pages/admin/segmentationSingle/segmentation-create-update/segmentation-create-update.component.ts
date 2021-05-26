@@ -717,8 +717,8 @@ export class SegmentationCreateUpdateComponent implements OnInit {
     this.segmentation.criteria.push({
       dataInfo:[{
         client_id:this.defaults.client_id.name,
-            portafolio: this.defaults.portafolio_id.name_portafolio,
-            register:this.defaults.portafolio_id.register
+        portafolio: this.defaults.portafolio_id.name_portafolio,
+        register:this.defaults.portafolio_id.register
       }],
       dataGrhap: [],
       dataSeg: [],

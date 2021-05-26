@@ -15,10 +15,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   imports: [
     MatDatepickerModule,
+    MatSnackBarModule,
+    FormsModule,
     MatNativeDateModule,
     CommonModule,
     MatTabsModule,
