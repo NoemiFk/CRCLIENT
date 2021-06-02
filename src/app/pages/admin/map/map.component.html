@@ -156,24 +156,31 @@
                 fxLayout.xs="column"
                 fxLayoutAlign="start start"
                 fxLayoutAlign.xs="start stretch"
-                fxLayoutGap="24px">
-                <div  fxFlex fxLayout="column">
-                  <b>Dato</b>
+                fxLayoutGap="10px">
+                <div  fxFlex fxLayout="column" style="margin-right:0px">
+                  <b class="text-center">Dato</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of map"> {{column.datos}}</mat-list-item>
                   </mat-list>
                 </div>
-                <div  fxFlex fxLayout="column">
-                  <b>Ejemplo</b>
+                <div  fxFlex fxLayout="column" style="margin-right:0px">
+                  <b class="text-center">Ejemplo</b>
                   <mat-list role="list">
-                    <mat-list-item role="listitem" *ngFor="let column of map"> {{column.ejemplo}}</mat-list-item>
+                    <mat-list-item role="listitem" *ngFor="let column of map">
+                      <p style="display: block;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      width: 200px;">
+                          {{column.ejemplo}}
+                      </p> </mat-list-item>
                   </mat-list>
                 </div>
                 <div  fxFlex fxLayout="column">
-                  <b>Análisis</b>
+                  <b class="text-center">Análisis</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of analysis"> 
-                      <mat-checkbox class="example-margin"
+                      <mat-checkbox class="example-margin w-full text-center"
                       
                       [(ngModel)]="column.status">
                     </mat-checkbox>
@@ -181,10 +188,10 @@
                   </mat-list>
                 </div>
                 <div  fxFlex fxLayout="column">
-                  <b>Segmentación</b>
+                  <b class="text-center">Segmentación</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of segmentation"> 
-                      <mat-checkbox class="example-margin"
+                      <mat-checkbox class="example-margin w-full text-center"
                       
                       [(ngModel)]="column.status"
                       >
@@ -193,10 +200,10 @@
                   </mat-list>
                 </div>
                 <div  fxFlex fxLayout="column">
-                  <b>Comunicación</b>
+                  <b class="text-center">Comunicación</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of strategies"> 
-                      <mat-checkbox class="example-margin"
+                      <mat-checkbox class="example-margin w-full text-center"
                       
                       [(ngModel)]="column.status"
                       >
@@ -205,10 +212,10 @@
                   </mat-list>
                 </div>
                 <div  fxFlex fxLayout="column">
-                  <b>Portal</b>
+                  <b class="text-center">Portal</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of customerPortal"> 
-                      <mat-checkbox class="example-margin"
+                      <mat-checkbox class="example-margin w-full text-center"
                       
                       [(ngModel)]="column.status"
                       >
@@ -217,10 +224,22 @@
                   </mat-list>
                 </div>
                 <div  fxFlex fxLayout="column">
-                  <b>Validación</b>
+                  <b class="text-center">Aval</b>
+                  <mat-list role="list">
+                    <mat-list-item role="listitem" *ngFor="let column of endorsement"> 
+                      <mat-checkbox class="example-margin w-full text-center"
+                      
+                      [(ngModel)]="column.status"
+                      >
+                    </mat-checkbox>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+                <div  fxFlex fxLayout="column">
+                  <b class="text-center">Validación</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of validations"> 
-                      <mat-checkbox class="example-margin"
+                      <mat-checkbox class="example-margin w-full text-center"
                       
                       [(ngModel)]="column.status"
                       >
@@ -556,7 +575,7 @@
               <b>Análisis</b>
               <mat-list role="list">
                 <mat-list-item role="listitem" *ngFor="let column of analysis"> 
-                  <mat-checkbox class="example-margin"
+                  <mat-checkbox class="example-margin w-full text-center"
                   
                   [(ngModel)]="column.status">
                 </mat-checkbox>
@@ -567,7 +586,7 @@
               <b>Segmentación</b>
               <mat-list role="list">
                 <mat-list-item role="listitem" *ngFor="let column of segmentation"> 
-                  <mat-checkbox class="example-margin"
+                  <mat-checkbox class="example-margin w-full text-center"
                   
                   [(ngModel)]="column.status"
                   >
@@ -579,7 +598,7 @@
               <b>Comunicación</b>
               <mat-list role="list">
                 <mat-list-item role="listitem" *ngFor="let column of strategies"> 
-                  <mat-checkbox class="example-margin"
+                  <mat-checkbox class="example-margin w-full text-center"
                   
                   [(ngModel)]="column.status"
                   >
@@ -591,7 +610,7 @@
               <b>Portal</b>
               <mat-list role="list">
                 <mat-list-item role="listitem" *ngFor="let column of customerPortal"> 
-                  <mat-checkbox class="example-margin"
+                  <mat-checkbox class="example-margin w-full text-center"
                   
                   [(ngModel)]="column.status"
                   >
@@ -603,7 +622,7 @@
               <b>Validación</b>
               <mat-list role="list">
                 <mat-list-item role="listitem" *ngFor="let column of validations"> 
-                  <mat-checkbox class="example-margin"
+                  <mat-checkbox class="example-margin w-full text-center"
                   
                   [(ngModel)]="column.status"
                   >

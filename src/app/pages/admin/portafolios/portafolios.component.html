@@ -17,7 +17,7 @@
       </mat-button-toggle-group-->
       <div>
         <h2>Portafolios</h2>
-        <h4>Administración de los Portafolios.</h4>
+        <h4>Alta y Actualizacion de Portafolios – Actualizacion de Promesas de Pago, Pagos y Resultados de Gestion..</h4>
       </div>
       <h1></h1>
     </div>
@@ -165,7 +165,7 @@
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] | date}}</td>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] | date : "dd-MM-yy"}}</td>
           </ng-container>
         </ng-container>
 
@@ -239,11 +239,26 @@
 
         <!-- Action Column -->
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header class="uppercase">Alta/Actualización</th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
             <div class="flex">
 
-             
+              <a (click)="$event.stopPropagation();" *ngIf="row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar Pagos">
+              <mat-icon [icIcon]="icPay" size="18px"></mat-icon>
+              </a>
+              <a (click)="$event.stopPropagation();" *ngIf="row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar Promesas de Pagos">
+              <mat-icon [icIcon]="icPromisses" size="18px"></mat-icon>
+              </a>
+              <a (click)="$event.stopPropagation();" *ngIf="row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar Resultados de Gestión">
+              <mat-icon [icIcon]="icList" size="18px"></mat-icon>
+              </a>
+              
               <a (click)="$event.stopPropagation(); create(row._id)" *ngIf="!row.register"
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Subir Portafolio">

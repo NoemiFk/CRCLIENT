@@ -18,6 +18,9 @@ import icAdd from '@iconify/icons-ic/twotone-add';
 import icUpload from '@iconify/icons-ic/file-upload';
 import icload from '@iconify/icons-ic/update';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
+import icList from '@iconify/icons-ic/twotone-filter-list';
+import icPay from '@iconify/icons-ic/twotone-payment';
+import icPromisses from '@iconify/icons-ic/twotone-list-alt';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icFolder from '@iconify/icons-ic/twotone-folder';
@@ -73,11 +76,11 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: false },
     { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Descripción', property: 'description', type: 'text', visible: true },
+    { label: 'Descripción', property: 'description', type: 'text', visible: false },
     { label: 'Mapeo', property: 'map', type: 'boolean', visible: true },
     { label: 'Fecha', property: 'updatemap', type: 'date', visible: true },
     { label: 'Registros', property: 'register', type: 'text', visible: true },
-    { label: 'Actions', property: 'actions', type: 'button', visible: true }
+    { label: 'Alta/Actualización', property: 'actions', type: 'button', visible: true }
   ];
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
@@ -97,6 +100,9 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icUpload=icUpload;
   icload=icload;
   icFilterList = icFilterList;
+  icList=icList;
+  icPay=icPay;
+  icPromisses= icPromisses;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
   // User 
@@ -271,7 +277,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * You would probably make an HTTP request here.
          */
         //this.portafolios.unshift(portafolio);
-        this.getPortafoliosListAgency()
+        //this.getPortafoliosListAgency()
+        this.getPortafoliosList(this.client_id);
         this.subject$.next(this.portafolios);
       }
     });
@@ -289,7 +296,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.getPortafoliosListAgency()
+        //this.getPortafoliosListAgency()
+        this.getPortafoliosList(this.client_id);
         this.subject$.next(this.portafolios);
       }
     });

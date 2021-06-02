@@ -247,6 +247,10 @@ export class MapComponent implements OnInit, AfterViewInit {
                   data:element.toString(),
                   status:false
                 })
+                this.endorsement.push({
+                  data:element.toString(),
+                  status:false
+                })
                 this.strategies.push({
                   data:element.toString(),
                   status:false
@@ -427,6 +431,7 @@ export class MapComponent implements OnInit, AfterViewInit {
    columns1=[]
    analysis=[]
    segmentation=[]
+   endorsement=[]
    strategies=[]
    customerPortal=[]
    validations=[]
@@ -485,6 +490,11 @@ export class MapComponent implements OnInit, AfterViewInit {
               data:element.toString(),
               status:false
             })
+            this.endorsement.push({
+              data:element.toString(),
+              status:false
+            })
+            
             this.strategies.push({
               data:element.toString(),
               status:false
@@ -513,6 +523,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       datos:this.datos,
       analysis: this.analysis,
       segmentation: this.segmentation,
+      endorsement:this.endorsement,
       strategies: this.strategies,
       customerPortal: this.customerPortal,
       validations: this.validations

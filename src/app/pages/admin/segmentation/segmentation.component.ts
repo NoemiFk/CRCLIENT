@@ -68,8 +68,8 @@ export class SegmentationComponent implements OnInit, AfterViewInit {
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
-    //{ label: 'Nombre', property: 'name_segmentation', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    //{ label: 'Descripción', property: 'description', type: 'text', visible: true },
+    { label: 'Registros', property: 'registers', type: 'text', visible: true, cssClasses: ['font-medium'] },
+    { label: '% Segementado', property: 'porcent', type: 'text', visible: true },
     //{ label: 'Segmentos', property: 'segmentation', type: 'text', visible: true },
     { label: 'Segmentos', property: 'labels', type: 'button', visible: true },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }

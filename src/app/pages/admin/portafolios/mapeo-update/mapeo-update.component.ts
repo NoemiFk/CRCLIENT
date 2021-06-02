@@ -45,6 +45,7 @@ export class MapUpdateComponent implements OnInit {
   segmentation=[]
   strategies=[]
   customerPortal=[]
+  endorsement=[]
   validations=[]
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
@@ -88,8 +89,15 @@ export class MapUpdateComponent implements OnInit {
             this.segmentation=data.data.segmentation
             this.strategies=data.data.strategies
             this.customerPortal=data.data.customerPortal;
+            this.endorsement=data.data.endorsement||[];
             this.validations=data.data.validations
             console.log(this.analysis)
+            this.map.forEach(element => {
+               this.endorsement.push({
+                 data:element.toString(),
+                 status:false
+               });
+              });
             //this.segmentacion=data.data.segmentation
            // this.CustomersList=data.data
             
@@ -117,7 +125,31 @@ export class MapUpdateComponent implements OnInit {
           if(this.segmentation[index].status) this.segmentation[index].status=false
           else this.segmentation[index].status=true
           console.log(this.segmentation[index])
-          break;
+        break;
+        case "strategies":
+          console.log(this.strategies[index].status)
+          if(this.strategies[index].status) this.strategies[index].status=false
+          else this.strategies[index].status=true
+          console.log(this.strategies[index])
+        break;
+        case "customerPortal":
+          console.log(this.customerPortal[index].status)
+          if(this.customerPortal[index].status) this.customerPortal[index].status=false
+          else this.customerPortal[index].status=true
+          console.log(this.customerPortal[index])
+        break;
+        case "endorsement":
+          console.log(this.endorsement[index].status)
+          if(this.endorsement[index].status) this.endorsement[index].status=false
+          else this.endorsement[index].status=true
+          console.log(this.endorsement[index])
+        break;
+        case "validations":
+          console.log(this.validations[index].status)
+          if(this.validations[index].status) this.validations[index].status=false
+          else this.validations[index].status=true
+          console.log(this.validations[index])
+        break;
     
       default:
         break;
@@ -136,6 +168,7 @@ export class MapUpdateComponent implements OnInit {
       segmentation: this.segmentation,
       strategies: this.strategies,
       customerPortal: this.customerPortal,
+      endorsement:this.endorsement,
       validations: this.validations
     }
     this.Services.updateMap(body, this.portafolio_id)

@@ -25,63 +25,73 @@
       fxLayoutAlign="start start"
       fxLayoutAlign.xs="start stretch"
       fxLayoutGap="24px">
-      <div  fxFlex fxLayout="column">
-        <b>Dato</b>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Dato</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of map"> {{column}}</mat-list-item>
         </mat-list>
       </div>
       <!--div  fxFlex fxLayout="column">
-        <b>Ejemplo</b>
+        <b class="text-center">Ejemplo</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of map"> {{column.ejemplo}}</mat-list-item>
         </mat-list>
       </div-->
-      <div  fxFlex fxLayout="column">
-        <b>Análisis</b>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Análisis</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of analysis;  let i = index;"> 
-            <mat-checkbox class="example-margin" [checked]="column.status" ([ngModel])="column.status"
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status"
             (change)="$event ? saveChange('analysis',i) : null">
           </mat-checkbox>
           </mat-list-item>
         </mat-list>
       </div>
-      <div  fxFlex fxLayout="column">
-        <b>Segmentación</b>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Segmentación</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of segmentation;  let i = index;"> 
-            <mat-checkbox class="example-margin" [checked]="column.status" ([ngModel])="column.status"
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status"
             (change)="$event ? saveChange('segmentation',i) : null">
           </mat-checkbox>
           </mat-list-item>
         </mat-list>
       </div>
-      <div  fxFlex fxLayout="column">
-        <b>Comunicación</b>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Comunicación</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of strategies;  let i = index;"> 
-            <mat-checkbox class="example-margin" [checked]="column.status" ([ngModel])="column.status"
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status"
             (change)="$event ? saveChange('strategies',i) : null" >
           </mat-checkbox>
           </mat-list-item>
         </mat-list>
       </div>
-      <div  fxFlex fxLayout="column">
-        <b>Portal</b>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Portal</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of customerPortal;   let i = index;"> 
-            <mat-checkbox class="example-margin" [checked]="column.status" ([ngModel])="column.status" 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
             (change)="$event ? saveChange('customerPortal',i) : null">
           </mat-checkbox>
           </mat-list-item>
         </mat-list>
       </div>
-      <div  fxFlex fxLayout="column">
-        <b>Validación</b>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Aval</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of endorsement;   let i = index;"> 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
+            (change)="$event ? saveChange('endorsement',i) : null">
+          </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Validación</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of validations;  let i = index;"> 
-            <mat-checkbox class="example-margin" [checked]="column.status" ([ngModel])="column.status" 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
             (change)="$event ? saveChange('validations',i) : null">
           </mat-checkbox>
             <select class="sm:ml-6" name="type"  >
