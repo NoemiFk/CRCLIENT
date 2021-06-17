@@ -238,8 +238,8 @@
         </ng-container>
 
         <!-- Action Column -->
-        <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header class="uppercase">Alta/Actualización</th>
+        <ng-container matColumnDef="actions1">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header class="uppercase">Actualización de info...</th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
             <div class="flex">
 
@@ -259,6 +259,23 @@
               <mat-icon [icIcon]="icList" size="18px"></mat-icon>
               </a>
               
+              
+            </div>
+            <!--button (click)="$event.stopPropagation()"
+                    [matMenuTriggerData]="{ customer: row }"
+                    [matMenuTriggerFor]="actionsMenu"
+                    mat-icon-button
+                    type="button">
+              <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
+            </button-->
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header class="uppercase">Alta/Actualización</th>
+          <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+            <div class="flex">
               <a (click)="$event.stopPropagation(); create(row._id)" *ngIf="!row.register"
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Subir Portafolio">

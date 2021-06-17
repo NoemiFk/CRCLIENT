@@ -19,9 +19,9 @@ import icAdd from '@iconify/icons-ic/twotone-add';
 import icUpload from '@iconify/icons-ic/file-upload';
 import icload from '@iconify/icons-ic/update';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
-import icList from '@iconify/icons-ic/twotone-filter-list';
+import icList from '@iconify/icons-ic/twotone-list';
 import icPay from '@iconify/icons-ic/twotone-payment';
-import icPromisses from '@iconify/icons-ic/twotone-filter-list';
+import icPromisses from '@iconify/icons-ic/twotone-list-alt';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icFolder from '@iconify/icons-ic/twotone-folder';
@@ -81,7 +81,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     { label: 'Mapeo', property: 'map', type: 'boolean', visible: true },
     { label: 'Fecha', property: 'updatemap', type: 'date', visible: true },
     { label: 'Registros', property: 'register', type: 'text', visible: true },
-    { label: 'Alta/Actualización', property: 'actions', type: 'button', visible: true }
+    { label: 'Actualización de  información', property: 'actions1', type: 'button', visible: true },
+    { label: 'Alta/Actualización de portafolio', property: 'actions', type: 'button', visible: true }
   ];
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];

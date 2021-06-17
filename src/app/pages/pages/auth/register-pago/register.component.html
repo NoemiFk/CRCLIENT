@@ -11,8 +11,9 @@
           </div>
           <br>
           <div class="text-center mt-4">
-            <h2 class="title m-0">Regístrese para obtener una cuenta</h2>
-            <h4 class="body-2 text-secondary m-0">Simplemente complete el formulario a continuación</h4>
+            <h2 class="title m-0">Regístrese para obtener su cuenta</h2>
+            <h3 style="color: #5c77ff; font-weight: 700;"><b>COLLECTION ROBOT</b></h3>
+            <!--h4 class="body-2 text-secondary m-0">Simplemente complete el formulario a continuación</h4-->
           </div>
   
           <br>
@@ -61,23 +62,20 @@
                   <mat-hint>Repita su contraseña de arriba</mat-hint>
                 </mat-form-field>
               </div>
-        
-             
-              
             </div>
             <div [formGroup]="form" class="p-6 flex-auto" fxLayout="column" fxLayoutGap="16px" >
               <div fxFlex="auto" fxLayout="column">
-                <mat-form-field class="flex-auto">
+                <mat-form-field fxFlex="grow">
                   <mat-label>Razón Social</mat-label>
                   <input cdkFocusInitial formControlName="bussinesName" matInput>
                 </mat-form-field>
       
-                  <mat-form-field class="flex-auto">
+                  <mat-form-field fxFlex="grow">
                     <mat-label>RFC</mat-label>
                     <input cdkFocusInitial formControlName="rfc" matInput>
                   </mat-form-field>
             
-                <mat-form-field class="flex-auto">
+                <mat-form-field fxFlex="grow">
                   <mat-label>Método de Pago</mat-label>
                      <!-- <select class="form-control valid" matNativeControl name="cfdiUse" data-type="dropdownlist" data-source="catalogs/cfdiUses?keyword=GPO920120440" data-template="#tmpl-commonDrop" data-default="P01" required="" aria-required="true" aria-invalid="false"></select>-->
                      <mat-select matNativeControl name="type"  formControlName="paymentForm">
@@ -98,30 +96,33 @@
                   </mat-select>
                 
               </mat-form-field>
-              <mat-form-field class="flex-auto">
-                <mat-label>E-Mail opcional No.1:</mat-label>
+              <mat-form-field fxFlex="grow">
+                <mat-label>E-Mail 1 para recibir facturas</mat-label>
                 <input type="email"  formControlName="email1" matInput>
         
                 
               </mat-form-field>
-              <mat-form-field class=" flex-auto">
-              <mat-label>E-Mail opcional No.2:</mat-label>
+              <mat-form-field class="flex-auto">
+              <mat-label>E-Mail 2 para recibir facturas</mat-label>
                 <input type="email"  formControlName="email2" matInput>
                 
               </mat-form-field>
               </div>
-        
-              <div fxLayout="row" fxLayoutAlign="center center">
-                <mat-checkbox class="caption">Acepto los <a>términos y condiciones.</a></mat-checkbox>
-              </div>
-              
             </div>
           </div>
+                  <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-checkbox class="caption">Acepto los <a>términos y condiciones.</a></mat-checkbox>
+                  </div>
           <mat-accordion>
             <mat-expansion-panel >
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <b>Métodos de comunicación</b>
+                  <!--b>Métodos de comunicación</b>
+                  <br-->
+                  <b>
+
+                    Agregue la comunicación digital 100% integrada al Collection Robot
+                  </b>
                 </mat-panel-title>
                 <mat-panel-description>
                 </mat-panel-description>
@@ -142,16 +143,17 @@
                           class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
                           matRipple>
                         <h2 class="title mb-1 mt-3">{{data.name}}</h2>
-                        <p>{{data.range}}</p>
+                        <p>{{data.price| currency}} <b>MXN</b></p>
+                        <small *ngIf="data.range" style="color: #326d05;"> Entrega Exitosa</small>
                         <button (click)="emitToggleStar($event, i)" class="absolute top-2 right-2" mat-icon-button type="button">
                           <mat-icon *ngIf="data.active" [icIcon]="icStar" class="text-amber"></mat-icon>
                           <mat-icon *ngIf="!data.active" [icIcon]="icStarBorder"></mat-icon>
                         </button>
                       </div>
                     
-                      <div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
+                      <!--div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
                         <b>{{data.price| currency}}</b>
-                      </div>
+                      </div-->
                     </div>
                   </div>
                 </div>
@@ -175,17 +177,17 @@
         <br>
       <div [formGroup]="form" class="p-6" fxLayout="column" fxLayoutGap="16px" style="padding: 0 30%;">
         <div fxFlex="auto" fxLayout="column">
-          <mat-form-field class="flex-auto">
+          <mat-form-field fxFlex="grow">
             <mat-label>Razón Social</mat-label>
             <input cdkFocusInitial formControlName="bussinesName" matInput>
           </mat-form-field>
 
-            <mat-form-field class="flex-auto">
+            <mat-form-field fxFlex="grow">
               <mat-label>RFC</mat-label>
               <input cdkFocusInitial formControlName="rfc" matInput>
             </mat-form-field>
       
-          <mat-form-field class="flex-auto">
+          <mat-form-field fxFlex="grow">
             <mat-label>Método de Pago</mat-label>
                <mat-select matNativeControl name="type"  formControlName="paymentForm">
                 <mat-option value="">Seleccionar Método de pago</mat-option>
@@ -204,7 +206,7 @@
             </mat-select>
           
         </mat-form-field>
-        <mat-form-field class="flex-auto">
+        <mat-form-field fxFlex="grow">
           <mat-label>E-Mail opcional No.1:</mat-label>
           <input type="email"  formControlName="email1" matInput>
   

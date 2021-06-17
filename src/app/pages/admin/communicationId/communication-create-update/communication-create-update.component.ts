@@ -1,0 +1,172 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Communication } from '../interfaces/communication.model';
+import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
+import icClose from '@iconify/icons-ic/twotone-close';
+import icPrint from '@iconify/icons-ic/twotone-print';
+import icDownload from '@iconify/icons-ic/twotone-cloud-download';
+import icDelete from '@iconify/icons-ic/twotone-delete';
+import icPhone from '@iconify/icons-ic/twotone-phone';
+import icPerson from '@iconify/icons-ic/twotone-person';
+import icMyLocation from '@iconify/icons-ic/twotone-my-location';
+import icLocationCity from '@iconify/icons-ic/twotone-location-city';
+import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
+import { AngularEditorConfig } from '@kolkov/angular-editor'; 
+import {Services} from '../../../../Services/services'
+import { ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
+
+@Component({
+  selector: 'vex-strategy-create-update',
+  templateUrl: './communication-create-update.component.html',
+  styleUrls: ['./communication-create-update.component.scss',
+  '../../../../../../node_modules/quill/dist/quill.snow.css',
+  '../../../../../@vex/styles/partials/plugins/_quill.scss'],
+  
+  encapsulation: ViewEncapsulation.None,
+  animations: [fadeInUp400ms]
+})
+export class CommunicationCreateUpdateComponent implements OnInit {
+
+  static id = 100;
+
+  form: FormGroup;
+  text = ``;
+  form1 = new FormControl(this.text);
+  mode: 'create' | 'update' = 'create';
+
+  icMoreVert = icMoreVert;
+  icClose = icClose;
+  segment="Segmento A"
+  icPrint = icPrint;
+  icDownload = icDownload;
+  icDelete = icDelete;
+
+  icPerson = icPerson;
+  icMyLocation = icMyLocation;
+  icLocationCity = icLocationCity;
+  icEditLocation = icEditLocation;
+  icPhone = icPhone;
+
+
+  constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
+              private dialogRef: MatDialogRef<CommunicationCreateUpdateComponent>,
+              private fb: FormBuilder,
+              private Services: Services) {
+  }
+  displayedColumnsIG: string[] = ['Cliente', 'Portafolio'];
+  dataInfo=[]
+  name="Comunicacion 1"
+  htmlContent = 'Hola, ';
+  info_agency=localStorage.getItem('currentAgency')
+  agency=JSON.parse(this.info_agency);
+
+
+  ngOnInit() {
+    if (this.defaults) {
+      this.mode = 'update';
+      console.log("Hola",this.defaults)
+      this.getMap(this.defaults.portafolio_id._id)
+      this.getPortafoliosList(this.defaults.client)
+      this.form1.setValue(this.defaults.content)
+    } else {
+      this.defaults = {} as Communication;
+    }
+
+    this.dataInfo=[{
+      client_id:"Liverpool",
+      portafolio: "Clientes Morosos"
+    }]
+
+
+  }
+  communicationData=[]
+  getMap(id){
+    this.Services.getMap(id)
+    .subscribe(
+        data => {
+          console.log("getMap ", data)
+          if(data.success){
+            data.data.strategies.forEach(element => {
+              if(element.status)
+                this.communicationData.push(element.data)
+            });
+            console.log(this.communicationData)
+           // this.CustomersList=data.data
+            
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  addText(label){
+    let value = this.form1.value + " <label>["+label+"]</label> "
+    this.form1.setValue(value)
+    console.log(this.text , this.form1.value)
+  }
+  PortafoliosList=[]
+  getPortafoliosList(client_id) {
+    //console.log("GET PORTAFOLOS",this.client.agency_id, client_id)
+     this.Services.getPortafoliosList(client_id)
+     .subscribe(
+         data => {
+           //console.log("Portafolios ", data)
+           if(data.success){
+             this.PortafoliosList=data.data
+           }
+         },
+         error => {
+           //this.error=true
+         });
+   }
+ /* getCursorPosition(){
+    if(this.variable){
+      var sel, range;
+      sel = window.getSelection();
+      if (sel.getRangeAt && sel.rangeCount) {
+        console.log(sel.getRangeAt(0))
+        this.rango = sel.getRangeAt(0);
+        this.rango.insertNode(document.createTextNode('{'+this.variable+'}'));
+        this.variable = '';
+        
+         return sel.getRangeAt(0);
+      }
+    }
+  }*/
+
+  save() {
+    if (this.mode === 'create') {
+      this.createCustomer();
+    } else if (this.mode === 'update') {
+      this.updateCustomer();
+    }
+  }
+
+  createCustomer() {
+    const customer = this.form.value;
+
+    if (!customer.imageSrc) {
+      customer.imageSrc = 'assets/img/avatars/1.jpg';
+    }
+
+    this.dialogRef.close(customer);
+  }
+
+  updateCustomer() {
+    const customer = this.form.value;
+    customer.id = this.defaults.id;
+
+    this.dialogRef.close(customer);
+  }
+
+  isCreateMode() {
+    return this.mode === 'create';
+  }
+
+  isUpdateMode() {
+    return this.mode === 'update';
+  }
+}

@@ -153,6 +153,12 @@ export class AppComponent {
           },*/
           {
             type: 'link',
+            label: 'WYSIWYG Editor',
+            route: '/apps/editor',
+            icon: icChromeReaderMode
+          },
+          {
+            type: 'link',
             label: 'Analisis',
             route: '/admin/analysis',
             icon: icAnalisis
@@ -166,7 +172,7 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Communicacion  Digital',
-            route: '#',
+            route: '/admin/communication',
             icon: icAssigment
           },
           {

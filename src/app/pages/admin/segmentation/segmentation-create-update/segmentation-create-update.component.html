@@ -28,24 +28,7 @@
     </div>
     <div *ngFor="let option of segmentation.criteria | slice:0:3;  let i = index;">
       <h3><b>Informacion General</b></h3>
-      <table mat-table [dataSource]="option.dataInfo" class="mat-elevation-z8 text-center" style="width: 100%;">
-        
-        <ng-container matColumnDef="Cliente">
-          <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>Cliente</b> </th>
-          <td mat-cell *matCellDef="let element"> {{element.client_id}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Portafolio">
-          <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>Portafolio</b> </th>
-          <td mat-cell *matCellDef="let element"> {{element.portafolio}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Registros">
-          <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>Registros</b> </th>
-          <td mat-cell *matCellDef="let element"> {{element.register}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsIG"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsIG"></tr>
-      </table>
+     
       <br>
       <div  *ngIf="option.dataSource.length">
         <h3><b>Segmentación</b></h3>

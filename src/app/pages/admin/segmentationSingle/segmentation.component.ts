@@ -80,9 +80,14 @@ export class SegmentationComponent implements OnInit {
         left: 16
       }
     },
+    title: {
+      text: "Previsualización de segmentación del portafolio",
+      align: "center"
+    },
+    
     chart: {
       type: 'area',
-      height: 384,
+      height: 400,
       sparkline: {
         enabled: false
       },
@@ -106,6 +111,9 @@ export class SegmentationComponent implements OnInit {
       labels: {
         show: true
       },
+      tooltip: {
+        enabled: true,
+      }
     },
     yaxis: {
       labels: {
@@ -119,6 +127,7 @@ export class SegmentationComponent implements OnInit {
         vertical: 4
       }
     }
+    
   });
   salesSeries: ApexAxisChartSeries = [{
     name: 'Clientes',
@@ -126,7 +135,8 @@ export class SegmentationComponent implements OnInit {
   }];
   displayedColumnsIG: string[] = ['Cliente', 'Portafolio'];
   displayedColumnsSEG: string[] = ['Registros','Datos_Segmentados', 'Porcentaje', 'No_Segmentados'];
-  displayedColumns: string[] = ['date1', 'date2', 'date3', 'date4'];
+  displayedColumns: string[] = ['date1', 'date2', 'date3', 'date4', 'date5'];
+  displayedColumnsNew: string[] = ['date1', 'date2', 'date3', 'date4', 'date5'];
 
 
   displayedColumnsA1: string[] = ['RESUMEN DE PORTAFOLIO', '-'];
@@ -319,7 +329,7 @@ export class SegmentationComponent implements OnInit {
           },
           {
             name:"SEGMENTADO",
-            data: this.value.toFixed(2) +" %"
+            data: this.value.toFixed(1) +" %"
           }]
         }
       },
@@ -524,10 +534,11 @@ export class SegmentationComponent implements OnInit {
             console.log("__getMap__", data)
             if(data.success){
               let dataSeg=data.data
+              this.displayedColumnsNew= ['rango', dataSeg.data[0], dataSeg.data[1],dataSeg.data[2], 'sin info'];
               this.segmentation.criteria[x].dataSource = [
                // {date1: dataSeg.porcents[0].toFixed(1), date2: dataSeg.porcents[1].toFixed(1), date3:dataSeg.porcents[2].toFixed(1), date4: dataSeg.porcents[3].toFixed(1)},
-                {date1: dataSeg.data[0], date2: dataSeg.data[1], date3:dataSeg.data[2], date4: ''},
-                {date1:dataSeg.lables[0], date2: dataSeg.lables[1], date3: dataSeg.lables[2], date4: dataSeg.lables[3]},
+                {date1: "%", date2:dataSeg.porcents[0].toFixed(1)+" %", date3:dataSeg.porcents[1].toFixed(1)+" %", date4:dataSeg.porcents[2].toFixed(1)+" %", date5: dataSeg.porcents[3]?dataSeg.porcents[3].toFixed(1)+" %":"0 %"},
+                {date1:"REGISTROS", date2: dataSeg.lables[0], date3: dataSeg.lables[1], date4: dataSeg.lables[2],date5: dataSeg.lables[3]},
               ];
                 this.options.labels=data.data.labelsGraph
                 this.salesSeries[0].data=data.data.dataGraph
@@ -722,7 +733,7 @@ export class SegmentationComponent implements OnInit {
               this.value=this.value+element.porcent
               this.bufferValue=this.value
             });
-            this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(2)+"%"
+            this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
                console.log("........",this.value,actual,register, porcent2,info2)
                console.log("registerActual",actual)
                
@@ -892,7 +903,28 @@ export class SegmentationComponent implements OnInit {
       this.value=this.value+element.porcent
       this.bufferValue=this.value
     });
-    this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(2)+"%"
+    this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+  }
+  deleteSeg(){
+    console.log(this.indexSegmentation)
+    this.segment.segmentation.splice(this.indexSegmentation,1)
+    let body3={
+      porcent:this.generalIF[3].data,
+      segmentation:this.segment.segmentation
+    }
+    this.Services.newSegmentation(this.segment._id, body3)
+    .subscribe(
+        data => {
+          if(data.success){
+            //console.log(data.data)
+            this.router.navigate(['/admin/segmentation']);
+            //this.dialogRef.close(seg);
+            
+          }
+        },
+        error => {
+          //this.error=true
+        });
   }
   getQueryNot(x){
     let q={}

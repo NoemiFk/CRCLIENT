@@ -1,0 +1,94 @@
+
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+
+    <h2 class="headline m-0" fxFlex="auto">Generar Carta</h2>
+
+    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+      <mat-icon [icIcon]="icMoreVert"></mat-icon>
+    </button>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto">
+          <mat-label>Nombre</mat-label>
+          <input cdkFocusInitial [(ngModel)]="defaults.name" matInput>
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+        <!--mat-form-field class="flex-auto ml-6" >
+          <mat-label>Selecciona Segmento</mat-label>
+          <mat-select  name="criterio1" [(ngModel)]="segment"  >
+            <mat-option value="Segmento A" > Segmento A</mat-option>
+            <mat-option  value="Segmento B" > Segmento B</mat-option>
+          </mat-select>
+    
+          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field-->
+        <!--(selectionChange)="changePortafolio($event)"-->
+        <mat-form-field class="flex-auto ml-6">
+          <mat-label>Selecciona Portafolio</mat-label>
+          <mat-select  name="portafolio_id"  [(ngModel)]="defaults.portafolio_id._id"  >
+            <ng-container *ngFor="let option of PortafoliosList;">
+              <mat-option  [value]="option._id" >
+                {{option.name_portafolio}}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+    
+          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto">
+          <mat-label>Descripción</mat-label>
+          <input cdkFocusInitial [(ngModel)]="defaults.description" matInput>
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <br>
+              <div  class="flex flex-col sm:flex-row">
+                <div *ngFor="let label of communicationData">
+                  <button (click)="addText(label)" color="accent" mat-stroked-button>{{label}}</button>
+                </div>
+              </div>
+              <br>
+        <quill-editor @fadeInUp
+        [formControl]="form1"
+        [styles]="{ flex: '1 1 auto' }"></quill-editor>
+        
+      </div>
+
+    
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCEL</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREAR COMUNICACIÓN</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR CARTA</button>
+  </mat-dialog-actions>
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icPrint"></mat-icon>
+    <span>Print</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDownload"></mat-icon>
+    <span>Export</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDelete"></mat-icon>
+    <span>Eliminar</span>
+  </button>
+</mat-menu>

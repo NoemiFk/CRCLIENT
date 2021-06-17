@@ -56,7 +56,7 @@
             </ng-container>
             <ng-container matColumnDef="%">
               <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>%</b>  </th>
-              <td mat-cell *matCellDef="let element"> {{element.porcent | number : '1.2-2'}} <b>%</b> </td>
+              <td mat-cell *matCellDef="let element"> {{element.porcent | number : '1.1-1'}} <b>%</b> </td>
             </ng-container>
           
             <tr mat-header-row *matHeaderRowDef="displayedColumnsC1" style=" height: 49px;" ></tr>
@@ -81,18 +81,24 @@
   
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
-      </div>
-      <div class="flex flex-col sm:flex-row">
-        <mat-form-field class="flex-auto mt-6">
+        <mat-form-field class="flex-auto mt-6 ml-6">
           <mat-label>Descripción</mat-label>
           <input cdkFocusInitial [(ngModel)]="segmentation.description" matInput>
   
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
       </div>
+      <!--div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto mt-6">
+          <mat-label>Descripción</mat-label>
+          <input cdkFocusInitial [(ngModel)]="segmentation.description" matInput>
+  
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+      </div-->
       <div *ngFor="let option of segmentation.criteria;  let i = index;">
         <div align="end">
-          <a (click)="delete(i)" color="accent" mat-button  >ELIMINAR </a>
+          <a (click)="delete(i)" color="warn" mat-stroked-button  >ELIMINAR </a>
 
         </div>
         <h3><b>Seleciona criterio de segmentacion</b></h3>
@@ -124,10 +130,10 @@
           </div>
         </div-->
         <div class="flex flex-col sm:flex-row">
-          <div class="flex flex-auto flex-col" style="width: 40%;">
+          <div class="flex flex-auto flex-col" style="width: 45%;">
             
               <mat-form-field class="flex-auto">
-                <mat-label>Selecciona Criterio {{option.name}}</mat-label>
+                <mat-label>Selecciona Criterio </mat-label>
                 <mat-select  name="criterio1" [(ngModel)]="option.name" (selectionChange)="changeCriterio($event, i)" >
                   <mat-option *ngFor="let op of segmentacionData" [value]="op"  >
                     {{op}}
@@ -145,69 +151,83 @@
                 
                   <!-- Position Column -->
                   <ng-container matColumnDef="date1">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>%</b> </th>
+                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>{{displayedColumnsNew[0]}}</b> </th>
                     <td mat-cell *matCellDef="let element"> {{element.date1}} </td>
                   </ng-container>
                 
                   <!-- Name Column -->
                   <ng-container matColumnDef="date2">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>%</b>  </th>
+                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>{{displayedColumnsNew[1]}}</b>  </th>
                     <td mat-cell *matCellDef="let element"> {{element.date2}} </td>
                   </ng-container>
                 
                   <!-- Weight Column -->
                   <ng-container matColumnDef="date3">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>%</b>  </th>
+                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>{{displayedColumnsNew[2]}}</b>  </th>
                     <td mat-cell *matCellDef="let element"> {{element.date3}} </td>
                   </ng-container>
                 
                   <!-- Symbol Column -->
                   <ng-container matColumnDef="date4">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>Sin Información</b></th>
+                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>{{displayedColumnsNew[3]}}</b></th>
                     <td mat-cell *matCellDef="let element"> {{element.date4}} </td>
+                  </ng-container>
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="date5">
+                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>{{displayedColumnsNew[4]}}</b></th>
+                    <td mat-cell *matCellDef="let element"> {{element.date5}} </td>
                   </ng-container>
                 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
               </div>
-              <mat-form-field class="flex-auto">
-                <mat-label>Segmentación</mat-label>
-                <mat-select  name="criterio1" [(ngModel)]="option.type" ><!--(selectionChange)="changeSegment($event)" -->
-                  <mat-option value="rank"> Rango</mat-option>
-                  <mat-option value="higher"> Mayor que</mat-option>
-                  <mat-option value="less"> Menor que</mat-option>
-                  <mat-option value="equal"> Igual</mat-option>
-                  <!--mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option-->
-                </mat-select>
-          
-                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-              </mat-form-field>
-              <div class="flex flex-col sm:flex-row" *ngIf="option.type=='rank'">
-                <mat-form-field class="flex-auto">
+              <br>
+              <div class="flex flex-col sm:flex-row">
+                <mat-form-field class="flex-auto" style="max-width: 135px;">
+                  <mat-label>Segmentación</mat-label>
+                  <mat-select  name="criterio1" [(ngModel)]="option.type" ><!--(selectionChange)="changeSegment($event)" -->
+                    <mat-option value="rank"> Rango</mat-option>
+                    <mat-option value="higher"> Mayor que</mat-option>
+                    <mat-option value="less"> Menor que</mat-option>
+                    <mat-option value="equal"> Igual</mat-option>
+                    <!--mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option-->
+                  </mat-select>
+            
+                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto ml-6" *ngIf="option.type!='rank'">
                   <mat-label>Rango A</mat-label>
                   <input cdkFocusInitial [(ngModel)]="option.rankA" matInput>
           
                   <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
                 </mat-form-field>
-                <mat-form-field class="flex-auto ml-6">
+                <mat-form-field class="flex-auto ml-6" style="max-width: 180px;" *ngIf="option.type=='rank'">
+                  <mat-label>Rango A</mat-label>
+                  <input cdkFocusInitial [(ngModel)]="option.rankA" matInput>
+          
+                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                </mat-form-field>
+                <mat-form-field class="flex-auto ml-6" style="max-width: 180px;" *ngIf="option.type=='rank'">
                   <mat-label>Rango B</mat-label>
                   <input cdkFocusInitial [(ngModel)]="option.rankB"matInput>
           
                   <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
                 </mat-form-field>
-                <a mat-fab color="accent" aria-label="Example icon button with a bookmark icon" color="primary" mat-button (click)="save(i)"><mat-icon>add</mat-icon></a>
+                <a (click)="save(i)" color="primary" mat-stroked-button  matTooltip="Agregar" ><mat-icon style="margin-top: 25px;" >add</mat-icon></a>
+
+                <!--a mat-fab color="accent" aria-label="Example icon button with a bookmark icon" color="primary" mat-stroked-button (click)="save(i)"><mat-icon>add</mat-icon></a-->
               </div>
-              <div  class="flex flex-col sm:flex-row" *ngIf="option.type!='rank'">
+              <!--div  class="flex flex-col sm:flex-row" *ngIf="option.type!='rank'">
                 <mat-form-field class="flex-auto">
                   <mat-label>Dato</mat-label>
                   <input cdkFocusInitial [(ngModel)]="option.rankA" matInput>
           
                   <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
                 </mat-form-field>
-                <a mat-fab color="accent" aria-label="Example icon button with a bookmark icon" color="primary" mat-button (click)="save(i)"><mat-icon>add</mat-icon></a>
+                <a mat-fab color="accent" aria-label="Example icon button with a bookmark icon" color="primary" mat-stroked-button (click)="save(i)"><mat-icon>add</mat-icon></a>
 
-              </div>
+              </div-->
               <div >
                 <table mat-table [dataSource]="option.dataSeg" class="mat-elevation-z8 text-center " style="width: 100%;">
               
@@ -236,8 +256,7 @@
           
             
             </div>
-            <div class="flex-auto flex-col ml-6" style="width: 60%;">
-              
+            <div class="flex-auto flex-col ml-6" style="width: 55%;">
               <div>
                 <div *ngIf="!option.dataGrhap.chart" class="text-center p-10">
                   No hay Datos
@@ -245,18 +264,22 @@
                </div>
                <vex-chart [options]="option.dataGrhap.options" *ngIf="option.dataGrhap.chart" [series]="option.dataGrhap.salesSeries"></vex-chart>
               </div>
-              
-
             </div>
         </div>
         
       </div>
-      <a (click)="newCriteria()" color="primary" mat-button  *ngIf="AddCriteria">AGREGAR NUERVO CRITERIO</a>
-
+      <br>
+      <div align="start">
+      <a (click)="newCriteria()" color="primary" mat-stroked-button  *ngIf="AddCriteria">AGREGAR NUERVO CRITERIO</a>
+      <button *ngIf="isNew" class="ml-6" (click)="create()"color="accent" mat-stroked-button type="submit" >CREAR SEGMENTACIÓN</button>
+      <button *ngIf="isEdit" class="ml-6" (click)="create()"color="accent" mat-stroked-button type="submit">EDITAR SEGMENTACIÓN</button>
+    
+      </div>
       <div align="end">
-        <button mat-button (click)="return()" type="button">CANCELAR</button>
-        <button *ngIf="isNew" (click)="create()"color="primary" mat-button type="submit">CREAR SEGMENTACIÓN</button>
-        <button *ngIf="isEdit" (click)="create()"color="primary" mat-button type="submit">EDITAR SEGMENTACIÓN</button>
+        <button mat-stroked-button (click)="return()" type="button">CANCELAR</button>
+        <button class="ml-6" (click)="deleteSeg()"color="warn" mat-stroked-button type="submit">ELIMINAR SEGMENTACIÓN</button>
+        <!--button *ngIf="isNew" class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">CREAR SEGMENTACIÓN</button>
+        <button *ngIf="isEdit" class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">EDITAR SEGMENTACIÓN</button-->
       </div>
     </div>
   </vex-page-layout-content>

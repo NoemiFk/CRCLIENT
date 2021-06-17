@@ -134,6 +134,14 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/admin/segmentationSingle/segmentation.module').then(m => m.SegmentationModule),
           },
           {
+            path: 'communication',
+            loadChildren: () => import('./pages/admin/communication/communication.module').then(m => m.CommunicationModule),
+          },
+          {
+            path: 'communicationId/:id',
+            loadChildren: () => import('./pages/admin/communicationId/communication.module').then(m => m.CommunicationModule),
+          },
+          {
             path: 'strategy',
             loadChildren: () => import('./pages/admin/strategy/strategy.module').then(m => m.StrategyModule),
           },

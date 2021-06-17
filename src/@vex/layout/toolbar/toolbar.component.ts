@@ -19,6 +19,9 @@ import { PopoverService } from '../../components/popover/popover.service';
 import { MegaMenuComponent } from '../../components/mega-menu/mega-menu.component';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'vex-toolbar',
   templateUrl: './toolbar.component.html',
@@ -56,7 +59,8 @@ export class ToolbarComponent implements OnInit {
   constructor(private layoutService: LayoutService,
               private configService: ConfigService,
               private navigationService: NavigationService,
-              private popoverService: PopoverService) { }
+              private popoverService: PopoverService,
+              private router: Router) { }
 
   info_admin=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_admin);
@@ -65,7 +69,50 @@ export class ToolbarComponent implements OnInit {
   info_agency=localStorage.getItem('Agency')
   agency=JSON.parse(this.info_agency);
   days=8;
+  color1="primary"
+  color2="primary"
+  color3="primary"
+  color4="primary"
+  color5="primary"
   ngOnInit() {
+    console.log("Ruta",this.router.url);
+    switch (this.router.url) {
+      case "/admin/portafolios":
+        
+        this.color2="accent"
+        this.color1="primary"
+        this.color3="primary"
+        this.color4="primary"
+        this.color5="primary"
+        break;
+        case "/admin/customers":
+        
+          this.color2="primary"
+          this.color1="accent"
+          this.color3="primary"
+          this.color4="primary"
+          this.color5="primary"
+          break;
+      case "/admin/segmentation":
+        
+          this.color1="primary"
+          this.color3="accent"
+          this.color2="primary"
+          this.color4="primary"
+          this.color5="primary"
+          break;
+      case "/admin/communication":
+        
+          this.color1="primary"
+          this.color4="accent"
+          this.color2="primary"
+          this.color3="primary"
+          this.color5="primary"
+          break;
+    
+      default:
+        break;
+    }
    //console.log("Client",this.client)
    //console.log("Agencia",this.agency)
    //console.log("Plan",this.plan)
@@ -74,7 +121,9 @@ export class ToolbarComponent implements OnInit {
     this.calculate()
     if(this.days>=1) this.noticeCustomer()
   }
+  
   noticeCustomer() {
+   
     console.log("entrando")
     /**
      * Here we are updating our local array.

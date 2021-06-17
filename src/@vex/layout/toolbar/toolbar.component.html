@@ -53,16 +53,44 @@
     </button>
   </mat-menu>
 
-  <!--div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
+  <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
     <button *ngIf="isHorizontalLayout$ | async"
             [fxHide]="mobileQuery"
-            (click)="openMegaMenu(megaMenuOriginRef)"
-            color="primary"
+            color="{{color1}}"
             mat-button
-            type="button">MEGA MENU
-      <ic-icon [icon]="icArrowDropDown" class="ltr:-mr-1 rtl:-ml-1" inline="true"></ic-icon>
+            type="button">1. Alta Financiera
     </button>
-  </div-->
+    <button *ngIf="isHorizontalLayout$ | async"
+        [fxHide]="mobileQuery"
+        color="{{color2}}"
+        mat-button
+        type="button">2. Alta Portafolio
+    </button>
+    <button *ngIf="isHorizontalLayout$ | async"
+        [fxHide]="mobileQuery"
+        color="{{color3}}"
+        mat-button
+        type="button">3. Segmentacion Portafolio
+    </button>
+     <button *ngIf="isHorizontalLayout$ | async"
+        [fxHide]="mobileQuery"
+        color="{{color4}}"
+        mat-button
+        type="button">4. Diseñar Comunicacion
+
+    </button>
+    <button *ngIf="isHorizontalLayout$ | async"
+        [fxHide]="mobileQuery"
+        color="{{color5}}"
+        mat-button
+        type="button">5.  Estrategia de Gestion
+
+    </button>
+    
+
+
+
+  </div>
 
 
   <div *ngIf="(isVerticalLayout$ | async) && isNavbarInToolbar$ | async"
@@ -83,9 +111,7 @@
       </button>
     </div-->
 
-    <!--div class="px-1">
-      <vex-toolbar-notifications></vex-toolbar-notifications>
-    </div-->
+    
 
     <!--div class="px-1">
       <button (click)="openQuickpanel()" mat-icon-button type="button">

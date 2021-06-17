@@ -46,37 +46,40 @@ export class RegisterComponent implements OnInit {
   icStarBorder = icStarBorder;
 
   proveedores=[
+    
+    
     {
-      id:1,
-      image:"assets/blaster.png",
-      name:"LLAMADAS",
+      id:2,
+      image:"assets/SMS.png",
+      name:"SMS",
       active:false,
-      price:300,
-      range:"5000-10000"
+      price:0.2,
+      range:"Entrega exitosa"
     },
     {
       id:2,
       image:"assets/email.png",
       name:"EMAIL",
       active:false,
-      price:200,
-      range:"5000-10000"
+      price:0.2,
+      range:null
     },
     {
-      id:2,
-      image:"assets/SMS.png",
-      name:"SMS",
+      id:1,
+      image:"assets/blaster.png",
+      name:"LLAMADAS",
       active:false,
-      price:200,
-      range:"5000-10000"
+      price:0.2,
+      range:"Entrega exitosa"
     },
+    
     {
       id:2,
       image:"assets/WhatsApp.png",
-      name:"WHATSAPP",
+      name:"CARTA",
       active:false,
-      price:500,
-      range:"5000-10000"
+      price:5,
+      range:null
     }
   ]
   payment=[
