@@ -1,7 +1,7 @@
 
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
 
-    <h2 class="headline m-0" fxFlex="auto">Generar Carta</h2>
+    <h2 class="headline m-0" fxFlex="auto">EDITAR</h2>
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -22,24 +22,16 @@
           <input cdkFocusInitial [(ngModel)]="defaults.name" matInput>
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
-        <!--mat-form-field class="flex-auto ml-6" >
-          <mat-label>Selecciona Segmento</mat-label>
-          <mat-select  name="criterio1" [(ngModel)]="segment"  >
-            <mat-option value="Segmento A" > Segmento A</mat-option>
-            <mat-option  value="Segmento B" > Segmento B</mat-option>
-          </mat-select>
-    
-          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-        </mat-form-field-->
-        <!--(selectionChange)="changePortafolio($event)"-->
-        <mat-form-field class="flex-auto ml-6">
-          <mat-label>Selecciona Portafolio</mat-label>
-          <mat-select  name="portafolio_id"  [(ngModel)]="defaults.portafolio_id._id"  >
-            <ng-container *ngFor="let option of PortafoliosList;">
-              <mat-option  [value]="option._id" >
-                {{option.name_portafolio}}
-              </mat-option>
-            </ng-container>
+        <mat-form-field class="flex-auto ml-6" *ngIf="mode!='update'">
+          <mat-label>Selecciona tipo de Comunicación</mat-label>
+          <mat-select  name="type"  [(ngModel)]="type">
+            <mat-option value="">Selecciona tipo de Comunicación</mat-option>
+            <mat-option value="Carta">Carta</mat-option>
+            <mat-option value="Blaster">Blaster</mat-option>
+            <mat-option value="SMS">SMS</mat-option>
+            <mat-option value="Email">E-mail</mat-option>
+            <mat-option value="Notificacion">Notificacion</mat-option>
+            <mat-option value="Demanda">Demanda</mat-option>
           </mat-select>
     
           <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
@@ -52,7 +44,44 @@
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
       </div>
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto"  *ngIf="typeCommunication=='Email'">
+          <mat-label>Asusnto de e-mail</mat-label>
+          <input cdkFocusInitial [(ngModel)]="subject" matInput>
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto " *ngIf="typeCommunication=='Carta'">
+          <mat-label>Selecciona tamaño del documento</mat-label>
+          <mat-select  name="type"  [(ngModel)]="type">
+            <mat-option value="">Seleccionar tamaño del documento</mat-option>
+            <mat-option value="A4">A4 - Cata</mat-option>
+            <mat-option value="A5"> Legal</mat-option>
+          </mat-select>
+    
+          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto ml-6">
+          <mat-label>A quien va dirigido</mat-label>
+          <mat-select  name="type"  [(ngModel)]="typeClient" (selectionChange)="onLabelChange($event)">
+            <mat-option value="Cliente">Cliente</mat-option>
+            <mat-option value="Aval"> Aval</mat-option>
+          </mat-select>
+    
+          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+      </div>
+      <div>
+        <p><mat-icon [icIcon]="icImage" class="mr-3" matPrefix></mat-icon>  Click aqui para agregar una imagen</p>
+        <p><mat-icon [icIcon]="icLink" class="mr-3" matPrefix></mat-icon>  Copia el lin dentro del edito selecciona y da clik en es boton para comvertirno en un elnace.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        
 
+        <div class="flex-auto">
+          <button mat-raised-button color="primary" (click)="print()">Ver vista previa</button>
+        </div>
+      </div>
+      
       <div>
         <br>
               <div  class="flex flex-col sm:flex-row">
@@ -63,10 +92,60 @@
               <br>
         <quill-editor @fadeInUp
         [formControl]="form1"
-        [styles]="{ flex: '1 1 auto' }"></quill-editor>
+        (click)="getCursorPosition()"
+        [styles]="{ flex: '1 1 auto', 
+        width: '210mm',
+        height: '297mm',
+        padding: '20mm',
+        'margin-top': '10mm',
+        'margin': 'auto',
+        'border-color': 'grey',
+        border: 'solid',
+        'border-width': '1px',
+        background: 'white',
+        'border-radius': '5px'}"
+        >
+      </quill-editor>
         
       </div>
-
+      
+      <!--div id="page" class="book">
+        <div class="page salto_pagina_anterior content">
+            <div class="subpage">{{form1.value}}</div>    
+        </div>
+        <div class="page salto_pagina_anterior content">
+          <div class="subpage">{{form1.value}}</div>    
+      </div>
+      </div-->
+      <!--div id="print">
+        <div class="salto_pagina_anterior content">
+          <div>Este elemento se imprimirá en la primera página.</div>
+          <div class="img-content">
+            <img src="https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png">
+          </div>
+          <div class="observation">
+            Lorem Ipsum dest adsdf adf asd f asdf asdf as dfa sdf asd fasd fas df asdf asd fa ds
+          </div>
+        </div>
+        <div class="salto_pagina_anterior content">
+          <div>Este elemento se imprimirá en la segunda página.</div>
+          <div class="img-content">
+            <img src="https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png">
+          </div>
+          <div class="observation">
+            Lorem Ipsum dest adsdf adf asd f asdf asdf as dfa sdf asd fasd fas df asdf asd fa ds
+          </div>
+        </div>
+        <div class="salto_pagina_anterior content">
+          <div>Este elemento se imprimirá en la tercera página.</div>
+          <div class="img-content">
+            <img src="https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png">
+          </div>
+          <div class="observation">
+            Lorem Ipsum dest adsdf adf asd f asdf asdf as dfa sdf asd fasd fas df asdf asd fa ds
+          </div>
+        </div>
+      </div-->
     
   </mat-dialog-content>
 

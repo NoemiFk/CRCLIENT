@@ -106,13 +106,47 @@ export class AppComponent {
     /**
      * Add your own routes here
      */
+    
+   
     this.navigationService.items = [
       {
         type: 'link',
-        label: 'Dashboard',
+        label: 'Dashboard & Reportes',
         route: '/',
         icon: icLayers,
         routerLinkActiveOptions: { exact: true }
+      },
+      {
+        type: 'dropdown',
+        label: 'Configuración',
+        icon: icSettings,
+        children: [
+          {
+            type: 'link',
+            label: 'General',
+            route: '/login'
+          },
+          {
+            type: 'link',
+            label: 'Facturación',
+            route: '/admin/invoice'
+          },
+          {
+            type: 'link',
+            label: 'Costos',
+            route: '/login'
+          },
+          {
+            type: 'link',
+            label: 'Seguridad',
+            route: '/login'
+          },
+          {
+            type: 'link',
+            label: 'Proveedores',
+            route: '/login'
+          },
+        ]
       },
       {
         type: 'link',
@@ -151,12 +185,12 @@ export class AppComponent {
             route: '/admin/map',
             icon: icAssigment
           },*/
-          {
+         /* {
             type: 'link',
             label: 'WYSIWYG Editor',
             route: '/apps/editor',
             icon: icChromeReaderMode
-          },
+          },*/
           {
             type: 'link',
             label: 'Analisis',
@@ -179,12 +213,6 @@ export class AppComponent {
             type: 'link',
             label: 'Estrategias',
             route: '/admin/strategy',
-            icon: icAssigment
-          },
-          {
-            type: 'link',
-            label: 'Reportes',
-            route: '#',
             icon: icAssigment
           },
         ]
@@ -697,7 +725,7 @@ export class AppComponent {
             routerLinkActiveOptions: { exact: true }
           },
         ]
-      },*/
+      },
       {
         type: 'subheading',
         label: 'Configuración',
@@ -715,7 +743,7 @@ export class AppComponent {
               {
                 type: 'link',
                 label: 'Facturación',
-                route: '/login'
+                route: '/admin/invoice'
               },
               {
                 type: 'link',
@@ -735,7 +763,7 @@ export class AppComponent {
             ]
           }
         ]
-      },
+      },*/
       
       
     ];

@@ -4,8 +4,9 @@
     <div [class.container]="layoutCtrl.value === 'boxed'"
          [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
          class="w-full flex flex-col  justify-between"> <!-- sm:flex-row-->
-      <h2>Mapeo</h2>
-      <p>Sube aquí tu carteta de clientes morosos, actualizar y realiza el mapeo a tu preferencia.</p>
+      <h2>Subir archivo de portafolio</h2>
+      <!--p>Sube aquí tu carteta de clientes morosos, actualizar y realiza el mapeo a tu preferencia.</p-->
+      <p>Cargar archivo en Excel.csv 2. Generar vista previa 3. Selección de campos para mapeo del portafolio.</p>
     </div>
   </vex-page-layout-header>
 
@@ -20,11 +21,18 @@
               <div style="padding: 20px;">
 
                 <h3>Cargar Archivo</h3>
-                <p>Carga aquí tu layout</p>
+                <!--p>Carga aquí tu layout</p-->
+                <p>Nota: Formato 1 en Excel extensión CSV 2. No debe contener filas y columnas vacías </p>
               </div>
               <div  class="text-center">
-      
-                <input type="file" (change)="onFileChange($event)" />
+
+                <div class="fileControl-wrapper text-center">
+                  <br>
+                    <button mat-flat-button color="primary">Subir Archivo</button>
+                  <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
+                    multiple="multiple"  />
+              
+                </div>
                 <h3 *ngIf="jsonData.Datos.length">Datos Cargados</h3>
                 <h2 *ngIf="jsonData.Datos.length"> {{jsonData.Datos.length}}</h2>
               <!--div id="output"></div>
@@ -35,23 +43,21 @@
                 
             </div>
               <div class="text-right" *ngIf="jsonData.Datos.length">
-                <button mat-button matStepperNext>SIGUIENTE</button>
+                <button mat-raised-button class="primary" matStepperNext>SIGUIENTE</button>
               </div>
             </mat-step>
             <mat-step label="Vista Previa" state="chat">
               <br>
               
               <div class="w-full flex justify-between">
-                <p>Visualizar aquí los datos cargados.</p>
-                <button mat-button color="primary" matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
+                <p>Revisar el número de registros y los datos a cargar en caso de que los datos sean correcto presiona CARGAR ARCHIVO</p>
+                <button mat-raised-button color="primary" matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
               </div>
               <br>
               <div class="card overflow-auto" style="max-height: 500px;">
                 <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
                   <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-                    <span *ngIf="selection.isEmpty()">Cartera</span>
-                    <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
-                      Cartera<span *ngIf="selection.selected.length > 1">s</span> seleccionadas</span>
+                    <span >{{portafolio.name_portafolio}}</span>
                   </h2>
             
                   <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
@@ -131,9 +137,17 @@
 
               <br>
               <div class="w-full flex justify-between">
-                <p>Selecciona en la SIGUIENTE tabla los datos que desees utilizar en los SIGUIENTES procesos de Collections Robot.</p>
-                <button mat-button color="primary" matStepperNext (click)="create()">GUARDAR MAPEO</button>
+                <p class="flex-1">En esta etapa se debe realizar el mapeo de los campos del portafolio. El mapeo es necesario para seleccionar los campos que se requieren para las diferentes funcionalidades; recomendación para el Mapeo: </p>
+                <button mat-raised-button color="primary" matStepperNext (click)="create()">GUARDAR MAPEO</button>
               </div>
+              <br>
+              <div>
+                <p><b>1.</b>	Análisis y Segmentación: Seleccionar campos como Cartera Vencida, Por vencer, Fecha último pago, Estado, Producto evitar campos como nombre del cliente, dirección, Fecha de Nacimiento.</p>
+                <p><b>2.</b>	Comunicación: Seleccionar campos para personalización como nombre, dirección, cartera vencida, numero de cliente o contrato, referencia de pago </p>
+                <p><b>3.</b>	Portal: Seleccionar campos que el cliente puede visualizar como el desglose de su cartera vencida, nombre, numero de cliente o contrato, referencia de pago.</p>
+                <p><b>4.</b>	Aval: Seleccionar campos relacionados con el aval, Nombre, Dirección. </p>
+              </div>
+              <br>
               <div>
                 <h4><b>SEGURIDAD</b></h4>
                 <p>Seleccione el elemento que se utilizara para accesar a portal del usuario</p>

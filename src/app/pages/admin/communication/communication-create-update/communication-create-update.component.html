@@ -1,7 +1,7 @@
 
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
 
-    <h2 class="headline m-0" fxFlex="auto">Comunicación</h2>
+    <h2 class="headline m-0" fxFlex="auto">Generar {{title}}</h2>
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -15,81 +15,35 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content fxLayout="column">
-    <h3><b>Informacion General</b></h3>
-      <table mat-table [dataSource]="dataInfo" class="mat-elevation-z8 text-center" style="width: 100%;">
-        
-        <ng-container matColumnDef="Cliente">
-          <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>Cliente</b> </th>
-          <td mat-cell *matCellDef="let element"> {{element.client_id}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Portafolio">
-          <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>Portafolio</b> </th>
-          <td mat-cell *matCellDef="let element"> {{element.portafolio}} </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsIG"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumnsIG"></tr>
-      </table>
-<br>
+
       <div class="flex flex-col sm:flex-row">
         <mat-form-field class="flex-auto">
           <mat-label>Nombre</mat-label>
           <input cdkFocusInitial [(ngModel)]="name" matInput>
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
-        <mat-form-field class="flex-auto ml-6" >
-          <mat-label>Selecciona Segmento</mat-label>
-          <mat-select  name="criterio1" [(ngModel)]="segment"  >
-            <mat-option value="Segmento A" > Segmento A</mat-option>
-            <mat-option  value="Segmento B" > Segmento B</mat-option>
-            <!--mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option-->
-          </mat-select>
-    
-          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+        
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto">
+          <mat-label>Descripción</mat-label>
+          <input cdkFocusInitial [(ngModel)]="description" matInput>
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
       </div>
 
       <div>
-        <mat-tab-group>
-          <mat-tab label="SMS"> 
-            <div>
-              <br>
+        <br>
               <div  class="flex flex-col sm:flex-row">
                 <div *ngFor="let label of communicationData">
                   <button (click)="addText(label)" color="accent" mat-stroked-button>{{label}}</button>
                 </div>
               </div>
               <br>
-              <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent"></angular-editor>
-
-            </div>
-          </mat-tab>
-          <mat-tab label="Blaster"> 
-            <div>
-
-            </div>
-           </mat-tab>
-          <mat-tab label="Mail"> 
-            <div>
-
-            </div>
-           </mat-tab>
-           <mat-tab label="Carta"> 
-            <div>
-
-            </div>
-           </mat-tab>
-           <mat-tab label="Notificación"> 
-            <div>
-
-            </div>
-           </mat-tab>
-           <mat-tab label="Demanda"> 
-            <div>
-
-            </div>
-           </mat-tab>
-        </mat-tab-group>
+        <quill-editor @fadeInUp
+        [formControl]="form1"
+        [styles]="{ flex: '1 1 auto' }"></quill-editor>
+        
       </div>
 
     
@@ -97,8 +51,8 @@
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">CANCEL</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">EDITAR COMUNICACIÓN</button>
-    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">UPDATE CUSTOMER</button>
+    <button (click)="createCustomer()" color="primary" mat-button type="submit">CREAR COMUNICACIÓN</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR CARTA</button>
   </mat-dialog-actions>
 
 <mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">

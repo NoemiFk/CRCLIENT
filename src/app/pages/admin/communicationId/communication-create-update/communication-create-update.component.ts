@@ -12,6 +12,8 @@ import icPerson from '@iconify/icons-ic/twotone-person';
 import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
+import icImage from '@iconify/icons-ic/outline-image';
+import icLink from '@iconify/icons-ic/round-link';
 import { AngularEditorConfig } from '@kolkov/angular-editor'; 
 import {Services} from '../../../../Services/services'
 import { ViewEncapsulation } from '@angular/core';
@@ -48,6 +50,8 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   icMyLocation = icMyLocation;
   icLocationCity = icLocationCity;
   icEditLocation = icEditLocation;
+  icImage=icImage
+  icLink=icLink
   icPhone = icPhone;
 
 
@@ -62,15 +66,17 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   htmlContent = 'Hola, ';
   info_agency=localStorage.getItem('currentAgency')
   agency=JSON.parse(this.info_agency);
-
-
+  typeCommunication=""
+  typeClient="Cliente"
+  subject=""
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'update';
-      console.log("Hola",this.defaults)
+      console.log("Hola 3",this.defaults)
       this.getMap(this.defaults.portafolio_id._id)
       this.getPortafoliosList(this.defaults.client)
       this.form1.setValue(this.defaults.content)
+      this.typeCommunication =this.defaults.type
     } else {
       this.defaults = {} as Communication;
     }
@@ -82,7 +88,28 @@ export class CommunicationCreateUpdateComponent implements OnInit {
 
 
   }
+  word=""
+  rango=null
+  type="A4"
+  getCursorPosition(){
+    console.log("click", this.word)
+    if(this.word){
+
+      var sel, range;
+          sel = window.getSelection();
+          if (sel.getRangeAt && sel.rangeCount) {
+            console.log(sel.getRangeAt(0))
+            this.rango = sel.getRangeAt(0);
+            this.rango.insertNode(document.createTextNode('['+this.word+']'));
+            this.word = '';
+            
+             return sel.getRangeAt(0);
+          }
+    }
+  }
   communicationData=[]
+  communicationData2=[]
+  communicationData3=[]
   getMap(id){
     this.Services.getMap(id)
     .subscribe(
@@ -91,9 +118,15 @@ export class CommunicationCreateUpdateComponent implements OnInit {
           if(data.success){
             data.data.strategies.forEach(element => {
               if(element.status)
+                this.communicationData3.push(element.data)
                 this.communicationData.push(element.data)
+                
             });
-            console.log(this.communicationData)
+            data.data.endorsement.forEach(element => {
+              if(element.status)
+                this.communicationData2.push(element.data)
+            });
+            console.log(this.communicationData2)
            // this.CustomersList=data.data
             
           }
@@ -102,10 +135,100 @@ export class CommunicationCreateUpdateComponent implements OnInit {
           //this.error=true
         });
   }
+
+  onLabelChange(ev) {
+    console.log(ev.value)
+    if(ev.value=='Aval'){
+      this.communicationData=this.communicationData2
+    }
+    else{
+      this.communicationData=this.communicationData3
+    }
+  }
   addText(label){
-    let value = this.form1.value + " <label>["+label+"]</label> "
-    this.form1.setValue(value)
+    this.word=label
+    
     console.log(this.text , this.form1.value)
+  }
+  print1(){
+    var printContents = document.getElementById("page").innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+   // document.write (this.form1.value)
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+    
+   }
+
+   print() {
+    let printContents, popupWin;
+    printContents = document.getElementById("print").innerHTML.toString();
+    printContents = (<string>printContents + "").replace("col-sm", "col-xs");
+    // console.log(printContents);
+    popupWin = window.open("", "_blank", "top=0,left=0,height=100%,width=auto");
+    popupWin.document.open();
+    popupWin.document.write(`
+      <html>
+        <head>
+          <title>Reporte</title>
+          <meta name="viewport" content="width=10000, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+          <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.snow.css" integrity="sha512-XMxqcAfuPHOh2Kz0Z3oDynUcLgyKP6B1NCKUTxyVbM02u1ZrygDcLddKw7KpN/SGmdw8raHbKgaIHP7+bEfGYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.7/quill.js" integrity="sha512-fKCmF3NjF4jFIMa8v37g880lz9dm9mS15c6q6kcYgEEqtya3mHwiXKKGvAUAvPgFatZ4uAV9Z21/ARJkoePZmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          <style>
+            .salto_pagina_despues{
+              page-break-after:always;
+            }
+            
+            .salto_pagina_anterior{
+              page-break-before:always;
+            }
+
+            .content {
+              height: 100vh;
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+            }
+
+            .img-content {
+              flex: 1;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+
+            .observation {
+              height: 150px;
+              overflow: hidden;
+              overflow-y: auto;
+            }
+          </style>
+        </head>
+        <body onload="window.print();">
+          ${this.form1.value}
+          <div id="toolbar">
+  <select class="ql-align">
+    <option value=""></option>
+    <option value="center"></option>
+    <option value="right"></option>
+    <option value="justify"></option>
+  </select>
+</div>
+<div id="editor">
+  <p>Hello World!</p>
+  <p>Some initial <strong>bold</strong> text</p>
+  <p><br></p>
+</div>
+        </body>
+      </html>`);
+    /* window.close(); */
+    popupWin.document.close();
   }
   PortafoliosList=[]
   getPortafoliosList(client_id) {

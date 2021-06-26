@@ -63,8 +63,12 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   @Input()
   columns: TableColumn<Communication>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Nombre', property: 'name', type: 'text', visible: true },
+    { label: 'Financiera', property: 'client_id', type: 'text', visible: true },
+
     { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
+    { label: 'Tipo', property: 'type', type: 'text', visible: true },
+    { label: 'Nombre', property: 'name', type: 'text', visible: true },
+    { label: 'Descripcion', property: 'description', type: 'text', visible: true },
     { label: 'Registros', property: 'registers', type: 'text', visible: false, cssClasses: ['font-medium'] },
     { label: '% Segementado', property: 'porcent', type: 'text', visible: false },
     //{ label: 'Segmentos', property: 'segmentation', type: 'text', visible: true },
@@ -137,22 +141,68 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
         });
   }
   Communication={
-    client_id:"",
-    Letter:[]
+    agency_id:{},
+    client_id:{
+      name:""
+    },
+    Letter:[],
+    SMS: [],
+    Blaster: [],
+    Mail: [],
+    Notification: [],
+    Demand: []
   };
+  comunicationData=[]
   latters=[]
   getCommunication() {
     this.Services.getCommunication(this.client_id)
     .subscribe(
         data => {
-          //console.log("Hola ", data)
+        console.log("Hola ", data.data)
           if(data.success){
             this.Communication=data.data
 
+
             if(this.Communication.Letter.length){
+              this.Communication.Letter.forEach(element => {
+                element.client_id=this.Communication.client_id.name
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.Communication.Blaster.length){
+              this.Communication.Blaster.forEach(element => {
+                element.client_id=this.Communication.client_id.name
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.Communication.Mail.length){
+              this.Communication.Mail.forEach(element => {
+                element.client_id=this.Communication.client_id.name
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.Communication.SMS.length){
+              this.Communication.SMS.forEach(element => {
+                element.client_id=this.Communication.client_id.name
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.Communication.Notification.length){
+              this.Communication.Notification.forEach(element => {
+                element.client_id=this.Communication.client_id.name
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.Communication.Demand.length){
+              this.Communication.Demand.forEach(element => {
+                element.client_id=this.Communication.client_id.name
+                this.comunicationData.push(element)
+              });
+            }
+            console.log(this.comunicationData)
 
                 //return this.CommunicationsList;
-              this.getData(this.Communication.Letter).subscribe(latters => {
+              this.getData(this.comunicationData).subscribe(latters => {
                 this.subject$.next(latters);
               });
               //this.dataSource = new MatTableDataSource();
@@ -168,16 +218,61 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
               ).subscribe(value => this.onFilterChange(value));
                 //this.ClientAddList=data.data
                 ////console.log("--",this.usersList)
-              }
+              
             }
-
-
-            
             
         },
         error => {
           //this.error=true
         });
+  }
+  update(x){
+    console.log(x)
+
+    let communication=[]
+    switch (x) {
+      case "Cartas":
+        communication=this.Communication.Letter||[]
+        break;
+      case "Blaster":
+        communication=this.Communication.Blaster||[]
+        break;
+      case "Mail":
+        communication=this.Communication.Mail||[]
+        break;
+      case "SMS":
+        communication=this.Communication.SMS||[]
+        break;
+      case "Notification":
+        communication=this.Communication.Notification||[]
+        break;
+      case "Demand":
+        communication=this.Communication.Demand||[]
+        break;
+      default:
+        break;
+    }
+
+    console.log("Holaaaaa",communication)
+      //return this.CommunicationsList;
+    this.getData(communication).subscribe(latters => {
+      this.subject$.next(latters);
+    });
+    //this.dataSource = new MatTableDataSource();
+    this.data$.pipe(
+      filter<Communication[]>(Boolean)
+    ).subscribe(latters => {
+      //console.log(latters)
+      this.latters = latters;
+      this.dataSource.data = latters; //this.CommunicationsList;
+    });
+    this.searchCtrl.valueChanges.pipe(
+      untilDestroyed(this)
+    ).subscribe(value => this.onFilterChange(value));
+      //this.ClientAddList=data.data
+      ////console.log("--",this.usersList)
+    
+
   }
 
   ngAfterViewInit() {
@@ -280,4 +375,5 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
     this.customers[index].labels = change.value;
     this.subject$.next(this.customers);
   }
+ 
 }

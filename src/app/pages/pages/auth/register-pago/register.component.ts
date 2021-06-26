@@ -145,8 +145,13 @@ export class RegisterComponent implements OnInit {
     let body={
       name: user.name,
       email: user.email,
+      email1: user.email1,
+      email2: user.email2,
       phone: user.phone,
       RFC: user.rfc,
+      cfdiUse:user.cfdiUse,
+      paymentForm:user.paymentForm,
+      bussinesName:user.bussinesName,
       password: user.password,
       contract:{
         type:"pay",

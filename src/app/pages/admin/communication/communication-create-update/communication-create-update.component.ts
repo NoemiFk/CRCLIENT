@@ -14,16 +14,27 @@ import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import { AngularEditorConfig } from '@kolkov/angular-editor'; 
 import {Services} from '../../../../Services/services'
+import { ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
+
 @Component({
   selector: 'vex-strategy-create-update',
   templateUrl: './communication-create-update.component.html',
-  styleUrls: ['./communication-create-update.component.scss']
+  styleUrls: ['./communication-create-update.component.scss',
+  '../../../../../../node_modules/quill/dist/quill.snow.css',
+  '../../../../../@vex/styles/partials/plugins/_quill.scss'],
+  
+  encapsulation: ViewEncapsulation.None,
+  animations: [fadeInUp400ms]
 })
 export class CommunicationCreateUpdateComponent implements OnInit {
 
   static id = 100;
 
   form: FormGroup;
+  text = ``;
+  form1 = new FormControl(this.text);
   mode: 'create' | 'update' = 'create';
 
   icMoreVert = icMoreVert;
@@ -47,40 +58,27 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   }
   displayedColumnsIG: string[] = ['Cliente', 'Portafolio'];
   dataInfo=[]
-  name="Comunicacion 1"
+  name=""
+  description=""
+  subject=""
   htmlContent = 'Hola, ';
+  info_agency=localStorage.getItem('currentAgency')
+  agency=JSON.parse(this.info_agency);
+  title=""
+  datos=[]
+  value=""
 
-  config: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '15rem',
-    minHeight: '5rem',
-    placeholder: 'Enter text here...',
-    translate: 'no',
-    defaultParagraphSeparator: 'p',
-    defaultFontName: 'Arial',
-    toolbarHiddenButtons: [
-      ['bold']
-      ],
-    customClasses: [
-      {
-        name: "quote",
-        class: "quote",
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: "titleText",
-        class: "titleText",
-        tag: "h1",
-      },
-    ]
-  };
   ngOnInit() {
     if (this.defaults) {
-      this.mode = 'update';
+      this.mode = 'create';
+      console.log("Hola 2",this.defaults)
+
+      this.getMap(this.defaults.portafolio_id)
+      this.title=this.defaults.title
+      this.datos=this.defaults.data
+      this.value=this.defaults.value
+      this.form1.setValue(this.defaults.content)
+      console.log(this.datos)
     } else {
       this.defaults = {} as Communication;
     }
@@ -91,9 +89,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
     }]
 
 
-    this.getMap("60a9125ae2311425be658579")
   }
-  communication=""
   communicationData=[]
   getMap(id){
     this.Services.getMap(id)
@@ -101,8 +97,6 @@ export class CommunicationCreateUpdateComponent implements OnInit {
         data => {
           console.log("getMap ", data)
           if(data.success){
-            this.communication=data.data.segmentation;
-            let commun=[]
             data.data.strategies.forEach(element => {
               if(element.status)
                 this.communicationData.push(element.data)
@@ -117,8 +111,25 @@ export class CommunicationCreateUpdateComponent implements OnInit {
         });
   }
   addText(label){
-    this.htmlContent = this.htmlContent + " ["+label+"] "
+    let value = this.form1.value + " <label>["+label+"]</label> "
+    this.form1.setValue(value)
+    console.log(this.text , this.form1.value)
   }
+  PortafoliosList=[]
+  getPortafoliosList(client_id) {
+    //console.log("GET PORTAFOLOS",this.client.agency_id, client_id)
+     this.Services.getPortafoliosList(client_id)
+     .subscribe(
+         data => {
+           //console.log("Portafolios ", data)
+           if(data.success){
+             this.PortafoliosList=data.data
+           }
+         },
+         error => {
+           //this.error=true
+         });
+   }
  /* getCursorPosition(){
     if(this.variable){
       var sel, range;
@@ -143,19 +154,33 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   }
 
   createCustomer() {
-    const customer = this.form.value;
 
-    if (!customer.imageSrc) {
-      customer.imageSrc = 'assets/img/avatars/1.jpg';
-    }
-
-    this.dialogRef.close(customer);
+    this.datos.push({
+      subject: this.subject|| "",
+      name: this.name,
+      description:this.description||"",
+      portafolio_id: this.defaults.portafolio_id,
+      content: this.form1.value||"",
+    })
+    this.Services.updateDataCommunication(this.defaults.portafolio_id,this.value,this.datos)
+    .subscribe(
+        data => {
+          console.log("UPDATE ", data)
+          if(data.success){
+            this.dialogRef.close();
+          }
+        },
+        error => {
+          //this.error=true
+        });
+    
   }
 
   updateCustomer() {
     const customer = this.form.value;
     customer.id = this.defaults.id;
 
+    
     this.dialogRef.close(customer);
   }
 

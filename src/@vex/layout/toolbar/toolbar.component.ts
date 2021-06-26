@@ -12,6 +12,7 @@ import icBallot from '@iconify/icons-ic/twotone-ballot';
 import icDescription from '@iconify/icons-ic/twotone-description';
 import icAssignment from '@iconify/icons-ic/twotone-assignment';
 import icReceipt from '@iconify/icons-ic/twotone-receipt';
+import icArrow from '@iconify/icons-ic/twotone-arrow-right';
 import icDoneAll from '@iconify/icons-ic/twotone-done-all';
 import { NavigationService } from '../../services/navigation.service';
 import icArrowDropDown from '@iconify/icons-ic/twotone-arrow-drop-down';
@@ -53,6 +54,7 @@ export class ToolbarComponent implements OnInit {
   icDescription = icDescription;
   icAssignment = icAssignment;
   icReceipt = icReceipt;
+  icArrow=icArrow;
   icDoneAll = icDoneAll;
   icArrowDropDown = icArrowDropDown;
 
@@ -120,6 +122,48 @@ export class ToolbarComponent implements OnInit {
     if(this.plan && this.agency.contract.type=='test')
     this.calculate()
     if(this.days>=1) this.noticeCustomer()
+  }
+  href(x){
+    this.router.navigate([x]);
+  }
+  verify(){
+    switch (this.router.url) {
+      case "/admin/portafolios":
+        this.color2="accent"
+        this.color1="primary"
+        this.color3="primary"
+        this.color4="primary"
+        this.color5="primary"
+        break;
+        case "/admin/customers":
+        
+          this.color2="primary"
+          this.color1="accent"
+          this.color3="primary"
+          this.color4="primary"
+          this.color5="primary"
+          break;
+      case "/admin/segmentation":
+        
+          this.color1="primary"
+          this.color3="accent"
+          this.color2="primary"
+          this.color4="primary"
+          this.color5="primary"
+          break;
+      case "/admin/communication":
+        
+          this.color1="primary"
+          this.color4="accent"
+          this.color2="primary"
+          this.color3="primary"
+          this.color5="primary"
+          break;
+    
+      default:
+        break;
+    }
+    return true
   }
   
   noticeCustomer() {

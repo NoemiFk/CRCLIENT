@@ -1,9 +1,10 @@
 <vex-page-layout mode="card">
 
   <vex-page-layout-header fxLayout="column" fxLayoutAlign="center start">
-    <div vexContainer>
-      <h2 class="title m-0">Segmentación</h2>
-      <!--vex-breadcrumbs [crumbs]="['Page Layouts', 'Card', 'Large Header']"></vex-breadcrumbs-->
+    <div>
+
+      <h2>Segmentación del Portafolio</h2>
+      <p>Combina hasta 3 criterio de segmentación con base en los campos seleccionado en el mapeo. </p>
     </div>
   </vex-page-layout-header>
 
@@ -76,7 +77,7 @@
    
       <div class="flex flex-col sm:flex-row">
         <mat-form-field class="flex-auto mt-6">
-          <mat-label>Segmento</mat-label>
+          <mat-label>Nombre de Segmento</mat-label>
           <input cdkFocusInitial [(ngModel)]="segmentation.name" matInput>
   
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>

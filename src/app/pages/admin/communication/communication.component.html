@@ -13,6 +13,11 @@
         <mat-button-toggle value="boxed">BOXED</mat-button-toggle>
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
+      <div>
+        <h2>Comunicación digital </h2>
+        <!--h4>Alta y Actualizacion de Portafolios – Actualizacion de Promesas de Pago, Pagos y Resultados de Gestion..</h4-->
+        <h4>Diseña comunicación digital personalizada por cada portafolio </h4>
+      </div>
     </div>
   </vex-page-layout-header>
 
@@ -118,6 +123,28 @@
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.object][column.property] }}</td>
           </ng-container>
         </ng-container>
+         <!-- Text Columns Number-->
+         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'number'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+             
+              <div (click)="$event.stopPropagation();" fxLayoutAlign="start center" fxLayoutGap="4px">
+                <div>
+                  {{ row[column.property].length }}
+                </div>
+                <div (click)="$event.stopPropagation(); addNew(column.label,column.property,row.portafolio_id._id,row[column.property])"
+                     class="text-secondary bg-base text-hint cursor-pointer hover:bg-hover"
+                     fxFlex="none"
+                     fxLayout="row"
+                     fxLayoutAlign="center center"
+                     matTooltip="Crear Nuevo">
+                  <ic-icon [icon]="icAdd" size="18px"></ic-icon>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </ng-container>
 
         <!-- Contact Column -->
         <ng-container matColumnDef="contact">
@@ -161,7 +188,7 @@
               
               <a (click)=" $event.stopPropagation(); createCommunication(row._id)" 
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
-              mat-icon-button matTooltip="Editar">
+              mat-icon-button matTooltip="Editar Comunicación">
              <mat-icon [icIcon]="icEdit" size="18px"></mat-icon>
               </a>
               <a (click)=" $event.stopPropagation(); deleteCommunication(row)" 

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 export type ResponseType = 'arraybuffer' | 'blob' | 'json' | 'text';;
 import 'rxjs/add/operator/map'
 const URL="http://localhost:3002"
-//const URL="http://54.200.250.80:3002"
+//const URL="http://54.214.162.22:3002"
 const httpOptions = {
     headers: new HttpHeaders({
       'Authorization': 'my-auth-token',
@@ -302,6 +302,25 @@ export class Services {
     
                 });
       }
+      updateDataCommunication(id:string,data:string,body:object) {
+        return this.http.put<any>(URL+'/communication/'+data+"/"+id,body,httpOptions)
+            .map(resp => {
+            
+                //console.log("updatePlan",resp)
+                return resp;
+
+            });
+            
+  }
+  getInvoice(id:string) {
+    return this.http.get<any>(URL+'/history/agency/'+id,httpOptions)
+        .map(resp => {
+        
+            //console.log("updatePlan",resp)
+            return resp;
+
+        });
+}
     
 
 }

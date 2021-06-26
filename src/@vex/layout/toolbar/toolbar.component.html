@@ -53,37 +53,51 @@
     </button>
   </mat-menu>
 
-  <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2">
+  <div #megaMenuOriginRef class="ltr:ml-2 rtl:mr-2" *ngIf="verify()">
     <button *ngIf="isHorizontalLayout$ | async"
             [fxHide]="mobileQuery"
             color="{{color1}}"
             mat-button
+            (click)="href('/admin/customers')"
+            style="font-size: smaller;"
             type="button">1. Alta Financiera
     </button>
+    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
     <button *ngIf="isHorizontalLayout$ | async"
         [fxHide]="mobileQuery"
         color="{{color2}}"
         mat-button
+        (click)="href('/admin/portafolios')"
+        style="font-size: smaller;"
         type="button">2. Alta Portafolio
     </button>
+    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
     <button *ngIf="isHorizontalLayout$ | async"
         [fxHide]="mobileQuery"
         color="{{color3}}"
         mat-button
+        (click)="href('/admin/segmentation')"
+        style="font-size: smaller;"
         type="button">3. Segmentacion Portafolio
     </button>
+    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
      <button *ngIf="isHorizontalLayout$ | async"
         [fxHide]="mobileQuery"
         color="{{color4}}"
         mat-button
+        (click)="href('/admin/communication')"
+        style="font-size: smaller;"
         type="button">4. Diseñar Comunicacion
 
     </button>
+    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
     <button *ngIf="isHorizontalLayout$ | async"
         [fxHide]="mobileQuery"
         color="{{color5}}"
         mat-button
-        type="button">5.  Estrategia de Gestion
+        (click)="href('/admin/segmentation')"
+        style="font-size: smaller;"
+        type="button">5. Estrategia de Gestion
 
     </button>
     

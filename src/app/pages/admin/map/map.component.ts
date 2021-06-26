@@ -126,6 +126,7 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.getData().subscribe(customers => {
       this.subject$.next(customers);
     });
+    this.getPortaolio(this.portafolio_id)
     if(this.isNew=="false"){
      console.log("Es False")
       this.getMap(this.portafolio_id);
@@ -185,6 +186,24 @@ export class MapComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  portafolio={
+    name_portafolio:""
+  }
+  getPortaolio(id){
+    this.Services.getPortafolio(id)
+    .subscribe(
+        data => {
+          if(data.success){
+            this.portafolio=data.data;
+            
+          }
+        },
+        error => {
+          //this.error=true
+        });
+    }
+
   uploadActive=true;
   dataSourceUpload=[]
   upload(){

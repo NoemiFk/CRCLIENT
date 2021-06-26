@@ -62,10 +62,13 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   columns: TableColumn<Communication>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
-    //{ label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
-    { label: 'Registros', property: 'registers', type: 'text', visible: false, cssClasses: ['font-medium'] },
-    { label: '% Segementado', property: 'porcent', type: 'text', visible: false },
-    //{ label: 'Segmentos', property: 'segmentation', type: 'text', visible: true },
+    { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
+    { label: 'SMS', property: 'SMS', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Cartas', property: 'Letter', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Blaster', property: 'Blaster', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'E-Mails', property: 'Mail', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Notificaciones', property: 'Notification', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Demandas', property: 'Demand', type: 'number', visible: true, cssClasses: ['font-medium'] },
     { label: 'Segmentos', property: 'labels', type: 'button', visible: false },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
@@ -133,6 +136,33 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
         error => {
           //this.error=true
         });
+  }
+  addNew(x,a,y,z) {
+    console.log("Generar")
+    let body={
+      portafolio_id:y,
+      title:x,
+      value:a,
+      data:z
+    }
+    
+    this.dialog.open(CommunicationCreateUpdateComponent, {
+      data: body
+    }).afterClosed().subscribe(createCommunication => {
+      /**
+       * Communication is the create customer (if the user pressed Save - otherwise it's null)
+       */
+      if (createCommunication) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        //const index = this.customers.findIndex((existingCommunication) => existingCommunication.id === createCommunication.id);
+        //this.customers[index] = new Communication(updatedCommunication);
+        this.getCommunicationsList()
+        this.subject$.next(this.customers);
+      }
+    });
   }
   CommunicationsList=[];
   getCommunicationsList() {
