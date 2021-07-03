@@ -13,6 +13,8 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import { AngularEditorConfig } from '@kolkov/angular-editor'; 
+import icImage from '@iconify/icons-ic/outline-image';
+import icLink from '@iconify/icons-ic/round-link';
 import {Services} from '../../../../Services/services'
 import { ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -36,7 +38,9 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   text = ``;
   form1 = new FormControl(this.text);
   mode: 'create' | 'update' = 'create';
-
+  icImage=icImage
+  icLink=icLink
+  typeClient="Cliente"
   icMoreVert = icMoreVert;
   icClose = icClose;
   segment="Segmento A"
@@ -67,7 +71,10 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   title=""
   datos=[]
   value=""
-
+  typeCommunication=""
+  communicationData=[]
+  communicationData2=[]
+  communicationData3=[]
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'create';
@@ -75,6 +82,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
 
       this.getMap(this.defaults.portafolio_id)
       this.title=this.defaults.title
+      this.typeCommunication = this.title
       this.datos=this.defaults.data
       this.value=this.defaults.value
       this.form1.setValue(this.defaults.content)
@@ -90,8 +98,43 @@ export class CommunicationCreateUpdateComponent implements OnInit {
 
 
   }
-  communicationData=[]
-  getMap(id){
+  character=0
+  cuanti(){
+    let text= this.form1.value;
+    console.log(text)
+    if(text){
+
+      var strippedHtml = text.replace(/<[^>]+>/g, '');
+    this.character=strippedHtml.length
+    }
+    else{
+      this.character=0
+    }
+    setTimeout(() => {
+      //console.log(this.character)
+    }, 0);
+    //return true
+  }
+  word=""
+  rango=null
+  type="A4"
+  getCursorPosition(){
+    console.log("click", this.word)
+    if(this.word){
+
+      var sel, range;
+          sel = window.getSelection();
+          if (sel.getRangeAt && sel.rangeCount) {
+            console.log(sel.getRangeAt(0))
+            this.rango = sel.getRangeAt(0);
+            this.rango.insertNode(document.createTextNode('['+this.word+']'));
+            this.word = '';
+            
+             return sel.getRangeAt(0);
+          }
+    }
+  }
+ getMap(id){
     this.Services.getMap(id)
     .subscribe(
         data => {
@@ -99,9 +142,15 @@ export class CommunicationCreateUpdateComponent implements OnInit {
           if(data.success){
             data.data.strategies.forEach(element => {
               if(element.status)
+                this.communicationData3.push(element.data)
                 this.communicationData.push(element.data)
+                
             });
-            console.log(this.communicationData)
+            data.data.endorsement.forEach(element => {
+              if(element.status)
+                this.communicationData2.push(element.data)
+            });
+            console.log(this.communicationData2)
            // this.CustomersList=data.data
             
           }
@@ -111,8 +160,8 @@ export class CommunicationCreateUpdateComponent implements OnInit {
         });
   }
   addText(label){
-    let value = this.form1.value + " <label>["+label+"]</label> "
-    this.form1.setValue(value)
+    this.word=label
+    
     console.log(this.text , this.form1.value)
   }
   PortafoliosList=[]
@@ -144,6 +193,17 @@ export class CommunicationCreateUpdateComponent implements OnInit {
       }
     }
   }*/
+  onLabelChange(ev) {
+    console.log(ev.value)
+    if(ev.value=='Aval'){
+      this.typeClient='Aval'
+      this.communicationData=this.communicationData2
+    }
+    else{
+      this.typeClient='Cliente'
+      this.communicationData=this.communicationData3
+    }
+  }
 
   save() {
     if (this.mode === 'create') {
@@ -158,6 +218,8 @@ export class CommunicationCreateUpdateComponent implements OnInit {
     this.datos.push({
       subject: this.subject|| "",
       name: this.name,
+      latterType: this.type,
+      addressee: this.typeClient,
       description:this.description||"",
       portafolio_id: this.defaults.portafolio_id,
       content: this.form1.value||"",

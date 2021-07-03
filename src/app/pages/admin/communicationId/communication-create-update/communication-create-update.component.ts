@@ -69,12 +69,14 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   typeCommunication=""
   typeClient="Cliente"
   subject=""
+  value=""
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'update';
       console.log("Hola 3",this.defaults)
       this.getMap(this.defaults.portafolio_id._id)
-      this.getPortafoliosList(this.defaults.client)
+      //this.getPortafoliosList(this.defaults.client)
+      this.value=this.defaults.value
       this.form1.setValue(this.defaults.content)
       this.typeCommunication =this.defaults.type
     } else {
@@ -82,10 +84,10 @@ export class CommunicationCreateUpdateComponent implements OnInit {
     }
 
     this.dataInfo=[{
-      client_id:"Liverpool",
+      client_id:"Liverpool1",
       portafolio: "Clientes Morosos"
     }]
-
+    this.cuanti()
 
   }
   word=""
@@ -139,9 +141,11 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   onLabelChange(ev) {
     console.log(ev.value)
     if(ev.value=='Aval'){
+      this.typeClient='Aval'
       this.communicationData=this.communicationData2
     }
     else{
+      this.typeClient='Cliente'
       this.communicationData=this.communicationData3
     }
   }
@@ -277,12 +281,63 @@ export class CommunicationCreateUpdateComponent implements OnInit {
 
     this.dialogRef.close(customer);
   }
+  character=0
+  cuanti(){
+    let text= this.form1.value;
+    var strippedHtml = text.replace(/<[^>]+>/g, '');
+    this.character=strippedHtml.length
+    setTimeout(() => {
+      //console.log(this.character)
+    }, 0);
+    //return true
+  }
+
+datos=[]
 
   updateCustomer() {
-    const customer = this.form.value;
-    customer.id = this.defaults.id;
-
-    this.dialogRef.close(customer);
+    console.log("Update")
+    switch (this.defaults.type) {
+      case "Cartas":
+        this.value="Letter"
+        break;
+      case "Blaster":
+        this.value="Blaster"
+        break;
+      case "Mail":
+        this.value="Mail"
+        break;
+      case "Mensaje":
+        this.value="SMS"
+        break;
+      case "Notificacion":
+        break;
+      case "Demanda":
+        this.value="Demand"
+        break;
+      default:
+        break;
+    }
+    this.datos.push({
+      subject: this.defaults.subject|| "",
+      name: this.defaults.name,
+      latterType: this.defaults.type,
+      addressee: this.typeClient,
+      description:this.defaults.description||"",
+      portafolio_id: this.defaults.portafolio_id._id,
+      content: this.form1.value||"",
+    })
+    console.log(this.defaults.portafolio_id,this.value,this.datos)
+    this.Services.updateDataCommunication(this.defaults.portafolio_id._id,this.value,this.datos)
+    .subscribe(
+        data => {
+          console.log("UPDATE ", data)
+          if(data.success){
+            this.dialogRef.close();
+          }
+        },
+        error => {
+          //this.error=true
+        });
   }
 
   isCreateMode() {

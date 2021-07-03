@@ -311,7 +311,17 @@ export class Services {
 
             });
             
-  }
+    }
+    createDataCommunication(body:object) {
+        return this.http.post<any>(URL+'/communication/',body,httpOptions)
+            .map(resp => {
+            
+                //console.log("updatePlan",resp)
+                return resp;
+
+            });
+            
+    }
   getInvoice(id:string) {
     return this.http.get<any>(URL+'/history/agency/'+id,httpOptions)
         .map(resp => {
