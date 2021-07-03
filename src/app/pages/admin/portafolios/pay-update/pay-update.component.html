@@ -2,6 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
     <h2 class="headline m-0"
         fxFlex="auto">Cargar Pagos</h2>
+        <!--h3>Puedes actualizar los pagos identificados desde la fecha de la última actualización del portafolio</h3-->
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -11,6 +12,7 @@
       <mat-icon [icIcon]="icClose"></mat-icon>
     </button>
   </div>
+  <p>Puedes actualizar los pagos identificados desde la fecha de la última actualización del portafolio</p>
 
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
@@ -21,6 +23,8 @@
 
           <h3>Cargar Archivo de pagos</h3>
           <p>Carga aquí tu layout</p>
+          <p>1. Formato en archivo Excel.csv</p>
+          <p>2. Campos requeridos : identificador cliente, fecha de pago , monto de pago.</p>
          
         </div>
         <div  class="text-center">

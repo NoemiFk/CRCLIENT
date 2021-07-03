@@ -193,7 +193,7 @@ export class AppComponent {
           },*/
           {
             type: 'link',
-            label: 'Analisis',
+            label: 'Análisis',
             route: '/admin/analysis',
             icon: icAnalisis
           },
@@ -205,7 +205,7 @@ export class AppComponent {
           },
           {
             type: 'link',
-            label: 'Communicacion  Digital',
+            label: 'Comunicación  Digital',
             route: '/admin/communication',
             icon: icAssigment
           },
