@@ -110,6 +110,28 @@
           </td>
         </ng-container>
 
+        <!-- Boolean Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'boolean'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+              <div class="flex">
+                <a  *ngIf="row[column.property]==true" 
+                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-green bg-green-light"
+                  mat-stroked-button>
+                  {{ row[column.property]==true?"Si":"No"}}
+                </a>
+                <a   *ngIf="row[column.property]==false" 
+                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-red bg-red-light"
+                  mat-stroked-button>
+                  {{ row[column.property]==true?"Si":"No"}}
+                </a>
+              </div>
+             
+            </td>
+          </ng-container>
+        </ng-container>
+
         <!-- Image Column -->
         <ng-container matColumnDef="image">
           <th *matHeaderCellDef mat-header-cell></th>
