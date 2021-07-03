@@ -111,6 +111,8 @@ export class StrategyComponent implements OnInit, AfterViewInit {
     return of(aioTableData.map(customer => new Customer(customer)));
   }
 
+  
+
   ngOnInit() {
     this.getData().subscribe(customers => {
       this.subject$.next(customers);
@@ -209,6 +211,7 @@ export class StrategyComponent implements OnInit, AfterViewInit {
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
+  
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {

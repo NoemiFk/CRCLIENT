@@ -212,7 +212,7 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Estrategias',
-            route: '/admin/strategy',
+            route: '/admin/strategyId',
             icon: icAssigment
           },
         ]

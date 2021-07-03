@@ -295,9 +295,9 @@ export class CommunicationCreateUpdateComponent implements OnInit {
 datos=[]
 
   updateCustomer() {
-    console.log("Update")
+    console.log("Update", this.defaults)
     switch (this.defaults.type) {
-      case "Cartas":
+      case "Carta":
         this.value="Letter"
         break;
       case "Blaster":
@@ -310,6 +310,7 @@ datos=[]
         this.value="SMS"
         break;
       case "Notificacion":
+        this.value="Notification"
         break;
       case "Demanda":
         this.value="Demand"

@@ -90,7 +90,7 @@
   
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
-      <mat-form-field class="flex-auto  ml-6 "  *ngIf="typeCommunication=='E-Mail'">
+      <mat-form-field class="flex-auto  ml-6 "  *ngIf="typeCommunication=='E-Mails'">
         <mat-label>Asusnto de e-mail</mat-label>
         <input cdkFocusInitial [(ngModel)]="subject" matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
@@ -180,7 +180,7 @@
                 >
               </quill-editor>
             </div>
-            <div *ngIf="typeCommunication=='Blaster' ||typeCommunication=='SMS' ||typeCommunication=='E-Mail'  ">
+            <div *ngIf="typeCommunication=='Blaster' ||typeCommunication=='SMS' ||typeCommunication=='E-Mails'  ">
 
 
               <quill-editor @fadeInUp

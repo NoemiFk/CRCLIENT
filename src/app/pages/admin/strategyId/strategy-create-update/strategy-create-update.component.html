@@ -1,0 +1,68 @@
+
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+
+    <h2 class="headline m-0"
+        fxFlex="auto">Nueva Estrategia</h2>
+
+    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+      <mat-icon [icIcon]="icMoreVert"></mat-icon>
+    </button>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+
+    <div class="flex flex-col sm:flex-row">
+
+      <mat-form-field class="flex-auto" >
+        <mat-label>Selecciona financiera</mat-label>
+        <mat-select cdkFocusInitial [(ngModel)]="communication" >
+          <mat-option [value]="option" *ngFor="let option of getCommunications;">{{option.name}}</mat-option>
+        </mat-select>
+  
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
+
+
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
+        <mat-label>Hora Inicio</mat-label>
+        <input cdkFocusInitial [(ngModel)]="init" matInput>
+
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
+   
+    
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCEL</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit" (click)="save()">CREAR ESTRATEGIA</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit" (click)="save()">EDITAR ESTRATEGIA </button>
+  </mat-dialog-actions>
+
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icPrint"></mat-icon>
+    <span>Print</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDownload"></mat-icon>
+    <span>Export</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDelete"></mat-icon>
+    <span>Eliminar</span>
+  </button>
+</mat-menu>
