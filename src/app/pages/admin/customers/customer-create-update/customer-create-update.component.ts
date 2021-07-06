@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ElementRef,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Customer } from '../interfaces/customer.model';
@@ -12,7 +12,9 @@ import icPerson from '@iconify/icons-ic/twotone-person';
 import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
+import icEmail from '@iconify/icons-ic/email';
 import {Services} from '../../../../Services/services'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'vex-customer-create-update',
@@ -39,19 +41,51 @@ export class CustomerCreateUpdateComponent implements OnInit {
   icLocationCity = icLocationCity;
   icEditLocation = icEditLocation;
   icPhone = icPhone;
+  icEmail = icEmail;
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
               private dialogRef: MatDialogRef<CustomerCreateUpdateComponent>,
               private fb: FormBuilder,
-              private Services: Services) {
+              private Services: Services,
+              private snackbar: MatSnackBar) {
+  }
+
+  @ViewChild('uploadControl') uploadControl: ElementRef;
+  uploadFileName = 'Choose File';
+
+  onFileChange(e: any) {
+
+    if (e.target.files && e.target.files[0]) {
+
+      this.uploadFileName = '';
+      Array.from(e.target.files).forEach((file: File) => {
+        this.uploadFileName += file.name + ',';
+      });
+
+      const fileReader = new FileReader();
+      fileReader.onload = (e: any) => {
+        const img = new Image();
+        img.src = e.target.result;
+        img.onload = res => {
+
+          const imgBase64Path = e.target.result;
+
+        };
+      };
+      fileReader.readAsDataURL(e.target.files[0]);
+
+      this.uploadControl.nativeElement.value = "";
+    } else {
+      this.uploadFileName = 'Choose File';
+    }
   }
 
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'update';
       let customer= this.defaults;
-      console.log(this.defaults)
+      //console.log(this.defaults)
       this.defaults= {
         "_id":customer._id,
       "name": customer.name,
@@ -70,7 +104,9 @@ export class CustomerCreateUpdateComponent implements OnInit {
       "ext": customer.address.ext,
       "zipcode": customer.address.zipcode,
       }
-      console.log(this.defaults)
+      this.pay=customer.pay;
+      this.pays=customer.pays;
+      console.log(customer)
     } else {
       this.defaults = {} as Customer;
     }
@@ -87,6 +123,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       country: this.defaults.country || '', 
       municipality: this.defaults.municipality || '',
       state: this.defaults.state || '',
+      pays: this.defaults.pays || '',
       int: this.defaults.int || '',
       ext: this.defaults.ext || '',
       phone: this.defaults.phone || '',
@@ -94,6 +131,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       email: this.defaults.email || '',
       emailOptional: this.defaults.emailOptional || ''
     });
+    
   }
 
   save() {
@@ -131,34 +169,95 @@ export class CustomerCreateUpdateComponent implements OnInit {
         "ext": customer.ext,
         "zipcode": customer.zipcode
       },
+      "pay":this.pay,
+      "pays":this.pays
     }
-     console.log(body)
+     //console.log(body)
       this.createCustomerA(body);
      
 
     
+  }
+  pay=[]
+  pays=[]
+  selectPay(ev){
+    console.log(ev.value)
+    this.pays=ev.value
+    this.pay=[]
+    this.pays.forEach(element => {
+    
+      this.pay.push({
+        name:element,
+        cta:""
+      })
+  });
   }
 
   createCustomerA(body) {
     this.Services.createCustomer(body)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.agency=data.data
             this.dialogRef.close(data.data);
           }
         },
         error => {
+          console.log(error.error.type)
+          this.snackbar.open(error.error.type, 'OK', {
+            duration: 10000
+          });
           //this.error=true
         });
   }
 
   updateCustomer() {
     const customer = this.form.value;
-    customer.id = this.defaults.id;
 
-    this.dialogRef.close(customer);
+    if (!customer.imageSrc) {
+      customer.imageSrc = 'assets/img/avatars/1.jpg';
+    }
+
+    let body= {
+      "agency_id": this.client.agency_id,
+      "nameClient": customer.nameClient,
+      "name": customer.name,
+      "type": customer.type,
+      "email": customer.email,
+      "phone": customer.phone,
+      "emailOptional": customer.emailOptional,
+      "phoneOptional": customer.phoneOptional,
+      "RFC": customer.RFC,
+      "address": {
+        "city": customer.city,
+        "state": customer.state,
+        "municipality": customer.municipality,
+        "address1": customer.address1,
+        "address2": customer.address2,
+        "int": customer.int,
+        "ext": customer.ext,
+        "zipcode": customer.zipcode
+      },
+      "pay":this.pay,
+      "pays":this.pays
+    }
+    this.Services.updateCustomer(this.defaults._id,body)
+    .subscribe(
+        data => {
+          //console.log("Hola ", data)
+          if(data.success){
+            this.agency=data.data
+            this.dialogRef.close(data.data);
+          }
+        },
+        error => {
+          console.log(error.error.type)
+          this.snackbar.open(error.error.type, 'OK', {
+            duration: 10000
+          });
+          //this.error=true
+        });
   }
 
   isCreateMode() {

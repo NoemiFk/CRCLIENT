@@ -21,13 +21,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContainerModule } from '../../../../@vex/directives/container/container.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [MapComponent],
   imports: [
     CommonModule,
     MapRoutingModule,
+    MatStepperModule,
+    MatSnackBarModule,
     PageLayoutModule,
     FlexLayoutModule,
     BreadcrumbsModule,
@@ -41,6 +45,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatButtonModule,
     MatMenuModule,
     IconModule,
+    MatListModule,
     FormsModule,
     MatTooltipModule,
     ReactiveFormsModule,

@@ -1,7 +1,7 @@
 <form (ngSubmit)="save()" [formGroup]="form">
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
     <h2 class="headline m-0"
-        fxFlex="auto">Nuevo Portafolio</h2>
+        fxFlex="auto">Administración Portafolios</h2>
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -15,29 +15,21 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content fxLayout="column">
-    <mat-form-field class="flex-auto" >
-      <mat-label>Selecciona</mat-label>
-            <mat-select matNativeControl name="client_id"  formControlName="client_id">
-              <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
-            </mat-select>
-
-      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
     <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="mt-6 flex-auto">
+
+      <mat-form-field class="flex-auto mt-6" >
+        <mat-label>Selecciona financiera</mat-label>
+        <mat-select matNativeControl name="client_id"  formControlName="client_id">
+          <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
+        </mat-select>
+  
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
         <mat-label>Nombre</mat-label>
         <input cdkFocusInitial formControlName="name_portafolio" matInput>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
-      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
-        <mat-label>Tipo</mat-label>
-          
-          <select matNativeControl name="type"  formControlName="type">
-            <option value="no">Seleccione uno...</option>
-            <option value="Financiera">Financiera</option>
-            <option value="Proveerdor de Cobranza">Proveerdor de Cobranza</option>
-          </select>
 
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
@@ -70,6 +62,6 @@
 
   <button mat-menu-item>
     <mat-icon [icIcon]="icDelete"></mat-icon>
-    <span>Delete</span>
+    <span>Eliminar</span>
   </button>
 </mat-menu>

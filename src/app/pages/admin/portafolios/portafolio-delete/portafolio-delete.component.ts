@@ -49,7 +49,7 @@ export class PortafolioDeleteComponent implements OnInit {
   ngOnInit() {
     if (this.defaults) {
       let portafolio= this.defaults;
-      console.log(this.defaults)
+      //console.log(this.defaults)
     } 
     
   }

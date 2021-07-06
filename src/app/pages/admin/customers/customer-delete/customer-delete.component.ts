@@ -49,7 +49,7 @@ export class CustomerDeleteComponent implements OnInit {
   ngOnInit() {
     if (this.defaults) {
       let customer= this.defaults;
-      console.log(this.defaults)
+      //console.log(this.defaults)
     } 
     
   }

@@ -6,7 +6,7 @@ import icVisibility from '@iconify/icons-ic/twotone-visibility';
 import icVisibilityOff from '@iconify/icons-ic/twotone-visibility-off';
 import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
 import { AuthenticationService } from '../../../../Services/AuthenticationService';
-
+import {Services} from '../../../../Services/services'
 @Component({
   selector: 'vex-login',
   templateUrl: './login.component.html',
@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
               private cd: ChangeDetectorRef,
               private snackbar: MatSnackBar,
               private AuthenticationService: AuthenticationService,
+              private Services: Services
   ) {}
 
   ngOnInit() {
@@ -46,13 +47,15 @@ export class LoginComponent implements OnInit {
     .subscribe(
         data => {
           if(data.success){
-            console.log(data)
-            this.router.navigate(['/']);
+            //console.log(data)
+            let user=data.data;
+            this.getAgency(user.agency_id)
+           
 
           }
         },
         error => {
-          console.log(error.error)
+         //console.log(error.error)
           let message="Error";
           if(!error.error.success)
             message = error.error.type;
@@ -64,6 +67,38 @@ export class LoginComponent implements OnInit {
 
 
     
+  }
+  getAgency(agency) {
+   //console.log("Clientt",agency)
+    this.Services.getAgency(agency)
+    .subscribe(
+        data => {
+          if(data.success){
+            let agencyA=data.data
+           //console.log("----",agencyA)
+            localStorage.setItem('Agency', JSON.stringify(agencyA));
+            this.getPlan(agencyA.contract.plan_id);
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  getPlan(id) {
+    this.Services.getPlan(id)
+    .subscribe(
+        data => {
+          //console.log("Hola ", data)
+          if(data.success){
+            let plan=data.data
+            localStorage.setItem('Plan', JSON.stringify(plan));
+            console.log("Dashboards")
+            this.router.navigate(['/']);
+          }
+        },
+        error => {
+          //this.error=true
+        });
   }
 
   toggleVisibility() {

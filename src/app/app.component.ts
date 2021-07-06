@@ -5,8 +5,13 @@ import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { NavigationService } from '../@vex/services/navigation.service';
 import icLayers from '@iconify/icons-ic/twotone-layers';
+import icMoney from '@iconify/icons-ic/money-off';
 import icAssigment from '@iconify/icons-ic/twotone-assignment';
 import icContactSupport from '@iconify/icons-ic/twotone-contact-support';
+import icPerson from '@iconify/icons-ic/person';
+import icPortafolio from '@iconify/icons-ic/twotone-folder';
+import icAnalisis from '@iconify/icons-ic/graphic-eq';
+import icSegmentation from '@iconify/icons-ic/twotone-pause-circle-outline';
 import icDateRange from '@iconify/icons-ic/twotone-date-range';
 import icChat from '@iconify/icons-ic/twotone-chat';
 import icContacts from '@iconify/icons-ic/twotone-contacts';
@@ -101,53 +106,113 @@ export class AppComponent {
     /**
      * Add your own routes here
      */
+    
+   
     this.navigationService.items = [
       {
         type: 'link',
-        label: 'Dashboard',
+        label: 'Dashboard & Reportes',
         route: '/',
         icon: icLayers,
+        routerLinkActiveOptions: { exact: true }
+      },
+      {
+        type: 'dropdown',
+        label: 'Configuración',
+        icon: icSettings,
+        children: [
+          {
+            type: 'link',
+            label: 'General',
+            route: '/login'
+          },
+          {
+            type: 'link',
+            label: 'Facturación',
+            route: '/admin/invoice'
+          },
+          {
+            type: 'link',
+            label: 'Costos',
+            route: '/login'
+          },
+          {
+            type: 'link',
+            label: 'Seguridad',
+            route: '/login'
+          },
+          {
+            type: 'link',
+            label: 'Proveedores',
+            route: '/login'
+          },
+        ]
+      },
+      {
+        type: 'link',
+        label: 'Contrata tu plan',
+        route: '/engagement',
+        icon: icMoney,
         routerLinkActiveOptions: { exact: true }
       },
       /////////////////////
       {
         type: 'subheading',
-        label: 'Clientes',
+        label: 'Funcionalidades',
         children: [
           {
             type: 'link',
-            label: 'Clientes',
+            label: 'Administración Financieras',
             route: '/admin/customers',
-            icon: icAssigment
+            icon: icPerson
           },
           {
             type: 'link',
-            label: 'Portafolios',
+            label: 'Administración Portafolios',
             route: '/admin/portafolios',
-            icon: icAssigment
+            icon: icPortafolio
           },
+         /* {
+            type: 'link',
+            label: 'Portafolios',
+            route: '/admin/portafoliosId/:id',
+            icon: icPortafolio
+          },
+
           {
             type: 'link',
             label: 'Mapeo',
             route: '/admin/map',
             icon: icAssigment
-          },
+          },*/
+         /* {
+            type: 'link',
+            label: 'WYSIWYG Editor',
+            route: '/apps/editor',
+            icon: icChromeReaderMode
+          },*/
           {
             type: 'link',
-            label: 'Analisis',
+            label: 'Análisis',
             route: '/admin/analysis',
-            icon: icAssigment
+            icon: icAnalisis
           },
           {
             type: 'link',
             label: 'Segmentación',
-            route: '/admin/segmentacion',
+            route: '/admin/segmentation',
+            icon: icSegmentation
+          },
+          {
+            type: 'link',
+            label: 'Comunicación  Digital',
+            route: '/admin/communication',
             icon: icAssigment
           },
           {
             type: 'link',
             label: 'Estrategias',
-            route: '/admin/strategy',
+            route: '/admin/strategyId',
             icon: icAssigment
           },
         ]
@@ -663,16 +728,44 @@ export class AppComponent {
       },
       {
         type: 'subheading',
-        label: 'Customize',
-        children: []
-      },
-      {
-        type: 'link',
-        label: 'Configuration',
-        route: () => this.layoutService.openConfigpanel(),
-        icon: icSettings
-      }
-      */
+        label: 'Configuración',
+        children: [
+          {
+            type: 'dropdown',
+            label: 'Configuración del Sistem',
+            icon: icSettings,
+            children: [
+              {
+                type: 'link',
+                label: 'General',
+                route: '/login'
+              },
+              {
+                type: 'link',
+                label: 'Facturación',
+                route: '/admin/invoice'
+              },
+              {
+                type: 'link',
+                label: 'Costos',
+                route: '/login'
+              },
+              {
+                type: 'link',
+                label: 'Seguridad',
+                route: '/login'
+              },
+              {
+                type: 'link',
+                label: 'Proveedores',
+                route: '/login'
+              },
+            ]
+          }
+        ]
+      },*/
+      
+      
     ];
   }
 }

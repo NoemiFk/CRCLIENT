@@ -28,8 +28,18 @@ export class MegaMenuComponent implements OnInit {
   features: MegaMenuFeature[] = [
     {
       icon: icLayers,
-      label: 'Dashboard',
+      label: 'Dashboard & Reportes',
       route: '/'
+    },
+    {
+      icon: icLayers,
+      label: 'Configuración',
+      route: '/engagement'
+    },
+    {
+      icon: icLayers,
+      label: 'Contrata tu plan',
+      route: '/engagement'
     },
     {
       icon: icAssigment,

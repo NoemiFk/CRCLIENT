@@ -36,7 +36,7 @@ export const aioTableData = [
     city: 'Munjor',
     phoneNumber: '+32 (818) 580-3557',
     mail: 'dejesus.chang@yourcompany.biz',
-    labels: [aioTableLabels[0], aioTableLabels[1]]
+    labels: []
   },
   {
     id: 1,

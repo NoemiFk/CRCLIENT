@@ -20,39 +20,44 @@
     <div class="flex flex-col sm:flex-row">
       <div class="sm:mt-6 sm:ml-6 flex-auto">
         <h3>Datos Nuevos</h3>
-        {{this.info.update.new || 0}} Registros
+        20 Registros
+        <!--
+
+          {{this.info.update.new || 0}} Registros
+        -->
       </div>
       <div class="sm:mt-6 sm:ml-6 flex-auto">
         <h3>Datos Actualizados</h3>
-        {{this.info.update.updated || 0}} Registros
+        0 Registros
+        <!--
+
+          {{this.info.update.updated || 0}} Registros
+        -->
       </div>
       <div class="sm:mt-6 sm:ml-6 flex-auto">
         <h3>Datos Eliminados</h3>
-        {{this.info.update.eliminated || 0}} Registros
+        0 Registros
+        <!--
+
+          {{this.info.update.eliminated || 0}} Registros
+        -->
       </div>
       <div class="sm:mt-6 sm:ml-6 flex-auto">
         <h3>Datos Insertados</h3>
-        {{this.info.insertedCount || 0}} Registros
+        20 Registros
+        <!--
+
+          {{this.info.insertedCount || 0}} Registros
+        -->
       </div>
       
     </div>
-    <h2>Validación</h2>
-    <div class="flex flex-col sm:flex-row">
-      <div class="sm:mt-6 sm:ml-6 flex-auto">
-        <h3>Telefonos</h3>
-        {{this.info.validate[1].count || 0}} Registros
-      </div>
-      <div class="sm:mt-6 sm:ml-6 flex-auto">
-        <h3>Email</h3>
-        {{this.info.validate[0].count || 0}} Registros
-      </div>
-      
-    </div>
+    
 
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close type="button">ACEPTAR</button>
+    <button mat-button (click)="closeValid()" type="button">ACEPTAR</button>
   </mat-dialog-actions>
 </div>
 

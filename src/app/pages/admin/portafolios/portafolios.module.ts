@@ -8,6 +8,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
 import { PortafolioCreateUpdateModule } from './portafolio-create-update/portafolio-create-update.module';
 import { PortafolioDeleteModule } from './portafolio-delete/portafolio-delete.module';
+import { MapUpdateModule } from './mapeo-update/mapeo-update.module';
+import { PayUpdateModule } from './pay-update/pay-update.module';
+import { PaymentPromiseUpdateModule } from './payment_promise-update/payment_promise-update.module';
+import { ManagementResultsUpdateModule } from './management_results-update/management_results-update.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -29,6 +33,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     CommonModule,
     AioTableRoutingModule,
     PageLayoutModule,
+    ManagementResultsUpdateModule,
+    PaymentPromiseUpdateModule,
     FlexLayoutModule,
     BreadcrumbsModule,
     PortafolioCreateUpdateModule,
@@ -39,6 +45,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    MapUpdateModule,
     IconModule,
     FormsModule,
     MatTooltipModule,
@@ -46,7 +53,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ContainerModule,
     MatSelectModule,
     MatButtonToggleModule,
-    PortafolioDeleteModule
+    PortafolioDeleteModule,
+    PayUpdateModule,
+    //ManagementResultsUpdateModule
   ]
 })
 export class AioTableModule {

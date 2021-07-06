@@ -1,0 +1,212 @@
+
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+
+    <h2 class="headline m-0" fxFlex="auto">Editar {{this.defaults.type}}</h2>
+
+    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+      <mat-icon [icIcon]="icMoreVert"></mat-icon>
+    </button>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto">
+          <mat-label>Nombre</mat-label>
+          <input cdkFocusInitial [(ngModel)]="defaults.name" matInput>
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+        
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        <mat-form-field class="flex-auto">
+          <mat-label>Descripción</mat-label>
+          <input cdkFocusInitial [(ngModel)]="defaults.description" matInput>
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        
+        
+        <mat-form-field class="flex-auto ">
+          <mat-label>A quien va dirigido</mat-label>
+          <mat-select  name="type"  [(ngModel)]="typeClient" (selectionChange)="onLabelChange($event)">
+            <mat-option value="Cliente">Cliente</mat-option>
+            <mat-option value="Aval"> Aval</mat-option>
+          </mat-select>
+    
+          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto  ml-6 "  *ngIf="typeCommunication=='Mail'">
+          <mat-label>Asusnto de e-mail</mat-label>
+          <input cdkFocusInitial [(ngModel)]="defaults.subject" matInput>
+          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+        <mat-form-field class="flex-auto ml-6 " *ngIf="typeCommunication=='Carta'">
+          <mat-label>Selecciona tamaño del documento</mat-label>
+          <mat-select  name="type"  [(ngModel)]="defaults.type">
+            <mat-option value="">Seleccionar tamaño del documento</mat-option>
+            <mat-option value="A4">A4 - Cata</mat-option>
+            <mat-option value="A5"> Legal</mat-option>
+          </mat-select>
+    
+          <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+        </mat-form-field>
+      </div>
+      <div>
+        <p><mat-icon [icIcon]="icImage" class="mr-3" matPrefix></mat-icon>  Click aqui para agregar una imagen</p>
+        <p><mat-icon [icIcon]="icLink" class="mr-3" matPrefix></mat-icon>  Copia el lin dentro del edito selecciona y da clik en es boton para comvertirno en un elnace.</p>
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        
+
+       
+      </div>
+      
+      <div>
+        <br>
+              <div>
+
+                <label *ngFor="let label of communicationData;let i = index " class="m-2" >
+                  <button (click)="addText(label)" color="accent" mat-stroked-button>{{label}}</button> <br *ngIf="(i+1)%10==0" />
+                </label>
+              </div>
+             
+              <br>
+              <div class="flex flex-col sm:flex-row mb-2">
+                <label class="flex-auto self-center" style="text-align: center;" for="">Caracteres: <b>{{character}}</b> </label>
+                <div class="flex-auto" style="text-align: center;"  *ngIf="typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda'">
+
+                  <button   mat-stroked-button  color="primary" >Agregar nueva pagina</button>
+                </div>
+              </div>
+              <div *ngIf="type=='A4' && (typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda') ">
+
+                <quill-editor @fadeInUp
+                  
+                  (keyup)="cuanti()"
+                  [formControl]="form1"
+                  (click)="getCursorPosition()"
+                  [styles]="{ flex: '1 1 auto', 
+                  width: '216mm',
+                  height: '279mm',
+                  padding: '20mm',
+                  'margin-top': '10mm',
+                  'margin-left': 'auto',
+                  'margin-right': 'auto',
+                  'border-color': 'grey',
+                  border: 'solid',
+                  'border-width': '1px',
+                  background: 'white',
+                  'border-radius': '5px'}"
+                  
+                  >
+                </quill-editor>
+              </div>
+              <div *ngIf="type=='A5' && (typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda') ">
+
+
+                <quill-editor @fadeInUp
+                (keyup)="cuanti()"
+                  
+                  [formControl]="form1"
+                  (click)="getCursorPosition()"
+                  [styles]="{ flex: '1 1 auto', 
+                  width: '256mm',
+                  height: '356mm',
+                  padding: '20mm',
+                  'margin-top': '10mm',
+                  'margin-left': 'auto',
+                  'margin-right': 'auto',
+                  'border-color': 'grey',
+                  border: 'solid',
+                  'border-width': '1px',
+                  background: 'white',
+                  'border-radius': '5px'}"
+                  
+                  >
+                </quill-editor>
+              </div>
+              <div *ngIf="typeCommunication=='Blaster' ||typeCommunication=='Mensaje' ||typeCommunication=='Mail'  ">
+
+
+                <quill-editor @fadeInUp
+                (keyup)="cuanti()"
+                  [formControl]="form1"
+                  (click)="getCursorPosition()"
+                  [styles]="{ flex: '1 1 auto'}"
+                  >
+                </quill-editor>
+              </div>
+
+        
+      </div>
+      
+      <!--div id="page" class="book">
+        <div class="page salto_pagina_anterior content">
+            <div class="subpage">{{form1.value}}</div>    
+        </div>
+        <div class="page salto_pagina_anterior content">
+          <div class="subpage">{{form1.value}}</div>    
+      </div>
+      </div-->
+      <!--div id="print">
+        <div class="salto_pagina_anterior content">
+          <div>Este elemento se imprimirá en la primera página.</div>
+          <div class="img-content">
+            <img src="https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png">
+          </div>
+          <div class="observation">
+            Lorem Ipsum dest adsdf adf asd f asdf asdf as dfa sdf asd fasd fas df asdf asd fa ds
+          </div>
+        </div>
+        <div class="salto_pagina_anterior content">
+          <div>Este elemento se imprimirá en la segunda página.</div>
+          <div class="img-content">
+            <img src="https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png">
+          </div>
+          <div class="observation">
+            Lorem Ipsum dest adsdf adf asd f asdf asdf as dfa sdf asd fasd fas df asdf asd fa ds
+          </div>
+        </div>
+        <div class="salto_pagina_anterior content">
+          <div>Este elemento se imprimirá en la tercera página.</div>
+          <div class="img-content">
+            <img src="https://www.online-image-editor.com/styles/2019/images/power_girl_editor.png">
+          </div>
+          <div class="observation">
+            Lorem Ipsum dest adsdf adf asd f asdf asdf as dfa sdf asd fasd fas df asdf asd fa ds
+          </div>
+        </div>
+      </div-->
+    
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCEL</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREAR COMUNICACIÓN</button>
+    <button (click)="updateCustomer()" color="primary" mat-button type="submit">EDITAR COMUNICACIÓN</button>
+  </mat-dialog-actions>
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icPrint"></mat-icon>
+    <span>Print</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDownload"></mat-icon>
+    <span>Export</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDelete"></mat-icon>
+    <span>Eliminar</span>
+  </button>
+</mat-menu>

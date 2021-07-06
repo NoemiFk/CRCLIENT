@@ -10,12 +10,22 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { PortafolioCreateUpdateComponent } from './portafolio-create-update/portafolio-create-update.component';
 import { PortafolioDeleteComponent } from './portafolio-delete/portafolio-delete.component';
+import { MapUpdateComponent } from './mapeo-update/mapeo-update.component';
+import { PayUpdateComponent } from './pay-update/pay-update.component';
+import { PaymentPromiseUpdateComponent } from './payment_promise-update/payment_promise-update.component';
+import { ManagementResultsUpdateComponent } from './management_results-update/management_results-update.component';
 
+import { Router } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
+import icUpload from '@iconify/icons-ic/file-upload';
+import icload from '@iconify/icons-ic/update';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
+import icList from '@iconify/icons-ic/twotone-list';
+import icPay from '@iconify/icons-ic/twotone-payment';
+import icPromisses from '@iconify/icons-ic/twotone-list-alt';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
 import icFolder from '@iconify/icons-ic/twotone-folder';
@@ -69,11 +79,14 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @Input()
   columns: TableColumn<Portafolio>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
+    { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Descripción', property: 'description', type: 'text', visible: true },
-    { label: 'Tipo', property: 'type', type: 'text', visible: true },
-    { label: 'Cliente', property: 'name', type: 'object', object:'client_id', visible: true },
-    { label: 'Actions', property: 'actions', type: 'button', visible: true }
+    { label: 'Descripción', property: 'description', type: 'text', visible: false },
+    { label: 'Mapeo', property: 'map', type: 'boolean', visible: true },
+    { label: 'Fecha', property: 'updatemap', type: 'date', visible: true },
+    { label: 'Registros', property: 'register', type: 'text', visible: true },
+    { label: 'Actualización de  información', property: 'actions1', type: 'button', visible: true },
+    { label: 'Alta/Actualización de portafolio', property: 'actions', type: 'button', visible: true }
   ];
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
@@ -90,7 +103,12 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icAdd = icAdd;
+  icUpload=icUpload;
+  icload=icload;
   icFilterList = icFilterList;
+  icPromisses= icPromisses;
+  icPay=icPay;
+  icList=icList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
   // User 
@@ -104,7 +122,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog,  private Services: Services,) {
+  constructor(private dialog: MatDialog,  private Services: Services,private router: Router) {
   }
 
   get visibleColumns() {
@@ -116,14 +134,14 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    * We are simulating this request here.
    */
   getData(list) {
-    console.log("-->",list)
+    //console.log("-->",list)
     return of(list.map(portafolio => portafolio));
   }
   getCustomersList() {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -134,14 +152,15 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         });
   }
   getAgency() {
+   //console.log("Clientt",this.client.agency_id)
     this.Services.getAgency(this.client.agency_id)
     .subscribe(
         data => {
           if(data.success){
             this.agency=data.data
-            this.agency_id=data.data._id;
-            console.log("----",this.agency)
-            this.getPortafoliosListAgency()
+           //console.log("----",this.agency)
+            //this.agency_id=data.data._id;
+           
           }
         },
         error => {
@@ -149,8 +168,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         });
   }
   getPortafoliosListAgency() {
-    console.log("Agency", this.agency_id)
-    this.Services.getPortafoliosListAgency(this.agency_id)
+   //console.log("Agency   ------", this.client.agency_id)
+    this.Services.getPortafoliosListAgency(this.client.agency_id)
     .subscribe(
         data => {
           if(data.success){
@@ -165,27 +184,27 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            console.log(portafolios)
+            //console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          console.log("-------->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
           //this.error=true
         });
   }
-  getPortafoliosList() {
-    this.Services.getPortafoliosList(this.client_id)
+  getPortafoliosList(client_id) {
+   //console.log("GET PORTAFOLOS",this.client.agency_id, client_id)
+    this.Services.getPortafoliosList(client_id)
     .subscribe(
         data => {
-          console.log("Portafolios ", data)
+          //console.log("Portafolios ", data)
           if(data.success){
             this.PortafoliosList=data.data
             
@@ -198,16 +217,15 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Portafolio[]>(Boolean)
           ).subscribe(portafolios => {
-            console.log(portafolios)
+            //console.log(portafolios)
             this.portafolios = portafolios;
             this.dataSource.data = portafolios; //this.PortafoliosList;
           });
-          console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
@@ -216,17 +234,16 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log(this.client)
+   //console.log("Clientt",this.client)
     this.dataSource = new MatTableDataSource();
     this.getAgency() 
-    
+    this.getPortafoliosListAgency();
     this.getCustomersList();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log("-->",this.dataSource)
   }
 
   createPortafolio() {
@@ -239,8 +256,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.portafolios.unshift(portafolio);
-        this.subject$.next(this.portafolios);
+        this.getPortafoliosListAgency();
       }
     });
   }
@@ -335,8 +351,98 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.subject$.next(this.portafolios);
   }
   onChangeClient(x){
-    console.log(x)
-    this.client_id=x.value;
-    this.getPortafoliosList()
+   //console.log(x)
+    let client_id=x.value;
+    this.getPortafoliosList(client_id)
+  }
+  create(id){
+    this.router.navigate(['/admin/map/'+id+'/'+true]);
+  }
+  upload(id){
+    this.router.navigate(['/admin/map/'+id+'/'+false]);
+  }
+  uploadMap(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(MapUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
+  }
+  uploadPay(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(PayUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
+  }
+  uploadPayPromises(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(PaymentPromiseUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
+  }
+  uploadManagementResults(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(ManagementResultsUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
   }
 }

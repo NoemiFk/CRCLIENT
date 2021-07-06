@@ -10,10 +10,11 @@ import { TableColumn } from '../../../../@vex/interfaces/table-column.interface'
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { CustomerCreateUpdateComponent } from './customer-create-update/customer-create-update.component';
 import { CustomerDeleteComponent } from './customer-delete/customer-delete.component';
-
+import { Router } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icSearch from '@iconify/icons-ic/twotone-search';
+import icPortafolio from '@iconify/icons-ic/twotone-folder';
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -69,15 +70,18 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   columns: TableColumn<Customer>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Imagen', property: 'image', type: 'image', visible: true },
-    { label: 'Cliente', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    { label: 'RFC', property: 'RFC', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Tipo', property: 'type', type: 'text', visible: true },
-    { label: 'E-mail', property: 'email', type: 'text', visible: true },
-    { label: 'Telefono', property: 'phone', type: 'text', visible: true },
-    { label: 'Calle', property: 'address1', type: 'object', object:'address',visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'No. Int', property: 'int', type: 'object', object:'address', visible: true },
+    { label: 'Financiera', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Portafolios', property: 'countPortafilio', type: 'text', visible: true },
+    { label: 'Registros', property: 'countData', type: 'text', visible: true },
+    { label: 'Método de Pago', property: 'paymentMethod',  type: 'boolean', visible: true },
+    { label: 'RFC', property: 'RFC', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'Tipo', property: 'type', type: 'text', visible: false },
+    { label: 'E-mail', property: 'email', type: 'text', visible: false },
+    { label: 'Telefono', property: 'phone', type: 'text', visible: false },
+    { label: 'Calle', property: 'address1', type: 'object', object:'address',visible: false, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'No. Int', property: 'int', type: 'object', object:'address', visible: false },
     { label: 'No. Ext', property: 'ext', type: 'object', object:'address', visible: false },
-    { label: 'C.P', property: 'zipcode', type: 'object', object:'address', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
+    { label: 'C.P', property: 'zipcode', type: 'object', object:'address', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Colonia', property: 'address2', type: 'object', object:'address', visible: false },
     { label: 'Municipio', property: 'municipality', type: 'object', object:'address', visible: false },
     { label: 'Ciudad', property: 'city', type: 'object', object:'address', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
@@ -97,6 +101,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icMap = icMap;
   icEdit = icEdit;
   icSearch = icSearch;
+  icPortafolio=icPortafolio;
   icDelete = icDelete;
   icAdd = icAdd;
   icFilterList = icFilterList;
@@ -110,7 +115,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog,  private Services: Services,) {
+  constructor(private dialog: MatDialog,  private Services: Services,private router: Router) {
   }
 
   get visibleColumns() {
@@ -123,7 +128,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
    * We are simulating this request here.
    */
   getData(list) {
-    console.log("-->",list)
+    //console.log("-->",list)
     return of(list.map(customer => customer));
   }
   getAgency() {
@@ -132,7 +137,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
         data => {
           if(data.success){
             this.agency=data.data
-            console.log(this.agency)
+            //console.log(this.agency)
           }
         },
         error => {
@@ -143,7 +148,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data)
+          //console.log("Hola ", data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -156,16 +161,15 @@ export class AioTableComponent implements OnInit, AfterViewInit {
           this.data$.pipe(
             filter<Customer[]>(Boolean)
           ).subscribe(customers => {
-            console.log(customers)
+            //console.log(customers)
             this.customers = customers;
             this.dataSource.data = customers; //this.CustomersList;
           });
-          console.log("-->",this.dataSource)
           this.searchCtrl.valueChanges.pipe(
             untilDestroyed(this)
           ).subscribe(value => this.onFilterChange(value));
             //this.ClientAddList=data.data
-            //console.log("--",this.usersList)
+            ////console.log("--",this.usersList)
           }
         },
         error => {
@@ -174,7 +178,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log(this.client)
+    //console.log(this.client)
     this.getAgency() 
     this.dataSource = new MatTableDataSource();
     this.getCustomersList();
@@ -183,7 +187,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log("-->",this.dataSource)
+    //console.log("-->",this.dataSource)
   }
 
   createCustomer() {
@@ -214,9 +218,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        const index = this.customers.findIndex((existingCustomer) => existingCustomer._id === updatedCustomer._id);
-        this.customers[index] = new Customer(updatedCustomer);
-        this.subject$.next(this.customers);
+        this.getCustomersList()
       }
     });
   }
@@ -290,5 +292,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     const index = this.customers.findIndex(c => c === row);
     //this.customers[index].labels = change.value;
     this.subject$.next(this.customers);
+  }
+  portafolios(id){
+    this.router.navigate(['/admin/portafoliosId/'+id]);
   }
 }

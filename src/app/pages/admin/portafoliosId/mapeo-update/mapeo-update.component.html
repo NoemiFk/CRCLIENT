@@ -1,0 +1,136 @@
+
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <h2 class="headline m-0"
+        fxFlex="auto">Actualizar Mapeo</h2>
+
+    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+      <mat-icon [icIcon]="icMoreVert"></mat-icon>
+    </button>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+    <br>
+    <p> El mapeo es necesario para seleccionar los campos que se requieren para las diferentes funcionalidades; recomendación para el Mapeo: </p>
+    <br>
+    <div>
+      <p><b>1.</b>	Análisis y Segmentación: Seleccionar campos como Cartera Vencida, Por vencer, Fecha último pago, Estado, Producto evitar campos como nombre del cliente, dirección, Fecha de Nacimiento.</p>
+      <p><b>2.</b>	Comunicación: Seleccionar campos para personalización como nombre, dirección, cartera vencida, numero de cliente o contrato, referencia de pago </p>
+      <p><b>3.</b>	Portal: Seleccionar campos que el cliente puede visualizar como el desglose de su cartera vencida, nombre, numero de cliente o contrato, referencia de pago.</p>
+      <p><b>4.</b>	Aval: Seleccionar campos relacionados con el aval, Nombre, Dirección. </p>
+    </div>
+    <div class="card overflow-auto" style="max-height: 500px;">
+      <div class="my-12 container"
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayoutAlign="start start"
+      fxLayoutAlign.xs="start stretch"
+      fxLayoutGap="24px">
+      <div  fxFlex fxLayout="column">
+        <b class="text-center">Dato</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of map"> {{column}}</mat-list-item>
+        </mat-list>
+      </div>
+      <!--div  fxFlex fxLayout="column">
+        <b>Ejemplo</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of map"> {{column.ejemplo}}</mat-list-item>
+        </mat-list>
+      </div-->
+      <div  fxFlex fxLayout="column">
+        <b class="text-center">Análisis</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of analysis;  let i = index;"> 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status"
+            (change)="$event ? saveChange('analysis',i) : null">
+          </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div  fxFlex fxLayout="column">
+        <b class="text-center">Segmentación</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of segmentation;  let i = index;"> 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status"
+            (change)="$event ? saveChange('segmentation',i) : null">
+          </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div  fxFlex fxLayout="column">
+        <b class="text-center">Comunicación</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of strategies;  let i = index;"> 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status"
+            (change)="$event ? saveChange('strategies',i) : null" >
+          </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div  fxFlex fxLayout="column">
+        <b class="text-center">Portal</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of customerPortal;   let i = index;"> 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
+            (change)="$event ? saveChange('customerPortal',i) : null">
+          </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+        <b class="text-center">Aval</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of endorsement;   let i = index;"> 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
+            (change)="$event ? saveChange('endorsement',i) : null">
+          </mat-checkbox>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div  fxFlex fxLayout="column">
+        <b class="text-center">Validación</b>
+        <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let column of validations;  let i = index;"> 
+            <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
+            (change)="$event ? saveChange('validations',i) : null">
+          </mat-checkbox>
+            <select class="sm:ml-6" name="type"  >
+              <option value="no">Seleccione uno...</option>
+              <option value="Email">E-mail</option>
+              <option value="number">Numero Telefonico</option>
+              <option value="date">Fecha</option>
+            </select>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCELAR</button>
+    <button *ngIf="isUpdateMode()" color="primary" (click)="save()" mat-button type="submit">ACTUALIZAR MAPEO</button>
+  </mat-dialog-actions>
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icPrint"></mat-icon>
+    <span>Print</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDownload"></mat-icon>
+    <span>Export</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDelete"></mat-icon>
+    <span>Eliminar</span>
+  </button>
+</mat-menu>

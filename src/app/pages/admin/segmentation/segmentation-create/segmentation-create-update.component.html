@@ -1,0 +1,102 @@
+<form (ngSubmit)="save()" [formGroup]="form">
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+
+    <h2 class="headline m-0" *ngIf="mode != 'update'"
+        fxFlex="auto">Nueva Segmentación</h2>
+        <h2 class="headline m-0" *ngIf="mode == 'update'"
+        fxFlex="auto">Modificar Segmentación</h2>
+
+    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+      <mat-icon [icIcon]="icMoreVert"></mat-icon>
+    </button>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+
+    
+    <div class="flex flex-col sm:flex-row">
+
+      <mat-form-field class="flex-auto mt-6" *ngIf="mode != 'update'">
+        <mat-label>Selecciona Cliente</mat-label>
+        <mat-select matNativeControl name="client_id"  formControlName="client_id" (selectionChange)="changeCliente($event)" >
+          <mat-option [value]="option" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
+        </mat-select>
+  
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+      <mat-form-field class="flex-auto" *ngIf="mode == 'update'">
+        <mat-label>Cliente</mat-label>
+        <input cdkFocusInitial formControlName="client_name" matInput>
+
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="flex flex-col sm:flex-row">
+
+      <mat-form-field class="flex-auto "  *ngIf="mode != 'update'">
+        <mat-label>Selecciona Portafolio</mat-label>
+        <mat-select matNativeControl name="portafolio_id"  formControlName="portafolio_id" (selectionChange)="changePortafolio($event)" >
+          <ng-container *ngFor="let option of PortafoliosList;">
+            <mat-option  [value]="option" *ngIf="!option.segmentation">
+              {{option.name_portafolio}}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+  
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+      <mat-form-field class="flex-auto" *ngIf="mode == 'update'">
+        <mat-label>Portafolio</mat-label>
+        <input cdkFocusInitial formControlName="portafolio_name" matInput>
+
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="flex flex-col sm:flex-row">
+      <mat-form-field class="flex-auto">
+        <mat-label>Nombre</mat-label>
+        <input cdkFocusInitial formControlName="name" matInput>
+
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="flex-auto">
+      <mat-label>Descripción</mat-label>
+      <textarea formControlName="description" matInput></textarea>
+    </mat-form-field>
+   
+
+    
+    
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCELAR</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">CREAR SEGMENTACIÓN</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR SEGMENTACIÓN</button>
+  </mat-dialog-actions>
+</form>
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icPrint"></mat-icon>
+    <span>Print</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDownload"></mat-icon>
+    <span>Export</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDelete"></mat-icon>
+    <span>Eliminar</span>
+  </button>
+</mat-menu>

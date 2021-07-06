@@ -3,7 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardAnalyticsRoutingModule } from './dashboard-analytics-routing.module';
 import { DashboardAnalyticsComponent } from './dashboard-analytics.component';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { WelcomeModule } from './welcome/welcome.module';
+import { NoticeModule } from './notice/notice.module';
+import { CustomerUpdateModel } from './customer-update/customer-update.module';
+import { CustomerFactModel } from './customer-fact/customer-update.module';
+
 import { ChartModule } from '../../../../@vex/components/chart/chart.module';
 import { MatIconModule } from '@angular/material/icon';
 import { WidgetQuickLineChartModule } from '../../../../@vex/components/widgets/widget-quick-line-chart/widget-quick-line-chart.module';
@@ -41,7 +47,11 @@ import { ContainerModule } from '../../../../@vex/directives/container/container
     BreadcrumbsModule,
     MatButtonModule,
     PageLayoutModule,
-    ContainerModule
+    ContainerModule,
+    WelcomeModule,
+    NoticeModule,
+    CustomerUpdateModel,
+    CustomerFactModel
   ]
 })
 export class DashboardAnalyticsModule {

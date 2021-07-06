@@ -44,32 +44,10 @@ export class ToolbarUserDropdownComponent implements OnInit {
       description: 'Personal Information',
       colorClass: 'text-teal',
       route: '/apps/social'
-    },
-    {
-      id: '2',
-      icon: icMoveToInbox,
-      label: 'My Inbox',
-      description: 'Messages & Latest News',
-      colorClass: 'text-primary',
-      route: '/apps/chat'
-    },
-    {
-      id: '3',
-      icon: icListAlt,
-      label: 'My Projects',
-      description: 'Tasks & Active Projects',
-      colorClass: 'text-amber',
-      route: '/apps/scrumboard'
-    },
-    {
-      id: '4',
-      icon: icTableChart,
-      label: 'Billing Information',
-      description: 'Pricing & Current Plan',
-      colorClass: 'text-purple',
-      route: '/pages/pricing'
     }
   ];
+  info_admin=localStorage.getItem('currentAgency')
+  client=JSON.parse(this.info_admin);
 
   statuses: OnlineStatus[] = [
     {
@@ -115,6 +93,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
               private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
 
   ngOnInit() {
+   //console.log("Client",this.client)
   }
 
   setStatus(status: OnlineStatus) {

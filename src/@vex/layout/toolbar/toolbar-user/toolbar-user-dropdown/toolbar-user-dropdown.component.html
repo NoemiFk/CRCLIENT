@@ -4,7 +4,7 @@
       <div class="dropdown-heading-icon" fxLayout="row" fxLayoutAlign="center center">
         <mat-icon [icIcon]="icPerson"></mat-icon>
       </div>
-      <div class="dropdown-heading">David Smith</div>
+      <div class="dropdown-heading">{{client.name}}</div>
     </div>
 
     <button [matMenuTriggerFor]="settingsMenu"
@@ -17,7 +17,7 @@
   </div>
 
   <div class="dropdown-content">
-    <a (click)="close()"
+    <a 
        *ngFor="let item of items; trackBy: trackById"
        [routerLink]="item.route"
        class="notification"

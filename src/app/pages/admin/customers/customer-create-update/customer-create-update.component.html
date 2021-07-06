@@ -4,10 +4,10 @@
 
     <h2 *ngIf="form.get('nameClient').value || form.get('name').value"
         class="headline m-0"
-        fxFlex="auto">{{ form.get('nameClient').value + ' - ' + form.get('name').value }}</h2>
+        fxFlex="auto">{{ '  Financiera - ' + form.get('name').value }}</h2>
     <h2 *ngIf="!form.get('nameClient').value && !form.get('name').value"
         class="headline m-0"
-        fxFlex="auto">Nuevo Cliente</h2>
+        fxFlex="auto">Administración Financieras</h2>
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -21,54 +21,121 @@
   <mat-divider class="-mx-6 text-border"></mat-divider>
 
   <mat-dialog-content fxLayout="column">
-    <mat-form-field class="flex-auto" >
-      <mat-label>Financiera</mat-label>
-      <input formControlName="name" matInput>
-
-      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
-    <mat-form-field class="flex-auto" >
-      <mat-label>Nombre del Cliente</mat-label>
-      <input formControlName="nameClient" matInput>
-
-      <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
-    </mat-form-field>
-    <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="mt-6 flex-auto">
-        <mat-label>Tipo</mat-label>
+    <div fxLayout="row">
+      
+      <div class="p-5 ">
+        <img
+        class="avatar h-40 w-40 m-auto flex-none align-start hidden sm:block border-3 border-white"
+        src="assets/img/avatars/1.jpg">
+          <!--input type="file" name="archivosubido"-->
+        
+            <div class="fileControl-wrapper text-center">
+              <br>
+                <button mat-flat-button color="primary">Subir logo de  financiera</button>
+              <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
+                multiple="multiple" accept="image/*" />
           
-          <select matNativeControl name="type"  formControlName="type">
-            <option value="no">Seleccione uno...</option>
-            <option value="Financiera">Financiera</option>
-            <option value="Proveerdor de Cobranza">Proveerdor de Cobranza</option>
-          </select>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
-
-      <mat-form-field class="sm:mt-6 sm:ml-6 flex-auto">
-        <mat-label>RFC</mat-label>
-        <input cdkFocusInitial formControlName="RFC" matInput>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
+            </div>
+          
+      </div>
+      <div>
+        <div class="flex flex-col sm:flex-row">
+    
+          <mat-form-field class="flex-auto mt-6">
+            <mat-label>Nombre Financiera </mat-label>
+            <input formControlName="name" matInput>
+      
+            <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col sm:flex-row">
+          <mat-form-field class=" flex-auto" >
+            <mat-label>Nombre de contacto Financiera</mat-label>
+            <input formControlName="nameClient" matInput>
+      
+            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+          </mat-form-field>
+        </div>
+    
+        <div class="flex flex-col sm:flex-row">
+          <mat-form-field class="flex-auto">
+            <mat-label>Teléfono</mat-label>
+            <input formControlName="phone" matInput>
+    
+            <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+          </mat-form-field>
+    
+          <mat-form-field class="sm:ml-6 flex-auto">
+            <mat-label>E-mail</mat-label>
+            <input formControlName="email" matInput>
+    
+            <mat-icon [icIcon]="icEmail" class="mr-3" matPrefix></mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
-    <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="flex-auto">
-        <mat-label>Telefono</mat-label>
-        <input formControlName="phone" matInput>
+    <div>
+      <mat-tab-group>
+        <!--mat-tab label="Seguridad"> 
+            <div class="p-5">
+              <h3>Seguridad</h3>
+              <p>Selecciona en método de acceso a tu cartera.</p>
+              <mat-form-field class="flex-auto">
+                <mat-label>Estado</mat-label>
+                
+                <select matNativeControl name="type"  formControlName="state">
+                  <option value="no">Ninguno</option>
+                  <option value="RFC">RFC</option>
+                  <option value="ID">ID</option>
+                  <option value="Clave">Clave</option>
+                  <option value="ID">Generar ID de acceso</option>
+                  </select>
+                </mat-form-field>
 
-        <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
+            </div>
+        </mat-tab-->
+        <mat-tab label="Método de Pago"> 
+          <div class="p-5">
+            <h3>Método de Pago</h3>
+            <p>Selecciona en método de pago a tu cartera.</p>
 
-      <mat-form-field class="sm:ml-6 flex-auto">
-        <mat-label>E-mail</mat-label>
-        <input formControlName="email" matInput>
+            <div class="flex flex-col sm:flex-row ">
+              <mat-form-field class="flex-auto">
+                <mat-label>Pago</mat-label>
+                
+                <mat-select matNativeControl name="type"  formControlName="pays"  (selectionChange)="selectPay($event)" multiple>
+                  <mat-option value="Tranferencia">Tranferencia</mat-option>
+                  <mat-option value="Tarjeta">Pago Tarjeta Débito/Crédito </mat-option>
+                  <mat-option value="Oxxo">Pago Oxxo</mat-option>
+                  <mat-option value="Deposito">Depósito</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div class="p-5 flex-auto">
+                  <h4>Métodos seleccionados</h4>
+                  <div class="flex flex-col sm:flex-row " *ngFor="let item of pay">
+                    <mat-form-field class="flex-auto">
+                      <mat-label>Nombre</mat-label>
+                      <input  [(ngModel)]="item.name" matInput [ngModelOptions]="{standalone: true}">
+              
+                      <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                    </mat-form-field>
+                    <mat-form-field class="flex-auto ml-6">
+                      <mat-label>Cuenta</mat-label>
+                      <input  [(ngModel)]="item.cta" matInput [ngModelOptions]="{standalone: true}">
+              
+                      <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+                    </mat-form-field>
 
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
+                    </div>
+                </div>
+              </div>
+              
+
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </div>
-    <div class="flex flex-col sm:flex-row">
+    <!--div class="flex flex-col sm:flex-row">
       <mat-form-field class="flex-auto">
         <mat-label>Telefono Opcional</mat-label>
         <input formControlName="phoneOptional" matInput>
@@ -80,7 +147,7 @@
         <mat-label>E-mail Opcional</mat-label>
         <input formControlName="emailOptional" matInput>
 
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEmail" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
     </div>
 
@@ -96,21 +163,21 @@
         <mat-label>No. Int</mat-label>
         <input formControlName="int" matInput>
 
-        <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
 
       <mat-form-field class="sm:ml-3 flex-auto">
         <mat-label>No. Ext</mat-label>
         <input formControlName="ext" matInput>
 
-        <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
 
       <mat-form-field class="sm:ml-6 flex-auto">
         <mat-label>Colonia</mat-label>
         <input formControlName="address2" matInput>
 
-        <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
     </div>
 
@@ -119,14 +186,14 @@
         <mat-label>Zipcode</mat-label>
         <input formControlName="zipcode" matInput>
 
-        <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
 
       <mat-form-field class="sm:ml-6 flex-auto">
         <mat-label>City</mat-label>
         <input formControlName="city" matInput>
 
-        <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
     </div>
     <div class="flex flex-col sm:flex-row">
@@ -134,7 +201,7 @@
         <mat-label>Ciudad</mat-label>
         <input formControlName="city" matInput>
 
-        <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
       <mat-form-field class="sm:ml-6 flex-auto">
           <mat-label>Estado</mat-label>
@@ -175,16 +242,16 @@
             <option value="Zacatecas">Zacatecas</option>
           </select>
 
-        <mat-icon [icIcon]="icLocationCity" class="mr-3" matPrefix></mat-icon>
+        <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
-    </div>
+    </div-->
     
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">CANCELAR</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">AGREGAR AGENCIA</button>
-    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR AGENCIA</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">AGREGAR FINANCIERA</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR FINANCIERA</button>
   </mat-dialog-actions>
 </form>
 
@@ -201,6 +268,6 @@
 
   <button mat-menu-item>
     <mat-icon [icIcon]="icDelete"></mat-icon>
-    <span>Delete</span>
+    <span>Eliminar</span>
   </button>
 </mat-menu>

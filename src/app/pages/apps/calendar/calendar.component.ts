@@ -128,7 +128,7 @@ export class CalendarComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    console.log(event);
+    //console.log(event);
 
     const dialogRef = this.dialog.open(CalendarEditComponent, {
       data: event

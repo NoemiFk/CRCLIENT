@@ -7,6 +7,7 @@ import { CryptoSecret } from '../../../config';
 import 'rxjs/add/operator/map'
 
 const URL="http://localhost:3002"
+//const URL="http://54.214.162.22:3002"
 
 
 const httpOptions = {
@@ -24,18 +25,18 @@ export class AuthenticationService {
 
     login(email: string, password: string) {
         let pass= this.encryptUsingAES256(password)
-        console.log("PAss",pass)
+       //console.log("PAss",pass)
         let body={
             "email":email,
             "password":password
         }
 
-        console.log("Login",body)
+       //console.log("Login",body)
         return this.http.post<any>(URL+'/agency/login',body)
         
             .map(agency => {
                 
-                console.log("login agency",agency)
+               //console.log("login agency",agency)
                 if (agency) {
                     localStorage.setItem('currentAgency', JSON.stringify(agency.data));
                     localStorage.setItem('Token', JSON.stringify(agency.data.token));
@@ -48,8 +49,25 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentAgency');
-        localStorage.removeItem('oken');
+        localStorage.removeItem('Token');
+        localStorage.removeItem('Agency');
+        localStorage.removeItem('Plan');
     }
+    singup(body: object) {
+      return this.http.post<any>(URL+'/agency/singup',body)
+        
+            .map(agency => {
+                
+               //console.log("login agency",agency)
+                if (agency) {
+                    localStorage.setItem('currentAgency', JSON.stringify(agency.data));
+                    localStorage.setItem('Token', JSON.stringify(agency.data.token));
+                }
+
+                return agency;
+            });
+    }
+    
     encryptUsingAES256(pass) {
         let _key = CryptoJS.enc.Hex.parse(CryptoSecret);
         let _iv = CryptoJS.enc.Hex.parse(pass);

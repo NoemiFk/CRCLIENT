@@ -10,8 +10,16 @@ const routes: VexRoutes = [
     loadChildren: () => import('./pages/pages/auth/login/login.module').then(m => m.LoginModule),
   },
   {
+    path: 'home',
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HelpCenterModule),
+  },
+  {
     path: 'register',
     loadChildren: () => import('./pages/pages/auth/register/register.module').then(m => m.RegisterModule),
+  },
+  {
+    path: 'register-pago',
+    loadChildren: () => import('./pages/pages/auth/register-pago/register.module').then(m => m.RegisterModule),
   },
   {
     path: 'forgot-password',
@@ -24,7 +32,7 @@ const routes: VexRoutes = [
   {
     path: '',
     component: CustomLayoutComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboards/analytics',
@@ -33,6 +41,10 @@ const routes: VexRoutes = [
       {
         path: '',
         loadChildren: () => import('./pages/dashboards/dashboard-analytics/dashboard-analytics.module').then(m => m.DashboardAnalyticsModule),
+      },
+      {
+        path: 'engagement',
+        loadChildren: () => import('./pages/pages/pricing/pricing.module').then(m => m.PricingModule)
       },
       {
         path: 'apps',
@@ -102,7 +114,11 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/admin/portafolios/portafolios.module').then(m => m.AioTableModule),
           },
           {
-            path: 'map',
+            path: 'portafoliosId/:id',
+            loadChildren: () => import('./pages/admin/portafoliosId/portafolios.module').then(m => m.AioTableModule),
+          },
+          {
+            path: 'map/:id/:isNew',
             loadChildren: () => import('./pages/admin/map/map.module').then(m => m.MapModule),
           },
           {   
@@ -110,12 +126,32 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/admin/analysis/analysis.module').then(m => m.AnalysisModule),
           },
           {
-            path: 'segmentacion',
-            loadChildren: () => import('./pages/admin/segmentacion/segmentacion.module').then(m => m.SegmentacionModule),
+            path: 'segmentation',
+            loadChildren: () => import('./pages/admin/segmentation/segmentation.module').then(m => m.SegmentationModule),
+          },
+          {
+            path: 'segmentationSingle/:id/:index',
+            loadChildren: () => import('./pages/admin/segmentationSingle/segmentation.module').then(m => m.SegmentationModule),
+          },
+          {
+            path: 'communication',
+            loadChildren: () => import('./pages/admin/communication/communication.module').then(m => m.CommunicationModule),
+          },
+          {
+            path: 'communicationId/:id',
+            loadChildren: () => import('./pages/admin/communicationId/communication.module').then(m => m.CommunicationModule),
+          },
+          {
+            path: 'strategyId',
+            loadChildren: () => import('./pages/admin/strategyId/strategy.module').then(m => m.StrategyModule),
           },
           {
             path: 'strategy',
             loadChildren: () => import('./pages/admin/strategy/strategy.module').then(m => m.StrategyModule),
+          },
+          {
+            path: 'invoice',
+            loadChildren: () => import('./pages/admin/invoice/invoice.module').then(m => m.InvoiceModule),
           },
         ]
       },
@@ -135,7 +171,7 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/pages/guides/guides.module').then(m => m.GuidesModule)
           },
           {
-            path: 'invoice',
+            path: 'invoice1',
             loadChildren: () => import('./pages/pages/invoice/invoice.module').then(m => m.InvoiceModule)
           },
           {
@@ -196,7 +232,8 @@ const routes: VexRoutes = [
     // preloadingStrategy: PreloadAllModules,
     scrollPositionRestoration: 'enabled',
     relativeLinkResolution: 'corrected',
-    anchorScrolling: 'enabled'
+    anchorScrolling: 'enabled',
+    useHash: true
   })],
   exports: [RouterModule]
 })

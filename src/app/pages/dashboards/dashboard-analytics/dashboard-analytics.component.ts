@@ -7,7 +7,14 @@ import { defaultChartOptions } from '../../../../@vex/utils/default-chart-option
 import { Order, tableSalesData } from '../../../../static-data/table-sales-data';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { NoticeComponent } from './notice/notice.component';
+import { CustomerUpdateComponent } from './customer-update/customer-update.component'
+import { MatDialog } from '@angular/material/dialog';
+import { CustomerUpdateModel } from './customer-update/customer-update.module';
+import {CustomerFactComponent} from './customer-fact/customer-update.component'
 
+import {Services} from '../../../Services/services'
 @Component({
   selector: 'vex-dashboard-analytics',
   templateUrl: './dashboard-analytics.component.html',
@@ -85,8 +92,10 @@ export class DashboardAnalyticsComponent implements OnInit {
   icCloudOff = icCloudOff;
   icTimer = icTimer;
   icMoreVert = icMoreVert;
-
-  constructor(private cd: ChangeDetectorRef) { }
+  info_agency=localStorage.getItem('Agency')
+  agency=JSON.parse(this.info_agency);
+  
+  constructor(private cd: ChangeDetectorRef, private dialog: MatDialog, private Services: Services) { }
 
   ngOnInit() {
     setTimeout(() => {
@@ -99,7 +108,69 @@ export class DashboardAnalyticsComponent implements OnInit {
           name: ''
         }
       ];
+      
     }, 3000);
+    setTimeout(() => {
+      if(this.agency.welcome)
+        this.welcomeCustomer()
+    }, 10000);
+  }
+
+  welcomeCustomer() {
+    console.log("entrando")
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(WelcomeComponent, {
+    }).afterClosed().subscribe(welcome => {
+      if (welcome) {
+        this.getAgency(this.agency._id);
+        /*this.dialog.open(CustomerUpdateComponent, {
+          data: this.agency
+        }).afterClosed().subscribe(updatedCustomer => {
+          if (updatedCustomer) {
+            this.getAgency(this.agency._id);
+            this.dialog.open(CustomerFactComponent, {
+              data: this.agency
+            }).afterClosed().subscribe(factCustomer => {
+              if (factCustomer) {
+                this.getAgency(this.agency._id);
+              }
+            });
+          }
+        });*/
+      }
+    });
+  }
+  noticeCustomer() {
+    console.log("entrando")
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(NoticeComponent, {
+    }).afterClosed().subscribe(notice => {
+      
+    });
+  }
+  getAgency(agency) {
+    console.log("Clientt",agency)
+    this.Services.getAgency(agency)
+    .subscribe(
+        data => {
+          if(data.success){
+            let agencyA=data.data
+            console.log("----",agencyA)
+            localStorage.setItem('Agency', JSON.stringify(agencyA));
+            //this.getPlan(agencyA.contract.plan_id);
+          }
+        },
+        error => {
+          //this.error=true
+        });
   }
 
 }

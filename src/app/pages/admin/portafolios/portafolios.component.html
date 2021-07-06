@@ -15,6 +15,12 @@
         <mat-button-toggle value="boxed">BOXED</mat-button-toggle>
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
+      <div>
+        <h2>Administración Portafolios</h2>
+        <!--h4>Alta y Actualizacion de Portafolios – Actualizacion de Promesas de Pago, Pagos y Resultados de Gestion..</h4-->
+        <h4>1.	Cargar archivo en Excel.csv  2. Mapeo de campos 3. Actualización de Promesas de pago, Pagos y Resultados de gestión</h4>
+      </div>
+      <h1></h1>
     </div>
   </vex-page-layout-header>
 
@@ -25,7 +31,7 @@
     <div class="card overflow-auto -mt-16">
       <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-          <span *ngIf="selection.isEmpty()">Portafolio</span>
+          <span *ngIf="selection.isEmpty()">Selecciona Portafolio</span>
           <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
             Portafolio<span *ngIf="selection.selected.length > 1">s</span> seleccionados</span>
         </h2>
@@ -45,7 +51,7 @@
         </div>
 
         <div class="bg-card rounded-full border px-4"
-             fxFlex="400px"
+             fxFlex="250px"
              fxFlex.lt-md="auto"
              fxHide.xs
              fxLayout="row"
@@ -57,7 +63,7 @@
                  type="search">
         </div>
         <div class="bg-card rounded-full border px-4" style="height: 45px;"
-             fxFlex="400px"
+             fxFlex="250px"
              fxFlex.lt-md="auto"
              fxHide.xs
              fxLayout="row"
@@ -80,7 +86,7 @@
                 class="ml-4"
                 fxFlex="none"
                 mat-icon-button
-                matTooltip="Filter Columns"
+                matTooltip="Filtrar columnas"
                 type="button">
           <mat-icon [icIcon]="icFilterList"></mat-icon>
         </button>
@@ -90,7 +96,7 @@
                 color="primary"
                 fxFlex="none"
                 mat-mini-fab
-                matTooltip="Add Customer"
+                matTooltip="Agregar Portafolio"
                 type="button">
           <mat-icon [icIcon]="icAdd"></mat-icon>
         </button>
@@ -127,11 +133,40 @@
           </td>
         </ng-container>
 
+         <!-- Boolean Columns -->
+         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'boolean'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
+              <div class="flex">
+                <a  *ngIf="row[column.property]==true" 
+                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-green bg-green-light"
+                  mat-stroked-button>
+                  {{ row[column.property]==true?"Cargado":"Sin Datos"}}
+                </a>
+                <a   *ngIf="row[column.property]==false" 
+                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-red bg-red-light"
+                  mat-stroked-button>
+                  {{ row[column.property]==true?"Cargado":"Sin Datos"}}
+                </a>
+              </div>
+             
+            </td>
+          </ng-container>
+        </ng-container>
+
         <!-- Text Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+          </ng-container>
+        </ng-container>
+        <!-- Date Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] | date : "dd-MM-yy"}}</td>
           </ng-container>
         </ng-container>
 
@@ -204,16 +239,77 @@
         </ng-container>
 
         <!-- Action Column -->
-        <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+        <ng-container matColumnDef="actions1">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header class="uppercase">Actualización de info...</th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
-            <button (click)="$event.stopPropagation()"
+            <div class="flex">
+
+              <a (click)="$event.stopPropagation(); uploadPay(row)" *ngIf="row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar Pagos">
+              <mat-icon [icIcon]="icPay" size="18px"></mat-icon>
+              </a>
+              <a (click)="$event.stopPropagation(); uploadPayPromises(row)" *ngIf="row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar Promesas de Pagos">
+              <mat-icon [icIcon]="icPromisses" size="18px"></mat-icon>
+              </a>
+              <a (click)="$event.stopPropagation(); uploadManagementResults(row)" *ngIf="row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar Resultados de Gestión">
+              <mat-icon [icIcon]="icList" size="18px"></mat-icon>
+              </a>
+              
+              
+            </div>
+            <!--button (click)="$event.stopPropagation()"
                     [matMenuTriggerData]="{ customer: row }"
                     [matMenuTriggerFor]="actionsMenu"
                     mat-icon-button
                     type="button">
               <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
-            </button>
+            </button-->
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header class="uppercase">Alta/Actualización</th>
+          <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
+            <div class="flex">
+              <a (click)="$event.stopPropagation(); create(row._id)" *ngIf="!row.register"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Subir Portafolio">
+              <mat-icon [icIcon]="icUpload" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); upload(row._id)" *ngIf="row.register" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar portafolio">
+              <mat-icon [icIcon]="icload" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); uploadMap(row)" *ngIf="row.map" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Actualizar mapeo">
+              <mat-icon [icIcon]="icMap" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); updatePortafolio(row)" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Editar">
+             <mat-icon [icIcon]="icEdit" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); deletePortafolio(row)" 
+                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                mat-icon-button matTooltip="Eliminar">
+                <mat-icon [icIcon]="icDelete" size="18px"></mat-icon>
+              </a>
+            </div>
+            <!--button (click)="$event.stopPropagation()"
+                    [matMenuTriggerData]="{ customer: row }"
+                    [matMenuTriggerFor]="actionsMenu"
+                    mat-icon-button
+                    type="button">
+              <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
+            </button-->
           </td>
         </ng-container>
 
@@ -245,11 +341,15 @@
   <ng-template let-customer="customer" matMenuContent>
     <button (click)="updatePortafolio(customer)" mat-menu-item>
       <mat-icon [icIcon]="icEdit"></mat-icon>
-      <span>Modify</span>
+      <span>Modificar</span>
     </button>
     <button (click)="deletePortafolio(customer)" mat-menu-item>
       <mat-icon [icIcon]="icDelete"></mat-icon>
-      <span>Delete</span>
+      <span>Eliminar</span>
+    </button>
+    <button (click)="upload(customer._id)" mat-menu-item>
+      <mat-icon [icIcon]="icDelete"></mat-icon>
+      <span>Cargar Archivo</span>
     </button>
   </ng-template>
 </mat-menu>
