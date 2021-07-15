@@ -153,6 +153,10 @@ const routes: VexRoutes = [
             path: 'invoice',
             loadChildren: () => import('./pages/admin/invoice/invoice.module').then(m => m.InvoiceModule),
           },
+          {
+            path: 'generalSettings',
+            loadChildren: () => import('./pages/admin/invoice/invoice.module').then(m => m.InvoiceModule),
+          },
         ]
       },
       {

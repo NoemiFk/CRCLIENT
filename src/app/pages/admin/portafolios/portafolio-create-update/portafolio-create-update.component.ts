@@ -174,7 +174,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
         });
 
         console.log("LISTO MODIFICADO")
-    this.dialogRef.close(portafolio);
+
   }
 
   isCreateMode() {
