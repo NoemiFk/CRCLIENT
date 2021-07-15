@@ -18,22 +18,30 @@
     <div class="flex flex-col sm:flex-row">
 
       <mat-form-field class="flex-auto mt-6" >
-        <mat-label>Selecciona financiera</mat-label>
-        <mat-select matNativeControl name="client_id"  formControlName="client_id">
-          <mat-option [value]="option._id" *ngFor="let option of CustomersList;">{{option.name}}</mat-option>
+        <mat-label>Selecciona Financiera</mat-label>
+        <mat-select matNativeControl name="client_id" formControlName="client_id" >
+
+          <mat-option [value]="option._id" *ngFor="let option of CustomersList" (click)="onChange()">{{option.name}}</mat-option>
+
         </mat-select>
-  
+        <mat-error> Seleccione una financiera </mat-error>
+        <p *ngIf="mode == 'update' && estado == true">{{defaults.client_id.name}}</p>
+      
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+
       </mat-form-field>
+
     </div>
+
     <div class="flex flex-col sm:flex-row">
       <mat-form-field class="flex-auto">
         <mat-label>Nombre</mat-label>
         <input cdkFocusInitial formControlName="name_portafolio" matInput>
-
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+        <mat-error> Debe incluir un nombre</mat-error>
+        <mat-icon [icIcon]="icPortafolio" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
     </div>
+
         <mat-form-field class="flex-auto">
           <mat-label>Descripción</mat-label>
           <textarea formControlName="description" matInput></textarea>
@@ -44,7 +52,7 @@
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">CANCELAR</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit">AGREGAR PORTAFOLIO</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit" [disabled]="form.invalid">AGREGAR PORTAFOLIO</button>
     <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR PORTAFOLIO</button>
   </mat-dialog-actions>
 </form>
