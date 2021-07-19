@@ -124,7 +124,7 @@ export class AppComponent {
           {
             type: 'link',
             label: 'General',
-            route: '/generalSettings'
+            route: '/admin/generalSettings'
           },
           {
             type: 'link',

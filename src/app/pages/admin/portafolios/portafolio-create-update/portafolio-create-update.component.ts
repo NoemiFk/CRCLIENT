@@ -59,7 +59,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          console.log("Hola ", data.data)
+          //console.log("Hola ", data.data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -99,7 +99,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     } else {
       this.defaults = {} as Portafolio;
     }
-    console.log("DEFAULTS",this.defaults)    
+    //console.log("DEFAULTS",this.defaults)    
   }
 
   save() {
@@ -125,7 +125,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
       "type": portafolio.type,
       "client_id": portafolio.client_id,
     }
-     console.log(body)
+     //console.log(body)
       this.createPortafolioA(body);
      
 
@@ -173,7 +173,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
           //this.error=true
         });
 
-        console.log("LISTO MODIFICADO")
+        //console.log("LISTO MODIFICADO")
 
   }
 
@@ -187,7 +187,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
 
   onChange() {
     this.estado = false;
-    console.log(this.estado)
+   // console.log(this.estado)
     return this.estado;
   }
 }

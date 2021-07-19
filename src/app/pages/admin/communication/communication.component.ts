@@ -130,13 +130,14 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
         data => {
           if(data.success){
             this.agency=data.data
-            //console.log(this.agency)
+            //console.log('Agencia',this.agency)
           }
         },
         error => {
           //this.error=true
         });
   }
+
   addNew(x,a,y,z) {
     console.log("Generar")
     let body={

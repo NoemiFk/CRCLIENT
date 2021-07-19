@@ -32,6 +32,8 @@ import icMap from '@iconify/icons-ic/twotone-map';
 import {Services} from '../../../Services/services'
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+
+
 @UntilDestroy()
 @Component({
   selector: 'vex-strategy',
@@ -98,6 +100,7 @@ export class InvoiceComponent implements OnInit, AfterViewInit {
   paymentForm=""
   bussinesName=""
   rfc=""
+
   info_agency=localStorage.getItem('Agency')
   agency=JSON.parse(this.info_agency);
   
@@ -108,6 +111,7 @@ export class InvoiceComponent implements OnInit, AfterViewInit {
   }
   
   client_id = this.route.snapshot.params.id;
+
   segmentations: Invoice[];
   get visibleColumns() {
     return this.columns.filter(column => column.visible).map(column => column.property);
@@ -123,7 +127,7 @@ export class InvoiceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    console.log(this.agency)
+    console.log('AGENCIA',this.agency)
     this.email2=this.agency.email2
     this.email1=this.agency.email1
     this.cfdiUse=this.agency.cfdiUse
@@ -147,6 +151,7 @@ export class InvoiceComponent implements OnInit, AfterViewInit {
     Demand: []
   };
   latters=[]
+
   getInvoice() {
     this.Services.getInvoice(this.agency._id)
     .subscribe(

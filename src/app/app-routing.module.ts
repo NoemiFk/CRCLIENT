@@ -155,7 +155,7 @@ const routes: VexRoutes = [
           },
           {
             path: 'generalSettings',
-            loadChildren: () => import('./pages/admin/invoice/invoice.module').then(m => m.InvoiceModule),
+            loadChildren: () => import('./pages/admin/general-settings/general-settings.module').then(m => m.GeneralSettingsModule),
           },
         ]
       },
