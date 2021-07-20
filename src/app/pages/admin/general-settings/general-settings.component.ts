@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ElementRef,ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
 import icClose from '@iconify/icons-ic/twotone-close';
@@ -16,6 +16,9 @@ import icAtttachMoney from '@iconify/icons-ic/baseline-attach-money';
 import icBaselineCast from '@iconify/icons-ic/baseline-cast';
 import icBaselineApartment from '@iconify/icons-ic/baseline-apartment';
 import icBaselineApi from '@iconify/icons-ic/baseline-api';
+import icBaselineApps from '@iconify/icons-ic/baseline-apps';
+import icPinDrop from '@iconify/icons-ic/pin-drop';
+import icInfo from '@iconify/icons-ic/info';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Services } from '../../../Services/services';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,6 +40,8 @@ export class GeneralSettingsComponent implements OnInit {
   mode = 'update';
   agency={};
 
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+
   //Iconos------------------------
 
   icMoreVert = icMoreVert;
@@ -56,6 +61,9 @@ export class GeneralSettingsComponent implements OnInit {
   icAtttachMoney = icAtttachMoney;
   icBaselineApartment = icBaselineApartment;
   icBaselineApi = icBaselineApi;
+  icBaselineApps = icBaselineApps;
+  icPinDrop = icPinDrop;
+  icInfo = icInfo;
 
   //--------------------------------
 
@@ -70,23 +78,23 @@ export class GeneralSettingsComponent implements OnInit {
               private snackbar: MatSnackBar,
               private rutas: Router) {
 
+                this.getAgency();
           
   }
 
   ngOnInit() {
     console.log('Agencia Actual',this.agenciaActual)
 
-    this.getAgency();
 
     this.form = this.fb.group({
       nombreEmpresa: [''],
       nombreUsuario: [''],
       tipoEmpresa: [''],
-      telefono: [''],
-      email: [''],
-      email1: [''],
-      email2: [''],
-      RFC: [''],
+      telefono: ['',[Validators.required, Validators.pattern("^[0-9]*$"),Validators.minLength(10),Validators.maxLength(10)]],
+      email: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
+      email1: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
+      email2: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
+      RFC: ['',[Validators.required,Validators.minLength(13),Validators.maxLength(13)]],
       razonSocial: [''],
       usoFactura: [''],
       metodoPago: [''],
@@ -95,14 +103,14 @@ export class GeneralSettingsComponent implements OnInit {
       ciudad: [''],
       estado: [''],
       municipio:[''],
-      CP:[''],
+      CP:['',[Validators.required, Validators.pattern("^[0-9]*$"),Validators.minLength(5),Validators.maxLength(5)]],
       interior:[''],
       exterior:[''],
       referencia: [''],
     });
 
     console.log('Formulario Creado')
-
+    
     this.setValues();
     
   }
@@ -141,7 +149,7 @@ export class GeneralSettingsComponent implements OnInit {
       this.form.get('estado').setValue(this.agenciaActual.address.state)  
       this.form.get('municipio').setValue(this.agenciaActual.address.municipality)  
       this.form.get('CP').setValue(this.agenciaActual.address.zipcode)  
-      this.form.get('interior').setValue(this.agenciaActual.address.int)  
+      this.form.get('interior').setValue(this.agenciaActual.address.int)    
       this.form.get('exterior').setValue(this.agenciaActual.address.ext)  
       this.form.get('referencia').setValue(this.agenciaActual.address.references)  
   }
@@ -152,39 +160,44 @@ export class GeneralSettingsComponent implements OnInit {
         data => {
           if(data.success){
             this.agency=data.data
-            console.log('Agencia',this.agency)
           }
         },
         error => {
          // console.log(error)
         });
+        return this.agency;
   }
 
   updateAgency() {
     const agency = this.form.value;
-
+    console.log('update',agency)
     let body= {
-        "nombreEmpresa": agency.bussinesName,
-        "nombreUsuario": agency.name,
-        "tipoEmpresa": agency.type,
-        "telefono": agency.phone,
+        "bussinesName": agency.nombreEmpresa,
+        "name": agency.nombreUsuario,
+        "type": agency.tipoEmpresa,
+        "phone": agency.telefono,
         "email": agency.email,
         "email1": agency.email1,
         "email2": agency.email2,
         "RFC": agency.RFC,
-        // "razonSocial": agency.bussinesName,
-        "usoFactura": agency.cfdiUse,
-        "metodoPago": agency.paymentForm,
-        // "direccion1": agency.address.address1,
-        // "direccion2": agency.address.address2,
-        // "ciudad": agency.address.city,
-        // "estado": agency.address.state,
-        // "municipio": agency.address.municipality,
-        // "CP": agency.address.zipcode,
-        // "interior": agency.address.int,
-        // "exterior": agency.address.ext,
-        // "referencia": agency.address.references,
+        "razonSocial": agency.nombreEmpresa,
+        "cfdiUse": agency.usoFactura,
+        "paymentForm": agency.metodoPago,
+        "address": {
+          "address1": agency.direccion1,
+          "address2": agency.direccion2,
+          "city": agency.ciudad,
+          "state": agency.estado,
+          "municipality": agency.municipio,
+          "zipcode": agency.CP,
+          "int": agency.interior,
+          "ext": agency.exterior,
+          "references": agency.referencia,
+        }
+        
       }
+
+      console.log(body)
 
     this.Services.updateCustomer(this.agenciaActual._id,body)
     .subscribe(
