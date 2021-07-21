@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit, ElementRef,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
 import icClose from '@iconify/icons-ic/twotone-close';
 import icPrint from '@iconify/icons-ic/twotone-print';
@@ -28,8 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './general-settings.component.html',
   styleUrls: ['./general-settings.component.scss'],
   providers: [
-    { provide: MAT_DIALOG_DATA, useValue: {} },
-    { provide: MatDialogRef, useValue: {} }
+    
 ]
 })
 
@@ -66,25 +64,25 @@ export class GeneralSettingsComponent implements OnInit {
   icInfo = icInfo;
 
   //--------------------------------
+  private emailValidators = Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
+              
 
   info_agency=localStorage.getItem('Agency')
   agenciaActual=JSON.parse(this.info_agency);
   
 
-  constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
-              private dialogRef: MatDialogRef<GeneralSettingsComponent>,
-              private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
               private Services: Services,
               private snackbar: MatSnackBar,
-              private rutas: Router) {
-
-                this.getAgency();
-          
+              private rutas: Router
+              
+            ) {      
   }
 
   ngOnInit() {
     console.log('Agencia Actual',this.agenciaActual)
 
+    this.getAgency();
 
     this.form = this.fb.group({
       nombreEmpresa: [''],
@@ -92,8 +90,8 @@ export class GeneralSettingsComponent implements OnInit {
       tipoEmpresa: [''],
       telefono: ['',[Validators.required, Validators.pattern("^[0-9]*$"),Validators.minLength(10),Validators.maxLength(10)]],
       email: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
-      email1: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
-      email2: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
+      email1: ['',this.emailValidators],
+      email2: ['',this.emailValidators],
       RFC: ['',[Validators.required,Validators.minLength(13),Validators.maxLength(13)]],
       razonSocial: [''],
       usoFactura: [''],
@@ -112,6 +110,7 @@ export class GeneralSettingsComponent implements OnInit {
     console.log('Formulario Creado')
     
     this.setValues();
+
     
   }
 
@@ -127,21 +126,21 @@ export class GeneralSettingsComponent implements OnInit {
       this.form.get('razonSocial').setValue(this.agenciaActual.bussinesName)
 
       if(this.agenciaActual.cfdiUse == "P01"){
-        this.form.get('usoFactura').setValue("Por Definir") 
+        this.form.get('usoFactura').setValue("P01") 
       }
       else if(this.agenciaActual.cfdiUse == "G01"){
-        this.form.get('usoFactura').setValue('Adquisición de mercancias') 
+        this.form.get('usoFactura').setValue('G01') 
       }
       else if(this.agenciaActual.cfdiUse == "G02"){
-        this.form.get('usoFactura').setValue('Devoluciones, descuentos o bonificaciones') 
+        this.form.get('usoFactura').setValue('G02') 
       }
       else if(this.agenciaActual.cfdiUse == "G03"){
-        this.form.get('usoFactura').setValue('Gastos en general') 
+        this.form.get('usoFactura').setValue('G03') 
       }
       
 
       if(this.agenciaActual.paymentForm == '03'){
-        this.form.get('metodoPago').setValue('Transferencia electrónica de fondos') 
+        this.form.get('metodoPago').setValue('03') 
       }
       this.form.get('direccion1').setValue(this.agenciaActual.address.address1)  
       this.form.get('direccion2').setValue(this.agenciaActual.address.address2)  
@@ -151,8 +150,10 @@ export class GeneralSettingsComponent implements OnInit {
       this.form.get('CP').setValue(this.agenciaActual.address.zipcode)  
       this.form.get('interior').setValue(this.agenciaActual.address.int)    
       this.form.get('exterior').setValue(this.agenciaActual.address.ext)  
-      this.form.get('referencia').setValue(this.agenciaActual.address.references)  
-  }
+      this.form.get('referencia').setValue(this.agenciaActual.address.references)
+      
+      
+  };
 
   getAgency() {
     this.Services.getAgency(this.agenciaActual._id)
@@ -160,6 +161,7 @@ export class GeneralSettingsComponent implements OnInit {
         data => {
           if(data.success){
             this.agency=data.data
+            localStorage.setItem('Agency', JSON.stringify(this.agency));
           }
         },
         error => {
@@ -172,6 +174,7 @@ export class GeneralSettingsComponent implements OnInit {
     const agency = this.form.value;
     console.log('update',agency)
     let body= {
+        "_id":this.agenciaActual._id,
         "bussinesName": agency.nombreEmpresa,
         "name": agency.nombreUsuario,
         "type": agency.tipoEmpresa,
@@ -198,15 +201,18 @@ export class GeneralSettingsComponent implements OnInit {
       }
 
       console.log(body)
+      console.log(this.agenciaActual._id)
 
-    this.Services.updateCustomer(this.agenciaActual._id,body)
+    this.Services.updateAgency(this.agenciaActual._id,body)
     .subscribe(
         data => {
           //console.log("DATA  ", data)
           if(data.success){
-            this.agency=data.data
-            this.dialogRef.close(data.data);
-            this.rutas.navigate(['/admin/generalSettings']);
+            this.getAgency()
+            this.snackbar.open('Datos Actualizados Correctamente', 'OK', {
+              duration: 10000
+            });
+            this.navigateToDashboard();
           }
         },
         error => {
@@ -219,7 +225,7 @@ export class GeneralSettingsComponent implements OnInit {
   }
 
   navigateToDashboard(){
-    this.rutas.navigate(['admin/generalSettings']);
+    this.rutas.navigate(['/']);
   }
 
 }

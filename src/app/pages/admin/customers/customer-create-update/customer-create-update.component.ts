@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ElementRef,ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Customer } from '../interfaces/customer.model';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
@@ -42,9 +42,15 @@ export class CustomerCreateUpdateComponent implements OnInit {
   icEditLocation = icEditLocation;
   icPhone = icPhone;
   icEmail = icEmail;
+
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
-  constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
+
+
+  constructor(@Inject(MAT_DIALOG_DATA) 
+              public defaults: any,
               private dialogRef: MatDialogRef<CustomerCreateUpdateComponent>,
               private fb: FormBuilder,
               private Services: Services,
@@ -86,6 +92,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       this.mode = 'update';
       let customer= this.defaults;
       //console.log(this.defaults)
+
       this.defaults= {
         "_id":customer._id,
       "name": customer.name,
@@ -113,23 +120,23 @@ export class CustomerCreateUpdateComponent implements OnInit {
     this.form = this.fb.group({
       imageSrc: this.defaults.imageSrc,
       type: [this.defaults.type || ''],
-      name: [this.defaults.name || ''],
-      nameClient: [this.defaults.nameClient || ''],
+      name: [this.defaults.name || '',[Validators.required]],
+      nameClient: [this.defaults.nameClient || '',[Validators.required]],
       RFC: [this.defaults.RFC || ''],
-      address1: this.defaults.address1 || '',
-      address2: this.defaults.address2 || '',
-      city: this.defaults.city || '',
-      zipcode: this.defaults.zipcode || '',
-      country: this.defaults.country || '', 
-      municipality: this.defaults.municipality || '',
-      state: this.defaults.state || '',
-      pays: this.defaults.pays || '',
-      int: this.defaults.int || '',
-      ext: this.defaults.ext || '',
-      phone: this.defaults.phone || '',
-      phoneOptional: this.defaults.phoneOptional || '',
-      email: this.defaults.email || '',
-      emailOptional: this.defaults.emailOptional || ''
+      address1: [this.defaults.address1 || '',],
+      address2: [this.defaults.address2 || ''],
+      city: [this.defaults.city || ''],
+      zipcode: [this.defaults.zipcode || ''],
+      country: [this.defaults.country || ''], 
+      municipality: [this.defaults.municipality || ''],
+      state: [this.defaults.state || ''],
+      pays: [this.defaults.pays || ''],
+      int: [this.defaults.int || ''],
+      ext: [this.defaults.ext || ''],
+      phone: [this.defaults.phone || '', [Validators.required, Validators.pattern("^[0-9]*$"),Validators.minLength(10),Validators.maxLength(10)]],
+      phoneOptional: [this.defaults.phoneOptional || ''],
+      email: [this.defaults.email || '',[Validators.required, Validators.pattern( this.emailPattern)]],
+      emailOptional: [this.defaults.emailOptional || '']
     });
     
   }
@@ -173,11 +180,9 @@ export class CustomerCreateUpdateComponent implements OnInit {
       "pays":this.pays
     }
      //console.log(body)
-      this.createCustomerA(body);
-     
-
-    
+    this.createCustomerA(body);
   }
+  
   pay=[]
   pays=[]
   selectPay(ev){
@@ -185,7 +190,6 @@ export class CustomerCreateUpdateComponent implements OnInit {
     this.pays=ev.value
     this.pay=[]
     this.pays.forEach(element => {
-    
       this.pay.push({
         name:element,
         cta:""
