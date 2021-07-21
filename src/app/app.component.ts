@@ -212,7 +212,13 @@ export class AppComponent {
           {
             type: 'link',
             label: 'Estrategias',
-            route: '/admin/strategyId',
+            route: '/admin/strategy',
+            icon: icAssigment
+          },
+          {
+            type: 'link',
+            label: 'Portal',
+            route: '/admin/portal',
             icon: icAssigment
           },
         ]

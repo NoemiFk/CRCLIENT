@@ -9,8 +9,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { CommunicationCreateUpdateComponent } from './communication-create-update/communication-create-update.component';
+
+import { SelectSegmetationPrintComponent } from './select-segmetation-print/select-segmetation-print.component';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
+import icPDF from '@iconify/icons-ic/picture-as-pdf';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
@@ -89,6 +92,7 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
+  icPDF=icPDF
   icAdd = icAdd;
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
@@ -298,8 +302,9 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   }
 
   updateCommunication(customer) {
-    console.log(customer)
+    console.log("Informacion 1",customer)
     customer.client=this.Communication.client_id;
+    customer.segmentation_id=this.client_id
     this.dialog.open(CommunicationCreateUpdateComponent, {
       data: customer
     }).afterClosed().subscribe(updatedCommunication => {
@@ -326,6 +331,23 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
     this.customers.splice(this.customers.findIndex((existingCommunication) => existingCommunication.id === customer.id), 1);
     this.selection.deselect(customer);
     this.subject$.next(this.customers);
+  }
+  genratePDFCommunication(communication) {
+    this.dialog.open(SelectSegmetationPrintComponent, {
+      data: communication
+    }).afterClosed().subscribe(updatedCommunication => {
+      /**
+       * Communication is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (updatedCommunication) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        console.log("---------",updatedCommunication)
+         this.router.navigate(['/admin/printCommunication/'+updatedCommunication]);
+      }
+    });
   }
 
   deleteCommunications(customers: Communication[]) {

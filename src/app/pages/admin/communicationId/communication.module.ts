@@ -7,6 +7,7 @@ import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-l
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BreadcrumbsModule } from '../../../../@vex/components/breadcrumbs/breadcrumbs.module';
 import { CommunicationCreateUpdateModule } from './communication-create-update/communication-create-update.module';
+import { SelectSegmetationPrintModule } from './select-segmetation-print/select-segmetation-print.module'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -34,6 +35,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     FlexLayoutModule,
     BreadcrumbsModule,
     CommunicationCreateUpdateModule,
+    SelectSegmetationPrintModule,
     MatPaginatorModule,
     MatTableModule,
     MatSortModule,

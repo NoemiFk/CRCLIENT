@@ -142,8 +142,12 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/admin/communicationId/communication.module').then(m => m.CommunicationModule),
           },
           {
-            path: 'strategyId',
+            path: 'strategyId/:id/:index',
             loadChildren: () => import('./pages/admin/strategyId/strategy.module').then(m => m.StrategyModule),
+          },
+          {
+            path: 'printCommunication/:id',
+            loadChildren: () => import('./pages/admin/printCommunication/communication.module').then(m => m.CommunicationModule),
           },
           {
             path: 'strategy',
@@ -152,6 +156,10 @@ const routes: VexRoutes = [
           {
             path: 'invoice',
             loadChildren: () => import('./pages/admin/invoice/invoice.module').then(m => m.InvoiceModule),
+          },
+          {
+            path: 'portal',
+            loadChildren: () => import('./pages/admin/portal/portal.module').then(m => m.PortalModule),
           },
         ]
       },

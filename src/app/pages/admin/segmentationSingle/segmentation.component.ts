@@ -36,6 +36,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ApexOptions } from '../../../../@vex/components/chart/chart.component';
 import { defaultChartOptions } from '../../../../@vex/utils/default-chart-options';
 import { createDateArray } from '../../../../@vex/utils/create-date-array';
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 @UntilDestroy()
 @Component({
@@ -563,7 +564,9 @@ export class SegmentationComponent implements OnInit {
           });
     })
   }
+  ultimoQuery={}
   save(x){
+    console.log("sabe")
     let body={
       "query": {},
       "criterio1": "Riesgo"
@@ -709,6 +712,7 @@ export class SegmentationComponent implements OnInit {
         break;
     }
     this.segmentation.criteria[x].query= JSON.stringify(body);
+    this.ultimoQuery=body.query
     console.log("-",body,"-")
     this.Services.getASR2(this.segment.portafolio_id,body)
       .subscribe(

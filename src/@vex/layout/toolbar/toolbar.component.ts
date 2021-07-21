@@ -113,6 +113,16 @@ export class ToolbarComponent implements OnInit {
           this.color3="primary"
           this.color5="primary"
           break;
+      
+
+      case "/admin/strategy":
+    
+        this.color1="primary"
+        this.color4="accent"
+        this.color2="primary"
+        this.color3="primary"
+        this.color5="primary"
+        break;
     
       default:
         break;

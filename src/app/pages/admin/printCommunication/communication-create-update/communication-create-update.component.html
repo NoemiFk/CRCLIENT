@@ -1,0 +1,115 @@
+
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+
+    <h2 class="headline m-0" fxFlex="auto">Generar PDF</h2>
+
+    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
+      <mat-icon [icIcon]="icMoreVert"></mat-icon>
+    </button>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+
+     
+      
+      <div>
+              <div *ngIf="latterType=='A4'">
+        
+                <quill-editor #screen format="html"
+                @fadeInUp
+                (keyup)="cuanti()"
+                (click)="getCursorPosition()"
+                [styles]="{ flex: '1 1 auto', 
+                width: '220mm',
+                height: '280mm',
+                padding: '20mm',
+                'margin-top': '10mm',
+                'margin-left': 'auto',
+                'margin-right': 'auto',
+                'border-color': 'grey',
+                border: 'solid',
+                'border-width': '1px',
+                background: 'white',
+                'border-radius': '5px'}" [formControl]="form1"  placeholder="Some text..."></quill-editor>
+
+                <div id="download" [hidden]="true">
+                  <img #canvas>
+                  <a #downloadLink></a>
+                </div>
+              </div>
+              <div *ngIf="latterType!='A4'">
+
+                <quill-editor #screen format="html"
+                @fadeInUp
+                (keyup)="cuanti()"
+                (click)="getCursorPosition()"
+                [styles]="{ flex: '1 1 auto', 
+                width: '220mm',
+                height: '340mm',
+                padding: '20mm',
+                'margin-top': '10mm',
+                'margin-left': 'auto',
+                'margin-right': 'auto',
+                'border-color': 'grey',
+                border: 'solid',
+                'border-width': '1px',
+                background: 'white',
+                'border-radius': '5px'}" [formControl]="form1"  placeholder="Some text..."></quill-editor>
+                <div id="download" [hidden]="true">
+                  <img #canvas>
+                  <a #downloadLink></a>
+                </div>
+                <!--quill-editor
+                @fadeInUp
+                (keyup)="cuanti()"
+                (click)="getCursorPosition()"
+                  [styles]="{ flex: '1 1 auto', 
+                  width: '256mm',
+                  height: '356mm',
+                  padding: '20mm',
+                  'margin-top': '10mm',
+                  'margin-left': 'auto',
+                  'margin-right': 'auto',
+                  'border-color': 'grey',
+                  border: 'solid',
+                  'border-width': '1px',
+                  background: 'white',
+                  'border-radius': '5px'}"
+                  [formControl]="form1"  placeholder="Some text..."
+                  >
+                </quill-editor-->
+              </div>
+
+        
+      </div>
+      
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">CANCEL</button>
+    <button (click)="downloadImage()"color="primary" mat-button type="submit">GENERAR PDF</button>
+  </mat-dialog-actions>
+
+<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icPrint"></mat-icon>
+    <span>Print</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDownload"></mat-icon>
+    <span>Export</span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon [icIcon]="icDelete"></mat-icon>
+    <span>Eliminar</span>
+  </button>
+</mat-menu>

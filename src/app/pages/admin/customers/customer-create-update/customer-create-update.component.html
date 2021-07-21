@@ -26,13 +26,13 @@
       <div class="p-5 ">
         <img
         class="avatar h-40 w-40 m-auto flex-none align-start hidden sm:block border-3 border-white"
-        src="assets/img/avatars/1.jpg">
+        [src]="urlImage">
           <!--input type="file" name="archivosubido"-->
         
             <div class="fileControl-wrapper text-center">
               <br>
                 <button mat-flat-button color="primary">Subir logo de  financiera</button>
-              <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
+              <input type="file" #uploadControl id="fileControlInput"  (change)="selectFile($event)"  name="fileControlInput"
                 multiple="multiple" accept="image/*" />
           
             </div>
@@ -74,7 +74,9 @@
         </div>
       </div>
     </div>
+    
     <div>
+
       <mat-tab-group>
         <!--mat-tab label="Seguridad"> 
             <div class="p-5">
@@ -94,6 +96,8 @@
 
             </div>
         </mat-tab-->
+        
+
         <mat-tab label="Método de Pago"> 
           <div class="p-5">
             <h3>Método de Pago</h3>

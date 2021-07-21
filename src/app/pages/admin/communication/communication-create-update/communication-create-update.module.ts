@@ -50,6 +50,7 @@ import { BreadcrumbsModule } from '../../../../../@vex/components/breadcrumbs/br
 
           ['link', 'image', 'video']                         // link and image, video
         ]
+       
       }
     }),
     SecondaryToolbarModule,

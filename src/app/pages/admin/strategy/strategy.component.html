@@ -13,6 +13,10 @@
         <mat-button-toggle value="boxed">BOXED</mat-button-toggle>
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
+      <div>
+
+        <h2>Estrategias Definidas</h2>
+      </div>
     </div>
   </vex-page-layout-header>
 
@@ -23,13 +27,13 @@
     <div class="card overflow-auto -mt-16">
       <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-          <span *ngIf="selection.isEmpty()">Customers</span>
+          <span *ngIf="selection.isEmpty()">Estrategia</span>
           <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
-            Customer<span *ngIf="selection.selected.length > 1">s</span> selected</span>
+            Estretegia<span *ngIf="selection.selected.length > 1">s</span> selected</span>
         </h2>
 
         <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
-          <button (click)="deleteCustomers(selection.selected)"
+          <button (click)="deleteStretegys(selection.selected)"
                   color="primary"
                   mat-icon-button
                   matTooltip="Delete selected"
@@ -70,15 +74,15 @@
           <mat-icon [icIcon]="icFilterList"></mat-icon>
         </button>
 
-        <button (click)="createCustomer()"
+        <!--button (click)="createStretegy()"
                 class="ml-4"
                 color="primary"
                 fxFlex="none"
                 mat-mini-fab
-                matTooltip="Add Customer"
+                matTooltip="Add Stretegy"
                 type="button">
           <mat-icon [icIcon]="icAdd"></mat-icon>
-        </button>
+        </button-->
       </div>
 
       <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
@@ -119,6 +123,13 @@
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
           </ng-container>
         </ng-container>
+        <!-- Text Columns Objects-->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'object'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.object][column.property] }}</td>
+          </ng-container>
+        </ng-container>
 
         <!-- Contact Column -->
         <ng-container matColumnDef="contact">
@@ -148,34 +159,25 @@
 
         <!-- Label Column -->
         <ng-container matColumnDef="labels">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>Labels</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES</th>
           <td *matCellDef="let row" mat-cell>
-            <div (click)="$event.stopPropagation()" fxLayoutAlign="start center" fxLayoutGap="4px">
-              <div *ngFor="let label of row.labels"
-                   [ngClass]="[label.textClass, label.bgClass]"
-                   class="rounded px-2 py-1 font-medium text-xs"
-                   fxFlex="none">
-                {{ label.text }}
+            <div (click)="$event.stopPropagation();" fxLayoutAlign="start center" fxLayoutGap="4px">
+              <div *ngFor="let label of row.segmentation; let i=index">
+
+                <div  *ngIf="label.strategy"
+                (click)="Stretegy(row._id, i)"
+                     class="rounded px-2 py-1 font-medium text-xs bg-teal-light text-teal"
+                     fxFlex="none">
+                  {{ label.name }}
+                </div>
+                <div  *ngIf="!label.strategy"
+                (click)="Stretegy(row._id, i)"
+                     class="rounded px-2 py-1 font-medium text-xs bg-warn-light text-warn"
+                     fxFlex="none">
+                  {{ label.name }}
+                </div>
               </div>
-              <div (click)="labelSelect.open()"
-                   class="text-secondary bg-base text-hint cursor-pointer hover:bg-hover"
-                   fxFlex="none"
-                   fxLayout="row"
-                   fxLayoutAlign="center center">
-                <ic-icon [icon]="icAdd" size="18px"></ic-icon>
-              </div>
-              <mat-select #labelSelect="matSelect"
-                          (selectionChange)="onLabelChange($event, row)"
-                          [value]="row.labels"
-                          class="invisible w-0 h-0 text-sm"
-                          fxFlex="0 1 0px"
-                          multiple>
-                <mat-option *ngFor="let label of labels" [value]="label">
-                  <div [ngClass]="label.previewClass"
-                       class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block"></div>
-                  <span>{{ label.text }}</span>
-                </mat-option>
-              </mat-select>
+              
             </div>
           </td>
         </ng-container>
@@ -184,18 +186,31 @@
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
-            <button (click)="$event.stopPropagation()"
+            <!--button (click)="$event.stopPropagation()"
                     [matMenuTriggerData]="{ customer: row }"
                     [matMenuTriggerFor]="actionsMenu"
                     mat-icon-button
                     type="button">
               <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
-            </button>
+            </button-->
+            <div class="flex">
+              
+              <a (click)=" $event.stopPropagation(); updateStretegy(row)" 
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Editar">
+             <mat-icon [icIcon]="icEdit" size="18px"></mat-icon>
+              </a>
+              <a (click)=" $event.stopPropagation(); deleteStretegy(row)" 
+                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                mat-icon-button matTooltip="Eliminar">
+                <mat-icon [icIcon]="icDelete" size="18px"></mat-icon>
+              </a>
+            </div>
           </td>
         </ng-container>
 
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
-        <tr (click)="updateCustomer(row)"
+        <tr (click)="updateStretegy(row)"
             *matRowDef="let row; columns: visibleColumns;"
             @fadeInUp
             class="hover:bg-hover trans-ease-out cursor-pointer"
@@ -220,11 +235,11 @@
 
 <mat-menu #actionsMenu="matMenu" xPosition="before" yPosition="below">
   <ng-template let-customer="customer" matMenuContent>
-    <button (click)="updateCustomer(customer)" mat-menu-item>
+    <button (click)="updateStretegy(customer)" mat-menu-item>
       <mat-icon [icIcon]="icEdit"></mat-icon>
       <span>Modificar</span>
     </button>
-    <button (click)="deleteCustomer(customer)" mat-menu-item>
+    <button (click)="deleteStretegy(customer)" mat-menu-item>
       <mat-icon [icIcon]="icDelete"></mat-icon>
       <span>Eliminar</span>
     </button>

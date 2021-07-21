@@ -117,7 +117,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   }
   word=""
   rango=null
-  type="A4"
+  latterType="A4"
   getCursorPosition(){
     console.log("click", this.word)
     if(this.word){
@@ -212,13 +212,14 @@ export class CommunicationCreateUpdateComponent implements OnInit {
       this.updateCustomer();
     }
   }
+  
 
   createCustomer() {
 
     this.datos.push({
       subject: this.subject|| "",
       name: this.name,
-      latterType: this.type,
+      latterType: this.latterType,
       addressee: this.typeClient,
       description:this.description||"",
       portafolio_id: this.defaults.portafolio_id,

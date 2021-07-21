@@ -15,6 +15,7 @@
     },
     { 
       "compilerOptions": { 
+        "types": ["node"],
         "outDir": "./dist",
         "rootDir": "./src",
         "experimentalDecorators": true, 

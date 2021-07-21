@@ -37,6 +37,7 @@ import { ApexOptions } from '../../../../@vex/components/chart/chart.component';
 import { defaultChartOptions } from '../../../../@vex/utils/default-chart-options';
 import { createDateArray } from '../../../../@vex/utils/create-date-array';
 import { id } from 'date-fns/locale';
+import data from '@iconify/icons-ic/twotone-visibility';
 
 
 @UntilDestroy()
@@ -79,6 +80,7 @@ export class StrategyComponent implements OnInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icAdd = icAdd;
+  visible=false
   searchCtrl = new FormControl();
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
@@ -142,10 +144,6 @@ export class StrategyComponent implements OnInit {
     }
     
   });
-  salesSeries: ApexAxisChartSeries = [{
-    name: 'Clientes',
-    data: [10, 20, 10, 60]
-  }];
   displayedColumnsIG: string[] = ['Cliente', 'Portafolio'];
   displayedColumnsSEG: string[] = ['Registros','Datos_Segmentados', 'Porcentaje', 'No_Segmentados'];
   displayedColumns: string[] = ['date1', 'date2', 'date3', 'date4', 'date5'];
@@ -164,8 +162,13 @@ export class StrategyComponent implements OnInit {
   mode: ProgressBarMode = 'determinate';
   value = 0;
   bufferValue = 10; 
-  strategy_id = this.route.snapshot.params.id;
-  indexStrategy = this.route.snapshot.params.index;
+  canales=[
+    {label:"SMS",days:0},
+    {label:"E-MAIL",days:0},
+    {label:"BLASTER",days:0}
+  ]
+  segmentation_id = this.route.snapshot.params.id;
+  indexSegmentation = this.route.snapshot.params.index;
   strategy={
     name:"",
     description:"",
@@ -184,9 +187,15 @@ export class StrategyComponent implements OnInit {
     query:{},
     criteria:[]
   }
+  segmenta={
+    _id:"",
+    segmentation:[],
+    portafolio_id:""
+  }
   segment={
     _id:"",
     portafolio_id:"",
+    segmentation:[],
     strategy:[{
       name:"",
       description:"",
@@ -207,14 +216,34 @@ export class StrategyComponent implements OnInit {
     register:0
   }
   ngOnInit() {
-    this.getPortaolio("608a0b608eb7d30bf1e9b727")
+    
+    this.getSegmentation()
     //this.getStrategy()
     this.searchCtrl.valueChanges.pipe(
       untilDestroyed(this)
     ).subscribe(value => this.onFilterChange(value));
     
   }
+  getSegmentation(){
+    this.Services.getSegmentation(this.segmentation_id)
+    .subscribe(
+        data => {
+          if(data.success){
+            this.segmenta=data.data;
+            console.log("*********************",this.segmenta.segmentation[this.indexSegmentation])
+            this.segmentacionData=this.segmenta.segmentation[this.indexSegmentation]
+            this.getPortaolio(this.segmenta.portafolio_id)
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
 
+  onCheckboxChange(x){
+    console.log(x.checked)
+    this.visible=x.checked
+  }
   onFilterChange(value: string) {
     if (!this.dataSource) {
       return;
@@ -232,7 +261,7 @@ export class StrategyComponent implements OnInit {
       data => {
         if(data.success){
           this.portafolio=data.data;
-          (this.indexStrategy==0)
+          (this.indexSegmentation==0)
             this.registerTotal=this.portafolio.register
           //console.log("Portafolio",this.portafolio)
           this.segment.strategy.forEach(element => {
@@ -254,7 +283,7 @@ export class StrategyComponent implements OnInit {
           },
           {
             name:"SEGMENTO ",
-            data: "Segmento A"
+            data: this.segmentacionData.name
           }]
         }
       },
@@ -262,34 +291,19 @@ export class StrategyComponent implements OnInit {
         //this.error=true
       });
   }
-  segmentacionData=[]
+  segmentacionData={
+    name:"",
+    portafolio_id:"",
+    segmentation_id:""
+    
+  }
   segmentacion={}
   displayedColumnsS = ["comunication"]
   days=null
   init=""
   noneDays=null
   columns: TableColumn<Strategy>[] = [];
-  getMap(id){
-    this.Services.getMap(id)
-    .subscribe(
-        data => {
-          //console.log("getMap ", data)
-          if(data.success && data.data){
-            this.segmentacion=data.data.strategy;
-            let segmentacion=[]
-            data.data.strategy.forEach(element => {
-              if(element.status)
-                this.segmentacionData.push(element.data)
-            });
-           // console.log(this.segmentacionData, this.segmentacion)
-           // this.CustomersList=data.data
-            
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
+  
   changeCriterio(ev,index){
     //console.log(ev.value,index)
     this.strategy.criteria[index].name= ev.value
@@ -317,7 +331,8 @@ export class StrategyComponent implements OnInit {
     }*/
   }
   editStrategy(customer: Strategy, label) {
-    console.log(label)
+    console.log("**",label)
+    customer.name_seg=label
     this.dialog.open(StrategyCreateUpdateComponent, {
       data: customer
     }).afterClosed().subscribe(updatedSegmentation => {
@@ -330,8 +345,11 @@ export class StrategyComponent implements OnInit {
          * You would probably make an HTTP request here.
          */
          const index = this.jsDatos.findIndex((dato) => dato[0].Comunicacion === customer.Comunicacion);
-         console.log(index)
-         this.jsDatos[index][0][label] = updatedSegmentation[0]
+         console.log("--------",this.jsDatos[index][0])
+         this.jsDatos[index].push({
+           [label]:updatedSegmentation[0]
+         })
+         //this.jsDatos[index][0][label] = updatedSegmentation[0]
         console.log(updatedSegmentation)
         console.log(this.jsDatos)
       }
@@ -343,6 +361,30 @@ export class StrategyComponent implements OnInit {
   }
   active=false
   datos=[]
+  create(){
+    let body={
+      portafolio_id: this.segmenta.portafolio_id,
+      segmentation_id: this.segmenta._id,
+      segmentation: this.segmentation_id,
+      isCanal:this.visible,
+      canales:this.canales,
+      days:this.days,
+      noneDays:this.noneDays,
+      calendary:this.jsDatos
+    }
+    console.log(body)
+    this.Services.createStrategy(body)
+        .subscribe(
+            data => {
+              //console.log("Portafolios ", data)
+              if(data.success){
+                console.log(data.data)
+              }
+            },
+            error => {
+              //this.error=true
+            });
+  }
   addStrategy(){
     this.datos=[]
     for (let index = 1; index < parseInt(this.days) + 1; index++) {
@@ -367,8 +409,6 @@ export class StrategyComponent implements OnInit {
    this.jsDatos.push([{"Comunicacion":"E-MAIL"}])
    this.jsDatos.push([{"Comunicacion":"BLASTER"}])
    this.jsDatos.push([{"Comunicacion":"CARTA"}])
-   this.jsDatos.push([{"Comunicacion":"NOTIFICACIÓN"}])
-   this.jsDatos.push([{"Comunicacion":"DEMANDA"}])
    this.active=true
   }
   get visibleColumns() {

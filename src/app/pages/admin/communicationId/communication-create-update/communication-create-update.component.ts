@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Communication } from '../interfaces/communication.model';
@@ -19,6 +19,14 @@ import {Services} from '../../../../Services/services'
 import { ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
+import { UploadService } from '../../../../Services/upload.service';
+import { findIndex } from 'rxjs/operators';
 
 @Component({
   selector: 'vex-strategy-create-update',
@@ -33,6 +41,7 @@ import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animati
 export class CommunicationCreateUpdateComponent implements OnInit {
 
   static id = 100;
+  
 
   form: FormGroup;
   text = ``;
@@ -58,11 +67,14 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
               private dialogRef: MatDialogRef<CommunicationCreateUpdateComponent>,
               private fb: FormBuilder,
-              private Services: Services) {
+              private Services: Services,
+              private uploadService: UploadService) {
   }
   displayedColumnsIG: string[] = ['Cliente', 'Portafolio'];
   dataInfo=[]
   name="Comunicacion 1"
+  headHTML='<div class="ql-editor">'
+  endHTML='</div>'
   htmlContent = 'Hola, ';
   info_agency=localStorage.getItem('currentAgency')
   agency=JSON.parse(this.info_agency);
@@ -70,6 +82,8 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   typeClient="Cliente"
   subject=""
   value=""
+  segmentation_id=""
+  comunicationData=[]
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'update';
@@ -77,6 +91,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
       this.getMap(this.defaults.portafolio_id._id)
       //this.getPortafoliosList(this.defaults.client)
       this.value=this.defaults.value
+      this.segmentation_id=this.defaults.segmentation_id
       this.form1.setValue(this.defaults.content)
       this.typeCommunication =this.defaults.type
     } else {
@@ -88,11 +103,70 @@ export class CommunicationCreateUpdateComponent implements OnInit {
       portafolio: "Clientes Morosos"
     }]
     this.cuanti()
+    this.getPortafolioSegmentation()
+    this.getCommunication()
 
   }
+  Communication=null
+  index=null
+  getCommunication() {
+    this.Services.getCommunication(this.segmentation_id)
+    .subscribe(
+        data => {
+          if(data.success){
+            this.Communication=data.data
+            console.log("Hola ", this.typeCommunication)
+
+            if(this.typeCommunication=="Carta"){
+              this.Communication.Letter.forEach(element => {
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.typeCommunication=="Blaste"){
+              this.Communication.Blaster.forEach(element => {
+                
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.typeCommunication=="Mail"){
+              this.Communication.Mail.forEach(element => {
+                
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.typeCommunication=="SMS"){
+              this.Communication.SMS.forEach(element => {
+                
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.typeCommunication=="Notification"){
+              this.Communication.Notification.forEach(element => {
+                
+                this.comunicationData.push(element)
+              });
+            }
+            if(this.typeCommunication=="Demand"){
+              this.Communication.Demand.forEach(element => {
+                
+                this.comunicationData.push(element)
+              });
+            }
+            console.log("--",this.comunicationData)
+            //findIndex
+            this.index = this.comunicationData.findIndex((c) => c._id === this.defaults._id);
+              console.log("INDEX",this.index)
+            }
+            
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  visible=true
   word=""
   rango=null
-  type="A4"
+  latterType="A4"
   getCursorPosition(){
     console.log("click", this.word)
     if(this.word){
@@ -109,6 +183,10 @@ export class CommunicationCreateUpdateComponent implements OnInit {
           }
     }
   }
+  onCheckboxChange(e){
+    console.log(e)
+    this.visible=e.checked
+  }
   communicationData=[]
   communicationData2=[]
   communicationData3=[]
@@ -119,16 +197,18 @@ export class CommunicationCreateUpdateComponent implements OnInit {
           console.log("getMap ", data)
           if(data.success){
             data.data.strategies.forEach(element => {
-              if(element.status)
+              if(element.status){
+
                 this.communicationData3.push(element.data)
                 this.communicationData.push(element.data)
+              }
                 
             });
             data.data.endorsement.forEach(element => {
               if(element.status)
                 this.communicationData2.push(element.data)
             });
-            console.log(this.communicationData2)
+            console.log("----",this.communicationData)
            // this.CustomersList=data.data
             
           }
@@ -235,6 +315,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
     popupWin.document.close();
   }
   PortafoliosList=[]
+  SegmentationList=[]
   getPortafoliosList(client_id) {
     //console.log("GET PORTAFOLOS",this.client.agency_id, client_id)
      this.Services.getPortafoliosList(client_id)
@@ -249,20 +330,111 @@ export class CommunicationCreateUpdateComponent implements OnInit {
            //this.error=true
          });
    }
- /* getCursorPosition(){
-    if(this.variable){
-      var sel, range;
-      sel = window.getSelection();
-      if (sel.getRangeAt && sel.rangeCount) {
-        console.log(sel.getRangeAt(0))
-        this.rango = sel.getRangeAt(0);
-        this.rango.insertNode(document.createTextNode('{'+this.variable+'}'));
-        this.variable = '';
-        
-         return sel.getRangeAt(0);
-      }
-    }
-  }*/
+   currentSegmentationList=null
+   getPortafolioSegmentation() {
+    //console.log("GET PORTAFOLOS",this.client.agency_id, client_id)
+     this.Services.getPortafolioSegmentation(this.defaults.portafolio_id._id)
+     .subscribe(
+         data => {
+        console.log("Segmentations ", data)
+           if(data.success){
+             this.SegmentationList=data.data.segmentation
+           }
+         },
+         error => {
+           //this.error=true
+         });
+   }
+   @ViewChild('screen') screen: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('downloadLink') downloadLink: ElementRef;
+   GeneratePDF(){
+    //var data = document.getElementById('contentToConvert');
+
+    html2canvas(document.querySelector('.ql-editor')).then(canvas => {
+      this.canvas.nativeElement.src = canvas.toDataURL();
+      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+      this.downloadLink.nativeElement.download = 'marble-diagram.png';
+      this.downloadLink.nativeElement.click();
+    });
+    
+    
+   /* html2canvas(data).then(canvas => {
+    // Few necessary setting options
+    var imgWidth = 208;
+    var pageHeight = 295;
+    var imgHeight = canvas.height * imgWidth / canvas.width;
+    var heightLeft = imgHeight;
+    
+    const contentDataURL = canvas.toDataURL('image/png')
+    let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+    var position = 0;
+    pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
+    pdf.save('new-file.pdf'); // Generated PDF
+    });*/
+  }
+  urlImage=""
+  downloadImage(){
+    html2canvas(document.querySelector('.ql-editor')).then(canvas => {
+      var imgWidth = 166;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+      this.canvas.nativeElement.src = canvas.toDataURL();
+      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+      this.downloadLink.nativeElement.download = 'marble-diagram.png';
+      this.downloadLink.nativeElement.click();
+      let pdf = new jsPDF('p', 'mm', 'A4'); // A4 size page of PDF
+      var position = 0;
+      pdf.addImage(this.downloadLink.nativeElement.href , 'PNG', 20, 10, imgWidth, imgHeight)
+      let doc = pdf.save('new-file.pdf');
+      var blob = pdf.output('blob'); 
+      var blobPDF =  new Blob([blob], { type : 'application/pdf'});
+      var blobUrl = URL.createObjectURL(blobPDF);
+      window.open(blobUrl);
+      //var myFile = blobToFile(myBlob, "my-image.png");
+      //var file = new File([blob], 'untitled.pdf')
+      const myFile = new File([blobPDF], "untitled234.pdf", {
+        type: blobPDF.type,
+      });
+      this.uploadService.uploadFile(myFile)
+      .then(
+        data => {
+          console.log(data)
+          this.urlImage=data.toString()
+        })
+    });
+  }
+   
+   GeneratePDF1(){
+    const doc = new jsPDF();
+   
+   // const pdfTable = this.pdfTable.nativeElement;
+   //console.log(this.form1)
+    let htmlFinal = this.headHTML +this.form1.value+ this.endHTML
+    console.log(htmlFinal)
+    var dom = document.createElement('div');
+    console.log(dom)
+	  dom.innerHTML = htmlFinal
+    console.log(dom)
+    var html = htmlToPdfmake(dom);
+     
+    const documentDefinition = { content: html };
+    pdfMake.createPdf(documentDefinition).open(); 
+    let pdf = pdfMake.createPdf(documentDefinition)
+    pdf.getBlob((blob) => {
+      var file = new File([blob], 'untitled.pdf')
+      this.uploadService.uploadFile(file)
+      .then(
+        data => {
+          console.log(data)
+          //this.urlImage=data.toString()
+        })
+    });
+    //var file = new File(pdfMake.createPdf(documentDefinition), "pdf.pdf");
+   }
+   
+
 
   save() {
     if (this.mode === 'create') {
@@ -292,9 +464,10 @@ export class CommunicationCreateUpdateComponent implements OnInit {
     //return true
   }
 
-datos=[]
 
-  updateCustomer() {
+datos=[]
+updateCustomer() {
+    //this.downloadImage()
     console.log("Update", this.defaults)
     switch (this.defaults.type) {
       case "Carta":
@@ -318,17 +491,17 @@ datos=[]
       default:
         break;
     }
-    this.datos.push({
+    this.comunicationData[this.index]={
       subject: this.defaults.subject|| "",
       name: this.defaults.name,
-      latterType: this.defaults.type,
+      latterType: this.defaults.latterType,
       addressee: this.typeClient,
       description:this.defaults.description||"",
       portafolio_id: this.defaults.portafolio_id._id,
       content: this.form1.value||"",
-    })
-    console.log(this.defaults.portafolio_id,this.value,this.datos)
-    this.Services.updateDataCommunication(this.defaults.portafolio_id._id,this.value,this.datos)
+    }
+    console.log(this.defaults.portafolio_id,this.value,this.comunicationData)
+    this.Services.updateDataCommunication(this.defaults.portafolio_id._id,this.value,this.comunicationData)
     .subscribe(
         data => {
           console.log("UPDATE ", data)

@@ -39,13 +39,46 @@
   
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
-        <mat-form-field class="flex-auto mt-6 ml-6">
+        <div class="flex-auto mt-6 ml-6 pt-6">
+          <mat-checkbox cdkFocusInitial (click)="$event.stopPropagation()" [(ngModel)]="visible" color="primary" (change)="onCheckboxChange($event)">
+            Activar Intentos por canal
+          </mat-checkbox>
+          
+        </div>
+        <mat-form-field class="flex-auto mt-6 ml-6" *ngIf="!visible">
+          
           <mat-label>Salida despues de intentos sin exito</mat-label>
           <input cdkFocusInitial [(ngModel)]="noneDays" matInput>
   
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
       </div>
+      <div  *ngIf="visible">
+        <div class="flex flex-col sm:flex-row" *ngFor="let canal of canales">
+          <div class="flex-auto">
+            <div class="flex flex-col sm:flex-row">
+  
+              <mat-form-field class="flex-auto ">
+                <mat-label>Canal</mat-label>
+                <input cdkFocusInitial [(ngModel)]="canal.label" matInput>
+        
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+              <mat-form-field class="flex-auto ">
+                <mat-label>Salida despues de intentos sin exito</mat-label>
+                <input cdkFocusInitial [(ngModel)]="canal.days" matInput>
+        
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex-auto">
+  
+          </div>
+          
+        </div>
+      </div>
+      
       <button (click)="addStrategy()">Agregar Estrategia</button>
 
      
@@ -88,20 +121,18 @@
                   <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>{{ column.label }}</th>
                   <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell><p *ngIf="column.label=='Comunicacion'">{{row[0][column.label] }}</p> 
                     
-                    <div (click)="$event.stopPropagation();" fxLayoutAlign="start center" fxLayoutGap="4px" *ngIf="column.label!='Comunicacion'" >
+                    <div (click)="$event.stopPropagation();" fxLayoutAlign="center center" fxLayoutGap="4px" *ngIf="column.label!='Comunicacion'" >
                       
-                      <div *ngIf="row[0][column.label]"
-                           class="rounded px-2 py-1 font-medium text-xs bg-amber-light text-amber"
-                           fxFlex="none">
-                        {{row[0][column.label]?row[0][column.label].label.name:""}}
-                      </div>
-                      <br>
-                      <div *ngIf="row[0][column.label]"
-                           class="rounded px-2 py-1 font-medium text-xs bg-teal-light text-teal"
-                           fxFlex="none">
-                        {{row[0][column.label]?row[0][column.label].hour:""}}
-                      </div>
-                      <div (click)="$event.stopPropagation(); editStrategy(row[0],column.label);"
+                     <div *ngFor="let r of row">
+
+                       <div *ngIf="r[column.label]"
+                        [matTooltip]="r[column.label].label"
+                            class="rounded px-2 py-1 font-medium text-xs bg-teal-light text-teal"
+                            fxFlex="none">
+                         {{r[column.label]?r[column.label].times:""}}
+                       </div>
+                     </div>
+                      <div (click)="$event.stopPropagation(); editStrategy(row[0],column.label);" *ngIf="!row[0][column.label]"
                            class="text-secondary bg-base text-hint cursor-pointer hover:bg-hover"
                            fxFlex="none"
                            matTooltip="Agendar una Estrategia"
@@ -127,9 +158,9 @@
 
       
       
-      <div align="end">
-        <!--button *ngIf="isNew" class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">CREAR SEGMENTACIÓN</button>
-        <button *ngIf="isEdit" class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">EDITAR SEGMENTACIÓN</button-->
+      <div align="end" class="mt-10">
+        <button  class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">CREAR ESTRATEGIA</button>
+        <!--button *ngIf="isEdit" class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">EDITAR ESTRATEGIA</button-->
       </div>
     </div>
   </vex-page-layout-content>

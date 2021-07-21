@@ -50,10 +50,10 @@
         </mat-form-field>
         <mat-form-field class="flex-auto ml-6 " *ngIf="typeCommunication=='Carta'">
           <mat-label>Selecciona tamaño del documento</mat-label>
-          <mat-select  name="type"  [(ngModel)]="defaults.type">
+          <mat-select  name="type"  [(ngModel)]="defaults.latterType">
             <mat-option value="">Seleccionar tamaño del documento</mat-option>
             <mat-option value="A4">A4 - Cata</mat-option>
-            <mat-option value="A5"> Legal</mat-option>
+            <mat-option value="A5"> Oficio</mat-option>
           </mat-select>
     
           <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
@@ -79,6 +79,30 @@
               </div>
              
               <br>
+              <div class="flex flex-col sm:flex-row mb-2" *ngIf="typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda'">
+                <div class="flex-auto self-center" style="text-align: center;"  >
+                  <button   mat-stroked-button  color="primary" >Generar Archivos Masivos </button>
+                </div>
+                <div class="flex-auto self-center" style="text-align: center;">
+                  <mat-checkbox cdkFocusInitial (click)="$event.stopPropagation()" [(ngModel)]="visible" color="primary" (change)="onCheckboxChange($event)">
+                    Portafolio completo
+                  </mat-checkbox>
+                </div>
+                <div class="flex-auto self-center" style="text-align: center;" *ngIf="!visible">
+                  <mat-form-field>
+                    <mat-select [(ngModel)]="currentSegmentationList">
+                      <mat-option *ngFor="let label of SegmentationList" [value]="label">
+                        <div [ngClass]="label.previewClass"
+                            class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block"></div>
+                        <span>{{ label.name }}</span>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="flex-auto self-center" style="text-align: center;">
+                  <button   mat-stroked-button  color="primary" (click)="GeneratePDF()">Generar PDF</button>
+                </div>
+              </div>
               <div class="flex flex-col sm:flex-row mb-2">
                 <label class="flex-auto self-center" style="text-align: center;" for="">Caracteres: <b>{{character}}</b> </label>
                 <div class="flex-auto" style="text-align: center;"  *ngIf="typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda'">
@@ -86,30 +110,30 @@
                   <button   mat-stroked-button  color="primary" >Agregar nueva pagina</button>
                 </div>
               </div>
-              <div *ngIf="type=='A4' && (typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda') ">
+              <div *ngIf="latterType=='A4' && (typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda') ">
+        
+                <quill-editor #screen format="html"
+                @fadeInUp
+                (keyup)="cuanti()"
+                (click)="getCursorPosition()"
+                [styles]="{ flex: '1 1 auto', 
+                width: '216mm',
+                height: '279mm',
+                padding: '20mm',
+                'margin-top': '10mm',
+                'margin-left': 'auto',
+                'margin-right': 'auto',
+                'border-color': 'grey',
+                border: 'solid',
+                'border-width': '1px',
+                background: 'white',
+                'border-radius': '5px'}" [formControl]="form1"  placeholder="Some text..."></quill-editor>
 
-                <quill-editor @fadeInUp
-                  
-                  (keyup)="cuanti()"
-                  [formControl]="form1"
-                  (click)="getCursorPosition()"
-                  [styles]="{ flex: '1 1 auto', 
-                  width: '216mm',
-                  height: '279mm',
-                  padding: '20mm',
-                  'margin-top': '10mm',
-                  'margin-left': 'auto',
-                  'margin-right': 'auto',
-                  'border-color': 'grey',
-                  border: 'solid',
-                  'border-width': '1px',
-                  background: 'white',
-                  'border-radius': '5px'}"
-                  
-                  >
-                </quill-editor>
+
+
+                
               </div>
-              <div *ngIf="type=='A5' && (typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda') ">
+              <div *ngIf="latterType!='A4' && (typeCommunication=='Carta' || typeCommunication=='Notificacion' ||typeCommunication=='Demanda') ">
 
 
                 <quill-editor @fadeInUp
@@ -144,7 +168,10 @@
                   >
                 </quill-editor>
               </div>
-
+              <div id="download" [hidden]="true">
+                <img #canvas>
+                <a #downloadLink></a>
+              </div>
         
       </div>
       

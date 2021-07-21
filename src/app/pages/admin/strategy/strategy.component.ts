@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Customer } from './interfaces/strategy.model';
+import { Stretegy } from './interfaces/strategy.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -26,7 +26,8 @@ import { MatSelectChange } from '@angular/material/select';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
-
+import {Services} from '../../../Services/services'
+import { Router } from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -54,33 +55,29 @@ export class StrategyComponent implements OnInit, AfterViewInit {
    * Simulating a service with HTTP that returns Observables
    * You probably want to remove this and do all requests in a service with HTTP
    */
-  subject$: ReplaySubject<Customer[]> = new ReplaySubject<Customer[]>(1);
-  data$: Observable<Customer[]> = this.subject$.asObservable();
-  customers: Customer[];
+  subject$: ReplaySubject<Stretegy[]> = new ReplaySubject<Stretegy[]>(1);
+  data$: Observable<Stretegy[]> = this.subject$.asObservable();
+  strategys: Stretegy[];
+
+  info_client=localStorage.getItem('currentAgency')
+  client=JSON.parse(this.info_client);
 
   @Input()
-  columns: TableColumn<Customer>[] = [
+  columns: TableColumn<Stretegy>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Image', property: 'image', type: 'image', visible: true },
-    { label: 'Name', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    { label: 'First Name', property: 'firstName', type: 'text', visible: false },
-    { label: 'Last Name', property: 'lastName', type: 'text', visible: false },
-    { label: 'Contact', property: 'contact', type: 'button', visible: true },
-    { label: 'Address', property: 'address', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Street', property: 'street', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Zipcode', property: 'zipcode', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'City', property: 'city', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Phone', property: 'phoneNumber', type: 'text', visible: true, cssClasses: ['text-secondary', 'font-medium'] },
-    { label: 'Labels', property: 'labels', type: 'button', visible: true },
+    { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
+    { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
+    //{ label: 'Segmentos', property: 'strategy', type: 'text', visible: true },
+    { label: 'Segmentos', property: 'labels', type: 'button', visible: true },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
-  dataSource: MatTableDataSource<Customer> | null;
-  selection = new SelectionModel<Customer>(true, []);
+  dataSource: MatTableDataSource<Stretegy> | null;
+  selection = new SelectionModel<Stretegy>(true, []);
   searchCtrl = new FormControl();
 
-  labels = aioTableLabels;
+  
 
   icPhone = icPhone;
   icMail = icMail;
@@ -96,7 +93,7 @@ export class StrategyComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private Services: Services,private router: Router) {
   }
 
   get visibleColumns() {
@@ -107,87 +104,167 @@ export class StrategyComponent implements OnInit, AfterViewInit {
    * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
    * We are simulating this request here.
    */
-  getData() {
-    return of(aioTableData.map(customer => new Customer(customer)));
+  getData(list) {
+    return of(list.map(strategy => strategy));
+    return of(aioTableData.map(customer => new Stretegy(customer)));
   }
+  agency={}
+  labels = [];
+  getAgency() {
+    this.Services.getAgency(this.client.agency_id)
+    .subscribe(
+        data => {
+          if(data.success){
+            this.agency=data.data
+            //console.log(this.agency)
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  StretegysList=[];
+  getStretegysList() {
+    this.Services.getSegmentationsList(this.client.agency_id)
+    .subscribe(
+        data => {
+          //console.log("Hola ", data)
+          if(data.success){
+            //this.StretegysList=data.data
+            this.labels = data.data;
+            data.data.forEach(element => {
+              if(element.segmentation.length)
+              this.StretegysList.push(element)
+            });
+            //return this.StretegysList;
+            this.getData(this.StretegysList).subscribe(strategys => {
+              this.subject$.next(strategys);
+            });
+            //this.dataSource = new MatTableDataSource();
 
-  
+          this.data$.pipe(
+            filter<Stretegy[]>(Boolean)
+          ).subscribe(strategys => {
+            //console.log(strategys)
+            this.strategys = strategys;
+            this.dataSource.data = strategys; //this.StretegysList;
+          });
+          this.searchCtrl.valueChanges.pipe(
+            untilDestroyed(this)
+          ).subscribe(value => this.onFilterChange(value));
+            //this.ClientAddList=data.data
+            ////console.log("--",this.usersList)
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
 
   ngOnInit() {
-    this.getData().subscribe(customers => {
-      this.subject$.next(customers);
-    });
-
+    //console.log(this.client)
+    this.getAgency() 
     this.dataSource = new MatTableDataSource();
-
-    this.data$.pipe(
-      filter<Customer[]>(Boolean)
-    ).subscribe(customers => {
-      this.customers = customers;
-      this.dataSource.data = customers;
-    });
-
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.onFilterChange(value));
+    this.getStretegysList();
   }
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  createCustomer() {
-    this.dialog.open(StrategyCreateUpdateComponent).afterClosed().subscribe((customer: Customer) => {
+  createStretegy() {
+    this.dialog.open(StrategyCreateUpdateComponent).afterClosed().subscribe((customer: Stretegy) => {
       /**
-       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       * Stretegy is the updated customer (if the user pressed Save - otherwise it's null)
        */
       if (customer) {
         /**
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.customers.unshift(new Customer(customer));
-        this.subject$.next(this.customers);
+        //this.strategys.unshift(new Stretegy(customer));
+        //this.subject$.next(this.strategys);
+        this.getStretegysList();
       }
     });
   }
 
-  updateCustomer(customer: Customer) {
+  updateStretegy(customer: Stretegy) {
     this.dialog.open(StrategyCreateUpdateComponent, {
       data: customer
-    }).afterClosed().subscribe(updatedCustomer => {
+    }).afterClosed().subscribe(updatedStretegy => {
       /**
-       * Customer is the updated customer (if the user pressed Save - otherwise it's null)
+       * Stretegy is the updated customer (if the user pressed Save - otherwise it's null)
        */
-      if (updatedCustomer) {
+      if (updatedStretegy) {
         /**
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        const index = this.customers.findIndex((existingCustomer) => existingCustomer.id === updatedCustomer.id);
-        this.customers[index] = new Customer(updatedCustomer);
-        this.subject$.next(this.customers);
+        this.getStretegysList();
       }
     });
   }
 
-  deleteCustomer(customer: Customer) {
-    /**
-     * Here we are updating our local array.
-     * You would probably make an HTTP request here.
-     */
-    this.customers.splice(this.customers.findIndex((existingCustomer) => existingCustomer.id === customer.id), 1);
-    this.selection.deselect(customer);
-    this.subject$.next(this.customers);
+  Stretegy(id,index){
+    let i=parseInt(index)
+    this.router.navigate(['/admin/strategyId/'+id+"/"+index]);
   }
 
-  deleteCustomers(customers: Customer[]) {
+  /*addStretegy(customer: Stretegy) {
+    customer.segment= null
+    this.dialog.open(StretegyCreateUpdateComponent, {
+      data: customer
+    }).afterClosed().subscribe((customer: Stretegy) => {
+      /**
+       * Stretegy is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      //if (customer) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+       /* this.getStretegysList();
+      }
+    });
+  }*/
+
+  editStretegy(customer: Stretegy, strategy) {
+    
+    this.dialog.open(StrategyCreateUpdateComponent, {
+      data: customer
+    }).afterClosed().subscribe(updatedStretegy => {
+      /**
+       * Stretegy is the updated customer (if the user pressed Save - otherwise it's null)
+       */
+      if (updatedStretegy) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+        const index = this.strategys.findIndex((existingStretegy) => existingStretegy.id === updatedStretegy.id);
+        this.strategys[index] = new Stretegy(updatedStretegy);
+        this.subject$.next(this.strategys);
+      }
+    });
+  }
+
+  deleteStretegy(customer: Stretegy) {
     /**
      * Here we are updating our local array.
      * You would probably make an HTTP request here.
      */
-    customers.forEach(c => this.deleteCustomer(c));
+    this.strategys.splice(this.strategys.findIndex((existingStretegy) => existingStretegy.id === customer.id), 1);
+    this.selection.deselect(customer);
+    this.subject$.next(this.strategys);
+  }
+
+  deleteStretegys(strategys: Stretegy[]) {
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+    strategys.forEach(c => this.deleteStretegy(c));
   }
 
   onFilterChange(value: string) {
@@ -211,7 +288,6 @@ export class StrategyComponent implements OnInit, AfterViewInit {
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
-  
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
@@ -224,9 +300,9 @@ export class StrategyComponent implements OnInit, AfterViewInit {
     return column.property;
   }
 
-  onLabelChange(change: MatSelectChange, row: Customer) {
-    const index = this.customers.findIndex(c => c === row);
-    this.customers[index].labels = change.value;
-    this.subject$.next(this.customers);
+  onLabelChange(change: MatSelectChange, row: Stretegy) {
+    const index = this.strategys.findIndex(c => c === row);
+    this.strategys[index].strategy = change.value;
+    this.subject$.next(this.strategys);
   }
 }

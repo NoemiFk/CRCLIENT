@@ -1,5 +1,6 @@
-export class Customer {
+export class Stretegy {
   id: number;
+  strategy:any
   imageSrc: string;
   firstName: string;
   lastName: string;
@@ -12,6 +13,7 @@ export class Customer {
 
   constructor(customer) {
     this.id = customer.id;
+    this.strategy=customer.strategy
     this.imageSrc = customer.imageSrc;
     this.firstName = customer.firstName;
     this.lastName = customer.lastName;

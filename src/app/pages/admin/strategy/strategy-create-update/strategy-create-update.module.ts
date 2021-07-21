@@ -12,10 +12,13 @@ import { StrategyCreateUpdateComponent } from './strategy-create-update.componen
 import { MatMenuModule } from '@angular/material/menu';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+
 
 @NgModule({
   imports: [
     CommonModule,
+    NgxMaterialTimepickerModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MatDialogModule,

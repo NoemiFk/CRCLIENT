@@ -252,6 +252,16 @@ export class Services {
             });
       }
 
+      getPortafolioSegmentation(id:string) {
+        return this.http.get<any>(URL+'/segmentation/portafolio/'+id,httpOptions)
+            .map(resp => {
+             
+                //console.log("updatePlan",resp)
+                return resp;
+  
+            });
+      }
+
       updateSegmentation(id:string, body:object) {
         return this.http.put<any>(URL+'/segmentation/'+id,body)
             .map(resp => {
@@ -322,15 +332,54 @@ export class Services {
             });
             
     }
-  getInvoice(id:string) {
-    return this.http.get<any>(URL+'/history/agency/'+id,httpOptions)
-        .map(resp => {
-        
-            //console.log("updatePlan",resp)
-            return resp;
+    getInvoice(id:string) {
+        return this.http.get<any>(URL+'/history/agency/'+id,httpOptions)
+            .map(resp => {
+            
+                //console.log("updatePlan",resp)
+                return resp;
 
-        });
-}
-    
+            });
+    }
+    printValidate(body:object) {
+        return this.http.post<any>(URL+'/print',body,httpOptions)
+            .map(resp => {
+            
+                //console.log("updatePlan",resp)
+                return resp;
+
+            });
+            
+    }
+    getPrnt(id:string) {
+        return this.http.get<any>(URL+'/print/'+id,httpOptions)
+            .map(resp => {
+            
+                //console.log("updatePlan",resp)
+                return resp;
+
+            });
+            
+    }
+    createStrategy(body:object) {
+        return this.http.post<any>(URL+'/strategy',body,httpOptions)
+            .map(resp => {
+            
+                //console.log("updatePlan",resp)
+                return resp;
+
+            });
+            
+    }
+    getStrategy(id:string) {
+        return this.http.get<any>(URL+'/strategy/'+id,httpOptions)
+            .map(resp => {
+            
+                //console.log("updatePlan",resp)
+                return resp;
+
+            });
+            
+    }
 
 }

@@ -180,6 +180,11 @@
                     mat-icon-button matTooltip="Eliminar">
                     <mat-icon [icIcon]="icDelete" size="18px"></mat-icon>
                   </a>
+                  <a (click)=" $event.stopPropagation(); genratePDFCommunication(row)" 
+                  class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+                  mat-icon-button matTooltip="Generar PDF">
+                  <mat-icon [icIcon]="icPDF" size="18px"></mat-icon>
+                </a>
                 </div>
               </td>
             </ng-container>

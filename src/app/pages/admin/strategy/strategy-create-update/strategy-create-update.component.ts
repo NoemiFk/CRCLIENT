@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Customer } from '../interfaces/strategy.model';
+import { Stretegy } from '../interfaces/strategy.model';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
 import icClose from '@iconify/icons-ic/twotone-close';
 import icPrint from '@iconify/icons-ic/twotone-print';
@@ -47,7 +47,7 @@ export class StrategyCreateUpdateComponent implements OnInit {
     if (this.defaults) {
       this.mode = 'update';
     } else {
-      this.defaults = {} as Customer;
+      this.defaults = {} as Stretegy;
     }
 
     this.form = this.fb.group({
@@ -65,13 +65,13 @@ export class StrategyCreateUpdateComponent implements OnInit {
 
   save() {
     if (this.mode === 'create') {
-      this.createCustomer();
+      this.createStretegy();
     } else if (this.mode === 'update') {
-      this.updateCustomer();
+      this.updateStretegy();
     }
   }
 
-  createCustomer() {
+  createStretegy() {
     const customer = this.form.value;
 
     if (!customer.imageSrc) {
@@ -81,7 +81,7 @@ export class StrategyCreateUpdateComponent implements OnInit {
     this.dialogRef.close(customer);
   }
 
-  updateCustomer() {
+  updateStretegy() {
     const customer = this.form.value;
     customer.id = this.defaults.id;
 

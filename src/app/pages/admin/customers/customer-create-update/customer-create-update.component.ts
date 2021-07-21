@@ -15,6 +15,7 @@ import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import icEmail from '@iconify/icons-ic/email';
 import {Services} from '../../../../Services/services'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UploadService } from '../../../../Services/upload.service';
 
 @Component({
   selector: 'vex-customer-create-update',
@@ -48,12 +49,13 @@ export class CustomerCreateUpdateComponent implements OnInit {
               private dialogRef: MatDialogRef<CustomerCreateUpdateComponent>,
               private fb: FormBuilder,
               private Services: Services,
-              private snackbar: MatSnackBar) {
+              private snackbar: MatSnackBar,
+              private uploadService: UploadService) {
   }
 
   @ViewChild('uploadControl') uploadControl: ElementRef;
   uploadFileName = 'Choose File';
-
+  selectedFiles: FileList;
   onFileChange(e: any) {
 
     if (e.target.files && e.target.files[0]) {
@@ -80,12 +82,30 @@ export class CustomerCreateUpdateComponent implements OnInit {
       this.uploadFileName = 'Choose File';
     }
   }
-
+  urlImage="https://documents-cr.s3.us-west-2.amazonaws.com/tatto.jpg"
+  upload() {
+    const file = this.selectedFiles.item(0);
+    this.uploadService.uploadFile(file);
+    }
+    
+    selectFile(event) {
+    this.selectedFiles = event.target.files;
+    const file = this.selectedFiles.item(0);
+    //let resp = 
+    this.uploadService.uploadFile(file)
+    .then(
+      data => {
+        console.log(data)
+        this.urlImage=data.toString()
+      })
+    //console.log("--", resp)
+    }
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'update';
       let customer= this.defaults;
-      //console.log(this.defaults)
+      console.log(this.defaults)
+      this.urlImage=customer.urlImage
       this.defaults= {
         "_id":customer._id,
       "name": customer.name,
@@ -159,6 +179,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       "emailOptional": customer.emailOptional,
       "phoneOptional": customer.phoneOptional,
       "RFC": customer.RFC,
+      "urlImage":this.urlImage,
       "address": {
         "city": customer.city,
         "state": customer.state,
@@ -181,7 +202,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
   pay=[]
   pays=[]
   selectPay(ev){
-    console.log(ev.value)
+    console.log(ev)
     this.pays=ev.value
     this.pay=[]
     this.pays.forEach(element => {
@@ -239,8 +260,10 @@ export class CustomerCreateUpdateComponent implements OnInit {
         "ext": customer.ext,
         "zipcode": customer.zipcode
       },
+      "urlImage":this.urlImage,
       "pay":this.pay,
       "pays":this.pays
+      
     }
     this.Services.updateCustomer(this.defaults._id,body)
     .subscribe(

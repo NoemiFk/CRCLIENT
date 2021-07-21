@@ -97,10 +97,10 @@
       </mat-form-field>
       <mat-form-field class="flex-auto ml-6 " *ngIf="typeCommunication=='Cartas'">
         <mat-label>Selecciona tamaño del documento</mat-label>
-        <mat-select  name="type"  [(ngModel)]="type">
+        <mat-select  name="type"  [(ngModel)]="latterType">
           <mat-option value="">Seleccionar tamaño del documento</mat-option>
           <mat-option value="A4">A4 - Cata</mat-option>
-          <mat-option value="A5"> Legal</mat-option>
+          <mat-option value="A5">Oficio</mat-option>
         </mat-select>
   
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
@@ -133,7 +133,7 @@
                 <button   mat-stroked-button  color="primary" >Agregar nueva pagina</button>
               </div>
             </div>
-            <div *ngIf="type=='A4' && (typeCommunication=='Cartas' || typeCommunication=='Notificaciones' ||typeCommunication=='Demandas') ">
+            <div *ngIf="latterType=='A4' && (typeCommunication=='Cartas' || typeCommunication=='Notificaciones' ||typeCommunication=='Demandas') ">
 
               <quill-editor @fadeInUp
                 
@@ -156,7 +156,7 @@
                 >
               </quill-editor>
             </div>
-            <div *ngIf="type=='A5' && (typeCommunication=='Cartas' || typeCommunication=='Notificaciones' ||typeCommunication=='Demandas') ">
+            <div *ngIf="latterType!='A4' && (typeCommunication=='Cartas' || typeCommunication=='Notificaciones' ||typeCommunication=='Demandas') ">
 
 
               <quill-editor @fadeInUp
