@@ -273,9 +273,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        const index = this.portafolios.findIndex((existingPortafolio) => existingPortafolio._id === updatedPortafolio._id);
-        this.portafolios[index] = new Portafolio(updatedPortafolio);
-        this.subject$.next(this.portafolios);
+        this.getPortafoliosList(this.client_id);
       }
     });
   }

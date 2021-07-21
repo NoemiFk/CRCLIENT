@@ -1,0 +1,226 @@
+<vex-page-layout>
+
+  <vex-page-layout-header  fxLayout="column" fxLayoutAlign="center start">
+        <h2>Configuración General</h2>
+  </vex-page-layout-header>
+  
+
+  <vex-page-layout-content>
+ 
+  <div class="card p-10" fxLayout="column" fxLayout.gt-sm="column">
+  <form  [formGroup]="form">
+
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <div fxLayout="column">
+    <div fxLayout="row">
+      
+      <div class="p-5 ">
+        <img
+        class="avatar h-40 w-40 m-auto flex-none align-start hidden sm:block border-3 border-white"
+        src="">
+        
+            <div class="fileControl-wrapper text-center">
+              <br>
+              <button mat-flat-button color="primary">Subir logo de  financiera</button>
+              <input type="file" #uploadControl id="fileControlInput"  name="fileControlInput"
+                multiple="multiple" accept="image/*" />
+            </div>         
+      </div>
+
+      <mat-tab-group>
+        <div class="flex">
+          <mat-tab label="Datos Generales"> 
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class=" flex-auto" >
+                <mat-label>Nombre de Usuario</mat-label>
+                <input formControlName="nombreUsuario" matInput>
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Tipo de Empresa</mat-label>
+                  <mat-select matNativeControl name="type"  formControlName="tipoEmpresa" >
+                    <mat-option value="Agencia de cobranza">Agencia de Cobranza</mat-option>
+                    <mat-option value="Financiera">Financiera</mat-option>
+                  </mat-select>
+                  <mat-icon [icIcon]="icBaselineApps" class="mr-3" matPrefix></mat-icon>
+                </mat-form-field>
+            </div>
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Teléfono</mat-label>
+                <input formControlName="telefono" matInput>
+                <mat-error> Introduzca 10 dígitos</mat-error>
+                <mat-icon [icIcon]="icPhone" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+        
+              <mat-form-field class="sm:ml-6 flex-auto">
+                <mat-label>E-mail Principal</mat-label>
+                <input formControlName="email" matInput>
+                <mat-error> Introduzca un email valido</mat-error>
+                <mat-icon [icIcon]="icEmail" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+
+
+          </mat-tab>
+        </div>
+    </mat-tab-group>
+
+
+    </div>
+
+    <div>
+      <mat-tab-group>
+        <mat-tab label="Datos Fiscales"> 
+          <div class="p-5">
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Nombre de Empresa </mat-label>
+                <input formControlName="nombreEmpresa" matInput>
+                <mat-icon [icIcon]="icBaselineApartment" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+              <mat-form-field class="sm:ml-6 flex-auto">
+                <mat-label>RFC</mat-label>
+                <input formControlName="RFC" matInput>
+                <mat-error> Introduzca un RFC valido </mat-error>
+                <mat-icon [icIcon]="icBaselineCast" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Email 1 Facturas</mat-label>
+                <input formControlName="email1" matInput>
+                <mat-error> Introduzca un email valido</mat-error>
+                <mat-icon [icIcon]="icEmail" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+        
+              <mat-form-field class="sm:ml-6 flex-auto">
+                <mat-label>Email 2 Facturas</mat-label>
+                <input formControlName="email2" matInput>
+                <mat-error> Introduzca un email valido</mat-error>
+                <mat-icon [icIcon]="icEmail" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+
+                <mat-label>CFDI</mat-label>
+                  <mat-select matNativeControl formControlName="usoFactura">
+                    <mat-option value="P01">Por Definir</mat-option>
+                    <mat-option value="G01">Adquisición de mercancias</mat-option>
+                    <mat-option value="G02">Devoluciones, descuentos o bonificaciones</mat-option>
+                    <mat-option value="G03">Gastos en general</mat-option>
+                  </mat-select>
+                <mat-icon [icIcon]="icBaselineApi" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+        
+              <mat-form-field class="sm:ml-6 flex-auto">
+                <mat-label> Metodo de Pago</mat-label>
+                <mat-select matNativeControl formControlName="metodoPago">
+                  <mat-option value="03">Transferencia electrónica de fondos</mat-option>
+                </mat-select>
+                <mat-icon [icIcon]="icAtttachMoney" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Dirección"> 
+          <div class="p-5">
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Dirección 1</mat-label>
+                <input formControlName="direccion1" matInput>
+                <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Dirección 2</mat-label>
+                <input formControlName="direccion2" matInput>
+                <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+        
+              <mat-form-field class="sm:ml-6 flex-auto">
+                <mat-label>Referencias</mat-label>
+                <input formControlName="referencia" matInput>
+                <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Número Exterior</mat-label>
+                <input formControlName="exterior" matInput>
+                <mat-icon [icIcon]="icInfo" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+        
+              <mat-form-field class="sm:ml-4 flex-auto">
+                <mat-label>Número Interior</mat-label>
+                <input formControlName="interior" matInput>
+                <mat-icon [icIcon]="icInfo" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+
+              <mat-form-field class="sm:ml-4 flex-auto">
+                <mat-label>Código Postal</mat-label>
+                <input formControlName="CP" matInput>
+                <mat-error> Introduzca un código postal valido</mat-error>
+                <mat-icon [icIcon]="icPinDrop" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Estado</mat-label>
+                <input formControlName="estado" matInput>
+                <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+
+              <mat-form-field class="sm:ml-4 flex-auto">
+                <mat-label>Ciudad</mat-label>
+                <input formControlName="ciudad" matInput>
+                <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+        
+              <mat-form-field class="sm:ml-4 flex-auto">
+                <mat-label>Municipio</mat-label>
+                <input formControlName="municipio" matInput>
+                <mat-icon [icIcon]="icMyLocation" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+            </div>
+          
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </div>
+
+
+  </div>
+
+  
+  <div align ='end'>
+    <button (click)="navigateToDashboard()" mat-button type="button">Regresar</button>
+    <button (click)="updateAgency()" color="primary" mat-button type="submit" [disabled]="form.invalid">Guardar</button>
+  </div>
+  
+
+</form>
+    </div>
+</vex-page-layout-content>
+</vex-page-layout>

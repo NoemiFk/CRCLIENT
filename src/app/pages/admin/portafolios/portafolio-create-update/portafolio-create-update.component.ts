@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Portafolio } from '../interfaces/Portafolio.model';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
@@ -13,6 +13,7 @@ import icMyLocation from '@iconify/icons-ic/twotone-my-location';
 import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import {Services} from '../../../../Services/services'
+import icPortafolio from '@iconify/icons-ic/twotone-folder';
 
 @Component({
   selector: 'vex-portafolio-create-update',
@@ -29,6 +30,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
 
   icMoreVert = icMoreVert;
   icClose = icClose;
+  icPortafolio = icPortafolio;
 
   icPrint = icPrint;
   icDownload = icDownload;
@@ -39,19 +41,25 @@ export class PortafolioCreateUpdateComponent implements OnInit {
   icLocationCity = icLocationCity;
   icEditLocation = icEditLocation;
   icPhone = icPhone;
-  CustomersList={}
+  CustomersList: any[];
+  estado = true;
+
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
+
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
               private dialogRef: MatDialogRef<PortafolioCreateUpdateComponent>,
               private fb: FormBuilder,
               private Services: Services) {
+                
   }
+
   getCustomersList() {
+    this.CustomersList = [];
     this.Services.getCustomersList(this.client.agency_id)
     .subscribe(
         data => {
-          //console.log("Hola ", data)
+          //console.log("Hola ", data.data)
           if(data.success){
             this.CustomersList=data.data
             
@@ -64,29 +72,34 @@ export class PortafolioCreateUpdateComponent implements OnInit {
 
   ngOnInit() {
     this.getCustomersList();
+    this.form = this.fb.group({
+      type: [''],
+      name_portafolio: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
+      description: [''],
+      agency_id: [''],
+      client_id: ['', [Validators.required]],
+    });
+
     if (this.defaults) {
       this.mode = 'update';
-      let portafolio= this.defaults;
-      //console.log(this.defaults)
+      let portafolio = this.defaults;
+      console.log(this.defaults)
       this.defaults= {
         "_id":portafolio._id,
-      "name_portafolio": portafolio.name_portafolio,
-      "description": portafolio.description,
-      "agency_id": portafolio.agency_id,
-      "type": portafolio.type,
-      "client_id": portafolio.client_id,
+        "name_portafolio": portafolio.name_portafolio,
+        "description": portafolio.description,
+        "agency_id": portafolio.agency_id,
+        "type": portafolio.type,
+        "client_id": portafolio.client_id,
       }
-      //console.log(this.defaults)
+      this.form.get('name_portafolio').setValue(this.defaults.name_portafolio)
+      this.form.get('type').setValue(this.defaults.type)
+      this.form.get('agency_id').setValue(this.defaults.agency_id)
+      this.form.get('description').setValue(this.defaults.description)
     } else {
       this.defaults = {} as Portafolio;
     }
-    this.form = this.fb.group({
-      type: [this.defaults.type || ''],
-      name_portafolio: [this.defaults.name_portafolio || ''],
-      description: [this.defaults.description || ''],
-      agency_id: [this.defaults.agency_id || ''],
-      client_id: this.defaults.client_id || ''
-    });
+    //console.log("DEFAULTS",this.defaults)    
   }
 
   save() {
@@ -99,6 +112,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
 
   createPortafolio() {
     const portafolio = this.form.value;
+    this.estado = true;
 
     if (!portafolio.imageSrc) {
       portafolio.imageSrc = 'assets/img/avatars/1.jpg';
@@ -135,9 +149,32 @@ export class PortafolioCreateUpdateComponent implements OnInit {
 
   updatePortafolio() {
     const portafolio = this.form.value;
-    portafolio.id = this.defaults.id;
+    portafolio.id = this.defaults._id;
+    console.log(this.defaults)
+    console.log("Modificando")
 
-    this.dialogRef.close(portafolio);
+    let body= {
+      "agency_id": this.client.agency_id,
+      "name_portafolio": portafolio.name_portafolio,
+      "description": portafolio.description,
+      "type": portafolio.type,
+      "client_id": portafolio.client_id,
+    }
+    this.Services.updatePortafolio(portafolio.id,body)
+      .subscribe(
+        data => {
+          //console.log("Hola ", data)
+          if(data.success){
+            this.agency=data.data
+            this.dialogRef.close(data.data);
+          }
+        },
+        error => {
+          //this.error=true
+        });
+
+        //console.log("LISTO MODIFICADO")
+
   }
 
   isCreateMode() {
@@ -146,5 +183,11 @@ export class PortafolioCreateUpdateComponent implements OnInit {
 
   isUpdateMode() {
     return this.mode === 'update';
+  }
+
+  onChange() {
+    this.estado = false;
+   // console.log(this.estado)
+    return this.estado;
   }
 }
