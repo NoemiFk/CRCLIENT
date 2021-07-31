@@ -217,7 +217,7 @@ export class StrategyComponent implements OnInit {
   }
   ngOnInit() {
     
-    //this.getSegmentation()
+    this.getSegmentation()
     //this.getStrategy()
     this.getMap()
     
@@ -238,9 +238,33 @@ export class StrategyComponent implements OnInit {
       name:"",
       status:false,
       data:""
+    },
+    {
+      name:"",
+      status:false,
+      data:""
+    }
+    ,
+    {
+      name:"",
+      status:false,
+      data:""
     }
   ]
   deudaPortal=[
+    {
+      name:"",
+      status:false,
+      data:"",
+      descuento:0
+    },
+    {
+      name:"",
+      status:false,
+      data:"",
+      descuento:0
+    }
+    ,
     {
       name:"",
       status:false,

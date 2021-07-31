@@ -326,7 +326,8 @@ export class SegmentationComponent implements OnInit {
           },
           {
             name:"REGISTROS",
-            data: this.portafolio.register.toString()
+            
+            data: this.portafolio.register.toString()||"null"
           },
           {
             name:"SEGMENTADO",

@@ -28,7 +28,7 @@
                            class="-mt-6">
 
     <div class="card overflow-auto -mt-16">
-      <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+      <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
           <span *ngIf="selection.isEmpty()">Segmentos</span>
           <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
@@ -209,7 +209,7 @@
           </td>
         </ng-container>
 
-        <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+        <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
         <tr (click)="updateSegmentation(row)"
             *matRowDef="let row; columns: visibleColumns;"
             @fadeInUp

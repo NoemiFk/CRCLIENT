@@ -38,16 +38,7 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <mat-form-field class="flex-auto ml-6">
-        <mat-label>Selecciona Identificador </mat-label>
-        <mat-select [(ngModel)]="currentData"  >
-          <mat-option *ngFor="let label of communicationData" [value]="label">
-            <div [ngClass]="label.previewClass"
-                class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block" ></div>
-            <span>{{ label }}</span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      
       </div>
 
     

@@ -45,7 +45,7 @@
       <mat-step label="Vista Previa" state="chat">
        
         <div class="card overflow-auto" style="max-height: 500px;">
-          <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+          <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
             <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
               <span >Resultados de Gestión</span>
             </h2>
@@ -89,7 +89,7 @@
             </ng-container>
       
       
-            <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+            <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
             <!--(click)="updateCustomer(row)"-->
             <tr 
                 *matRowDef="let row; columns: visibleColumns;"

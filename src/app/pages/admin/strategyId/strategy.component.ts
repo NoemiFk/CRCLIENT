@@ -370,7 +370,7 @@ export class StrategyComponent implements OnInit {
       canales:this.canales,
       days:this.days,
       noneDays:this.noneDays,
-      calendary:this.jsDatos
+      calendary:this.jsDatos[0]
     }
     console.log(body)
     this.Services.createStrategy(body)

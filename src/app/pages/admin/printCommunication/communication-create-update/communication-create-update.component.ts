@@ -237,24 +237,36 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   }
 
   downloadImage(){
+
+    
     html2canvas(document.querySelector('.ql-editor')).then(canvas => {
       var imgWidth = 170;
       var pageHeight = 295;
       var imgHeight = canvas.height * imgWidth / canvas.width;
       var heightLeft = imgHeight;
-      this.canvas.nativeElement.src = canvas.toDataURL();
-      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
-      //this.downloadLink.nativeElement.download = 'marble-diagram.png';
-      //this.downloadLink.nativeElement.click();
+
+      //////
       console.log("!!!!!!!!!!!!!!!!!",this.latterType)
-      let pdf=null
-      if(this.latterType="A4")
-       pdf = new jsPDF('p', 'mm', "A4"); // A4 size page of PDF
-      else
-       pdf = new jsPDF('p', 'mm', [220, 340]); // A4 size page of PDF
-       
-      var position = 0;
-      pdf.addImage(this.downloadLink.nativeElement.href , 'PNG', 20, 10, imgWidth, imgHeight)
+        let pdf=null
+        if(this.latterType="A4")
+         pdf = new jsPDF('p', 'mm', "A4"); // A4 size page of PDF
+        else
+         pdf = new jsPDF('p', 'mm', [220, 340]); // A4 size page of PDF
+      /////
+      for (let index = 0; index < 3; index++) {
+      
+      
+        this.canvas.nativeElement.src = canvas.toDataURL();
+        this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+        //this.downloadLink.nativeElement.download = 'marble-diagram.png';
+        //this.downloadLink.nativeElement.click();
+        
+         
+        var position = 0;
+        pdf.addImage(this.downloadLink.nativeElement.href , 'PNG', 20, 10, imgWidth, imgHeight)
+        pdf.addPage();
+
+    }
       let doc = pdf.save(this.row._id+'.pdf');
       var blob = pdf.output('blob'); 
       var blobPDF =  new Blob([blob], { type : 'application/pdf'});

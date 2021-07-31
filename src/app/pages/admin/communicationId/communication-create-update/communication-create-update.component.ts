@@ -50,7 +50,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
 
   icMoreVert = icMoreVert;
   icClose = icClose;
-  segment="Segmento A"
+  seg="Segmento A"
   icPrint = icPrint;
   icDownload = icDownload;
   icDelete = icDelete;
@@ -84,6 +84,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   value=""
   segmentation_id=""
   comunicationData=[]
+  pdf=null
   ngOnInit() {
     if (this.defaults) {
       this.mode = 'update';
@@ -102,6 +103,14 @@ export class CommunicationCreateUpdateComponent implements OnInit {
       client_id:"Liverpool1",
       portafolio: "Clientes Morosos"
     }]
+    console.log("!!!!!!!!!!!!!!!!!",this.latterType)
+    
+    if(this.latterType="A4")
+     this.pdf = new jsPDF('p', 'mm', "A4"); // A4 size page of PDF
+    else
+     this.pdf = new jsPDF('p', 'mm', [220, 340]); // A4 size page of PDF
+  /////
+
     this.cuanti()
     this.getPortafolioSegmentation()
     this.getCommunication()
@@ -339,6 +348,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
         console.log("Segmentations ", data)
            if(data.success){
              this.SegmentationList=data.data.segmentation
+             this.segment=data.data  
            }
          },
          error => {
@@ -520,5 +530,355 @@ updateCustomer() {
 
   isUpdateMode() {
     return this.mode === 'update';
+  }
+
+  ////////////
+  indexSegmentation=1
+  querys={}
+  segment={
+    _id:"",
+    portafolio_id:"",
+    segmentation:[{
+      name:"",
+      description:"",
+      type:"rank",
+      criteria:[],
+      register:0,
+      porcent:0,
+      query:"",
+    }]
+  }
+  segmentation={
+    name:"",
+    description:"",
+    type:"rank",
+    criteria:[],
+    register:0,
+    porcent:0,
+    query:"",
+  }
+  
+  onSegChange(ev){
+    this.segmentation=ev.value
+    console.log("criteria",this.segmentation.criteria )
+    let x=this.segmentation.criteria.length -1
+    this.indexSegmentation  = this.SegmentationList.findIndex((seg) => seg._id === ev.value._id);
+
+    console.log(x, this.indexSegmentation )
+    let body={
+      "query": {},
+      "criterio1": "Riesgo"
+     }
+     let q1={}
+     let q2={}
+     let q3={}
+     let query1={}
+     let query2={}
+     let query3={}
+    switch (x) {
+      case 0:
+        let q1= this.getQuery(x);
+        //console.log(q1)
+        /** 
+         * {[this.segmentation.criteria[x].name]: {
+            "$gte": parseInt(this.segmentation.criteria[x].rankA),
+            "$lte": parseInt(this.segmentation.criteria[x].rankB)
+            }
+          }
+        */
+        body={
+          "query": q1,
+          "criterio1": this.segmentation.criteria[x].name
+        }
+        if(this.indexSegmentation == 1){
+
+          console.log("version save 2",this.segment.segmentation[0])
+          query1= JSON.parse(this.segment.segmentation[0].query)
+          //console.log("version  save 2.1",query1)
+          body={
+            "query": {
+              "$and": [ q1,query1
+              ]
+          },
+            "criterio1": this.segmentation.criteria[x].name
+          }
+        }
+        if(this.indexSegmentation == 2){
+
+          //console.log("version 3",this.segment.segmentation[1].query)
+          query1= JSON.parse(this.segment.segmentation[0].query)
+          query2= JSON.parse(this.segment.segmentation[1].query)
+          //console.log("version 3.1",query1)
+          body={
+            "query": {
+              "$and": [ q1,query1,query2
+              ]
+          },
+            "criterio1": this.segmentation.criteria[x].name
+          }
+        }
+        //console.log(body.query)
+        break;
+        case 1:
+          let q01 = this.getQuery(0);
+          let q02= this.getQuery(x);
+          //console.log(q01)
+          //console.log(q02)
+          
+          body={
+            "query": {
+                "$and": [ q01,q02
+                ]
+            },
+            "criterio1": this.segmentation.criteria[x].name
+          }
+          if(this.indexSegmentation == 1){
+
+            //console.log("version save 2",this.segment.segmentation[0].query)
+            let query1= JSON.parse(this.segment.segmentation[0].query)
+            //console.log("version  save 2.1",query1)
+            body={
+              "query": {
+                "$and": [ q01,q02,query1
+                ]
+            },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+          }
+          if(this.indexSegmentation == 2){
+
+            //console.log("version save 2",this.segment.segmentation[0].query)
+            let query1= JSON.parse(this.segment.segmentation[0].query)
+            let query2= JSON.parse(this.segment.segmentation[1].query)
+            //console.log("version  save 2.1",query1)
+            body={
+              "query": {
+                "$and": [ q01,q02,query1,query2
+                ]
+            },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+          }
+          break;
+        case 2:
+          let q11 = this.getQuery(0);
+          let q12= this.getQuery(1);
+          let q13= this.getQuery(x);
+          //console.log(q11)
+          //console.log(q12)
+          //console.log(q13)
+          
+          body={
+            "query": {
+                "$and": [ q11,q12,q13
+                ]
+              
+            },
+            "criterio1": this.segmentation.criteria[x].name
+          }
+          if(this.indexSegmentation == 1){
+
+            //console.log("version save 2",this.segment.segmentation[0].query)
+            let query1= JSON.parse(this.segment.segmentation[0].query)
+            //console.log("version  save 2.1",query1)
+            body={
+              "query": {
+                "$and": [ q11,q12,q13,query1
+                ]
+            },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+          }
+          if(this.indexSegmentation == 2){
+
+            //console.log("version save 2",this.segment.segmentation[0].query)
+            let query1= JSON.parse(this.segment.segmentation[0].query)
+            let query2= JSON.parse(this.segment.segmentation[1].query)
+            //console.log("version  save 2.1",query1)
+            body={
+              "query": {
+                "$and": [ q11,q12,q13,query1,query2
+                ]
+            },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+          }
+          break;    
+      default:
+        break;
+    }
+    this.querys=body.query;
+    console.log("QUERY",body.query)
+  }
+  
+  getQuery(x){
+    console.log("X",x)
+    let q={}
+    switch (this.segmentation.criteria[x].type) {
+      case 'rank':
+        q={[this.segmentation.criteria[x].name]: {
+          "$gte": parseInt(this.segmentation.criteria[x].rankA),
+          "$lte": parseInt(this.segmentation.criteria[x].rankB)
+          }
+        }
+        break;
+        case 'higher':
+          q={[this.segmentation.criteria[x].name]: {
+            "$gte": parseInt(this.segmentation.criteria[x].rankA)
+            }
+          }
+          break;
+        case 'less':
+          q={[this.segmentation.criteria[x].name]: {
+            "$lte": parseInt(this.segmentation.criteria[x].rankA)
+            }
+          }
+          break;
+        case 'equal':
+          q={[this.segmentation.criteria[x].name]: parseInt(this.segmentation.criteria[x].rankA)
+          }
+          break;
+    
+      default:
+        break;
+      }
+      //console.log("QUERY",q)
+      return q
+  }
+  currentData=""
+  idReturn=""
+  generar() {
+    let body={
+      isSegmentation: this.currentSegmentationList?true:false,
+      isPortafolio:  this.currentSegmentationList?false:true,
+      communication_id: this.defaults._id,
+      portafolio_id:this.defaults.portafolio_id._id,
+      segmentation_id: this.currentSegmentationList?this.currentSegmentationList._id:null,
+      communication:{
+          content:this.defaults.content,
+          latterType:this.defaults.latterType,
+          addressee:this.defaults.addressee
+      },
+      addressee:this.defaults.addressee,
+      query:JSON.stringify(this.querys),
+      data:[],
+      value:this.currentData
+      }
+    console.log("QUERY-----",body.query)
+    this.Services.printValidate(body)
+     .subscribe(
+         data => {
+        console.log("Segmentations ", data)
+           if(data.success){
+             console.log(data)
+             //this.dialogRef.close(data.data);
+             this.idReturn=data.data
+             this.getPrnt(data.data) 
+           }
+         },
+         error => {
+           //this.error=true
+         });
+    
+  }
+  Cartera=[]
+  
+  getPrnt(id) {
+    this.Services.getPrnt(id)
+    .subscribe(
+        data => {
+        console.log("Hola ", data.data)
+          if(data.success){
+            this.print=data.data
+            this.value = data.data.value
+            this.Cartera=data.data.cart
+
+            console.log("++++++++",this.Cartera)
+            this.downloadImageMasive()
+
+            }
+            
+        },
+        error => {
+          //this.error=true
+        });
+  }
+
+  textOriginal=""
+  downloadImageMasive(){
+    this.textOriginal= this.form1.value;
+    let promises=[]
+    for (let index = 0; index < 10; index++) {
+        
+        this.setData(this.Cartera[index])
+        console.log("-->", this.Cartera[index].Nombre)
+        promises.push(this.construir(this.Cartera[index].Nombre))
+
+      
+    }
+    Promise.all(promises)
+    .then(result => {
+        console.log("Correos enviados", result)
+        console.log("Termino for")
+        this.pdf.save(this.idReturn+'.pdf');
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+    
+    
+  }
+  setData(data){
+    this.form1.setValue(this.textOriginal)
+    this.communicationData.forEach(element => {
+      let text= this.form1.value;
+      var strippedHtml = text.replaceAll("["+element+"]", data[element]);
+      console.log(strippedHtml)
+      this.form1.setValue(strippedHtml)
+    });
+     console.log("termino de ")
+    
+  }
+  construir(x){
+    return new Promise((resolve, reject) => {
+      html2canvas(document.querySelector('.ql-editor')).then(canvas => {
+        var imgWidth = 170;
+        var pageHeight = 295;
+        var imgHeight = canvas.height * imgWidth / canvas.width;
+        var heightLeft = imgHeight;
+  
+        //////
+        console.log("  222 -->", x)
+       
+          this.canvas.nativeElement.src = canvas.toDataURL();
+          this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+          //this.downloadLink.nativeElement.download = 'marble-diagram.png';
+          //this.downloadLink.nativeElement.click();
+          
+           
+          var position = 0;
+          console.log("this.",this.downloadLink.nativeElement.href )
+          this.pdf.addImage(this.downloadLink.nativeElement.href , 'PNG', 20, 10, imgWidth, imgHeight)
+          this.pdf.addPage();
+  
+      
+       // let doc = pdf.save(this.idReturn+'.pdf');
+        var blob = this.pdf.output('blob'); 
+        var blobPDF =  new Blob([blob], { type : 'application/pdf'});
+        var blobUrl = URL.createObjectURL(blobPDF);
+        //window.open(blobUrl);
+        //var myFile = blobToFile(myBlob, "my-image.png");
+        //var file = new File([blob], 'untitled.pdf')
+        const myFile = new File([blobPDF], this.idReturn+".pdf", {
+          type: blobPDF.type,
+        });
+        resolve(true)
+        /*this.uploadService.uploadFile(myFile)
+        .then(
+          data => {
+            console.log(data)
+          })*/
+      });
+    })
   }
 }

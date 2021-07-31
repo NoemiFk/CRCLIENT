@@ -55,7 +55,7 @@
               </div>
               <br>
               <div class="card overflow-auto" style="max-height: 500px;">
-                <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+                <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
                   <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
                     <span >{{portafolio.name_portafolio}}</span>
                   </h2>
@@ -119,7 +119,7 @@
                   </ng-container>
             
             
-                  <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+                  <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
                   <tr (click)="updateCustomer(row)"
                       *matRowDef="let row; columns: visibleColumns;"
                       @fadeInUp
@@ -375,7 +375,7 @@
           <p>Cartera Activa mapeada en el portafolio</p>
           <br>
           <div class="card overflow-auto" style="max-height: 500px;">
-            <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+            <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
               <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
                 <span *ngIf="selection.isEmpty()">Cartera</span>
                 <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
@@ -441,7 +441,7 @@
               </ng-container>
         
         
-              <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+              <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
               <tr (click)="updateCustomer(row)"
                   *matRowDef="let row; columns: visibleColumns;"
                   @fadeInUp
@@ -481,7 +481,7 @@
           <p>Visualizar aquí los datos cargados.</p>
           <br>
           <div class="card overflow-auto" style="max-height: 500px;">
-            <div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
+            <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
               <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
                 <span *ngIf="selection.isEmpty()">Cartera</span>
                 <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
@@ -547,7 +547,7 @@
               </ng-container>
         
         
-              <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+              <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
               <tr (click)="updateCustomer(row)"
                   *matRowDef="let row; columns: visibleColumns;"
                   @fadeInUp

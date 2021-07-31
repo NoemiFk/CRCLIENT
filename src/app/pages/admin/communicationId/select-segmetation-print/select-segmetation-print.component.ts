@@ -316,7 +316,6 @@ export class SelectSegmetationPrintComponent implements OnInit {
     console.log(e)
     this.visible=e.checked
   }
-
   generar() {
     let body={
       isSegmentation: this.currentSegmentationList?true:false,
