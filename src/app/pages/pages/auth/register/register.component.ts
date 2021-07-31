@@ -25,6 +25,8 @@ export class RegisterComponent implements OnInit {
   icVisibility = icVisibility;
   icVisibilityOff = icVisibilityOff;
 
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+
   constructor(private router: Router,
               private fb: FormBuilder,
               private cd: ChangeDetectorRef,
@@ -37,12 +39,13 @@ export class RegisterComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       nameAgency: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
       type: ['', Validators.required],
-      phone: ['', Validators.required],
-      rfc: ['', Validators.required],
+      phone: [''],
+      rfc: [''],
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required],
+      terms:['',Validators.requiredTrue]
     });
   }
 

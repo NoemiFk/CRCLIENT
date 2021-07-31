@@ -146,6 +146,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
 
   nuevoPago: FormControl = this.fb.control('');
   nuevaCta: FormControl = this.fb.control('');
+  nuevoBanco: FormControl = this.fb.control('');
 
   save() {
     if (this.mode === 'create') {
@@ -197,6 +198,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       console.log('Cuenta',this.nuevaCta.value)
       this.pay.push({
         name:this.nuevoPago.value,
+        bank:this.nuevoBanco.value,
         cta: this.nuevaCta.value
       });
       this.ngOnInit();

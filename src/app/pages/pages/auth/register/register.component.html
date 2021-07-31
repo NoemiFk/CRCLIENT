@@ -1,5 +1,5 @@
 <div class="w-full h-full bg-pattern register" fxLayout="column" fxLayoutAlign="center center">
-  <div @fadeInUp class="card overflow-hidden w-full max-w-xs">
+  <div @fadeInUp class="card overflow-hidden w-full max-w-sm">
     <div class="p-6 pb-0" fxLayout="column" fxLayoutAlign="center center">
       <div class="fill-current text-center">
         <img  src="assets/img/demo/logoPrincipal.svg">
@@ -16,23 +16,30 @@
         <mat-form-field fxFlex="grow">
           <mat-label>Nombre de Empresa</mat-label>
           <input formControlName="nameAgency" matInput required>
+          <mat-error> Debe incluir nombre de empresa</mat-error>
         </mat-form-field>
         <mat-form-field fxFlex="grow">
           <mat-label>Tipo de empresa</mat-label>
           <mat-select matNativeControl name="typeClient"  formControlName="type">
             <mat-option value="Ninguno">Seleccione uno...</mat-option>
-            <mat-option value="Agencia de cobranza">Agencia de cobranza</mat-option>
+            <mat-option value="Proveedor de cobranza">Proveedor de Cobranza</mat-option>
             <mat-option value="Financiera">Financiera</mat-option>
           </mat-select>
+          <mat-error> Seleccione un tipo de empresa</mat-error>
         </mat-form-field>
+
         <mat-form-field fxFlex="grow">
           <mat-label>Nombre de Usuario</mat-label>
           <input formControlName="name" matInput required>
+          <mat-error> Introduzca un nombre de usuario</mat-error>
         </mat-form-field>
+        
         <mat-form-field fxFlex="grow">
-          <mat-label>E-Mail</mat-label>
+          <mat-label>E-Mail (Corporativo)</mat-label>
           <input formControlName="email" matInput required>
+          <mat-error> Introduzca un email valido</mat-error>
         </mat-form-field>
+
         <mat-form-field fxFlex="grow">
           <mat-label>Password</mat-label>
           <input [type]="inputType" formControlName="password" matInput required>
@@ -54,12 +61,18 @@
         </mat-form-field>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="center center">
-        <mat-checkbox class="caption">Acepto los <a>términos y condiciones.</a></mat-checkbox>
+      <div fxLayout="row" fxLayoutAlign="center center" >
+        <mat-checkbox class="caption" formControlName="terms">Acepto los <a>términos y condiciones.</a></mat-checkbox>
       </div>
-      <button (click)="send()" color="primary" mat-raised-button type="button">
-        CREAR UNA CUENTA
+
+        <small>
+          <a href="https://www.google.com/">Aviso de Privacidad y Contrato de Servicio</a>
+        </small>
+
+      <button (click)="send()" color="primary" mat-raised-button type="button" [disabled]="form.invalid">
+        CREAR CUENTA
       </button>
+
       <p class="text-secondary text-center">
         ¿Ya tienes una cuenta?<br/>
         <a [routerLink]="['/login']">Entre aquí</a>
