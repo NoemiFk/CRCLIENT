@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ElementRef,ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Customer } from '../interfaces/customer.model';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
@@ -32,11 +32,9 @@ export class CustomerCreateUpdateComponent implements OnInit {
 
   icMoreVert = icMoreVert;
   icClose = icClose;
-
   icPrint = icPrint;
   icDownload = icDownload;
   icDelete = icDelete;
-
   icPerson = icPerson;
   icMyLocation = icMyLocation;
   icLocationCity = icLocationCity;
@@ -113,52 +111,61 @@ export class CustomerCreateUpdateComponent implements OnInit {
       console.log(this.defaults)
       this.urlImage=customer.urlImage
       this.defaults= {
-        "_id":customer._id,
-      "name": customer.name,
-      "nameClient": customer.nameClient,
-      "email": customer.email,
-      "phone": customer.phone,
-      "emailOptional": customer.emailOptional,
-      "phoneOptional": customer.phoneOptional,
-      "RFC": customer.RFC,
-      "city": customer.address.city,
-      "state": customer.address.state,
-      "municipality": customer.address.municipality,
-      "address1": customer.address.address1,
-      "address2": customer.address.address2,
-      "int": customer.address.int,
-      "ext": customer.address.ext,
-      "zipcode": customer.address.zipcode,
+        "_id":          customer._id,
+      "name":           customer.name,
+      "nameClient":     customer.nameClient,
+      "email":          customer.email,
+      "phone":          customer.phone,
+      "emailOptional":  customer.emailOptional,
+      "phoneOptional":  customer.phoneOptional,
+      "RFC":            customer.RFC,
+      "city":           customer.address.city,
+      "state":          customer.address.state,
+      "municipality":   customer.address.municipality,
+      "address1":       customer.address.address1,
+      "address2":       customer.address.address2,
+      "int":            customer.address.int,
+      "ext":            customer.address.ext,
+      "zipcode":        customer.address.zipcode,
       }
       this.pay=customer.pay;
       this.pays=customer.pays;
-      console.log(customer)
+
+      console.log('CUSTOMER',customer)
+      console.log('PAY',customer.pay)
+      console.log('PAYS',customer.pays)
+      console.log('PAYS',customer.pay.name)
+      console.log('PAYS',customer.pay.cta)
+
     } else {
       this.defaults = {} as Customer;
     }
     this.form = this.fb.group({
-      imageSrc: this.defaults.imageSrc,
-      type: [this.defaults.type || ''],
-      name: [this.defaults.name || '',[Validators.required]],
-      nameClient: [this.defaults.nameClient || '',[Validators.required]],
-      RFC: [this.defaults.RFC || ''],
-      address1: [this.defaults.address1 || '',],
-      address2: [this.defaults.address2 || ''],
-      city: [this.defaults.city || ''],
-      zipcode: [this.defaults.zipcode || ''],
-      country: [this.defaults.country || ''], 
+      imageSrc:     '',
+      type:         [this.defaults.type || ''],
+      name:         [this.defaults.name || '',[Validators.required]],
+      nameClient:   [this.defaults.nameClient || '',[Validators.required]],
+      RFC:          [this.defaults.RFC || ''],
+      address1:     [this.defaults.address1 || '',],
+      address2:     [this.defaults.address2 || ''],
+      city:         [this.defaults.city || ''],
+      zipcode:      [this.defaults.zipcode || ''],
+      country:      [this.defaults.country || ''], 
       municipality: [this.defaults.municipality || ''],
-      state: [this.defaults.state || ''],
-      pays: [this.defaults.pays || ''],
-      int: [this.defaults.int || ''],
-      ext: [this.defaults.ext || ''],
-      phone: [this.defaults.phone || '', [Validators.required, Validators.pattern("^[0-9]*$"),Validators.minLength(10),Validators.maxLength(10)]],
-      phoneOptional: [this.defaults.phoneOptional || ''],
-      email: [this.defaults.email || '',[Validators.required, Validators.pattern( this.emailPattern)]],
-      emailOptional: [this.defaults.emailOptional || '']
+      state:        [this.defaults.state || ''],
+      pays:         [this.defaults.pays || ''],
+      int:          [this.defaults.int || ''],
+      ext:          [this.defaults.ext || ''],
+      phone:        [this.defaults.phone || '', [Validators.required, Validators.pattern("^[0-9]*$"),Validators.minLength(10),Validators.maxLength(10)]],
+      phoneOptional:[this.defaults.phoneOptional || ''],
+      email:        [this.defaults.email || '',[Validators.required, Validators.pattern( this.emailPattern)]],
+      emailOptional:[this.defaults.emailOptional || '']
     });
-    
   }
+
+  nuevoPago: FormControl = this.fb.control('');
+  nuevaCta: FormControl = this.fb.control('');
+  nuevoBanco: FormControl = this.fb.control('');
 
   save() {
     if (this.mode === 'create') {
@@ -176,52 +183,60 @@ export class CustomerCreateUpdateComponent implements OnInit {
     }
 
     let body= {
-      "agency_id": this.client.agency_id,
-      "nameClient": customer.nameClient,
-      "name": customer.name,
-      "type": customer.type,
-      "email": customer.email,
-      "phone": customer.phone,
-      "emailOptional": customer.emailOptional,
-      "phoneOptional": customer.phoneOptional,
-      "RFC": customer.RFC,
-      "urlImage":this.urlImage,
+      "agency_id":      this.client.agency_id,
+      "nameClient":     customer.nameClient,
+      "name":           customer.name,
+      "type":           customer.type,
+      "email":          customer.email,
+      "phone":          customer.phone,
+      "emailOptional":  customer.emailOptional,
+      "phoneOptional":  customer.phoneOptional,
+      "RFC":            customer.RFC,
+      "urlImage":       this.urlImage,
       "address": {
-        "city": customer.city,
-        "state": customer.state,
+        "city":         customer.city,
+        "state":        customer.state,
         "municipality": customer.municipality,
-        "address1": customer.address1,
-        "address2": customer.address2,
-        "int": customer.int,
-        "ext": customer.ext,
-        "zipcode": customer.zipcode
+        "address1":     customer.address1,
+        "address2":     customer.address2,
+        "int":          customer.int,
+        "ext":          customer.ext,
+        "zipcode":      customer.zipcode
       },
       "pay":this.pay,
       "pays":this.pays
     }
-     //console.log(body)
+    console.log('BODY',body)
     this.createCustomerA(body);
   }
   
   pay=[]
   pays=[]
-  selectPay(ev){
-    console.log(ev)
-    this.pays=ev.value
-    this.pay=[]
-    this.pays.forEach(element => {
+
+  addPay(){
+      console.log('Pago',this.nuevoPago.value)
+      console.log('Cuenta',this.nuevaCta.value)
       this.pay.push({
-        name:element,
-        cta:""
-      })
-  });
+        name:this.nuevoPago.value,
+        bank:this.nuevoBanco.value,
+        cta: this.nuevaCta.value
+      });
+      this.ngOnInit();
+  }
+
+
+  deletePay(index){
+    for(let item in this.pay){
+        this.pay.splice(index,1);
+    }
+    this.ngOnInit();
   }
 
   createCustomerA(body) {
     this.Services.createCustomer(body)
     .subscribe(
         data => {
-          //console.log("Hola ", data)
+        console.log("DATA ", data)
           if(data.success){
             this.agency=data.data
             this.dialogRef.close(data.data);
@@ -244,34 +259,35 @@ export class CustomerCreateUpdateComponent implements OnInit {
     }
 
     let body= {
-      "agency_id": this.client.agency_id,
-      "nameClient": customer.nameClient,
-      "name": customer.name,
-      "type": customer.type,
-      "email": customer.email,
-      "phone": customer.phone,
-      "emailOptional": customer.emailOptional,
-      "phoneOptional": customer.phoneOptional,
-      "RFC": customer.RFC,
+      "agency_id":        this.client.agency_id,
+      "nameClient":       customer.nameClient,
+      "name":             customer.name,
+      "type":             customer.type,
+      "email":            customer.email,
+      "phone":            customer.phone,
+      "emailOptional":    customer.emailOptional,
+      "phoneOptional":    customer.phoneOptional,
+      "RFC":              customer.RFC,
       "address": {
-        "city": customer.city,
-        "state": customer.state,
-        "municipality": customer.municipality,
-        "address1": customer.address1,
-        "address2": customer.address2,
-        "int": customer.int,
-        "ext": customer.ext,
-        "zipcode": customer.zipcode
+        "city":           customer.city,
+        "state":          customer.state,
+        "municipality":   customer.municipality,
+        "address1":       customer.address1,
+        "address2":       customer.address2,
+        "int":            customer.int,
+        "ext":            customer.ext,
+        "zipcode":        customer.zipcode
       },
       "urlImage":this.urlImage,
       "pay":this.pay,
-      "pays":this.pays
+      "pays":this.pays,
+      "paymentMethod":this.pay.length>0?true:false
       
     }
     this.Services.updateCustomer(this.defaults._id,body)
     .subscribe(
         data => {
-          //console.log("Hola ", data)
+          console.log("DATA update ", data)
           if(data.success){
             this.agency=data.data
             this.dialogRef.close(data.data);

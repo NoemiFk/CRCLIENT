@@ -15,6 +15,8 @@ import icTrans from '@iconify/icons-ic/transfer-within-a-station';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../../../Services/AuthenticationService';
 import {Services} from '../../../../Services/services'
+
+
 @Component({
   selector: 'vex-register',
   templateUrl: './register.component.html',
@@ -26,7 +28,7 @@ import {Services} from '../../../../Services/services'
 export class RegisterComponent implements OnInit {
 
   form: FormGroup;
-  form2: FormGroup;
+  // form2: FormGroup;
 
   inputType = 'password';
   visible = false;
@@ -35,8 +37,9 @@ export class RegisterComponent implements OnInit {
   icVisibility = icVisibility;
   icVisibilityOff = icVisibilityOff;
   isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  
+  // firstFormGroup: FormGroup;
+  // secondFormGroup: FormGroup;
 
   icBusiness = icBusiness;
   icPhone = icPhone;
@@ -45,8 +48,9 @@ export class RegisterComponent implements OnInit {
   icStar = icStar;
   icStarBorder = icStarBorder;
 
+  emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+
   proveedores=[
-    
     
     {
       id:2,
@@ -67,7 +71,7 @@ export class RegisterComponent implements OnInit {
     {
       id:1,
       image:"assets/blaster.png",
-      name:"LLAMADAS",
+      name:"MENSAJE DE VOZ",
       active:false,
       price:0.2,
       range:"Entrega exitosa"
@@ -109,26 +113,27 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+    // this.firstFormGroup = this._formBuilder.group({
+    //   firstCtrl: ['']
+    // });
+    // this.secondFormGroup = this._formBuilder.group({
+    //   secondCtrl: ['']
+    // });
     this.form = this.fb.group({
       name: ['', Validators.required],
       nameAgency: ['', Validators.required],
       type: [ '',Validators.required],
       bussinesName: [ '',Validators.required],
-      cfdiUse: [ 'P01',Validators.required],
-      paymentForm:['03',Validators.required],
-      email: ['', Validators.required],
-      email1: ['', Validators.required],
-      email2: ['', Validators.required],
-      phone: ['', Validators.required],
+      cfdiUse: [ 'P01'],
+      paymentForm:['03'],
+      email: ['', [Validators.required,Validators.pattern(this.emailPattern)]],
+      email1: [''],
+      email2: [''],
+      phone: [''],
       rfc: ['', Validators.required],
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required],
+      terms:['',Validators.requiredTrue]
     });
   }
 
@@ -160,7 +165,7 @@ export class RegisterComponent implements OnInit {
     },
     }
    //console.log(body)
-    this.AuthenticationService.singup(body)
+    this.AuthenticationService.singup(body) ///agregar providers
     .subscribe(
         data => {
           if(data.success){

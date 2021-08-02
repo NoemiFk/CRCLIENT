@@ -1,15 +1,13 @@
-<div class="w-full h-full bg-pattern register" fxLayout="column" fxLayoutAlign="center center">
-
+<div class="w-full h-full bg-pattern register " fxLayout="column" fxLayoutAlign="center center">
   <mat-horizontal-stepper [linear]="isLinear" #stepper style="width: 80%;">
-    <mat-step [stepControl]="firstFormGroup">
-        <div>
+    <mat-step>
+        <div class="max-w-4xl">
 
           <div class="p-6 pb-0 w-1/3" fxLayout="column" fxLayoutAlign="center center">
-            <div class="fill-current text-center">
+            
               <img  src="assets/img/demo/logoPrincipal.svg">
-            </div>
+         
           </div>
-          <br>
           <div class="text-center mt-4">
             <h2 class="title m-0">Regístrese para obtener su cuenta</h2>
             <h3 style="color: #5c77ff; font-weight: 700;"><b>COLLECTION ROBOT</b></h3>
@@ -17,34 +15,41 @@
           </div>
   
           <br>
-          <div class="flex">
-  
-            <div [formGroup]="form" class="p-6 flex-auto" fxLayout="column" fxLayoutGap="16px" >
+          <div [formGroup]="form" class="flex">
+            <div  class="p-6 flex-auto" fxLayout="column" fxLayoutGap="30px" >
               <div fxFlex="auto" fxLayout="column">
+
                 <mat-form-field fxFlex="grow">
                   <mat-label>Nombre de Empresa</mat-label>
-                  <input formControlName="nameAgency" matInput required>
+                  <input formControlName="nameAgency" matInput >
+                  <mat-error> Introduzca un nombre de empresa</mat-error>
                 </mat-form-field>
+
                 <mat-form-field fxFlex="grow">
                   <mat-label>Tipo de empresa</mat-label>
-                  <mat-select matNativeControl name="typeClient"  formControlName="type">
+                  <mat-select matNativeControl name="typeClient" formControlName="type">
                     <mat-option value="Ninguno">Seleccione uno...</mat-option>
-                    <mat-option value="Agencia de cobranza">Agencia de cobranza</mat-option>
+                    <mat-option value="Proveedor de cobranza">Proveedor de cobranza</mat-option>
                     <mat-option value="Financiera">Financiera</mat-option>
                   </mat-select>
+                  <mat-error> Seleccione el tipo de empresa</mat-error>
                 </mat-form-field>
+
                 <mat-form-field fxFlex="grow">
                   <mat-label>Nombre de Usuario</mat-label>
-                  <input formControlName="name" matInput required>
+                  <input formControlName="name" matInput >
+                  <mat-error> Introduzca un nombre de usuario</mat-error>
                 </mat-form-field>
         
                 <mat-form-field fxFlex="grow">
                   <mat-label>E-Mail</mat-label>
-                  <input type="email" formControlName="email" matInput required>
+                  <input type="email" formControlName="email" matInput >
+                  <mat-error> Introduzca un email valido</mat-error>
                 </mat-form-field>
+
                 <mat-form-field fxFlex="grow">
                   <mat-label>Password</mat-label>
-                  <input [type]="inputType" formControlName="password" matInput required>
+                  <input [type]="inputType" formControlName="password" matInput >
                   <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
                     <mat-icon *ngIf="visible" [icIcon]="icVisibility"></mat-icon>
                     <mat-icon *ngIf="!visible" [icIcon]="icVisibilityOff"></mat-icon>
@@ -54,7 +59,7 @@
         
                 <mat-form-field fxFlex="grow">
                   <mat-label>Password (Confirmar)</mat-label>
-                  <input [type]="inputType" formControlName="passwordConfirm" matInput required>
+                  <input [type]="inputType" formControlName="passwordConfirm" matInput >
                   <button (click)="toggleVisibility()" mat-icon-button matSuffix matTooltip="Toggle Visibility" type="button">
                     <mat-icon *ngIf="visible" [icIcon]="icVisibility"></mat-icon>
                     <mat-icon *ngIf="!visible" [icIcon]="icVisibilityOff"></mat-icon>
@@ -63,22 +68,26 @@
                 </mat-form-field>
               </div>
             </div>
-            <div [formGroup]="form" class="p-6 flex-auto" fxLayout="column" fxLayoutGap="16px" >
+
+            <div class="p-6 flex-auto" fxLayout="column" fxLayoutGap="16px" >
               <div fxFlex="auto" fxLayout="column">
+
                 <mat-form-field fxFlex="grow">
                   <mat-label>Razón Social</mat-label>
                   <input cdkFocusInitial formControlName="bussinesName" matInput>
+                  <mat-error> Introduzca una razón social</mat-error>
                 </mat-form-field>
       
                   <mat-form-field fxFlex="grow">
                     <mat-label>RFC</mat-label>
                     <input cdkFocusInitial formControlName="rfc" matInput>
+                    <mat-error> Introduzca un RFC</mat-error>
                   </mat-form-field>
             
                 <mat-form-field fxFlex="grow">
                   <mat-label>Método de Pago</mat-label>
                      <!-- <select class="form-control valid" matNativeControl name="cfdiUse" data-type="dropdownlist" data-source="catalogs/cfdiUses?keyword=GPO920120440" data-template="#tmpl-commonDrop" data-default="P01" required="" aria-required="true" aria-invalid="false"></select>-->
-                     <mat-select matNativeControl name="type"  formControlName="paymentForm">
+                     <mat-select matNativeControl formControlName="paymentForm">
                       <mat-option value="">Seleccionar Método de pago</mat-option>
                       <mat-option value="03" selected="selected">03 - Transferencia electrónica de fondos</mat-option>
                     </mat-select>
@@ -87,7 +96,7 @@
                 <mat-form-field class=" flex-auto">
                   <mat-label>Uso de la factura</mat-label>
                  <!-- <select class="form-control valid" matNativeControl name="cfdiUse" data-type="dropdownlist" data-source="catalogs/cfdiUses?keyword=GPO920120440" data-template="#tmpl-commonDrop" data-default="P01" required="" aria-required="true" aria-invalid="false"></select>-->
-                 <mat-select matNativeControl name="type"  formControlName="cfdiUse">
+                 <mat-select matNativeControl formControlName="cfdiUse">
                     <mat-option value="">Seleccionar Uso de la factura</mat-option>
                     <mat-option value="G01">G01 - Adquisición de mercancias</mat-option>
                     <mat-option value="G02">G02 - Devoluciones, descuentos o bonificaciones</mat-option>
@@ -107,63 +116,68 @@
                 <input type="email"  formControlName="email2" matInput>
                 
               </mat-form-field>
+              
               </div>
             </div>
+            
           </div>
-                  <div fxLayout="row" fxLayoutAlign="center center">
-                    <mat-checkbox class="caption">Acepto los <a>términos y condiciones.</a></mat-checkbox>
+                  <div [formGroup]="form" fxLayout="row" fxLayoutAlign="center center">
+                    <mat-checkbox class="caption" formControlName="terms">Acepto los <a>términos y condiciones.</a></mat-checkbox>
                   </div>
+
+                  <small>
+                    <a href="https://www.google.com/">Aviso de Privacidad y Contrato de Servicio</a>
+                  </small>
+
+
+
           <mat-accordion>
             <mat-expansion-panel >
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <!--b>Métodos de comunicación</b>
-                  <br-->
                   <b>
-
                     Agregue la comunicación digital 100% integrada al Collection Robot
                   </b>
                 </mat-panel-title>
                 <mat-panel-description>
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <p>Selecciona aquí los metodos de comunicación ideales para generar mensajes y correos electoricos, a tus clientes</p>
-              <p>Esta informacion es opcional si ya cuentas con algun proveedor de servicios de comunicacion omite esta seccion y concluye tu registro.</p>
+              <p>“Contrata comunicación (SMS, Blaster, E-Mail, Cartas) con los clientes al mejor precio, 100% integrado con la plataforma Collection Robot con nuestros socios VOICES y ALPHASEND.  </p>
+              <p>En caso que ya tienes un proveedor de servicios de comunicación omite esta seccion y activa tu plan. Puedes contratar este servicio en cualquier momento.”     </p>
+
               <mat-card-content>
-                <div  class="overflow-y-auto"
-                fxFlex="auto">
+                <div  class="overflow-y-auto" fxFlex="auto">
                   <div class="p-gutter"
-                  vexContainer
-                  gdColumns="1fr 1fr 1fr 1fr"
-                  gdColumns.lt-md="1fr 1fr"
-                  gdColumns.xs="1fr"
-                  gdGap="24px">
+                      vexContainer
+                      gdColumns="1fr 1fr 1fr 1fr"
+                      gdColumns.lt-md="1fr 1fr"
+                      gdColumns.xs="1fr"
+                      gdGap="24px">
+
                     <div class="card overflow-hidden"  *ngFor="let data of proveedores;  let i = index;">
-                      <div 
-                          class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative"
-                          matRipple>
-                        <h2 class="title mb-1 mt-3">{{data.name}}</h2>
-                        <p>{{data.price| currency}} <b>MXN</b></p>
-                        <small *ngIf="data.range" style="color: #326d05;"> Entrega Exitosa</small>
-                        <button (click)="emitToggleStar($event, i)" class="absolute top-2 right-2" mat-icon-button type="button">
+
+                      <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative" matRipple>
+                        <button (click)="emitToggleStar($event, i)" class="absolute top-2 left-2" mat-icon-button type="button">
                           <mat-icon *ngIf="data.active" [icIcon]="icStar" class="text-amber"></mat-icon>
                           <mat-icon *ngIf="!data.active" [icIcon]="icStarBorder"></mat-icon>
                         </button>
+
+                        <h2 class="title mb-1 mt-3 flex-grow">{{data.name}}</h2>
+                        <p>{{data.price| currency}} <b>MXN</b></p>
+                        <small *ngIf="data.range" style="color: #326d05;"> Entrega Exitosa</small>
+                        
                       </div>
-                    
-                      <!--div class="bg-app-bar p-2" fxLayout="row" fxLayoutAlign="space-around center">
-                        <b>{{data.price| currency}}</b>
-                      </div-->
                     </div>
                   </div>
                 </div>
               </mat-card-content>
+
             </mat-expansion-panel>
           </mat-accordion>
           
           <br>
           <div class="text-right">
-            <button mat-button matStepperNext color="primary" class="mat-raised-button" (click)="send();" >ACTIVAR PLAN</button>
+            <button mat-button matStepperNext color="primary" class="mat-raised-button" (click)="send()"  [disabled]="form.invalid">ACTIVAR PLAN</button>
           </div>
         </div>
     </mat-step>

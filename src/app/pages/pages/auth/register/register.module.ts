@@ -13,6 +13,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -28,7 +29,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatTooltipModule,
     MatCheckboxModule,
-    IconModule
+    IconModule,
+    MatFormFieldModule,
+    MatCheckboxModule,
   ]
 })
 export class RegisterModule {
