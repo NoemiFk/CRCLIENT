@@ -1,11 +1,10 @@
 
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
     <h2 class="headline m-0"
-        fxFlex="auto">Cargar Promesas de Pagos</h2>
+        fxFlex="auto">Actualizar Promesas de Pago 
+      </h2>
 
-    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
-      <mat-icon [icIcon]="icMoreVert"></mat-icon>
-    </button>
+    
 
     <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
       <mat-icon [icIcon]="icClose"></mat-icon>
@@ -20,14 +19,12 @@
       <mat-step label="Cargar Archivo" state="phone">
         <div style="padding: 20px;">
 
-          <h3>Cargar Archivo de pagos</h3>
-          <p>Carga aquí tu layout</p>
-          <p>1. Formato en archivo Excel.csv</p>
-          <p>2. Campos requeridos : 1. Identificador cliente , 2. Fecha de promesa 3. Monto de promesa.</p>
+          <h5>Actualizar el archivo de promesas de pago:</h5>
+          <p>1. Formato en archivo excel.csv</p>
+          <p>2. Campos requeridos (en este orden) : Identificador del cliente , fecha de promesa, monto de promesa).</p>
          
         </div>
         <div  class="text-center">
-
           <div class="fileControl-wrapper text-center">
             <br>
               <button mat-flat-button color="primary">Subir Archivo</button>

@@ -16,8 +16,18 @@
       </mat-button-toggle-group-->
       <div>
 
-        <h2>Administración de Financieras</h2>
-        <h4>Alta y Administración de Financiera que asigna portafolio, 2. Subir Logo, 3. Selección método de pago.</h4>
+        <h3>Paso 1.- Administración de Financieras</h3> 
+        <ng-template #popTemplate><div [innerHtml]="html"></div></ng-template>
+        <ng-template #popTemplate2><div [innerHtml]="html2"></div></ng-template>
+        <h6>1. Alta y Administración de Financiera que asigna portafolio.<mat-icon class="pt-1" [icIcon]="icInfo" 
+          [popover]="popTemplate"
+          placement="right"
+          ></mat-icon></h6>
+        <h6>2. Selección método de pago.<mat-icon class="pt-1" [icIcon]="icInfo" 
+            [popover]="popTemplate2"
+            placement="right"
+            ></mat-icon></h6>
+       
       </div>
     </div>
   </vex-page-layout-header>

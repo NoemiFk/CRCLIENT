@@ -4,10 +4,6 @@
         fxFlex="auto">Cargar Pagos</h2>
         <!--h3>Puedes actualizar los pagos identificados desde la fecha de la última actualización del portafolio</h3-->
 
-    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
-      <mat-icon [icIcon]="icMoreVert"></mat-icon>
-    </button>
-
     <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
       <mat-icon [icIcon]="icClose"></mat-icon>
     </button>
@@ -21,10 +17,9 @@
       <mat-step label="Cargar Archivo" state="phone">
         <div style="padding: 20px;">
 
-          <h3>Cargar Archivo de pagos</h3>
-          <p>Carga aquí tu layout</p>
-          <p>1. Formato en archivo Excel.csv</p>
-          <p>2. Campos requeridos : identificador cliente, fecha de pago , monto de pago.</p>
+          <h5>Actualizar el archivo de pagos:</h5>
+          <p>1. Formato en archivo excel.csv</p>
+          <p>2. Campos requeridos (en este orden) : Identificador del cliente , fecha de pago, monto de pago) </p>
          
         </div>
         <div  class="text-center">

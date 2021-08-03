@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { AioTableRoutingModule } from './aio-table-routing.module';
 import { AioTableComponent } from './aio-table.component';
 import { PageLayoutModule } from '../../../../@vex/components/page-layout/page-layout.module';
@@ -21,12 +20,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ContainerModule } from '../../../../@vex/directives/container/container.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
-
+// For MDB Angular Pro
+import { PopoverModule } from 'ngx-bootstrap/popover'
+import { WavesModule } from 'angular-bootstrap-md'
 @NgModule({
   declarations: [AioTableComponent],
   imports: [
     CommonModule,
+    WavesModule,
     AioTableRoutingModule,
     PageLayoutModule,
     FlexLayoutModule,
@@ -45,6 +46,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     ReactiveFormsModule,
     ContainerModule,
     MatSelectModule,
+    PopoverModule,
     MatButtonToggleModule,
     CustomerDeleteModule
   ]

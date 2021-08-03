@@ -38,7 +38,7 @@ import { MatSelectChange } from '@angular/material/select';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
-
+import icInfo from '@iconify/icons-ic/info';
 import {Services} from '../../../Services/services'
 
 
@@ -108,6 +108,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icFilterList = icFilterList;
   icPromisses= icPromisses;
   icPay=icPay;
+  icInfo=icInfo;
   icList=icList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
@@ -118,6 +119,43 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   agency={}
   agency_id=""
   CustomersList=[];
+
+  html = `
+  <p> <b>1. </b> Sube los portafolios que quieres gestionar de cada financiera, presionando el botón ( ), puedes subir en formato csv cualquier portafolio. No deben exisitir columnas o filas vacias en el archivo.
+  </p>
+  `;
+
+  html2 = `
+  <p> <b>1. </b>El mapeo del portafolio se realiza solo una vez. Debes indicar que campos quieres utilizar para la segmentacion, la comunicación y el portal del cliente. También puedes indicar los campos que corresponen al aval.
+  </p>
+  <p> <b>2. </b>Este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestion.
+  </p> 
+  <p> <b>3. </b>Campos que se usan p.e. para la segmentacion son: días de morosidad, monto cartera vencida o riesgo, estado, producto etc.
+  </p> 
+  <p> <b>4. </b>Campos que se usan p.e para la comunicación son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto
+  </p> 
+  <p> <b>5. </b>Campos que se usan p.e para el portal del cliente son: Nombre, producto, identificador crédito, detalle cartera vencida
+  </p> 
+  <p> <b>6. </b>producto, identificador crédito, detalle cartera vencida
+  En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono 
+  </p> 
+    `;
+    html3 = `
+  <p> <b>1. </b>Alimenta al Collection Robot con información valiosa para optimizar la gestión y recursos
+  </p>
+  <p> <b>Promesas de Pago:</b> Actualiza en un archivo excel.csv las promesas de pago que obtienes a traves del call center. El Collection Robot considera las promesas de pago y suspende el envío de comunicación hasta obtener información sobre el cumplimiento de pago 
+  </p> 
+  <p> Formato: Identificador cliente , Fecha de Promesa, Monto de promesa
+  </p> 
+  <p> <b>Pagos: </b>Actualiza en un archivo excel.csv los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envio de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago 
+  </p> 
+  <p> Formato: Identificador cliente , Fecha de Pago, Monto de pago
+  </p> 
+  <p> <b>Resultados de Gestión: </b Actualiza en un archivo excel.csv los resultados de gestión, en caso que no tengas integrado el servicio de envio de comunicación. Con la actualización de la información el Collection Robot puede calcular en que momento se debe transferir el caso a otro canal de gestión. 
+  </p> 
+  <p>Formato: Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
+   </p>
+    `;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;

@@ -1,11 +1,7 @@
 
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
     <h2 class="headline m-0"
-        fxFlex="auto">Cargar Resultados de Gestión</h2>
-
-    <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
-      <mat-icon [icIcon]="icMoreVert"></mat-icon>
-    </button>
+    fxFlex="auto">Actualizar Resultados de Gestión</h2>
 
     <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
       <mat-icon [icIcon]="icClose"></mat-icon>
@@ -20,9 +16,11 @@
       <mat-step label="Cargar Archivo" state="phone">
         <div style="padding: 20px;">
 
-          <h3>Cargar Archivo de resultados</h3>
-          <p>Carga aquí tu layout</p>
-         
+          <h5>Actualizar el archivo de Resultados de Gestion:
+          </h5>
+          <p>1. Formato en archivo excel.csv</p>
+          <p>1. Campos requeridos (en este orden) : Identificador del cliente , canal de gestion (SMS, Blaster, Mail), Resultado de gestion (exitoso, no exitoso) 
+          </p>
         </div>
         <div  class="text-center">
 

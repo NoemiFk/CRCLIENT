@@ -13,6 +13,7 @@ import { CustomerDeleteComponent } from './customer-delete/customer-delete.compo
 import { Router } from '@angular/router';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
+import icInfo from '@iconify/icons-ic/info';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icPortafolio from '@iconify/icons-ic/twotone-folder';
 import icAdd from '@iconify/icons-ic/twotone-add';
@@ -103,6 +104,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icPortafolio=icPortafolio;
   icDelete = icDelete;
+  icInfo=icInfo;
   icAdd = icAdd;
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
@@ -131,6 +133,22 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     //console.log("-->",list)
     return of(list.map(customer => customer));
   }
+  html = `
+  <p> <b>1. </b> Presionando el boton + puedes dar de alta una financiera nueva, indicando el nombre de la financiera y los datos de contacto.
+  </p>
+  <p> <b>2. </b> Ademas puedes subir el logo de la financiera que se usara tambien para el portal del cliente y las comunicaciones. 
+  </p>
+  `;
+
+  html2 = `
+  <p> <b>1. </b>
+  Alimenta los metodos de pago que la financiera ofrece a sus clientes para realizar los pagos. El metodo de pago serian las opciones de pago en el portal del cliente y se puede incluir en las comunicaciónes con el cliente para indicar como pagar su atraso. 
+  </p>
+  <p> <b>2. </b>
+  Es un dato muy sensible y solamente el adminstrador de CR puede realizar cambios en el metodo de pago.
+  </p> 
+    `;
+
   getAgency() {
     this.Services.getAgency(this.client.agency_id)
     .subscribe(

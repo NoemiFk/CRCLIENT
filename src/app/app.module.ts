@@ -10,6 +10,7 @@ import { CustomLayoutModule } from './custom-layout/custom-layout.module';
 import { AuthenticationService } from './Services/AuthenticationService';
 import { Services } from './Services/services'
 import { AuthGuard } from './Services/AuthGuard';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AuthGuard } from './Services/AuthGuard';
 
     // Vex
     VexModule,
-    CustomLayoutModule
+    CustomLayoutModule,
+    PopoverModule.forRoot()
   ],
   providers: [
     AuthenticationService,
