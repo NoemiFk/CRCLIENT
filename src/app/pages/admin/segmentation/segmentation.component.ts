@@ -29,7 +29,7 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
 import {Services} from '../../../Services/services'
 import { Router } from '@angular/router';
-
+import icInfo from '@iconify/icons-ic/info';
 @UntilDestroy()
 @Component({
   selector: 'vex-segmentation',
@@ -63,24 +63,37 @@ export class SegmentationComponent implements OnInit, AfterViewInit {
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
 
+  html = `
+  <p> Indica cuantos clientes morosos (registros) contiene el portafolio
+  </p>
+  `;
+  html2 = `
+  <p> Indica el % del portafolio que ya se encuentra segmentado
+  </p>
+  `;
+  html3 = `
+  <p> Los nombres de los segmentos ya creados, presionando el signo + se puede crear un nuevo segmento. 
+
+  </p>
+  `;
   @Input()
   columns: TableColumn<Segmentation>[] = [
-    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
-    { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
-    { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
-    { label: 'Registros', property: 'register', type: 'object', object:'portafolio_id', visible: true, cssClasses: ['font-medium'] },
-    { label: '% Segementado', property: 'porcent', type: 'text', visible: true },
+    { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true, info: false },
+    { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true, info: false },
+    { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true, info: false },
+    { label: 'Registros', property: 'register', type: 'object', object:'portafolio_id', visible: true, cssClasses: ['font-medium'], info: true, text: this.html },
+    { label: '% Segementado', property: 'porcent', type: 'text', visible: true,info: true, text: this.html2 },
     //{ label: 'Segmentos', property: 'segmentation', type: 'text', visible: true },
-    { label: 'Segmentos', property: 'labels', type: 'button', visible: true },
-    { label: 'Actions', property: 'actions', type: 'button', visible: true }
+    { label: 'Segmentos', property: 'labels', type: 'button', visible: true, info: true, text: this.html3 },
+    { label: 'Actions', property: 'actions', type: 'button', visible: true, info: false }
   ];
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
   dataSource: MatTableDataSource<Segmentation> | null;
   selection = new SelectionModel<Segmentation>(true, []);
   searchCtrl = new FormControl();
-
-  
+ 
+  icInfo=icInfo;
 
   icPhone = icPhone;
   icMail = icMail;

@@ -16,9 +16,9 @@
       <div>
 
         <h3>3. Segmentación del Portafolio</h3>
-        <p class="mb-0">Con base a los campos seleccionado en el mapeo segmenta tu portafolio.</p>
-        <p class="mb-0"> La segmentación ayuda a priorizar y optimizar las acciones de cobranza.</p>
-        <p class="mb-0">Se recomienda no más de 3 segmentos por portafolio se pueden combinar hasta 3 criterio de segmentación.</p>
+        <h6 class="mb-0">Con base a los campos seleccionado en el mapeo segmenta tu portafolio.</h6>
+        <h6 class="mb-0"> La segmentación ayuda a priorizar y optimizar las acciones de cobranza.</h6>
+        <h6 class="mb-0">Se recomienda no más de 3 segmentos por portafolio se pueden combinar hasta 3 criterio de segmentación.</h6>
       </div>
     </div>
   </vex-page-layout-header>
@@ -122,14 +122,28 @@
         <!-- Text Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <ng-template #popTemplate6><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate6"
+              placement="right"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
           </ng-container>
         </ng-container>
         <!-- Text Columns Objects-->
+        
+        
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-template #popTemplate6><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
           <ng-container *ngIf="column.type === 'object'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate6"
+              placement="right"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.object][column.property] }}</td>
           </ng-container>
         </ng-container>
@@ -162,7 +176,13 @@
 
         <!-- Label Column -->
         <ng-container matColumnDef="labels">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES</th>
+          <ng-template #popTemplate6><div [innerHtml]="columns[5].text"></div></ng-template>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES
+            <mat-icon  [icIcon]="icInfo"  *ngIf="columns[5].info"
+            [popover]="popTemplate6"
+            placement="right"
+            ></mat-icon>
+          </th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation();" fxLayoutAlign="start center" fxLayoutGap="4px">
               <div *ngFor="let label of row.segmentation; let i=index"
@@ -209,7 +229,7 @@
           </td>
         </ng-container>
 
-        <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
+        <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row>--</tr>
         <tr (click)="updateSegmentation(row)"
             *matRowDef="let row; columns: visibleColumns;"
             @fadeInUp

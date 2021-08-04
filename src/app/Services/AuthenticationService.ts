@@ -6,8 +6,8 @@ import * as CryptoJS from "crypto-js";
 import { CryptoSecret } from '../../../config';
 import 'rxjs/add/operator/map'
 
-const URL="http://localhost:3002"
-//const URL="http://54.214.162.22:3002"
+//const URL="http://localhost:3002"
+const URL="http://54.214.162.22:3002"
 
 
 const httpOptions = {
