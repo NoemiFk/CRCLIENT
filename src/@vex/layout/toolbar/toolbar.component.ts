@@ -22,6 +22,15 @@ import { MegaMenuComponent } from '../../components/mega-menu/mega-menu.componen
 import icSearch from '@iconify/icons-ic/twotone-search';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import icLayers from '@iconify/icons-ic/twotone-layers';
+import icMoney from '@iconify/icons-ic/money-off';
+import icAssigment from '@iconify/icons-ic/twotone-assignment';
+import icSegmentation from '@iconify/icons-ic/twotone-pause-circle-outline';
+import icPerson from '@iconify/icons-ic/person';
+import icSettings from '@iconify/icons-ic/twotone-settings';
+import icCompu from '@iconify/icons-ic/computer';
+import icGrhap from '@iconify/icons-ic/outline-graphic-eq';
+import icChat from '@iconify/icons-ic/twotone-chat';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -36,7 +45,15 @@ export class ToolbarComponent implements OnInit {
   @Input()
   @HostBinding('class.shadow-b')
   hasShadow: boolean;
-
+  icLayers=icLayers
+  icMoney=icMoney
+  icAssigment= icAssigment
+  icSegmentation=icSegmentation
+  icPerson=icPerson
+  icSettings=icSettings
+  icCompu=icCompu
+  icGrhap=icGrhap
+  icChat=icChat
   navigationItems = this.navigationService.items;
 
   isHorizontalLayout$ = this.configService.config$.pipe(map(config => config.layout === 'horizontal'));
@@ -118,10 +135,10 @@ export class ToolbarComponent implements OnInit {
       case "/admin/strategy":
     
         this.color1="primary"
-        this.color4="accent"
+        this.color4="primary"
         this.color2="primary"
         this.color3="primary"
-        this.color5="primary"
+        this.color5="accent"
         break;
     
       default:

@@ -12,14 +12,22 @@ import { StrategyCreateUpdateComponent } from './strategy-create-update.componen
 import { MatMenuModule } from '@angular/material/menu';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatDividerModule } from '@angular/material/divider';
+import { ChartModule } from '../../../../../@vex/components/chart/chart.module';
+import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
-    CommonModule,
+    FormsModule,
+    MatProgressSpinnerModule,
     NgxMaterialTimepickerModule,
+    CommonModule,
+    MatFormFieldModule,
     ReactiveFormsModule,
+    MatTableModule,
     FlexLayoutModule,
     MatDialogModule,
     MatInputModule,
@@ -29,7 +37,8 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
     MatSelectModule,
     MatMenuModule,
     IconModule,
-    MatDividerModule
+    MatDividerModule,
+    ChartModule
   ],
   declarations: [StrategyCreateUpdateComponent],
   entryComponents: [StrategyCreateUpdateComponent],

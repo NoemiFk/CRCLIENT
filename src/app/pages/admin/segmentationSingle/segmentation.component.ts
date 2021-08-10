@@ -144,6 +144,7 @@ export class SegmentationComponent implements OnInit {
 
 
   displayedColumnsA1: string[] = ['RESUMEN DE PORTAFOLIO', '-'];
+  displayedColumnsA2: string[] = ['Cliente', 'Portafolio','Registros','Segmentación'];
   displayedColumnsB1: string[] = ['RESUMEN DE SEGMENTACIÓN', '-', '-'];
   displayedColumnsC1: string[] = ['SEGMENTO', 'REGISTROS', '%'];
   generalIF=[{
@@ -203,6 +204,12 @@ export class SegmentationComponent implements OnInit {
     
     
   }
+  onSearch(ev,i){
+    console.log(ev,i)
+    if(ev.code == "Enter")
+      this.save(i)
+  }
+  generalP=[]
   isEdit=false
   isNew=false
   getSegmentation(){
@@ -319,6 +326,12 @@ export class SegmentationComponent implements OnInit {
             this.value=this.value+element.porcent
             this.bufferValue=this.value
           });
+          this.generalP=[{
+            cliente: this.portafolio.client_id.name,
+            portafolio: this.portafolio.name_portafolio,
+            registros: this.portafolio.register.toString()||"null",
+            segmentado: this.value.toFixed(1) +" %"
+          }]
           this.generalIF=[{
             name:"CLIENTE",
             data: this.portafolio.client_id.name

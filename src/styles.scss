@@ -31,3 +31,31 @@
 
 /* Importing Bootstrap SCSS file. */
 @import "~bootstrap/scss/bootstrap";
+
+.spinner {
+  border: 12px solid rgba(0, 0, 0, 0.1);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border-left-color: #023f73;
+  margin: auto;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.mat-row:nth-child(even){
+  background-color: rgb(241, 241, 241);
+}
+      
+.mat-row:nth-child(odd){
+  background-color: white;
+}

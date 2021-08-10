@@ -11,7 +11,66 @@
   <vex-page-layout-content vexContainer>
     <div class="card p-6">
       <h2 class="m-0 title mb-6"></h2>
-        <div class="flex flex-col sm:flex-row">
+      <div class="flex flex-col sm:flex-row">
+        <table mat-table [dataSource]="generalP" class="mat-elevation-z8 text-center"  style="width: 100%;">
+
+          <ng-container matColumnDef="Cliente">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Cliente</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.cliente}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="Portafolio">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Portafolio</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.portafolio}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="Registros">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Registros</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.registros}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="Segmentación">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Segmentación</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.segmentado}} </b></td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsA2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsA2;"></tr>
+        </table>
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        <div class="flex-auto flex flex-col sm:flex-row ml-2 mr-2">
+
+          <mat-form-field class="flex-auto mt-6"  style="width: 80%;">
+            <mat-label>Días Maximo de Collection Robot</mat-label>
+            <input cdkFocusInitial [(ngModel)]="days" matInput >
+    
+            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+          </mat-form-field>
+          <div class="align-self-sm-center" >
+            <ng-template #popTemplate9><div [innerHtml]="html"> </div></ng-template>
+            <mat-icon  [icIcon]="icInfo" 
+            [popover]="popTemplate9"
+            placement="left"
+            ></mat-icon>
+          </div>
+        </div>
+        <div class="flex-auto flex flex-col sm:flex-row ml-2 mr-2">
+
+          <mat-form-field class="flex-auto mt-6"  style="width: 80%;">
+            <mat-label>Salida despues de intentos sin exito</mat-label>
+            <input cdkFocusInitial [(ngModel)]="noneDays" matInput  (keydown)="onSearch($event)">
+    
+    
+            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+          </mat-form-field>
+          <div class="align-self-sm-center" >
+            <ng-template #popTemplate10><div [innerHtml]="html2"> </div></ng-template>
+            <mat-icon  [icIcon]="icInfo" 
+            [popover]="popTemplate10"
+            placement="left"
+            ></mat-icon>
+          </div>
+        </div>
+      </div>
+        <!--div class="flex flex-col sm:flex-row">
           <div class="flex flex-auto flex-col" style="width: 50%;" >
             <table mat-table [dataSource]="generalIF" class="mat-elevation-z8 text-center"  style="width: 100%;">
               <ng-container matColumnDef="RESUMEN DE PORTAFOLIO">
@@ -63,12 +122,12 @@
             </div>
             <button (click)="addStrategy()">Agregar Estrategia</button>
           </div> 
-        </div>
+        </div-->
         
 
       
 
-      <div  *ngIf="visible"  ng-if="false" >
+      <div  *ngIf="false" >
         <div class="flex flex-col sm:flex-row" *ngFor="let canal of canales">
           <div class="flex-auto">
             <div class="flex flex-col sm:flex-row">
@@ -96,7 +155,7 @@
 
 
      
-          <div class="card overflow-auto " style="max-height: 500px;">
+          <div class="card overflow-auto " style="max-height: 500px;" *ngIf="jsDatos.length">
             <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
               <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
                 <span>Estrategias</span>
@@ -122,6 +181,7 @@
         
         
             </div>
+            
             <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort *ngIf="active">
       
               <!--- Note that these columns can be defined in any order.

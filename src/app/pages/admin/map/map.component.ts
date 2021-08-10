@@ -14,6 +14,7 @@ import { MapUpdateComponent } from './map-update/map-update.component';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icLoad from '@iconify/icons-ic/arrow-drop-down-circle';
+import icBack from '@iconify/icons-ic/arrow-back';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icUpload from '@iconify/icons-ic/file-upload';
@@ -82,6 +83,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icLoad=icLoad;
+  icBack=icBack;
   icAdd = icAdd;
   icUpload=icUpload;
   icFilterList = icFilterList;
@@ -90,6 +92,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   agency_id=this.client.agency_id;
+  active=false
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   //@ViewChild(MatSort, { static: true }) sort: MatSort;
   portafolio_id = this.route.snapshot.params.id;
@@ -164,6 +167,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
     return keys;
 
+  }
+
+  back(){
+    this.router.navigate(['/admin/portafolios']);
   }
   
   createMapeo() {
@@ -455,13 +462,14 @@ export class MapComponent implements OnInit, AfterViewInit {
    customerPortal=[]
    validations=[]
   onFileChange(ev) {
+   this.active= true
     let workBook = null;
     let jsonData = null;
     const reader = new FileReader();
     const file = ev.target.files[0];
     reader.onload = (event) => {
       const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
+      workBook = XLSX.read(data, { type: 'binary' , cellDates: true, dateNF: 'dd/mm/yyyy' });
       workBook.SheetNames.forEach(element => {
         
         //console.log("--",element)
@@ -472,7 +480,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       jsonData = workBook.SheetNames.reduce((initial, name) => {
         this.name=name;
         const sheet = workBook.Sheets[name];
+        console.log("----------------",sheet)
         initial[name] = XLSX.utils.sheet_to_json(sheet);
+        console.log("----------------",initial)
         return initial;
       }, {});
      //console.log(jsonData[this.name])
@@ -535,6 +545,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       }, 300);
     }
     reader.readAsBinaryString(file);
+    setTimeout(() => {
+      this.active= false
+    },600);
   }
   create(){
     let body={
