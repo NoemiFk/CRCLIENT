@@ -22,11 +22,15 @@ import { ContainerModule } from '../../../../@vex/directives/container/container
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MapUpdateModule } from './mapeo-update/mapeo-update.module';
+import { PopoverModule } from 'ngx-bootstrap/popover'
+import { WavesModule } from 'angular-bootstrap-md'
 
 @NgModule({
   declarations: [AioTableComponent],
   imports: [
     CommonModule,
+    PopoverModule,
+    WavesModule,
     AioTableRoutingModule,
     PageLayoutModule,
     FlexLayoutModule,

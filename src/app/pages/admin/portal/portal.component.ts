@@ -38,7 +38,7 @@ import { defaultChartOptions } from '../../../../@vex/utils/default-chart-option
 import { createDateArray } from '../../../../@vex/utils/create-date-array';
 import { id } from 'date-fns/locale';
 import data from '@iconify/icons-ic/twotone-visibility';
-
+import icInfo from '@iconify/icons-ic/info';
 
 @UntilDestroy()
 @Component({
@@ -80,6 +80,7 @@ export class StrategyComponent implements OnInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icAdd = icAdd;
+  icInfo=icInfo;
   visible=false
   searchCtrl = new FormControl();
   info_client=localStorage.getItem('currentAgency')
@@ -157,7 +158,12 @@ export class StrategyComponent implements OnInit {
     name:"",
     data:""
   }];
-
+html1="En el portal se pueden mostrar hasta 5 campos de datos generales (p.e. nombre, contrato, producto etc) y hasta 5 campos de cartera vencida. Se deben activar con el chec-box la cantidad de campos que se requieren. "
+html2="Configura el portal y dale un nombre al campo que le quieres mostrar al cliente. Puedes usar hasta 30 caracteres."
+html3="Elige el campo correspondiente del mapeo."
+html4=""
+OnePay=false
+morePay= false
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'determinate';
   value = 0;

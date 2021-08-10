@@ -202,8 +202,10 @@ export class ManagementResultsUpdateComponent implements OnInit {
 
   createRegister() {
 
+    this.dialogRef.close();
+
     //console.log("CREAR Mapa", this.portafolio_id)
- 
+ /*
      this.Services.createRegister(this.jsDatos,this.portafolio_id)
      .subscribe(
          data => {
@@ -215,7 +217,7 @@ export class ManagementResultsUpdateComponent implements OnInit {
          error => {
            //this.error=true
          });
- 
+ */
    }
    get visibleColumns() {
     let columns=this.columns.filter(column => column.visible).map(column => column.property);

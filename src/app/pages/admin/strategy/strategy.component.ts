@@ -28,6 +28,7 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
 import {Services} from '../../../Services/services'
 import { Router } from '@angular/router';
+import icInfo from '@iconify/icons-ic/info';
 
 @UntilDestroy()
 @Component({
@@ -58,17 +59,25 @@ export class StrategyComponent implements OnInit, AfterViewInit {
   subject$: ReplaySubject<Stretegy[]> = new ReplaySubject<Stretegy[]>(1);
   data$: Observable<Stretegy[]> = this.subject$.asObservable();
   strategys: Stretegy[];
-
+  icInfo=icInfo;
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
+  html = `
+  <p> 
+  Muestra el estatus de la estrategia:
+<p><b style=" color:red">Rojo</b> = falta definicion de una estrategia de gestion </p>
+<p><b style=" color:green">Verde</b>  = estrategia de gestion definida </p>
 
+
+  </p>
+  `;
   @Input()
   columns: TableColumn<Stretegy>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
     //{ label: 'Segmentos', property: 'strategy', type: 'text', visible: true },
-    { label: 'Segmentos', property: 'labels', type: 'button', visible: true },
+    { label: 'Segmentos', property: 'labels', type: 'button', visible: true,  info: true, text: this.html},
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
   pageSize = 10;

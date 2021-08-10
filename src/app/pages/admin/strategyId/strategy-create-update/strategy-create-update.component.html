@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
 
     <h2 class="headline m-0"
-        fxFlex="auto">Nueva Estrategia</h2>
+        fxFlex="auto">Nueva Accion de gestion</h2>
 
     <button [matMenuTriggerFor]="settingsMenu" class="text-secondary" mat-icon-button type="button">
       <mat-icon [icIcon]="icMoreVert"></mat-icon>
@@ -20,7 +20,7 @@
     <div class="flex flex-col sm:flex-row">
 
       <mat-form-field class="flex-auto" >
-        <mat-label>Selecciona financiera</mat-label>
+        <mat-label>Selecciona comunicación</mat-label>
         <mat-select cdkFocusInitial [(ngModel)]="communication" (selectionChange)="onLabelChange($event)"  >
           <mat-option [value]="option" *ngFor="let option of getCommunications;">{{option.name}}</mat-option>
         </mat-select>

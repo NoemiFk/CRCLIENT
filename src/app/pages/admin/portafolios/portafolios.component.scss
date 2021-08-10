@@ -1,7 +1,6 @@
-.popover-container {
-    width:200px;
-    height:250px;
-    max-width:none; // Required for popovers wider than 276px (Bootstrap's max-width for popovers)
+.popover{
+    left: -280px !important;
+    top: 31px !important;
 }
 .mat-row:nth-child(even){
     background-color: rgb(241, 241, 241);

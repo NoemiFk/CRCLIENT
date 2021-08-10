@@ -1,4 +1,5 @@
-<div @transformPopover class="popover">
+<div @transformPopover class="popover" style="margin-top: 30px; left: -280px;">
+
   <ng-container [ngSwitch]="renderMethod">
     <div *ngSwitchCase="'text'" [innerHTML]="content"></div>
     <ng-container *ngSwitchCase="'template'">

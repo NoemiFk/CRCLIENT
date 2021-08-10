@@ -13,9 +13,14 @@
         <mat-button-toggle value="boxed">BOXED</mat-button-toggle>
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
-      <div>
+      <!--div>
 
         <h2>Estrategias Definidas</h2>
+      </div-->
+      <div>
+        <h3>Paso 5: Estrategia de Gestion </h3>
+        <!--h4>Alta y Actualizacion de Portafolios – Actualizacion de Promesas de Pago, Pagos y Resultados de Gestion..</h4-->
+        <h6>En base a la segmentacion y comunicación creada se define la estrategia de gestion por segmento.</h6>
       </div>
     </div>
   </vex-page-layout-header>
@@ -159,7 +164,13 @@
 
         <!-- Label Column -->
         <ng-container matColumnDef="labels">
-          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES</th>
+          <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES
+            <ng-template #popTemplate8><div [innerHtml]="html"> </div></ng-template>
+              <mat-icon  [icIcon]="icInfo"  *ngIf=" true"
+              [popover]="popTemplate8"
+              placement="right"
+              ></mat-icon>
+          </th>
           <td *matCellDef="let row" mat-cell>
             <div (click)="$event.stopPropagation();" fxLayoutAlign="start center" fxLayoutGap="4px">
               <div *ngFor="let label of row.segmentation; let i=index">

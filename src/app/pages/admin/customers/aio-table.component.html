@@ -58,15 +58,16 @@
           </button>
         </div>
 
-        <div class="bg-card rounded-full border px-4"
-             fxFlex="400px"
+        <div class="bg-card rounded-full border h-12"
+             fxFlex="250px"
              fxFlex.lt-md="auto"
              fxHide.xs
              fxLayout="row"
              fxLayoutAlign="start center">
-          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+          <ic-icon [icIcon]="icSearch" size="20px" class="p-3" style="color: black;"></ic-icon>
           <input [formControl]="searchCtrl"
-                 class="px-4 py-3 border-0 outline-none w-full bg-transparent"
+          style="color: black;"
+                 class="py-3 border-0 outline-none bg-transparent "
                  placeholder="Buscar..."
                  type="search">
         </div>

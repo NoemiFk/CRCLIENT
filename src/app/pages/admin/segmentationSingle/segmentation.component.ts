@@ -37,6 +37,7 @@ import { ApexOptions } from '../../../../@vex/components/chart/chart.component';
 import { defaultChartOptions } from '../../../../@vex/utils/default-chart-options';
 import { createDateArray } from '../../../../@vex/utils/create-date-array';
 import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
+import icInfo from '@iconify/icons-ic/info';
 
 @UntilDestroy()
 @Component({
@@ -68,10 +69,12 @@ export class SegmentationComponent implements OnInit {
   data$: Observable<Segmentation[]> = this.subject$.asObservable();
   segmentations: Segmentation[];
   icPerson = icPerson;
+  icInfo=icInfo;
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   constructor( private Services: Services,private router: Router, private route:ActivatedRoute) {
   }
+  
   @Input() series: ApexNonAxisChartSeries | ApexAxisChartSeries;
   @Input() options: ApexOptions = defaultChartOptions({
     grid: {

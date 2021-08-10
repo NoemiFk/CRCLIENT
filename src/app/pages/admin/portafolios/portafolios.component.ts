@@ -387,7 +387,9 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     this.subject$.next(this.portafolios);
   }
   onChangeClient(x){
-   //console.log(x)
+   console.log(x)
+    if(x.value=="all")
+      this.getPortafoliosListAgency();
     let client_id=x.value;
     this.getPortafoliosList(client_id)
   }

@@ -14,10 +14,29 @@
         <mat-button-toggle value="boxed">BOXED</mat-button-toggle>
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
-      <div>
+      <!--div>
         <h2>Administración Portafolios - Cliente - {{custmer.name}}</h2>
-        <!--h4>Alta y Actualizacion de Portafolios – Actualizacion de Promesas de Pago, Pagos y Resultados de Gestion..</h4-->
         <h4>1.	Cargar archivo en Excel.csv  2. Mapeo de campos 3. Actualización de Promesas de pago, Pagos y Resultados de gestión</h4>
+      </div-->
+      <div>
+
+        <h3  class="mb-0">Paso 2. Administración Portafolios</h3> 
+        <ng-template #popTemplate3><div [innerHtml]="html"></div></ng-template>
+        <ng-template #popTemplate4><div [innerHtml]="html2"></div></ng-template>
+        <ng-template #popTemplate5><div [innerHtml]="html3"></div></ng-template>
+        <h6 class="mb-0">1. Alta de Portafolio de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
+          [popover]="popTemplate3"
+          placement="right"
+          ></mat-icon></h6>
+        <h6 class="mb-0">2. Mapeo de Portafolio .<mat-icon class="pt-1" [icIcon]="icInfo" 
+            [popover]="popTemplate4"
+            placement="right"
+            ></mat-icon></h6>
+         <h6 class="mb-0">3. Actualización de Promesas de Pago, Pagos y Resultados de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
+            [popover]="popTemplate5"
+            placement="right"
+            ></mat-icon></h6>
+       
       </div>
       <h1></h1>
     </div>
@@ -49,17 +68,18 @@
           </button>
         </div>
 
-        <div class="bg-card rounded-full border px-4"
-             fxFlex="400px"
-             fxFlex.lt-md="auto"
-             fxHide.xs
-             fxLayout="row"
-             fxLayoutAlign="start center">
-          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+        <div class="bg-card rounded-full border h-12"
+        fxFlex="250px"
+        fxFlex.lt-md="auto"
+        fxHide.xs
+        fxLayout="row"
+        fxLayoutAlign="start center">
+          <ic-icon [icIcon]="icSearch" size="20px" class="p-3" style="color: black;"></ic-icon>
           <input [formControl]="searchCtrl"
-                 class="px-4 py-3 border-0 outline-none w-full bg-transparent h-7"
-                 placeholder="Buscar..."
-                 type="search">
+          style="color: black;"
+                  class="py-3 border-0 outline-none bg-transparent "
+                  placeholder="Buscar..."
+                  type="search">
         </div>
         <span fxFlex></span>
 

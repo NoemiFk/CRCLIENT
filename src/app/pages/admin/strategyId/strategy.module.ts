@@ -10,7 +10,8 @@ import { StrategyCreateUpdateModule } from './strategy-create-update/strategy-cr
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-
+import { PopoverModule } from 'ngx-bootstrap/popover'
+import { WavesModule } from 'angular-bootstrap-md'
 import { MatSortModule } from '@angular/material/sort';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,9 +38,11 @@ import {MatGridListModule} from '@angular/material/grid-list';
   imports: [
     CommonModule,
     MatGridListModule,
+    PopoverModule,
     MatDialogModule,
     ChartModule,
     MatInputModule,
+    WavesModule,
     MatDividerModule,
     MatProgressSpinnerModule,
     MatRadioModule,

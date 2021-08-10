@@ -38,6 +38,7 @@ import { defaultChartOptions } from '../../../../@vex/utils/default-chart-option
 import { createDateArray } from '../../../../@vex/utils/create-date-array';
 import { id } from 'date-fns/locale';
 import data from '@iconify/icons-ic/twotone-visibility';
+import icInfo from '@iconify/icons-ic/info';
 
 
 @UntilDestroy()
@@ -71,6 +72,7 @@ export class StrategyComponent implements OnInit {
   strategys: Strategy[];
   dataSource: MatTableDataSource<Strategy> | null;
   icPerson = icPerson;
+  icInfo=icInfo;
   jsDatos=[]
   icPhone = icPhone;
   icMail = icMail;
@@ -157,7 +159,9 @@ export class StrategyComponent implements OnInit {
     name:"",
     data:""
   }];
-
+  html='<p> Determina los dias maximos que se queda cada asunto en el Collection Robot </p>'
+  html2='<p>  Determina la salida del asunto del Collection Robot despues de x cantidad de comunicaciones sin éxito (no entregados – o sin respuesta)</p>'
+  html3='<p> Presiona el simbolo + y agrega la accion de gestion que quieres programar en el dia correspondiente. Tambien puedes definir la hora del envio</p>'
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'determinate';
   value = 0;
@@ -370,7 +374,7 @@ export class StrategyComponent implements OnInit {
       canales:this.canales,
       days:this.days,
       noneDays:this.noneDays,
-      calendary:this.jsDatos[0]
+      calendary:this.jsDatos
     }
     console.log(body)
     this.Services.createStrategy(body)

@@ -28,6 +28,7 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
 import {Services} from '../../../Services/services'
 import { Router } from '@angular/router';
+import icInfo from '@iconify/icons-ic/info';
 @UntilDestroy()
 @Component({
   selector: 'vex-strategy',
@@ -57,18 +58,22 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   subject$: ReplaySubject<Communication[]> = new ReplaySubject<Communication[]>(1);
   data$: Observable<Communication[]> = this.subject$.asObservable();
   customers: Communication[];
+  html = `
+  <p> Indica la cantidad de SMS creadas, presionado el signo + se puede crear una nueva comunicación.
 
+  </p>
+  `;
   @Input()
   columns: TableColumn<Communication>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
-    { label: 'SMS', property: 'SMS', type: 'number', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Cartas', property: 'Letter', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'SMS', property: 'SMS', type: 'number', visible: true, cssClasses: ['font-medium'], info: true, text: this.html },
     { label: 'Blaster', property: 'Blaster', type: 'number', visible: true, cssClasses: ['font-medium'] },
     { label: 'E-Mails', property: 'Mail', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Cartas', property: 'Letter', type: 'number', visible: true, cssClasses: ['font-medium'] },
     { label: 'Notificaciones', property: 'Notification', type: 'number', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Demandas', property: 'Demand', type: 'number', visible: true, cssClasses: ['font-medium'] },
+    { label: 'Demandas', property: 'Demand', type: 'number', visible: false, cssClasses: ['font-medium'] },
     { label: 'Segmentos', property: 'labels', type: 'button', visible: false },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];
@@ -83,6 +88,7 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   icPhone = icPhone;
   icMail = icMail;
   icMap = icMap;
+  icInfo=icInfo;
   icEdit = icEdit;
   icSearch = icSearch;
   icDelete = icDelete;
@@ -106,6 +112,7 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
+  
   /**
    * Example on how to get data and pass it to the table - usually you would want a dedicated service with a HTTP request for this
    * We are simulating this request here.

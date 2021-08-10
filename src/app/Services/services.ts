@@ -4,8 +4,9 @@ import { HttpClientModule, /* other http imports */ } from "@angular/common/http
 import { Observable } from 'rxjs/Observable';
 export type ResponseType = 'arraybuffer' | 'blob' | 'json' | 'text';;
 import 'rxjs/add/operator/map'
-//const URL="http://localhost:3002"
-const URL="http://54.214.162.22:3002"
+import { String } from 'aws-sdk/clients/apigateway';
+const URL="http://localhost:3002"
+//const URL="http://54.214.162.22:3002"
 const httpOptions = {
     headers: new HttpHeaders({
       'Authorization': 'my-auth-token',
@@ -45,7 +46,8 @@ export class Services {
           });
     }
     createCustomer(body:object) {
-      return this.http.post<any>(URL+'/client/',body)
+        console.log("Client Addd+++++++++++")
+      return this.http.post<any>(URL+'/client',body)
           .map(resp => {
           
               //console.log("createCustomer",resp)

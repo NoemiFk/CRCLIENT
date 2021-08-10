@@ -202,9 +202,11 @@ export class PaymentPromiseUpdateComponent implements OnInit {
 
   createRegister() {
 
+    this.dialogRef.close();
+
     //console.log("CREAR Mapa", this.portafolio_id)
  
-     this.Services.createRegister(this.jsDatos,this.portafolio_id)
+     /*this.Services.createRegister(this.jsDatos,this.portafolio_id)
      .subscribe(
          data => {
            if(data.success){
@@ -214,7 +216,7 @@ export class PaymentPromiseUpdateComponent implements OnInit {
          },
          error => {
            //this.error=true
-         });
+         });*/
  
    }
    get visibleColumns() {

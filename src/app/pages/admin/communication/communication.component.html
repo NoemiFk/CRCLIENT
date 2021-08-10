@@ -14,9 +14,9 @@
         <mat-button-toggle value="fullwidth">FULL-WIDTH</mat-button-toggle>
       </mat-button-toggle-group-->
       <div>
-        <h2>Comunicación digital </h2>
+        <h3>Paso 4: Comunicación Digital</h3>
         <!--h4>Alta y Actualizacion de Portafolios – Actualizacion de Promesas de Pago, Pagos y Resultados de Gestion..</h4-->
-        <h4>Diseña comunicación digital personalizada por cada portafolio </h4>
+        <h6>Disena la comunicación digital y cartas/notificacion por cada portafolio</h6>
       </div>
     </div>
   </vex-page-layout-header>
@@ -47,17 +47,18 @@
           </button>
         </div>
 
-        <div class="bg-card rounded-full border px-4"
-             fxFlex="400px"
-             fxFlex.lt-md="auto"
-             fxHide.xs
-             fxLayout="row"
-             fxLayoutAlign="start center">
-          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+        <div class="bg-card rounded-full border h-12"
+        fxFlex="250px"
+        fxFlex.lt-md="auto"
+        fxHide.xs
+        fxLayout="row"
+        fxLayoutAlign="start center">
+          <ic-icon [icIcon]="icSearch" size="20px" class="p-3" style="color: black;"></ic-icon>
           <input [formControl]="searchCtrl"
-                 class="px-4 py-3 border-0 outline-none w-full bg-transparent"
-                 placeholder="Buscar..."
-                 type="search">
+          style="color: black;"
+                  class="py-3 border-0 outline-none bg-transparent "
+                  placeholder="Buscar..."
+                  type="search">
         </div>
 
         <span fxFlex></span>
@@ -126,12 +127,19 @@
          <!-- Text Columns Number-->
          <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
           <ng-container *ngIf="column.type === 'number'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <ng-template #popTemplate7><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate7"
+              placement="right"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
              
               <div (click)="$event.stopPropagation();" fxLayoutAlign="start center" fxLayoutGap="4px">
                 <div>
                   {{ row[column.property].length }}
+                 
                 </div>
                 <div (click)="$event.stopPropagation(); addNew(column.label,column.property,row.portafolio_id._id,row[column.property])"
                      class="text-secondary bg-base text-hint cursor-pointer hover:bg-hover"
@@ -148,7 +156,9 @@
 
         <!-- Contact Column -->
         <ng-container matColumnDef="contact">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header></th>
+          <th *matHeaderCellDef mat-header-cell mat-sort-header>
+            
+          </th>
           <td *matCellDef="let row" mat-cell>
             <div class="flex">
               <a (click)="$event.stopPropagation()"

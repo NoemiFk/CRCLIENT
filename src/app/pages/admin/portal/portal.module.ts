@@ -30,13 +30,16 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatGridListModule} from '@angular/material/grid-list';
-
+import { PopoverModule } from 'ngx-bootstrap/popover'
+import { WavesModule } from 'angular-bootstrap-md'
 
 @NgModule({
   declarations: [StrategyComponent],
   imports: [
     CommonModule,
+    PopoverModule,
     MatGridListModule,
+    WavesModule,
     MatDialogModule,
     ChartModule,
     MatInputModule,

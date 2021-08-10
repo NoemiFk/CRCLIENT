@@ -86,7 +86,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       this.uploadFileName = 'Choose File';
     }
   }
-  urlImage="https://documents-cr.s3.us-west-2.amazonaws.com/tatto.jpg"
+  urlImage=""
   upload() {
     const file = this.selectedFiles.item(0);
     this.uploadService.uploadFile(file);
@@ -193,7 +193,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
       "phoneOptional":  customer.phoneOptional,
       "RFC":            customer.RFC,
       "urlImage":       this.urlImage,
-      "address": {
+      /*"address": {
         "city":         customer.city,
         "state":        customer.state,
         "municipality": customer.municipality,
@@ -202,7 +202,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
         "int":          customer.int,
         "ext":          customer.ext,
         "zipcode":      customer.zipcode
-      },
+      },*/
       "pay":this.pay,
       "pays":this.pays
     }
