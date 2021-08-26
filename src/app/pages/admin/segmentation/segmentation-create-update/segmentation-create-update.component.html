@@ -172,9 +172,9 @@
 
 
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close type="button">CANCEL</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit" (click)="save()">CREAR SEGMENTACIÓN</button>
-    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit" (click)="save()">EDITAR SEGMENTACIÓN </button>
+    <button mat-button mat-dialog-close  color="warn" type="button">Cancelar</button>
+    <button *ngIf="isCreateMode()" mat-flat-button mat-button color="primary" type="submit" (click)="save()">Guardar/button>
+    <button *ngIf="isUpdateMode()" mat-flat-button mat-button color="primary" type="submit" (click)="save()">Guardar</button>
   </mat-dialog-actions>
 
 

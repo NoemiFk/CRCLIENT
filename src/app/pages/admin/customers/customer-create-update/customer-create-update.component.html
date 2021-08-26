@@ -109,7 +109,7 @@
                   <input matInput [formControl]="nuevaCta">        
                   <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
                 </mat-form-field>
-                <button mat-stroked-button color="primary" class="flex-auto ml-3" (click)="addPay()"> Agregar</button>
+                <button mat-flat-button color="primary" mat-button  color="primary" class="add flex-auto ml-3" (click)="addPay()"> Agregar</button>
               </div>
 
               <!-- ------------------------------------------------ ------------------------------>
@@ -136,7 +136,7 @@
                     <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
                   </mat-form-field>
 
-                  <button mat-stroked-button color="warn" class="flex-auto ml-3" (click)="deletePay(i)"> Eliminar</button>
+                  <button  mat-button mat-dialog-close  color="warn" class="add flex-auto ml-3 " (click)="deletePay(i)"> Eliminar</button>
 
                 </div>
 
@@ -152,8 +152,8 @@
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close  color="warn" type="button">Cancelar</button>
-    <button *ngIf="isCreateMode()" mat-flat-button mat-button color="primary" mat-button type="submit" [disabled]="form.invalid">Agregar</button>
-    <button *ngIf="isUpdateMode()" mat-flat-button color="primary" mat-button type="submit" [disabled]="form.invalid">Guardar</button>
+    <button *ngIf="isCreateMode()" mat-flat-button mat-button color="primary" type="submit" [disabled]="form.invalid">Guardar</button>
+    <button *ngIf="isUpdateMode()" mat-flat-button mat-button color="primary"  type="submit" [disabled]="form.invalid">Guardar</button>
   </mat-dialog-actions>
 </form>
 
