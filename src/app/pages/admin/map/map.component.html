@@ -1,6 +1,6 @@
-<vex-page-layout>
+<vex-page-layout mode="card">
 
-  <vex-page-layout-header class="pb-16" fxLayout="column" fxLayoutAlign="center start">
+  <vex-page-layout-header fxLayout="column" fxLayoutAlign="center start">
     <div [class.container]="layoutCtrl.value === 'boxed'"
          [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
          class="w-full flex flex-col  justify-between"> <!-- sm:flex-row-->
@@ -15,6 +15,7 @@
                            class="-mt-6">
 
     <div class="card overflow-auto -mt-16" *ngIf="isNew=='true'">
+      <p class="cursor-pointer pt-2 pl-4" (click)="back()" > <mat-icon class="pt-2"  [icIcon]="icBack"></mat-icon> <b> Regresar</b></p>
 
           <mat-horizontal-stepper>
             <mat-step label="Cargar Archivo" state="phone">
@@ -26,6 +27,7 @@
               </div>
               <div  class="text-center">
 
+                <div class="spinner" *ngIf="active"></div>
                 <div class="fileControl-wrapper text-center">
                   <br>
                     <button mat-flat-button color="primary">Subir Archivo</button>
@@ -33,8 +35,12 @@
                     multiple="multiple"  />
               
                 </div>
-                <h3 *ngIf="jsonData.Datos.length">Datos Cargados</h3>
-                <h2 *ngIf="jsonData.Datos.length"> {{jsonData.Datos.length}}</h2>
+                <h3 *ngIf="jsonData.Datos.length && !active">Datos Cargados</h3>
+                <h2 *ngIf="jsonData.Datos.length && !active"> {{jsonData.Datos.length}}</h2>
+                <div id="output" *ngIf="false"></div>
+                <div *ngIf="willDownload && false">
+                  <a id="download"> Download JSON File </a>
+                </div>
               <!--div id="output"></div>
                 <br>
                 <div *ngIf="willDownload">
@@ -42,11 +48,11 @@
                 </div-->
                 
             </div>
-              <div class="text-right" *ngIf="jsonData.Datos.length">
-                <button mat-raised-button class="primary" matStepperNext>SIGUIENTE</button>
+              <div class="text-right" *ngIf="jsonData.Datos.length && !active">
+                <button mat-raised-button class="primary" matStepperNext (click)="createRegister()">SIGUIENTE</button>
               </div>
             </mat-step>
-            <mat-step label="Vista Previa" state="chat">
+            <!--mat-step label="Vista Previa" state="chat">
               <br>
               
               <div class="w-full flex justify-between">
@@ -74,18 +80,7 @@
                     </button>
                   </div>
             
-                  <div class="bg-card rounded-full border px-4"
-                       fxFlex="400px"
-                       fxFlex.lt-md="auto"
-                       fxHide.xs
-                       fxLayout="row"
-                       fxLayoutAlign="start center">
-                    <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
-                    <input [formControl]="searchCtrl"
-                           class="px-4 py-3 border-0 outline-none w-full bg-transparent"
-                           placeholder="Buscar..."
-                           type="search">
-                  </div>
+                  
             
                   <span fxFlex></span>
             
@@ -105,12 +100,7 @@
                 </div>
                 <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort *ngIf="uploadActive">
 
-                  <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
-            
-               
-            
-                  <!-- Text Columns -->
+                 
                   <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
                     <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
                       <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -120,7 +110,7 @@
             
             
                   <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
-                  <tr (click)="updateCustomer(row)"
+                  <tr 
                       *matRowDef="let row; columns: visibleColumns;"
                       @fadeInUp
                       class="hover:bg-hover trans-ease-out cursor-pointer"
@@ -132,7 +122,7 @@
                 <button mat-button matStepperPrevious>ATRAS</button>
                 <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
               </div>
-            </mat-step>
+            </mat-step-->
             <mat-step label="Mapeo" >
 
               <br>
@@ -148,22 +138,6 @@
                 <p><b>4.</b>	Aval: Seleccionar campos relacionados con el aval, Nombre, Dirección. </p>
               </div>
               <br>
-              <div>
-                <h4><b>SEGURIDAD</b></h4>
-                <p>Seleccione el elemento que se utilizara para accesar a portal del usuario</p>
-                <mat-form-field >
-                  <mat-label>Selecciona dato</mat-label>
-                  <mat-select  name="criterio1" [(ngModel)]="portal" >
-                    <mat-option *ngFor="let op of map" [value]="op"  >
-                      {{op.datos}}
-                    </mat-option>
-                    <!--mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option-->
-                  </mat-select>
-            
-                  <mat-icon [icIcon]="icEdit" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-              </div>
-              <br>
               <div class="card overflow-auto" style="max-height: 500px;">
                 <div class="my-12 container"
                 fxLayout="row"
@@ -174,7 +148,15 @@
                 <div  fxFlex fxLayout="column" style="margin-right:0px">
                   <b class="text-center">Dato</b>
                   <mat-list role="list">
-                    <mat-list-item role="listitem" *ngFor="let column of map"> {{column.datos}}</mat-list-item>
+                    <mat-list-item role="listitem" *ngFor="let column of map">
+                      <p style="display: block;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      width: 130px;">
+                          {{column.datos}}
+                      </p> 
+                      </mat-list-item>
                   </mat-list>
                 </div>
                 <div  fxFlex fxLayout="column" style="margin-right:0px">
@@ -185,12 +167,12 @@
                       white-space: nowrap;
                       overflow: hidden;
                       text-overflow: ellipsis;
-                      width: 200px;">
+                      width: 130px;">
                           {{column.ejemplo}}
                       </p> </mat-list-item>
                   </mat-list>
                 </div>
-                <div  fxFlex fxLayout="column">
+                <!--div  fxFlex fxLayout="column">
                   <b class="text-center">Análisis</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of analysis"> 
@@ -200,7 +182,7 @@
                     </mat-checkbox>
                     </mat-list-item>
                   </mat-list>
-                </div>
+                </div-->
                 <div  fxFlex fxLayout="column">
                   <b class="text-center">Segmentación</b>
                   <mat-list role="list">
@@ -258,10 +240,13 @@
                       [(ngModel)]="column.status"
                       >
                     </mat-checkbox>
-                      <select class="sm:ml-6" name="type"  >
+                      <select class="sm:ml-6" name="column.type" [(ngModel)]="column.type">
                         <option value="no">Seleccione uno...</option>
-                        <option value="Email">E-mail</option>
-                        <option value="number">Numero Telefonico</option>
+                        <option value="id">ID Unico</option>
+                        <option value="string">Texto</option>
+                        <option value="number">Cantidad</option>
+                        <option value="email">E-mail</option>
+                        <option value="phone">Numero Telefonico</option>
                         <option value="date">Fecha</option>
                       </select>
                     </mat-list-item>
@@ -365,7 +350,8 @@
     
     </div>
     <div class="card overflow-auto -mt-16" *ngIf="isNew=='false'">
-      <div class="p-5">
+      <div class="pt-4 pl-4 pr-4"  fxLayout="row" fxLayoutAlign="space-between center">
+        <p *ngIf="created" class="cursor-pointer" (click)="back()"> <mat-icon class="pt-2" [icIcon]="icBack"></mat-icon> <b> Regresar</b></p>
         <p *ngIf="created">Fecha de creacion: <b> {{created | date}}</b></p>
         <!--p *ngIf="updated">Fecha de actualizacion: <b>{{updated | date}}</b></p-->
       </div>
@@ -374,7 +360,8 @@
           <br>
           <p>Cartera Activa mapeada en el portafolio</p>
           <br>
-          <div class="card overflow-auto" style="max-height: 500px;">
+          <div class="spinner" *ngIf="!dataSourceUpload.length"></div>
+          <div class="card overflow-auto" style="max-height: 500px;" *ngIf="dataSourceUpload.length">
             <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
               <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
                 <span *ngIf="selection.isEmpty()">Cartera</span>
@@ -396,7 +383,7 @@
                 </button>
               </div>
         
-              <div class="bg-card rounded-full border px-4"
+              <!--div class="bg-card rounded-full border px-4"
                    fxFlex="400px"
                    fxFlex.lt-md="auto"
                    fxHide.xs
@@ -407,7 +394,7 @@
                        class="px-4 py-3 border-0 outline-none w-full bg-transparent"
                        placeholder="Buscar..."
                        type="search">
-              </div>
+              </div-->
         
               <span fxFlex></span>
         
@@ -436,13 +423,13 @@
               <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
                 <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
                   <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-                  <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+                  <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property]}}</td>
                 </ng-container>
               </ng-container>
         
         
               <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
-              <tr (click)="updateCustomer(row)"
+              <tr 
                   *matRowDef="let row; columns: visibleColumns;"
                   @fadeInUp
                   class="hover:bg-hover trans-ease-out cursor-pointer"
@@ -459,19 +446,25 @@
             <h3>Cargar Archivo</h3>
             <p>Carga aquí tu layout</p>
           </div>
-          <div  class="text-center">
-  
+          <!--div  class="text-center">
+            <div class="spinner"></div>
+
             <input type="file" (change)="onFileChange($event)" />
             <h3 *ngIf="jsonData.Datos.length">Datos Cargados</h3>
             <h2 *ngIf="jsonData.Datos.length"> {{jsonData.Datos.length}}</h2>
-          <!--div id="output"></div>
-            <br>
-            <div *ngIf="willDownload">
-              <a id="download"> Download JSON File </a>
-            </div-->
-            
+        </div-->
+        <div class="spinner" *ngIf="active"></div>
+        <div class="fileControl-wrapper text-center">
+          <br>
+            <button mat-flat-button color="primary">Subir Archivo</button>
+          <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
+            multiple="multiple"  />
+      
+            <h5 *ngIf="jsonData.Datos.length && !active">Datos Cargados</h5>
+            <h4 *ngIf="jsonData.Datos.length  && !active"> {{jsonData.Datos.length}}</h4>
         </div>
-          <div class="text-right" *ngIf="jsonData.Datos.length">
+
+          <div class="text-right" *ngIf="jsonData.Datos.length && !active">
             <button mat-button matStepperPrevious>ATRAS</button>
             <button mat-button matStepperNext>SIGUIENTE</button>
           </div>
@@ -502,7 +495,7 @@
                 </button>
               </div>
         
-              <div class="bg-card rounded-full border px-4"
+              <!--div class="bg-card rounded-full border px-4"
                    fxFlex="400px"
                    fxFlex.lt-md="auto"
                    fxHide.xs
@@ -513,7 +506,7 @@
                        class="px-4 py-3 border-0 outline-none w-full bg-transparent"
                        placeholder="Buscar..."
                        type="search">
-              </div>
+              </div-->
         
               <span fxFlex></span>
         
@@ -542,13 +535,13 @@
               <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
                 <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
                   <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-                  <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+                  <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property]  }}</td>
                 </ng-container>
               </ng-container>
         
         
               <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
-              <tr (click)="updateCustomer(row)"
+              <tr 
                   *matRowDef="let row; columns: visibleColumns;"
                   @fadeInUp
                   class="hover:bg-hover trans-ease-out cursor-pointer"

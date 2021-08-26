@@ -115,36 +115,7 @@ export class PaymentPromiseUpdateComponent implements OnInit {
       untilDestroyed(this)
     ).subscribe(value => this.onFilterChange(value));
   }
-  getMap(id){
-    this.Services.getMap(id)
-    .subscribe(
-        data => {
-          console.log("Hola ", data)
-          if(data.success){
-            console.log(data.data)
-            this.map=data.data.datos;
-            this.analysis=data.data.analysis
-            this.segmentation=data.data.segmentation
-            this.strategies=data.data.strategies
-            this.customerPortal=data.data.customerPortal;
-            this.endorsement=data.data.endorsement||[];
-            this.validations=data.data.validations
-            console.log(this.analysis)
-            this.map.forEach(element => {
-               this.endorsement.push({
-                 data:element.toString(),
-                 status:false
-               });
-              });
-            //this.segmentacion=data.data.segmentation
-           // this.CustomersList=data.data
-            
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
+ 
 
   trackByProperty<T>(index: number, column: TableColumn<T>) {
     return column.property;
@@ -156,57 +127,39 @@ export class PaymentPromiseUpdateComponent implements OnInit {
       this.updateMap();
   }
 
-  saveChange(val,index){
-    switch (val) {
-      case "analysis":
-        console.log(this.analysis[index].status)
-        if(this.analysis[index].status) this.analysis[index].status=false
-        else this.analysis[index].status=true
-        console.log(this.analysis[index])
-        break;
-        case "segmentation":
-          console.log(this.segmentation[index].status)
-          if(this.segmentation[index].status) this.segmentation[index].status=false
-          else this.segmentation[index].status=true
-          console.log(this.segmentation[index])
-        break;
-        case "strategies":
-          console.log(this.strategies[index].status)
-          if(this.strategies[index].status) this.strategies[index].status=false
-          else this.strategies[index].status=true
-          console.log(this.strategies[index])
-        break;
-        case "customerPortal":
-          console.log(this.customerPortal[index].status)
-          if(this.customerPortal[index].status) this.customerPortal[index].status=false
-          else this.customerPortal[index].status=true
-          console.log(this.customerPortal[index])
-        break;
-        case "endorsement":
-          console.log(this.endorsement[index].status)
-          if(this.endorsement[index].status) this.endorsement[index].status=false
-          else this.endorsement[index].status=true
-          console.log(this.endorsement[index])
-        break;
-        case "validations":
-          console.log(this.validations[index].status)
-          if(this.validations[index].status) this.validations[index].status=false
-          else this.validations[index].status=true
-          console.log(this.validations[index])
-        break;
-    
-      default:
-        break;
-    }
-  }
 
+  currentPromises=[]
+  getMap(id){
+    this.Services.getDataPromises(id)
+    .subscribe(
+        data => {
+          console.log("Hola ", data)
+          if(data.success){
+            console.log("Hay Pagos Cargados",data.data)
+            this.currentPromises=data.data
+            let keys=[];
+              for(var k in this.currentPromises[0]){
+                keys.push(k);
+              }  
+              this.datos=keys;
+              this.columns=[];
+              this.datos.forEach(element => {
+               //console.log(element)
+                this.columns.push({ label: element.toString(), property: element.toString(), type: 'text', visible: true })
+              })
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
   createRegister() {
 
     this.dialogRef.close();
 
     //console.log("CREAR Mapa", this.portafolio_id)
  
-     /*this.Services.createRegister(this.jsDatos,this.portafolio_id)
+     this.Services.createPromises(this.jsDatos,this.portafolio_id)
      .subscribe(
          data => {
            if(data.success){
@@ -216,9 +169,10 @@ export class PaymentPromiseUpdateComponent implements OnInit {
          },
          error => {
            //this.error=true
-         });*/
- 
+         });
+    
    }
+
    get visibleColumns() {
     let columns=this.columns.filter(column => column.visible).map(column => column.property);
     //console.log(columns)
@@ -238,7 +192,8 @@ export class PaymentPromiseUpdateComponent implements OnInit {
     const file = ev.target.files[0];
     reader.onload = (event) => {
       const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
+      //workBook = XLSX.read(data, { type: 'binary' });
+      workBook = XLSX.read(data, { type: 'binary' , cellDates: true, dateNF: 'dd/mm/yyyy' });
       workBook.SheetNames.forEach(element => {
         
         //console.log("--",element)

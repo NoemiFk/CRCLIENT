@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { VexRoutes } from '../../../../@vex/interfaces/vex-route.interface';
-import { PortalComponent } from './portal.component';
+import { StrategyComponent } from './portal.component';
 
 
 const routes: VexRoutes = [
   {
     path: '',
-    component: PortalComponent,
+    component: StrategyComponent,
     data: {
       toolbarShadowEnabled: true
     }
@@ -18,5 +18,5 @@ const routes: VexRoutes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PortalRoutingModule {
+export class StrategyRoutingModule {
 }

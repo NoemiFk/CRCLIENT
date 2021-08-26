@@ -150,6 +150,30 @@ export class Services {
                 return resp;
             });
       }
+      getDataPays(id:string) {
+        return this.http.get<any>(URL+'/map/data/pays/'+id)
+            .map(resp => {
+            
+               //console.log("getMap",resp)
+                return resp;
+            });
+      }
+      getDataManagement(id:string) {
+        return this.http.get<any>(URL+'/map/data/management/'+id)
+            .map(resp => {
+            
+               //console.log("getMap",resp)
+                return resp;
+            });
+      }
+      getDataPromises(id:string) {
+        return this.http.get<any>(URL+'/map/data/promises/'+id)
+            .map(resp => {
+            
+               //console.log("getMap",resp)
+                return resp;
+            });
+      }
       getMap(id:string) {
         return this.http.get<any>(URL+'/map/'+id)
             .map(resp => {
@@ -208,6 +232,30 @@ export class Services {
               return resp;
           });
     }
+    createPays(body:object, id:string) {
+        return this.http.post<any>(URL+'/map/pays/'+id,body)
+            .map(resp => {
+            
+               //console.log("createRegister",resp)
+                return resp;
+            });
+      }
+      createManagement(body:object, id:string) {
+        return this.http.post<any>(URL+'/map/management/'+id,body)
+            .map(resp => {
+            
+               //console.log("createRegister",resp)
+                return resp;
+            });
+      }
+      createPromises(body:object, id:string) {
+        return this.http.post<any>(URL+'/map/promises/'+id,body)
+            .map(resp => {
+            
+               //console.log("createRegister",resp)
+                return resp;
+            });
+      }
     updateRegister(body:object, id:string) {
       return this.http.put<any>(URL+'/map/data/'+id,body)
           .map(resp => {
@@ -378,6 +426,16 @@ export class Services {
             .map(resp => {
             
                 //console.log("updatePlan",resp)
+                return resp;
+
+            });
+            
+    }
+    getSegInfo(id:string) {
+        return this.http.get<any>(URL+'/mapeo/'+id,httpOptions)
+            .map(resp => {
+            
+                console.log("updatePlan",resp)
                 return resp;
 
             });

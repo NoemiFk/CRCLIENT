@@ -40,12 +40,11 @@ import { id } from 'date-fns/locale';
 import data from '@iconify/icons-ic/twotone-visibility';
 import icInfo from '@iconify/icons-ic/info';
 
-
 @UntilDestroy()
 @Component({
   selector: 'vex-strategy',
-  templateUrl: './strategy.component.html',
-  styleUrls: ['./strategy.component.scss'],
+  templateUrl: './portal.component.html',
+  styleUrls: ['./portal.component.scss'],
   animations: [
     fadeInUp400ms,
     stagger40ms
@@ -72,7 +71,6 @@ export class StrategyComponent implements OnInit {
   strategys: Strategy[];
   dataSource: MatTableDataSource<Strategy> | null;
   icPerson = icPerson;
-  icInfo=icInfo;
   jsDatos=[]
   icPhone = icPhone;
   icMail = icMail;
@@ -82,6 +80,7 @@ export class StrategyComponent implements OnInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icAdd = icAdd;
+  icInfo=icInfo;
   visible=false
   searchCtrl = new FormControl();
   info_client=localStorage.getItem('currentAgency')
@@ -152,7 +151,6 @@ export class StrategyComponent implements OnInit {
   displayedColumnsNew: string[] = ['date1', 'date2', 'date3', 'date4', 'date5'];
 
   refresh: Subject<any> = new Subject();
-  displayedColumnsA2: string[] = ['Cliente', 'Portafolio','Registros','Segmentación'];
   displayedColumnsA1: string[] = ['RESUMEN DE PORTAFOLIO', '-'];
   displayedColumnsB1: string[] = ['RESUMEN DE SEGMENTACIÓN', '-', '-'];
   displayedColumnsC1: string[] = ['SEGMENTO', 'REGISTROS', '%'];
@@ -160,9 +158,12 @@ export class StrategyComponent implements OnInit {
     name:"",
     data:""
   }];
-  html='<p> Determina los dias maximos que se queda cada asunto en el Collection Robot </p>'
-  html2='<p>  Determina la salida del asunto del Collection Robot despues de x cantidad de comunicaciones sin éxito (no entregados – o sin respuesta)</p>'
-  html3='<p> Presiona el simbolo + y agrega la accion de gestion que quieres programar en el dia correspondiente. También puedes definir la hora del envio</p>'
+html1="En el portal se pueden mostrar hasta 5 campos de datos generales (p.e. nombre, contrato, producto etc) y hasta 5 campos de cartera vencida. Se deben activar con el chec-box la cantidad de campos que se requieren. "
+html2="Configura el portal y dale un nombre al campo que le quieres mostrar al cliente. Puedes usar hasta 30 caracteres."
+html3="Elige el campo correspondiente del mapeo."
+html4=""
+OnePay=false
+morePay= false
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'determinate';
   value = 0;
@@ -224,11 +225,78 @@ export class StrategyComponent implements OnInit {
     
     this.getSegmentation()
     //this.getStrategy()
-    this.searchCtrl.valueChanges.pipe(
-      untilDestroyed(this)
-    ).subscribe(value => this.onFilterChange(value));
+    this.getMap()
     
   }
+  dataPortal=[
+    {
+      name:"",
+      status:false,
+      data:""
+    },
+    {
+      name:"",
+      status:false,
+      data:""
+    }
+    ,
+    {
+      name:"",
+      status:false,
+      data:""
+    },
+    {
+      name:"",
+      status:false,
+      data:""
+    }
+    ,
+    {
+      name:"",
+      status:false,
+      data:""
+    }
+  ]
+  deudaPortal=[
+    {
+      name:"",
+      status:false,
+      data:"",
+      descuento:0,
+      pay:""
+    },
+    {
+      name:"",
+      status:false,
+      data:"",
+      descuento:0,
+      pay:""
+    }
+    ,
+    {
+      name:"",
+      status:false,
+      data:"",
+      descuento:0,
+      pay:""
+    },
+    {
+      name:"",
+      status:false,
+      data:"",
+      descuento:0,
+      pay:""
+    }
+    ,
+    {
+      name:"",
+      status:false,
+      data:"",
+      descuento:0,
+      pay:""
+    }
+  ]
+  currentData=null
   getSegmentation(){
     this.Services.getSegmentation(this.segmentation_id)
     .subscribe(
@@ -260,6 +328,32 @@ export class StrategyComponent implements OnInit {
   isEdit=false
   isNew=false
   registerTotal=0
+  name=""
+  communicationData=[]
+  getMap(){
+    this.Services.getMap("608ab9458eb7d30bf1e9b855")
+    .subscribe(
+        data => {
+          console.log("getMap ", data)
+          if(data.success){
+            data.data.strategies.forEach(element => {
+              if(element.status){
+
+              
+                this.communicationData.push(element.data)
+              }
+                
+            });
+           // this.CustomersList=data.data
+            
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
+  generalP=[]
+  displayedColumnsA2: string[] = ['Cliente', 'Portafolio','Registros','Segmentación'];
   getPortaolio(id){
   this.Services.getPortafolio(id)
   .subscribe(
@@ -372,7 +466,6 @@ export class StrategyComponent implements OnInit {
   }
   active=false
   datos=[]
-  generalP=[]
   create(){
     let body={
       portafolio_id: this.segmenta.portafolio_id,
@@ -385,22 +478,7 @@ export class StrategyComponent implements OnInit {
       calendary:this.jsDatos
     }
     console.log(body)
-    this.Services.createStrategy(body)
-        .subscribe(
-            data => {
-              //console.log("Portafolios ", data)
-              if(data.success){
-                console.log(data.data)
-                this.router.navigate(['/admin/strategy']);
-              }
-            },
-            error => {
-              //this.error=true
-            });
-  }
-  onSearch(ev){
-    if(ev.code=="Enter")
-      this.addStrategy()
+    this.router.navigate(['/admin/portal']);
   }
   addStrategy(){
     this.datos=[]

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { PortalComponent } from './portal.component';
+import { SegmentationComponent } from './portal.component';
 
-describe('PortalComponent', () => {
-  let component: PortalComponent;
-  let fixture: ComponentFixture<PortalComponent>;
+describe('SegmentationComponent', () => {
+  let component: SegmentationComponent;
+  let fixture: ComponentFixture<SegmentationComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PortalComponent]
+      declarations: [SegmentationComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PortalComponent);
+    fixture = TestBed.createComponent(SegmentationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

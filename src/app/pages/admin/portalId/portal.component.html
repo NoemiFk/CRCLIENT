@@ -1,0 +1,240 @@
+<vex-page-layout mode="card">
+
+  <vex-page-layout-header fxLayout="column" fxLayoutAlign="center start">
+    <div>
+
+      <h3>Paso 6: Portal del Cliente (Self-Service)
+      </h3>
+      <h6 class="mb-0">Ofrece a los clientes morosos la opcion de visualizar su informacion de cartera vencida y realizar pagos en linea.
+        Puedes configurar la informacion en base a los campos selecionados en el mapeo del portafolio. 
+        </h6>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content vexContainer>
+    <div class="card p-6">
+      <div class="flex flex-col sm:flex-row">
+        <table mat-table [dataSource]="generalP" class="mat-elevation-z8 text-center"  style="width: 100%;">
+
+          <ng-container matColumnDef="Cliente">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Cliente</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.cliente}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="Portafolio">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Portafolio</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.portafolio}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="Registros">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Registros</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.registros}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="Segmentación">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Segmentación</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.segmentado}} </b></td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsA2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsA2;"></tr>
+        </table>
+      </div>
+      <div class="flex flex-col sm:flex-row">
+        <div class="flex flex-auto flex-col" >
+          <!--table mat-table [dataSource]="generalIF" class="mat-elevation-z8 text-center"  style="width: 100%;">
+            <ng-container matColumnDef="RESUMEN DE PORTAFOLIO">
+              <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b>RESUMEN DE PORTAFOLIO</b> </th>
+              <td mat-cell *matCellDef="let element"> <b>{{element.name}}</b>  </td>
+            </ng-container>
+            <ng-container matColumnDef="-">
+              <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b></b>  </th>
+              <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsA1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsA1;"></tr>
+          </table-->
+        </div>
+      </div>
+      <br>
+      <h2 class="m-0 title mb-6">Datos Generales del cliente 
+        <br>
+      </h2>
+        <div class="flex flex-col sm:flex-row">
+          <div class="flex flex-auto flex-row" style="width: 17%;" >
+            
+            Datos Generales Campo 
+            <ng-template #popTemplate13><div [innerHtml]="html1"></div></ng-template>
+              <mat-icon  [icIcon]="icInfo"
+              [popover]="popTemplate13"
+              placement="right"
+              ></mat-icon>
+          </div>
+          <div class="flex flex-auto flex-row" style="width: 4%;"  >
+            Activar
+          </div>
+          <div class="flex flex-auto flex-row"  style="width: 24%;" >
+            Personalizar Campo
+            <ng-template #popTemplate14><div [innerHtml]="html2"></div></ng-template>
+              <mat-icon  [icIcon]="icInfo"
+              [popover]="popTemplate14"
+              placement="right"
+              ></mat-icon>
+          </div>
+          <div class="flex flex-auto flex-row" style="width: 25%;"  >
+            Datos del Mapeo
+            <ng-template #popTemplate12><div [innerHtml]="html3"></div></ng-template>
+              <mat-icon  [icIcon]="icInfo"
+              [popover]="popTemplate12"
+              placement="right"
+              ></mat-icon>
+          </div>
+          
+        </div>
+        <div class="flex flex-col sm:flex-row" *ngFor="let row of dataPortal; let i = index">
+          <div class="flex flex-auto justify-center flex-col" >
+            Datos Generales Campo {{i+1}}
+          </div>
+          <div class="flex flex-auto justify-center flex-col" >
+            <mat-checkbox cdkFocusInitial (click)="$event.stopPropagation()" [(ngModel)]="row.status" color="primary" (change)="onCheckboxChange($event)">
+              
+            </mat-checkbox>
+          </div>
+          <div class="flex flex-auto flex-col" >
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Nombre</mat-label>
+                <input cdkFocusInitial [(ngModel)]="row.name" matInput>
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+              
+            </div>
+          </div>
+          <div class="flex flex-auto flex-col" >
+            <mat-form-field class="flex-auto ml-6">
+              <mat-label>Selecciona Identificador </mat-label>
+              <mat-select [(ngModel)]="row.data"  >
+                <mat-option *ngFor="let label of communicationData" [value]="label">
+                  <div [ngClass]="label.previewClass"
+                      class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block" ></div>
+                  <span>{{ label }}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="flex flex-auto flex-col" >
+            
+          </div>
+        </div>
+        <div class="flex flex-col sm:flex-row">
+
+          <h2 class="m-0 title mb-6">Informacion definida segun la deuda</h2>
+          <div class="w-1/2"></div>
+          <!--mat-checkbox cdkFocusInitial (click)="$event.stopPropagation()" [(ngModel)]="OnePay" color="primary" (change)="onCheckboxChange($event)">
+              1 Pago   
+          </mat-checkbox>
+          <mat-checkbox cdkFocusInitial (click)="$event.stopPropagation()" [(ngModel)]="morePay" color="primary" (change)="onCheckboxChange($event)">
+              Varios Pagos
+          </mat-checkbox-->
+        </div>
+        <div class="flex flex-col sm:flex-row">
+          <div class="flex flex-auto flex-row" style="width: 25%;" >
+            
+            Datos Generales Campo 
+            <ng-template #popTemplate13><div [innerHtml]="html1"></div></ng-template>
+              <mat-icon  [icIcon]="icInfo"
+              [popover]="popTemplate13"
+              placement="right"
+              ></mat-icon>
+          </div>
+          <div class="flex flex-auto flex-row" style="width: 10%;"  >
+            Activar
+          </div>
+          <div class="flex flex-auto flex-row"  style="width: 30%;" >
+            Personalizar Campo
+            <ng-template #popTemplate14><div [innerHtml]="html2"></div></ng-template>
+              <mat-icon  [icIcon]="icInfo"
+              [popover]="popTemplate14"
+              placement="right"
+              ></mat-icon>
+          </div>
+          <div class="flex flex-auto flex-row" style="width: 30%;"  >
+            Datos del Mapeo
+            <ng-template #popTemplate12><div [innerHtml]="html3"></div></ng-template>
+              <mat-icon  [icIcon]="icInfo"
+              [popover]="popTemplate12"
+              placement="right"
+              ></mat-icon>
+          </div>
+          <div class="flex flex-auto flex-row" style="width: 30%;"  >
+            Desceunto
+            
+          </div>
+          <div class="flex flex-auto flex-row" style="width: 15%;"  >
+            Pagos
+            
+          </div>
+          
+        </div>
+        <div class="flex flex-col sm:flex-row" *ngFor="let row of deudaPortal; let i = index">
+          <div class="flex flex-auto justify-center flex-col" style="width: 50%;"  >
+            Desglose Deuda Campo {{i+1}}
+          </div>
+          <div class="flex flex-auto justify-center flex-col" style="width: 10%;"  >
+            <mat-checkbox cdkFocusInitial (click)="$event.stopPropagation()" [(ngModel)]="row.status" color="primary" (change)="onCheckboxChange($event)">
+              
+            </mat-checkbox>
+          </div>
+          <div class="flex flex-auto flex-col" >
+            <div class="flex flex-col sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Nombre</mat-label>
+                <input cdkFocusInitial [(ngModel)]="row.name" matInput>
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+              
+            </div>
+          </div>
+          <div class="flex flex-auto flex-col" >
+            <mat-form-field class="flex-auto ml-6">
+              <mat-label>Selecciona Identificador </mat-label>
+              <mat-select [(ngModel)]="row.data"  >
+                <mat-option *ngFor="let label of communicationData" [value]="label">
+                  <div [ngClass]="label.previewClass"
+                      class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block" ></div>
+                  <span>{{ label }}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="flex flex-auto flex-col" >
+            <div class="flex flex-col ml-6 sm:flex-row">
+              <mat-form-field class="flex-auto">
+                <mat-label>Descuento</mat-label>
+                <input cdkFocusInitial [(ngModel)]="row.descuento" matInput>
+                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+              </mat-form-field>
+              
+            </div>
+          </div>
+          <div class="flex flex-auto flex-col" style="width: 12%;"  >
+            <mat-form-field class="flex-auto ml-6">
+              <mat-label>Pagos </mat-label>
+              <mat-select [(ngModel)]="row.pay"  >
+                <mat-option value="1"> 1 Pago</mat-option>
+                <mat-option value="2"> 2 Pagos</mat-option>
+                <mat-option value="3"> 3 Pagos</mat-option>
+                <mat-option value="4"> 4 Pagos</mat-option>
+                <mat-option value="5"> 5 Pagos</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        
+      
+      <div align="end" class="mt-10">
+        <button  class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">CREAR PORTAL</button>
+        <!--button *ngIf="isEdit" class="ml-6" (click)="create()"color="primary" mat-stroked-button type="submit">EDITAR ESTRATEGIA</button-->
+      </div>
+    </div>
+  </vex-page-layout-content>
+
+</vex-page-layout>

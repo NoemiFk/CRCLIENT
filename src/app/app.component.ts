@@ -7,11 +7,14 @@ import { NavigationService } from '../@vex/services/navigation.service';
 import icLayers from '@iconify/icons-ic/twotone-layers';
 import icMoney from '@iconify/icons-ic/money-off';
 import icAssigment from '@iconify/icons-ic/twotone-assignment';
-import icContactSupport from '@iconify/icons-ic/twotone-contact-support';
+import icSegmentation from '@iconify/icons-ic/twotone-pause-circle-outline';
 import icPerson from '@iconify/icons-ic/person';
 import icPortafolio from '@iconify/icons-ic/twotone-folder';
+import icSettings from '@iconify/icons-ic/twotone-settings';
+import icCompu from '@iconify/icons-ic/computer';
+import icGrhap from '@iconify/icons-ic/outline-graphic-eq';
+import icContactSupport from '@iconify/icons-ic/twotone-contact-support';
 import icAnalisis from '@iconify/icons-ic/graphic-eq';
-import icSegmentation from '@iconify/icons-ic/twotone-pause-circle-outline';
 import icDateRange from '@iconify/icons-ic/twotone-date-range';
 import icChat from '@iconify/icons-ic/twotone-chat';
 import icContacts from '@iconify/icons-ic/twotone-contacts';
@@ -29,7 +32,6 @@ import icFormatColorText from '@iconify/icons-ic/twotone-format-color-text';
 import icStar from '@iconify/icons-ic/twotone-star';
 import icViewCompact from '@iconify/icons-ic/twotone-view-compact';
 import icPictureInPicture from '@iconify/icons-ic/twotone-picture-in-picture';
-import icSettings from '@iconify/icons-ic/twotone-settings';
 import { LayoutService } from '../@vex/services/layout.service';
 import icUpdate from '@iconify/icons-ic/twotone-update';
 import { ActivatedRoute } from '@angular/router';
@@ -190,13 +192,13 @@ export class AppComponent {
             label: 'WYSIWYG Editor',
             route: '/apps/editor',
             icon: icChromeReaderMode
-          },*/
+          },
           {
             type: 'link',
             label: 'Análisis',
             route: '/admin/analysis',
             icon: icAnalisis
-          },
+          },*/
           {
             type: 'link',
             label: 'Segmentación',
@@ -207,19 +209,19 @@ export class AppComponent {
             type: 'link',
             label: 'Comunicación  Digital',
             route: '/admin/communication',
-            icon: icAssigment
+            icon: icChat
           },
           {
             type: 'link',
             label: 'Estrategias',
             route: '/admin/strategy',
-            icon: icAssigment
+            icon: icGrhap
           },
           {
             type: 'link',
             label: 'Portal',
             route: '/admin/portal',
-            icon: icAssigment
+            icon: icCompu
           },
         ]
       },

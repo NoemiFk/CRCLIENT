@@ -44,7 +44,7 @@
           <mat-list-item role="listitem" *ngFor="let column of map"> {{column.ejemplo}}</mat-list-item>
         </mat-list>
       </div-->
-      <div  fxFlex fxLayout="column" style="margin-right:0px !important">
+      <!--div  fxFlex fxLayout="column" style="margin-right:0px !important">
         <b class="text-center">Análisis</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of analysis;  let i = index;"> 
@@ -53,7 +53,7 @@
           </mat-checkbox>
           </mat-list-item>
         </mat-list>
-      </div>
+      </div-->
       <div  fxFlex fxLayout="column" style="margin-right:0px !important">
         <b class="text-center">Segmentación</b>
         <mat-list role="list">
@@ -75,7 +75,7 @@
         </mat-list>
       </div>
       <div  fxFlex fxLayout="column" style="margin-right:0px !important">
-        <b class="text-center">Portal</b>
+        <b class="text-center">Portal </b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of customerPortal;   let i = index;"> 
             <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
@@ -85,7 +85,7 @@
         </mat-list>
       </div>
       <div  fxFlex fxLayout="column" style="margin-right:0px !important">
-        <b class="text-center">Aval</b>
+        <b class="text-center">Aval </b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of endorsement;   let i = index;"> 
             <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
@@ -98,15 +98,19 @@
         <b class="text-center">Validación</b>
         <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let column of validations;  let i = index;"> 
+            {{column.type}}
             <mat-checkbox class="example-margin w-full text-center" [checked]="column.status" ([ngModel])="column.status" 
             (change)="$event ? saveChange('validations',i) : null">
           </mat-checkbox>
-            <select class="sm:ml-6" name="type"  >
-              <option value="no">Seleccione uno...</option>
-              <option value="Email">E-mail</option>
-              <option value="number">Numero Telefonico</option>
-              <option value="date">Fecha</option>
-            </select>
+          <select class="sm:ml-6" name="column.type" ([ngModel])="column.type">
+            <option value="no">Seleccione uno...</option>
+            <option value="id">ID Unico</option>
+            <option value="string">Texto</option>
+            <option value="number">Cantidad</option>
+            <option value="email">E-mail</option>
+            <option value="phone">Numero Telefonico</option>
+            <option value="date">Fecha</option>
+          </select>
           </mat-list-item>
         </mat-list>
       </div>

@@ -162,8 +162,8 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/admin/portal/portal.module').then(m => m.PortalModule),
           },
           {
-            path: 'portalId/:id',
-            loadChildren: () => import('./pages/admin/portal/portal.module').then(m => m.PortalModule),
+            path: 'portalId/:id/:index',
+            loadChildren: () => import('./pages/admin/portalId/portal.module').then(m => m.PortalModule),
           },
           {
             path: 'generalSettings',

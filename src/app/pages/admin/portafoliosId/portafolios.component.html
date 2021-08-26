@@ -21,9 +21,40 @@
       <div>
 
         <h3  class="mb-0">Paso 2. Administración Portafolios</h3> 
-        <ng-template #popTemplate3><div [innerHtml]="html"></div></ng-template>
-        <ng-template #popTemplate4><div [innerHtml]="html2"></div></ng-template>
-        <ng-template #popTemplate5><div [innerHtml]="html3"></div></ng-template>
+        <ng-template #popTemplate3><div>
+          <ol style="list-style: auto; margin-left:2px; margin-top:8px">
+            <li> <p>Carga los archivos de los portafolios a gestionar, presionando el botón.            </p></li>
+            <li>El archivo no debe contener espacios vacíos.            </li>
+            <li>El archivo debe estar en formato csv.            </li>
+          </ol>
+        </div></ng-template>
+        <ng-template #popTemplate4><div>
+          
+          <ol style="list-style: auto; margin-left:2px; margin-top:8px">
+            <li>Selecciona los campos  para la segmentación, la comunicación y el portal del cliente. También puedes indicar los campos que corresponden al aval. </li>
+            <li>Este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestión.            </li>
+            <li>Campos que se usan p.e. para la segmentación son: días de morosidad, monto cartera vencida o riesgo, estado, producto etc.</li>
+            <li>Campos que se usan p.e para la comunicación son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto.            </li>
+            <li>Campos que se usan p.e para el portal del cliente son: Nombre, producto, identificador crédito, detalle cartera vencida, producto, identificador crédito, detalle cartera vencida.</li>
+            <li>En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono            </li>
+          </ol>
+        </div></ng-template>
+        <ng-template #popTemplate5><div>
+          <ol style="list-style: auto; margin-left:2px; margin-top:8px">
+            <li> Carga en Collection Robot información valiosa para optimizar la gestión y recursos. Todos archivos siempre deben estar en formato csv.
+            </li>
+          </ol>
+          <p><b>Promesas de Pago:</b> Sube las  promesas de pago que obtienes para que Collection Robot considere  y suspenda el envío de comunicación hasta obtener información sobre el cumplimiento del pago. El archivo a cargar debe contener los campos de Identificador cliente, Fecha de Promesa y
+            Monto de promesa. 
+            </p>
+            <p><b>Pagos:</b> Actualiza los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envió de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago
+            </p>
+            <p><b>Formato:</b> Identificador cliente, Fecha de Pago, Monto de pago
+            </p>
+            <p><b>Resultados de Gestión:</b>
+              Formato: Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
+              </p>
+        </div></ng-template>
         <h6 class="mb-0">1. Alta de Portafolio de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
           [popover]="popTemplate3"
           placement="right"
@@ -107,7 +138,7 @@
         </button>
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+      <table @stagger [dataSource]="dataSource" class="w-full table1" mat-table matSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -140,8 +171,14 @@
 
          <!-- Boolean Columns -->
          <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-template #popTemplate19><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
           <ng-container *ngIf="column.type === 'boolean'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate19"
+              placement="right"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
               <div class="flex">
                 <a  *ngIf="row[column.property]==true" 
@@ -162,23 +199,44 @@
 
         <!-- Text Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-template #popTemplate18><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
+
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate18"
+              placement="right"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
           </ng-container>
         </ng-container>
         <!-- Date Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-template #popTemplate17><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
+
           <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate17"
+              placement="right"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] | date : "dd-MM-yy"}}</td>
           </ng-container>
         </ng-container>
 
          <!-- Text Columns Objects-->
          <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-template #popTemplate16><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
+
           <ng-container *ngIf="column.type === 'object'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate16"
+              placement="right"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.object][column.property] }}</td>
           </ng-container>
         </ng-container>

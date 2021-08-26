@@ -16,9 +16,34 @@
       </mat-button-toggle-group-->
       <div>
 
-        <h3>Paso 1.- Administración de Financieras</h3> 
-        <ng-template #popTemplate><div [innerHtml]="html"></div></ng-template>
-        <ng-template #popTemplate2><div [innerHtml]="html2"></div></ng-template>
+        <h3>Paso 1. Administración de Financieras</h3> 
+        <ng-template #popTemplate><div>
+          <!--button (click)="closeB()"
+          class="ml-4"
+          color="primary"
+          class="closeB"
+          fxFlex="none"
+          mat-mini-fab
+          type="button">
+          <mat-icon [icIcon]="icClose"></mat-icon>
+    
+        </button-->
+
+          <ol style="list-style: auto; margin-left:2px; margin-top:8px">
+            <li> <p>Presionando el botón <img src="https://documents-cr.s3.us-west-2.amazonaws.com/Captura%20de%20Pantalla%202021-08-13%20a%20la%28s%29%208.01.30.png" class="avatar h-8 w-8 align-middle">puedes dar de alta una financiera nueva, indicando el nombre de la financiera y los datos de contacto. Solo el administrador puede realizar la configuración.</p></li>
+            <li>Además puedes subir el logo de la financiera que se usara también para el portal del cliente y las comunicaciones.</li>
+          </ol>
+        </div></ng-template>
+       
+        <ng-template #popTemplate2><div>
+          <!--button class="text-secondary closeB"  color="primary"  mat-mini-fab  mat-icon-button type="button">
+            <mat-icon [icIcon]="icClose"></mat-icon>
+          </button-->
+          <ol style="list-style: auto; margin-left:2px; margin-top:8px">
+            <li> Selecciona los métodos de pago que la financiera ofrece a sus clientes a través del portal de pago el cual le puedes hacer llegar al cliente a través de la comunicación para indicar como pagar su saldo vencido 
+            </li>
+          </ol>
+        </div></ng-template>
         <h6>1. Alta y Administración de Financiera que asigna portafolio.<mat-icon class="pt-1" [icIcon]="icInfo" 
           [popover]="popTemplate"
           placement="right"
@@ -39,7 +64,7 @@
     <div class="card overflow-auto -mt-16">
       <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
         <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-          <span *ngIf="selection.isEmpty()">Financieras</span>
+          <span *ngIf="selection.isEmpty()">Financiera</span>
           <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
             Financiera<span *ngIf="selection.selected.length > 1">s</span> seleccionadas</span>
         </h2>
@@ -123,19 +148,41 @@
 
         <!-- Boolean Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-template #popTemplate12><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
+
           <ng-container *ngIf="column.type === 'boolean'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate12"
+              placement="top"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
               <div class="flex">
-                <a  *ngIf="row[column.property]==true" 
-                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-green bg-green-light"
-                  mat-stroked-button>
-                  {{ row[column.property]==true?"Si":"No"}}
+                <a  *ngIf="row[column.property]==true && column.property !='status'" 
+                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-green bg-green-light"
+                  mat-icon-button>
+                  <mat-icon [icIcon]="icCheck" size="18px"></mat-icon>
                 </a>
-                <a   *ngIf="row[column.property]==false" 
-                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-red bg-red-light"
+                <a   *ngIf="row[column.property]==false && column.property !='status'" 
+                  class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-red bg-red-light"
+                  mat-icon-button>
+                  <mat-icon [icIcon]="icNo" size="18px"></mat-icon>
+                </a>
+                <a  *ngIf="!row[column.property] && column.property =='status'" 
+                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-red bg-red-light"
+                mat-stroked-button>
+                Inavctivo
+              </a>
+              <a  *ngIf="row[column.property]==true && column.property =='status'" 
+                  class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-green bg-green-light"
                   mat-stroked-button>
-                  {{ row[column.property]==true?"Si":"No"}}
+                  {{ row[column.property]==true?"Activo":"Inavctivo"}}
+                </a>
+                <a   *ngIf="row[column.property]==false && column.property =='status'" 
+                  class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-red bg-red-light"
+                  mat-stroked-button>
+                  {{ row[column.property]==true?"Activo":"Inavctivo"}}
                 </a>
               </div>
              
@@ -153,8 +200,14 @@
 
         <!-- Text Columns -->
         <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-template #popTemplate11><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate11"
+              placement="top"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
           </ng-container>
         </ng-container>
@@ -247,6 +300,11 @@
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Portafolios">
               <mat-icon [icIcon]="icPortafolio" size="18px"></mat-icon>
+              </a>
+              <a (click)="$event.stopPropagation(); active(row._id)"
+              class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
+              mat-icon-button matTooltip="Activar Portafolio">
+              <mat-icon [icIcon]="icActive" size="18px"></mat-icon>
               </a>
             </div>
             

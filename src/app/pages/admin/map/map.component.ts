@@ -14,6 +14,7 @@ import { MapUpdateComponent } from './map-update/map-update.component';
 import icEdit from '@iconify/icons-ic/twotone-edit';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icLoad from '@iconify/icons-ic/arrow-drop-down-circle';
+import icBack from '@iconify/icons-ic/arrow-back';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icAdd from '@iconify/icons-ic/twotone-add';
 import icUpload from '@iconify/icons-ic/file-upload';
@@ -34,6 +35,7 @@ import * as XLSX from 'xlsx';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {Services} from '../../../Services/services'
+import { type } from 'os';
 
 @UntilDestroy()
 @Component({
@@ -82,6 +84,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icDelete = icDelete;
   icLoad=icLoad;
+  icBack=icBack;
   icAdd = icAdd;
   icUpload=icUpload;
   icFilterList = icFilterList;
@@ -90,6 +93,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   agency_id=this.client.agency_id;
+  active=false
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   //@ViewChild(MatSort, { static: true }) sort: MatSort;
   portafolio_id = this.route.snapshot.params.id;
@@ -144,8 +148,28 @@ export class MapComponent implements OnInit, AfterViewInit {
     this.searchCtrl.valueChanges.pipe(
       untilDestroyed(this)
     ).subscribe(value => this.onFilterChange(value));
-  }
 
+
+
+    //console.log("CREAR Mapa", this.portafolio_id)
+   
+   
+  
+   
+   // Call the function while passing in an array of your choice.
+  
+  }
+ randomArray = [3, 5, 1, 5, 7,];
+  // Create an empty array.
+  arrayOfArrays = [];
+ splitArray( array ) {
+    while (array.length > 0) {
+        let arrayElement = array.splice(0,50);
+        this.arrayOfArrays.push(arrayElement);
+    }
+     console.log(this.arrayOfArrays)
+    return this.arrayOfArrays;
+}
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     //this.dataSource.sort = this.sort;
@@ -164,6 +188,10 @@ export class MapComponent implements OnInit, AfterViewInit {
 
     return keys;
 
+  }
+
+  back(){
+    this.router.navigate(['/admin/portafolios']);
   }
   
   createMapeo() {
@@ -237,6 +265,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
   created='';
   update='';
+  type='string'
   getDataMap(){
     this.Services.getDataMap(this.portafolio_id)
     .subscribe(
@@ -252,7 +281,14 @@ export class MapComponent implements OnInit, AfterViewInit {
               this.datos=keys;
               this.columns=[];
               this.datos.forEach(element => {
-               //console.log(element)
+                console.log(element)
+                this.type = typeof this.dataSourceUpload[0][element.toString()]
+                console.log("----type-----",this.type)
+                let isValidDate = Date.parse(this.dataSourceUpload[0][element.toString()]);
+                if (isNaN(isValidDate)) {
+                  this.type = "date"
+                }
+                console.log("******Fecha*******",isValidDate)
                 this.columns.push({ label: element.toString(), property: element.toString(), type: 'text', visible: true })
                 this.map.push({
                 datos:element.toString(),
@@ -281,7 +317,7 @@ export class MapComponent implements OnInit, AfterViewInit {
                 this.validations.push({
                   data:element.toString(),
                   status:false,
-                  type:""
+                  type:this.type
                 });
               });
             }
@@ -402,19 +438,24 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   createRegister() {
 
-   //console.log("CREAR Mapa", this.portafolio_id)
+   
+    let array = this.splitArray(this.jsDatos)
 
-    this.Services.createRegister(this.jsDatos,this.portafolio_id)
-    .subscribe(
-        data => {
-          if(data.success){
-           //console.log(data.data)
-            //this.info=data.data
-          }
-        },
-        error => {
-          //this.error=true
-        });
+   array.forEach(element => {
+      console.log(element.length)
+       
+      this.Services.createRegister(element,this.portafolio_id)
+      .subscribe(
+          data => {
+            if(data.success){
+             //console.log(data.data)
+              //this.info=data.data
+            }
+          },
+          error => {
+            //this.error=true
+          });
+   });
 
   }
 
@@ -455,13 +496,14 @@ export class MapComponent implements OnInit, AfterViewInit {
    customerPortal=[]
    validations=[]
   onFileChange(ev) {
+   this.active= true
     let workBook = null;
     let jsonData = null;
     const reader = new FileReader();
     const file = ev.target.files[0];
     reader.onload = (event) => {
       const data = reader.result;
-      workBook = XLSX.read(data, { type: 'binary' });
+      workBook = XLSX.read(data, { type: 'binary' , cellDates: true, dateNF: 'dd/mm/yyyy' });
       workBook.SheetNames.forEach(element => {
         
         //console.log("--",element)
@@ -472,7 +514,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       jsonData = workBook.SheetNames.reduce((initial, name) => {
         this.name=name;
         const sheet = workBook.Sheets[name];
+        console.log("----------------",sheet)
         initial[name] = XLSX.utils.sheet_to_json(sheet);
+        console.log("----------------",initial)
         return initial;
       }, {});
      //console.log(jsonData[this.name])
@@ -480,8 +524,8 @@ export class MapComponent implements OnInit, AfterViewInit {
      //console.log(jsonData.Datos.length)
       this.jsonData=jsonData;
       const dataString = JSON.stringify(jsonData);
-      //console.log(dataString)
-     // document.getElementById('output').innerHTML = jsonData.Datos.length.toString();
+      console.log(dataString)
+      //document.getElementById('output').innerHTML = jsonData.Datos.length.toString();
       //document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
       //this.setDownload(dataString);
       setTimeout(() => {
@@ -495,7 +539,18 @@ export class MapComponent implements OnInit, AfterViewInit {
           this.datos=keys;
           this.columns=[];
           this.datos.forEach(element => {
-           //console.log(element)
+            console.log(element)
+                this.type = typeof jsonData.Datos[0][element.toString()]
+                console.log("----type-----",this.type)
+                if(this.type =="object"){
+
+                  let isValidDate = Date.parse(jsonData.Datos[0][element.toString()]);
+                  console.log("----isValidDate-----",isValidDate)
+                  if (!isNaN(isValidDate)) {
+                    this.type = "date"
+                  }
+                }
+                console.log("----type-----",this.type)
             this.columns.push({ label: element.toString(), property: element.toString(), type: 'text', visible: true })
             this.map.push({
             datos:element.toString(),
@@ -522,10 +577,11 @@ export class MapComponent implements OnInit, AfterViewInit {
               data:element.toString(),
               status:false
             });
+            
             this.validations.push({
               data:element.toString(),
-              status:false,
-              type:""
+              status: this.type == null?false: true,
+              type:this.type 
             });
           });
         }
@@ -535,6 +591,10 @@ export class MapComponent implements OnInit, AfterViewInit {
       }, 300);
     }
     reader.readAsBinaryString(file);
+    setTimeout(() => {
+      this.active= false
+   //},60000);
+    },300)
   }
   create(){
     let body={

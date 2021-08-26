@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import icClose from '@iconify/icons-ic/twotone-close';
+import icNo from '@iconify/icons-ic/twotone-stop-circle';
 import { TableColumn } from '../../../../@vex/interfaces/table-column.interface';
 import { aioTableData, aioTableLabels } from '../../../../static-data/aio-table-data';
 import { CustomerCreateUpdateComponent } from './customer-create-update/customer-create-update.component';
@@ -17,6 +19,8 @@ import icInfo from '@iconify/icons-ic/info';
 import icSearch from '@iconify/icons-ic/twotone-search';
 import icPortafolio from '@iconify/icons-ic/twotone-folder';
 import icAdd from '@iconify/icons-ic/twotone-add';
+import icCheck from '@iconify/icons-ic/check-circle';
+import icActive from '@iconify/icons-ic/star';
 import icFilterList from '@iconify/icons-ic/twotone-filter-list';
 import { SelectionModel } from '@angular/cdk/collections';
 import icMoreHoriz from '@iconify/icons-ic/twotone-more-horiz';
@@ -32,6 +36,7 @@ import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
 
 import {Services} from '../../../Services/services'
+import { is } from 'date-fns/locale';
 
 
 @UntilDestroy()
@@ -64,7 +69,9 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   data$: Observable<Customer[]> = this.subject$.asObservable();
   customers: Customer[];
   CustomersList:[];
-
+  html11="<p>Nombre del Portafolio.</p>"
+  html12="<p>No. De Registros que contiene.  </p>"
+  html13="<p>Muestra si hay o no un método de pago seleccionado.  </p>"
 
 
   @Input()
@@ -72,9 +79,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Imagen', property: 'image', type: 'image', visible: true },
     { label: 'Financiera', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Portafolios', property: 'countPortafilio', type: 'text', visible: true },
-    { label: 'Registros', property: 'countData', type: 'text', visible: true },
-    { label: 'Método de Pago', property: 'paymentMethod',  type: 'boolean', visible: true },
+    { label: 'Portafolios', property: 'countPortafilio', type: 'text', visible: true,info: true, text: this.html11  },
+    { label: 'Registros', property: 'countData', type: 'text', visible: true,info: true, text: this.html12  },
+    { label: 'Método de Pago', property: 'paymentMethod',  type: 'boolean', visible: true ,info: true, text: this.html13 },
+    { label: 'Estatus', property: 'status',  type: 'boolean', visible: true  },
     { label: 'RFC', property: 'RFC', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Tipo', property: 'type', type: 'text', visible: false },
     { label: 'E-mail', property: 'email', type: 'text', visible: false },
@@ -104,8 +112,12 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   icSearch = icSearch;
   icPortafolio=icPortafolio;
   icDelete = icDelete;
+  icClose=icClose
+  icNo=icNo
   icInfo=icInfo;
   icAdd = icAdd;
+  icCheck=icCheck
+  icActive= icActive
   icFilterList = icFilterList;
   icMoreHoriz = icMoreHoriz;
   icFolder = icFolder;
@@ -133,11 +145,18 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     //console.log("-->",list)
     return of(list.map(customer => customer));
   }
-  html = `
-  <p> <b>1. </b> Presionando el boton + puedes dar de alta una financiera nueva, indicando el nombre de la financiera y los datos de contacto.
-  </p>
-  <p> <b>2. </b> Ademas puedes subir el logo de la financiera que se usara tambien para el portal del cliente y las comunicaciones. 
-  </p>
+  html = `<div>
+  
+  <ol style="list-style: auto; margin-left:10px">
+          <li>Suggest input as it’s typed (refreshing suggestions with each keystroke)</li>
+          <li>Fill a field with default input text</li>
+          <li>Pressing the return button accepts the current autocomplete suggestion.</li>
+        </ol>
+  </div>
+  <p> <b>1. </b> Presionando el botón <img src="https://documents-cr.s3.us-west-2.amazonaws.com/Captura%20de%20Pantalla%202021-08-13%20a%20la%28s%29%208.01.30.png" class="avatar h-8 w-8 align-middle"> puedes dar de alta una financiera nueva, indicando el nombre de la financiera y los datos de contacto. Solo el administrador puede realizar la configuración. 
+</p>
+  <label> <b>2. </b> <p>Además puedes subir el logo de la financiera que se usara también para el portal del cliente y las comunicaciones. 
+  </p></label>
   `;
 
   html2 = `
@@ -149,6 +168,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   </p> 
     `;
 
+  closeB(){
+  }
   getAgency() {
     this.Services.getAgency(this.client.agency_id)
     .subscribe(
@@ -204,7 +225,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.sort = this.sort;
     //console.log("-->",this.dataSource)
   }
 
@@ -313,5 +334,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
   portafolios(id){
     this.router.navigate(['/admin/portafoliosId/'+id]);
+  }
+  active(id){
+    console.log(id)
   }
 }
