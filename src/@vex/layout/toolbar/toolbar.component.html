@@ -115,6 +115,19 @@
         type="button"><mat-icon class="text-xl"[icIcon]="icGrhap"></mat-icon>5. Estrategia de Gestión
 
     </button>
+    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
+    <button *ngIf="isHorizontalLayout$ | async"
+        class="px-1"
+        [fxHide]="mobileQuery"
+        color="{{color6}}"
+        mat-button
+        (click)="href('/admin/portal')"
+        style="font-size: x-small;"
+        [class.bg-accent-light]="color6=='accent'"
+        [class.bg-primary-light]="color6=='primary'"
+        type="button"><mat-icon class="text-xl"[icIcon]="icCompu"></mat-icon>6. Portal
+
+    </button>
     
 
 

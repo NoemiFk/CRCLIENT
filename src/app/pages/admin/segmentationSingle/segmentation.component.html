@@ -11,7 +11,7 @@
   <vex-page-layout-content vexContainer>
     <div class="card p-6">
       <h2 class="m-0 title mb-6">Información General</h2>
-      <div class="flex flex-col sm:flex-row">
+      <div class="flex flex-col sm:flex-row" *ngIf="generalP">
         <table mat-table [dataSource]="generalP" class="mat-elevation-z8 text-center"  style="width: 100%;">
 
           <ng-container matColumnDef="Cliente">
@@ -27,7 +27,20 @@
             <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.registros}} </b></td>
           </ng-container>
           <ng-container matColumnDef="Segmentación">
-            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Segmentación</b>  </th>
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Registros Segmentados</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.segmentado}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="segmentado">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b> % Segmentado</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.segmentado}} </b></td>
+          </ng-container>
+
+          <ng-container matColumnDef="no_sgmentado">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Registros No Segmentados</b>  </th>
+            <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.segmentado}} </b></td>
+          </ng-container>
+          <ng-container matColumnDef="porcentaje">
+            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>% no Segmentado</b>  </th>
             <td mat-cell *matCellDef="let element" class="text-center" > <b> {{element.segmentado}} </b></td>
           </ng-container>
         
@@ -49,8 +62,8 @@
           <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
         </mat-form-field>
       </div>
-      <div class="flex flex-col sm:flex-row">
-         
+      <div class="flex flex-col sm:flex-row" *ngIf="segment">
+        
         <div class="flex flex-auto flex-col mr-2 ml-2" *ngFor="let seg of segment.segmentation" style="width: 30%;">
           <table mat-table [dataSource]="[seg]" class="mat-elevation-z8 text-center"  style="width: 100%;">
 
@@ -70,257 +83,89 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumnsC1"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsC1;"></tr>
           </table>
-        </div>
-         
-     
-
-
-        <!--div class="flex flex-auto flex-col" style="width: 50%;">
-          <table mat-table [dataSource]="generalIF" class="mat-elevation-z8 text-center"  style="width: 100%;">
-            <ng-container matColumnDef="RESUMEN DE PORTAFOLIO">
-              <th mat-header-cell *matHeaderCellDef style="color:black" class="text-sm-left uppercase"> <b>RESUMEN DE PORTAFOLIO</b> </th>
-              <td mat-cell *matCellDef="let element" class="text-sm-left"> <b>{{element.name}}</b>  </td>
-            </ng-container>
-            <ng-container matColumnDef="-">
-              <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b></b>  </th>
-              <td mat-cell *matCellDef="let element" class="text-sm-left uppercase" > <b> {{element.data}} </b></td>
-            </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumnsA1"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumnsA1;"></tr>
-          </table>
-        </div-->
-        
+        </div>     
       </div>
-      <!--div class="flex flex-auto flex-col ml-6" style="width: 50%;">
-        <table mat-table [dataSource]="[]" class="mat-elevation-z8 text-center"  style="width: 100%;">
-          <ng-container matColumnDef="SEGMENTO">
-            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="height: 46px; color: black;"> <b>RESUMEN DE SEGMENTACIÓN</b> </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
-          <ng-container matColumnDef="REGISTROS">
-            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" > <b></b>  </th>
-            <td mat-cell *matCellDef="let element"> {{element.register}} </td>
-          </ng-container>
-          <ng-container matColumnDef="%">
-            <th mat-header-cell *matHeaderCellDef class="text-center uppercase"> <b></b>  </th>
-            <td mat-cell *matCellDef="let element"> {{element.porcent}} </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumnsC1" ></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumnsC1;"></tr>
-        </table>
-        <table mat-table [dataSource]="segment.segmentation" class="mat-elevation-z8 text-center" *ngIf="segment.segmentation.length" style="width: 100%;">
-          <ng-container matColumnDef="SEGMENTO">
-            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="color:black" > <b>SEGMENTO</b> </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
-          <ng-container matColumnDef="REGISTROS">
-            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="color:black" > <b>REGISTROS</b>  </th>
-            <td mat-cell *matCellDef="let element"> {{element.register}} </td>
-          </ng-container>
-          <ng-container matColumnDef="%">
-            <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="color:black" > <b>%</b>  </th>
-            <td mat-cell *matCellDef="let element"> {{element.porcent | number : '1.1-1'}} <b>%</b> </td>
-          </ng-container>
-        
-          <tr mat-header-row *matHeaderRowDef="displayedColumnsC1" style=" height: 49px;" ></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumnsC1;"></tr>
-        </table>
-      </div-->
-      <!--
+      <div class="flex flex-col sm:flex-row mt-6" *ngIf="infoList.length">
+        <div class="flex flex-auto flex-col mr-2 ml-2" *ngFor="let info of infoList | slice:0:5;" style="width: 30%;">
+          <div class="container card-footer" style="font-size: 12px; ">
+            <p><b>{{info.data}}</b></p>
+            <ul >
+              <li *ngFor="let data of info.datos" class="criterio" (click)="newCriteriaActual(info.data, data.A, data.B,info.register)">
+                <b >{{data.range}}</b>
+                ({{data.count}})</li>
+            </ul>
+            <p class="mt-6"><b>Selecciona Rango:</b></p>
+            <div class="flex flex-col sm:flex-row " *ngIf="infoList.length">
 
-        {{segment.segmentation.length}}
-        <div *ngFor="let x of segment.segmentation">
-          {{x.name}}
-          {{x.register}}
-          {{x.porcent}}
+              <input  [(ngModel)]="rangeA" class="w-14">
+              <input  [(ngModel)]="rangeB" class="ml-1 w-14" >
+              <mat-icon [icIcon]="icAdd" class="mr-3" matPrefix></mat-icon>
+            </div>
+          </div>
         </div>
-      -->
-   
-     
-      <!--div class="flex flex-col sm:flex-row">
-        <mat-form-field class="flex-auto mt-6">
-          <mat-label>Descripción</mat-label>
-          <input cdkFocusInitial [(ngModel)]="segmentation.description" matInput>
-  
-          <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-        </mat-form-field>
-      </div-->
+      </div>
+      <div class="flex flex-col sm:flex-row mt-6" *ngIf="infoList.length>5">
+        <div class="flex flex-auto flex-col mr-2 ml-2" *ngFor="let info of infoList | slice:5:10;" style="width: 30%;">
+          <div class="container card-footer" style="font-size: 12px; ">
+            <p><b>{{info.data}}</b></p>
+            <ul >
+              <li *ngFor="let data of info.datos" class="criterio">
+                <b >{{data.range}}</b>
+                ({{data.count}})</li>
+            </ul>
+            <p class="mt-6"><b>Selecciona Rango:</b></p>
+            <div class="flex flex-col sm:flex-row " *ngIf="infoList.length">
+
+              <input  [(ngModel)]="rangeA" class="w-14">
+              <input  [(ngModel)]="rangeB" class="ml-1 w-14" >
+              <mat-icon [icIcon]="icAdd" class="mr-3" matPrefix></mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <div *ngFor="let option of segmentation.criteria;  let i = index;">
         <div class="pt-4 pl-4 pr-4"  fxLayout="row" fxLayoutAlign="space-between center">
 
-          <h5><b>Seleciona criterio de segmentacion</b></h5>
-          <a (click)="delete(i)" color="warn" mat-stroked-button  >ELIMINAR </a>
+          <h5><b>Criterios Selecionados</b></h5>
+          <a (click)="delete(i)" color="warn" mat-stroked-button> ELIMINAR </a>
         </div>
-        <div align="end">
 
-        </div>
-        <br>
+        <div class="flex flex-col sm:flex-row mt-6" >
+          
+          <div class="flex flex-auto"> <b>Crinterio {{i+1}}</b></div>
+          <div class="flex flex-auto">
+            {{option.name}}
+          </div>
+          <div class="flex flex-auto">
+
+          </div>
+          <div class="flex flex-auto">
+            <table mat-table [dataSource]="option.dataSeg" class="mat-elevation-z8 text-center " style="width: 100%;">
         
-        <!--div class="flex flex-col sm:flex-row text-center" *ngIf="datas.data.length">
-          <div class="flex-auto">
-            <b>{{datas.data[0]}}-{{datas.data[1]}}</b>
-            <p><b>33%</b></p>
-            <br>
-            <p>{{datas.lables[0]}} Registros</p>
-          </div>
-          <div class="flex-auto">
-            <b>{{datas.data[1]}}-{{datas.data[2]}}</b>
-            <p><b>33%</b></p>
-            <br>
-            <p>{{datas.lables[1]}} Registros</p>
-          </div>
-          <div class="flex-auto">
-            <b>{{datas.data[2]}}-{{datas.data[3]}}</b>
-            <p><b>33%</b></p>
-            <br>
-            <p>{{datas.lables[2]}} Registros</p>
-          </div>
-          <div class="flex-auto">
-            <b>Sin Información</b>
-            <br>
-            <p>{{ portafolio.register-datas.lables[0]-datas.lables[1]-datas.lables[2]}} Registros</p>
-          </div>
-        </div-->
-        <div class="flex flex-col sm:flex-row">
-          <div class="flex flex-auto flex-col" style="width: 45%;">
+              <ng-container matColumnDef="Registros">
+                <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">Registros</b> </th>
+                <td mat-cell *matCellDef="let element"> {{element.actual}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Datos_Segmentados">
+                <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">Segmentados</b> </th>
+                <td mat-cell *matCellDef="let element"> {{element.info}} </td>
+              </ng-container>
+              <ng-container matColumnDef="Porcentaje">
+                <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">Porcentaje</b> </th>
+                <td mat-cell *matCellDef="let element"> {{element.porcent}} %</td>
+              </ng-container>
+              <ng-container matColumnDef="No_Segmentados">
+                <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">No Segmentados</b> </th>
+                <td mat-cell *matCellDef="let element"> {{element.register}} </td>
+              </ng-container>
             
-              <mat-form-field class="flex-auto">
-                <mat-label>Selecciona Criterio </mat-label>
-                <mat-select  name="criterio1" [(ngModel)]="option.name" (selectionChange)="changeCriterio($event, i)" >
-                  <mat-option *ngFor="let op of segmentacionData" [value]="op"  >
-                    {{op}}
-                  </mat-option>
-                  <!--mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option-->
-                </mat-select>
-          
-                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-              </mat-form-field>
-              <div >
-                <table mat-table [dataSource]="option.dataSource" class="mat-elevation-z8 text-center"  style="width: 100%;">
-          
-                  <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
-                
-                  <!-- Position Column -->
-                  <ng-container matColumnDef="date1">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);" ng-if="displayedColumnsNew[0] == date1"> <b>{{displayedColumnsNew[0]}}</b> </th>
-                    <td mat-cell *matCellDef="let element"> {{element.date1}} </td>
-                  </ng-container>
-                
-                  <!-- Name Column -->
-                  <ng-container matColumnDef="date2">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);" ng-if="displayedColumnsNew == date2"> <b>{{displayedColumnsNew[1]}}</b>  </th>
-                    <td mat-cell *matCellDef="let element"> {{element.date2}} </td>
-                  </ng-container>
-                
-                  <!-- Weight Column -->
-                  <ng-container matColumnDef="date3">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);" ng-if="displayedColumnsNew == date3"> <b>{{displayedColumnsNew[2]}}</b>  </th>
-                    <td mat-cell *matCellDef="let element"> {{element.date3}} </td>
-                  </ng-container>
-                
-                  <!-- Symbol Column -->
-                  <ng-container matColumnDef="date4">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);" ng-if="displayedColumnsNew == date4"> <b>{{displayedColumnsNew[3]}}</b></th>
-                    <td mat-cell *matCellDef="let element"> {{element.date4}} </td>
-                  </ng-container>
-                  <!-- Symbol Column -->
-                  <ng-container matColumnDef="date5">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);" ng-if="displayedColumnsNew == date5"> <b>{{displayedColumnsNew[4]}}</b></th>
-                    <td mat-cell *matCellDef="let element"> {{element.date5}} </td>
-                  </ng-container>
-                
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-              </div>
-              <br>
-              <div class="flex flex-col sm:flex-row" fxLayout="row" fxLayoutAlign="space-between center">
-
-                <mat-form-field class="flex-auto" style="max-width: 135px;">
-                  <mat-label>Segmentación</mat-label>
-                  <mat-select  name="criterio1" [(ngModel)]="option.type" ><!--(selectionChange)="changeSegment($event)" -->
-                    <mat-option value="rank"> Rango</mat-option>
-                    <mat-option value="higher"> Mayor que</mat-option>
-                    <mat-option value="less"> Menor que</mat-option>
-                    <mat-option value="equal"> Igual</mat-option>
-                    <!--mat-option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</mat-option-->
-                  </mat-select>
-            
-                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-                <mat-form-field class="flex-auto ml-6" *ngIf="option.type!='rank'">
-                  <mat-label>Rango A</mat-label>
-                  <input cdkFocusInitial [(ngModel)]="option.rankA" matInput (keydown)="onSearch($event,i)">
-          
-                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-                <mat-form-field class="flex-auto ml-6" style="min-width: 145px;" *ngIf="option.type=='rank'">
-                  <mat-label>Rango A</mat-label>
-                  <input cdkFocusInitial [(ngModel)]="option.rankA" matInput (keydown)="onSearch($event,i)">
-          
-                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-                <mat-form-field class="flex-auto ml-6" style="min-width: 145px;" *ngIf="option.type=='rank'">
-                  <mat-label>Rango B</mat-label>
-                  <input cdkFocusInitial [(ngModel)]="option.rankB" matInput (keydown)="onSearch($event,i)">
-          
-                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-                <!--a (click)="save(i)" color="primary" mat-stroked-button  matTooltip="Agregar" ><mat-icon style="margin-top: 25px;" >add</mat-icon></a-->
-
-                <!--a mat-fab color="accent" aria-label="Example icon button with a bookmark icon" color="primary" mat-stroked-button (click)="save(i)"><mat-icon>add</mat-icon></a-->
-              </div>
-              <!--div  class="flex flex-col sm:flex-row" *ngIf="option.type!='rank'">
-                <mat-form-field class="flex-auto">
-                  <mat-label>Dato</mat-label>
-                  <input cdkFocusInitial [(ngModel)]="option.rankA" matInput>
-          
-                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-                <a mat-fab color="accent" aria-label="Example icon button with a bookmark icon" color="primary" mat-stroked-button (click)="save(i)"><mat-icon>add</mat-icon></a>
-
-              </div-->
-              <div >
-                <table mat-table [dataSource]="option.dataSeg" class="mat-elevation-z8 text-center " style="width: 100%;">
-              
-                  <ng-container matColumnDef="Registros">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">Registros</b> </th>
-                    <td mat-cell *matCellDef="let element"> {{element.actual}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="Datos_Segmentados">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">Segmentados</b> </th>
-                    <td mat-cell *matCellDef="let element"> {{element.info}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="Porcentaje">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">Porcentaje</b> </th>
-                    <td mat-cell *matCellDef="let element"> {{element.porcent}} %</td>
-                  </ng-container>
-                  <ng-container matColumnDef="No_Segmentados">
-                    <th mat-header-cell *matHeaderCellDef class="text-center uppercase " style="background: rgb(1, 90, 167);"> <b class="text-xs">No Segmentados</b> </th>
-                    <td mat-cell *matCellDef="let element"> {{element.register}} </td>
-                  </ng-container>
-                
-                  <tr mat-header-row *matHeaderRowDef="displayedColumnsSEG"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumnsSEG"></tr>
-                </table>
-              </div>
-            
-          
-            
-            </div>
-            <div class="flex-auto flex-col ml-6" style="width: 55%;">
-              <div>
-                <div *ngIf="!option.dataGrhap.chart" class="text-center p-10">
-                  No hay Datos
-                  <mat-spinner class="m-auto" *ngIf="spinner"></mat-spinner>
-               </div>
-               <vex-chart [options]="option.dataGrhap.options" *ngIf="option.dataGrhap.chart" [series]="option.dataGrhap.salesSeries"></vex-chart>
-              </div>
-            </div>
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsSEG"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsSEG"></tr>
+            </table>
+          </div>
         </div>
+        
         
       </div>
       <br>

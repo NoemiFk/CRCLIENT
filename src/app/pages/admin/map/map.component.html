@@ -1,6 +1,6 @@
-<vex-page-layout>
+<vex-page-layout mode="card">
 
-  <vex-page-layout-header class="pb-16" fxLayout="column" fxLayoutAlign="center start">
+  <vex-page-layout-header fxLayout="column" fxLayoutAlign="center start">
     <div [class.container]="layoutCtrl.value === 'boxed'"
          [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
          class="w-full flex flex-col  justify-between"> <!-- sm:flex-row-->
@@ -37,6 +37,10 @@
                 </div>
                 <h3 *ngIf="jsonData.Datos.length && !active">Datos Cargados</h3>
                 <h2 *ngIf="jsonData.Datos.length && !active"> {{jsonData.Datos.length}}</h2>
+                <div id="output" *ngIf="false"></div>
+                <div *ngIf="willDownload && false">
+                  <a id="download"> Download JSON File </a>
+                </div>
               <!--div id="output"></div>
                 <br>
                 <div *ngIf="willDownload">
@@ -45,10 +49,10 @@
                 
             </div>
               <div class="text-right" *ngIf="jsonData.Datos.length && !active">
-                <button mat-raised-button class="primary" matStepperNext>SIGUIENTE</button>
+                <button mat-raised-button class="primary" matStepperNext (click)="createRegister()">SIGUIENTE</button>
               </div>
             </mat-step>
-            <mat-step label="Vista Previa" state="chat">
+            <!--mat-step label="Vista Previa" state="chat">
               <br>
               
               <div class="w-full flex justify-between">
@@ -76,18 +80,7 @@
                     </button>
                   </div>
             
-                  <!--div class="bg-card rounded-full border px-4"
-                       fxFlex="400px"
-                       fxFlex.lt-md="auto"
-                       fxHide.xs
-                       fxLayout="row"
-                       fxLayoutAlign="start center">
-                    <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
-                    <input [formControl]="searchCtrl"
-                           class="px-4 py-3 border-0 outline-none w-full bg-transparent"
-                           placeholder="Buscar..."
-                           type="search">
-                  </div-->
+                  
             
                   <span fxFlex></span>
             
@@ -107,12 +100,7 @@
                 </div>
                 <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort *ngIf="uploadActive">
 
-                  <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
-            
-               
-            
-                  <!-- Text Columns -->
+                 
                   <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
                     <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
                       <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -134,7 +122,7 @@
                 <button mat-button matStepperPrevious>ATRAS</button>
                 <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
               </div>
-            </mat-step>
+            </mat-step-->
             <mat-step label="Mapeo" >
 
               <br>
@@ -160,7 +148,15 @@
                 <div  fxFlex fxLayout="column" style="margin-right:0px">
                   <b class="text-center">Dato</b>
                   <mat-list role="list">
-                    <mat-list-item role="listitem" *ngFor="let column of map"> {{column.datos}}</mat-list-item>
+                    <mat-list-item role="listitem" *ngFor="let column of map">
+                      <p style="display: block;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                      width: 130px;">
+                          {{column.datos}}
+                      </p> 
+                      </mat-list-item>
                   </mat-list>
                 </div>
                 <div  fxFlex fxLayout="column" style="margin-right:0px">
@@ -171,12 +167,12 @@
                       white-space: nowrap;
                       overflow: hidden;
                       text-overflow: ellipsis;
-                      width: 200px;">
+                      width: 130px;">
                           {{column.ejemplo}}
                       </p> </mat-list-item>
                   </mat-list>
                 </div>
-                <div  fxFlex fxLayout="column">
+                <!--div  fxFlex fxLayout="column">
                   <b class="text-center">Análisis</b>
                   <mat-list role="list">
                     <mat-list-item role="listitem" *ngFor="let column of analysis"> 
@@ -186,7 +182,7 @@
                     </mat-checkbox>
                     </mat-list-item>
                   </mat-list>
-                </div>
+                </div-->
                 <div  fxFlex fxLayout="column">
                   <b class="text-center">Segmentación</b>
                   <mat-list role="list">
@@ -244,10 +240,13 @@
                       [(ngModel)]="column.status"
                       >
                     </mat-checkbox>
-                      <select class="sm:ml-6" name="type"  >
+                      <select class="sm:ml-6" name="column.type" [(ngModel)]="column.type">
                         <option value="no">Seleccione uno...</option>
-                        <option value="Email">E-mail</option>
-                        <option value="number">Numero Telefonico</option>
+                        <option value="id">ID Unico</option>
+                        <option value="string">Texto</option>
+                        <option value="number">Cantidad</option>
+                        <option value="email">E-mail</option>
+                        <option value="phone">Numero Telefonico</option>
                         <option value="date">Fecha</option>
                       </select>
                     </mat-list-item>

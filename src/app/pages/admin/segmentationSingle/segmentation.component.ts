@@ -70,6 +70,7 @@ export class SegmentationComponent implements OnInit {
   segmentations: Segmentation[];
   icPerson = icPerson;
   icInfo=icInfo;
+  icAdd=icAdd;
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   constructor( private Services: Services,private router: Router, private route:ActivatedRoute) {
@@ -144,7 +145,7 @@ export class SegmentationComponent implements OnInit {
 
 
   displayedColumnsA1: string[] = ['RESUMEN DE PORTAFOLIO', '-'];
-  displayedColumnsA2: string[] = ['Cliente', 'Portafolio','Registros','Segmentación'];
+  displayedColumnsA2: string[] = ['Cliente', 'Portafolio','Registros','Segmentación','segmentado', 'no_sgmentado', 'porcentaje'];
   displayedColumnsB1: string[] = ['RESUMEN DE SEGMENTACIÓN', '-', '-'];
   displayedColumnsC1: string[] = ['SEGMENTO', 'REGISTROS', '%'];
   generalIF=[{
@@ -187,6 +188,22 @@ export class SegmentationComponent implements OnInit {
       register:0,
       porcent:0,
       query:"",
+    },{
+      name:"",
+      description:"",
+      type:"rank",
+      criteria:[],
+      register:0,
+      porcent:0,
+      query:"",
+    },{
+      name:"",
+      description:"",
+      type:"rank",
+      criteria:[],
+      register:0,
+      porcent:0,
+      query:"",
     }]
   }
   AddCriteria=true
@@ -204,6 +221,20 @@ export class SegmentationComponent implements OnInit {
     
     
   }
+  infoList=[]
+  rangeA=0
+  rangeB=0
+  getSegInfo(id) {
+    this.Services.getSegInfo(id)
+    .subscribe(
+        data => {
+          if(data.success){
+            console.log(data.data)
+            this.infoList=data.data
+          }
+        });
+  }
+  
   onSearch(ev,i){
     console.log(ev,i)
     if(ev.code == "Enter")
@@ -218,7 +249,41 @@ export class SegmentationComponent implements OnInit {
         data => {
           if(data.success){
             this.segment=data.data;
+            if (this.segment.segmentation.length < 1)  {
+              this.segment.segmentation.push({
+                name:"",
+                description:"",
+                type:"rank",
+                criteria:[],
+                register:0,
+                porcent:0,
+                query:"",
+              })
+            }
+            if (this.segment.segmentation.length < 2)  {
+              this.segment.segmentation.push({
+                name:"",
+                description:"",
+                type:"rank",
+                criteria:[],
+                register:0,
+                porcent:0,
+                query:"",
+              })
+            }
+            if (this.segment.segmentation.length < 3)  {
+              this.segment.segmentation.push({
+                name:"",
+                description:"",
+                type:"rank",
+                criteria:[],
+                register:0,
+                porcent:0,
+                query:"",
+              })
+            }
             this.getPortaolio(this.segment.portafolio_id)
+            this.getSegInfo(this.segment.portafolio_id)
             this.getMap(this.segment.portafolio_id)
             //console.log("Segmento",this.segment)
             //console.log("Segmentacion1",data.data.segmentation)
@@ -296,7 +361,7 @@ export class SegmentationComponent implements OnInit {
                    }
                }
                else{
-                 //console.log("_____________Nuevo_____________")
+                 console.log("_____________Nuevo_____________")
 
                }
             }
@@ -320,12 +385,13 @@ export class SegmentationComponent implements OnInit {
           this.portafolio=data.data;
           (this.indexSegmentation==0)
             this.registerTotal=this.portafolio.register
-          //console.log("Portafolio",this.portafolio)
+          console.log("Portafolio",this.segment)
           this.segment.segmentation.forEach(element => {
             //console.log(element.porcent)
             this.value=this.value+element.porcent
             this.bufferValue=this.value
           });
+          console.log("++++",this.segment.segmentation)
           this.generalP=[{
             cliente: this.portafolio.client_id.name,
             portafolio: this.portafolio.name_portafolio,
@@ -380,6 +446,7 @@ export class SegmentationComponent implements OnInit {
   }
   changeCriterio(ev,index){
     //console.log(ev.value,index)
+   
     this.segmentation.criteria[index].name= ev.value
     this.analytics(index)
    /* switch (index) {
@@ -583,7 +650,7 @@ export class SegmentationComponent implements OnInit {
   }
   ultimoQuery={}
   save(x){
-    console.log("sabe")
+    console.log("sabe",x)
     let body={
       "query": {},
       "criterio1": "Riesgo"
@@ -737,7 +804,8 @@ export class SegmentationComponent implements OnInit {
             console.log("Hola--", data)
             if(data.success){
                //console.log(data.data)
-             let info2=data.data;
+             let info2=data.data[0].register;
+             this.infoList=data.data
              console.log("registerActual 2",this.registerActual)
              let actual= this.segmentation.criteria[x].dataSeg[0].actual
              console.log("registerActual 3", actual)
@@ -774,6 +842,7 @@ export class SegmentationComponent implements OnInit {
   }
   getQuery(x){
     let q={}
+    console.log("******",this.segmentation.criteria[x])
     switch (this.segmentation.criteria[x].type) {
       case 'rank':
         q={[this.segmentation.criteria[x].name]: {
@@ -807,7 +876,7 @@ export class SegmentationComponent implements OnInit {
   }
   newCriteria(){
     let criteria=this.segmentation.criteria||[]
-  criteria.push({
+    criteria.push({
       dataInfo:[{}],
       dataGrhap: [],
       dataSeg: [],
@@ -822,6 +891,27 @@ export class SegmentationComponent implements OnInit {
       console.log("Creamos nuevo")
       this.segment.segmentation.push(this.segmentation)
     }
+  }
+  newCriteriaActual(name,A,B,count){
+    let criteria=this.segmentation.criteria||[]
+    criteria.push({
+      dataInfo:[{}],
+      dataGrhap: [],
+      dataSeg: [],
+      dataSource:  [],
+      name: name,
+      percentage: 0,
+      rankA: A,
+      rankB: B,
+      type: "rank"
+    })
+    this.segmentation.criteria=criteria
+    if(!this.segment.segmentation[this.indexSegmentation]){
+      console.log("Creamos nuevo")
+      this.segment.segmentation.push(this.segmentation)
+    }
+    this.segmentation.criteria[criteria.length - 1].dataSeg[0]={actual:count}
+    this.save(criteria.length - 1)
   }
 
   edit(){

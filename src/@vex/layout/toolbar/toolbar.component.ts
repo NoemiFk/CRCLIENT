@@ -95,6 +95,7 @@ export class ToolbarComponent implements OnInit {
   color3="primary"
   color4="primary"
   color5="primary"
+  color6="primary"
   ngOnInit() {
     console.log("Ruta",this.router.url);
     switch (this.router.url) {
@@ -105,6 +106,7 @@ export class ToolbarComponent implements OnInit {
         this.color3="primary"
         this.color4="primary"
         this.color5="primary"
+        this.color6="primary"
         break;
         case "/admin/customers":
         
@@ -113,6 +115,7 @@ export class ToolbarComponent implements OnInit {
           this.color3="primary"
           this.color4="primary"
           this.color5="primary"
+          this.color6="primary"
           break;
       case "/admin/segmentation":
         
@@ -121,6 +124,7 @@ export class ToolbarComponent implements OnInit {
           this.color2="primary"
           this.color4="primary"
           this.color5="primary"
+          this.color6="primary"
           break;
       case "/admin/communication":
         
@@ -129,6 +133,7 @@ export class ToolbarComponent implements OnInit {
           this.color2="primary"
           this.color3="primary"
           this.color5="primary"
+          this.color6="primary"
           break;
       
 
@@ -139,6 +144,17 @@ export class ToolbarComponent implements OnInit {
         this.color2="primary"
         this.color3="primary"
         this.color5="accent"
+        this.color6="primary"
+        break;
+
+        case "/admin/portal":
+    
+        this.color1="primary"
+        this.color4="primary"
+        this.color2="primary"
+        this.color3="primary"
+        this.color5="primary"
+        this.color6="accent"
         break;
     
       default:
@@ -163,6 +179,7 @@ export class ToolbarComponent implements OnInit {
         this.color3="primary"
         this.color4="primary"
         this.color5="primary"
+        this.color6="primary"
         break;
         case "/admin/customers":
         
@@ -171,6 +188,7 @@ export class ToolbarComponent implements OnInit {
           this.color3="primary"
           this.color4="primary"
           this.color5="primary"
+          this.color6="primary"
           break;
       case "/admin/segmentation":
         
@@ -179,6 +197,7 @@ export class ToolbarComponent implements OnInit {
           this.color2="primary"
           this.color4="primary"
           this.color5="primary"
+          this.color6="primary"
           break;
       case "/admin/communication":
         
@@ -187,7 +206,26 @@ export class ToolbarComponent implements OnInit {
           this.color2="primary"
           this.color3="primary"
           this.color5="primary"
+          this.color6="primary"
           break;
+      case "/admin/strategy":
+    
+          this.color1="primary"
+          this.color4="primary"
+          this.color2="primary"
+          this.color3="primary"
+          this.color5="accent"
+          this.color6="primary"
+          break;
+      case "/admin/portal":
+
+        this.color1="primary"
+        this.color4="primary"
+        this.color2="primary"
+        this.color3="primary"
+        this.color5="primary"
+        this.color6="accent"
+        break;
     
       default:
         break;

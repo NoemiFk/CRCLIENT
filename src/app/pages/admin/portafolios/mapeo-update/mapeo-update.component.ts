@@ -92,12 +92,12 @@ export class MapUpdateComponent implements OnInit {
             this.endorsement=data.data.endorsement||[];
             this.validations=data.data.validations
             console.log(this.analysis)
-            this.map.forEach(element => {
+           /* this.map.forEach(element => {
                this.endorsement.push({
                  data:element.toString(),
                  status:false
                });
-              });
+              });*/
             //this.segmentacion=data.data.segmentation
            // this.CustomersList=data.data
             
