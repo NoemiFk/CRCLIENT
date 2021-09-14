@@ -4,19 +4,21 @@
       <div class="dropdown-heading-icon" fxLayout="row" fxLayoutAlign="center center">
         <mat-icon [icIcon]="icPerson"></mat-icon>
       </div>
-      <div class="dropdown-heading">{{client.name}}</div>
+      <div class="dropdown-heading">{{client.email}}</div>
     </div>
 
     <button [matMenuTriggerFor]="settingsMenu"
             mat-icon-button
-            matTooltip="Settings"
+            matTooltip="logout"
             matTooltipPosition="before"
-            type="button">
-      <mat-icon [icIcon]="icSettings" class="notifications-header-icon"></mat-icon>
+            type="button"
+            (click)="close()"
+            >
+      <mat-icon [icIcon]="icExit" class="notifications-header-icon"></mat-icon>
     </button>
   </div>
 
-  <div class="dropdown-content">
+  <!--div class="dropdown-content">
     <a 
        *ngFor="let item of items; trackBy: trackById"
        [routerLink]="item.route"
@@ -34,9 +36,9 @@
       </div>
       <mat-icon [icIcon]="icChevronRight" class="notification-chevron" fxFlex="none"></mat-icon>
     </a>
-  </div>
+  </div-->
 
-  <div class="dropdown-footer" fxLayout="row" fxLayoutAlign="space-between center">
+  <!--div class="dropdown-footer" fxLayout="row" fxLayoutAlign="space-between center">
     <button [matMenuTriggerFor]="statusMenu" class="dropdown-footer-select" mat-button type="button">
       <ng-container *ngFor="let status of statuses; trackBy: trackById">
         <span *ngIf="status === activeStatus">
@@ -47,7 +49,7 @@
       </ng-container>
     </button>
     <a (click)="close()" [routerLink]="['/login']" color="primary" mat-button>LOGOUT</a>
-  </div>
+  </div-->
 </div>
 
 <mat-menu #statusMenu="matMenu" xPosition="before" yPosition="below">

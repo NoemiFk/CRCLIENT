@@ -36,7 +36,7 @@
     <div class="flex flex-col sm:flex-row">
       <mat-form-field class="flex-auto">
         <mat-label>Nombre</mat-label>
-        <input cdkFocusInitial formControlName="name_portafolio" matInput>
+        <input cdkFocusInitial formControlName="name_portafolio"  matInput>
         <mat-error> Debe incluir un nombre</mat-error>
         <mat-icon [icIcon]="icPortafolio" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
@@ -44,7 +44,7 @@
 
         <mat-form-field class="flex-auto">
           <mat-label>Descripción</mat-label>
-          <textarea formControlName="description" matInput></textarea>
+          <textarea formControlName="description" matInput max=10></textarea>
         </mat-form-field>
 
     
@@ -53,7 +53,7 @@
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close type="button">CANCELAR</button>
     <button *ngIf="isCreateMode()" color="primary" mat-button type="submit" [disabled]="form.invalid">AGREGAR PORTAFOLIO</button>
-    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR PORTAFOLIO</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">GUARDAR CAMBIOS</button>
   </mat-dialog-actions>
 </form>
 

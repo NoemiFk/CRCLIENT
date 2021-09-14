@@ -36,10 +36,12 @@ export class RegisterComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.form = this.fb.group({
-      name: ['', Validators.required],
+      //name: ['', Validators.required],
       nameAgency: ['', Validators.required],
       email: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
+      emailConfirm: ['',[Validators.required, Validators.pattern( this.emailPattern)]],
       type: ['', Validators.required],
       phone: [''],
       rfc: [''],
@@ -52,11 +54,19 @@ export class RegisterComponent implements OnInit {
   send() {
     const user = this.form.value;
     if(user.password!=user.passwordConfirm){
-          this.snackbar.open("Error: contraseñas diferentes", 'OK', {
-            duration: 10000
+          this.snackbar.open("Contraseñas no coinciden", 'OK', {
+            duration: 1000,
+            panelClass: ['snackbarWarning']
           });
           return;
     }
+    if(user.email!=user.emailConfirm){
+      this.snackbar.open("E-mails no coinciden", 'OK', {
+        duration: 10000,
+        panelClass: ['snackbarWarning']
+      });
+      return;
+}
    /* if(user.email.includes('hotmail')||user.email.includes('gmail')||user.email.includes('outlook')){
       this.snackbar.open("Error: Ingresa un email corporativo", 'OK', {
         duration: 10000
@@ -64,7 +74,7 @@ export class RegisterComponent implements OnInit {
       return;
     }*/
     let body={
-      name: user.name,
+      //name: user.name,
       nameAgency: user.nameAgency,
       type: user.type,
       email: user.email,
@@ -95,7 +105,8 @@ export class RegisterComponent implements OnInit {
             message = error.error.type;
           this.router.navigate(['/register']);
           this.snackbar.open(message, 'OK', {
-            duration: 10000
+            duration: 10000,
+            panelClass: ['snackbarError']
           });
         });
 

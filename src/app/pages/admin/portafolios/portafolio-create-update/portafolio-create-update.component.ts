@@ -74,8 +74,8 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     this.getCustomersList();
     this.form = this.fb.group({
       type: [''],
-      name_portafolio: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(50)]],
-      description: [''],
+      name_portafolio: ['',[Validators.required,Validators.minLength(2),Validators.maxLength(30)]],
+      description: ['',[Validators.minLength(2),Validators.maxLength(100)]],
       agency_id: [''],
       client_id: ['', [Validators.required]],
     });

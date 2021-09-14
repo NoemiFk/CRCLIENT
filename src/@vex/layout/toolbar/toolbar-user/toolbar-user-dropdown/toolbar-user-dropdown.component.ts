@@ -4,7 +4,7 @@ import { trackById } from '../../../../utils/track-by';
 import icPerson from '@iconify/icons-ic/twotone-person';
 import icSettings from '@iconify/icons-ic/twotone-settings';
 import icAccountCircle from '@iconify/icons-ic/twotone-account-circle';
-import icMoveToInbox from '@iconify/icons-ic/twotone-move-to-inbox';
+import icExit from '@iconify/icons-ic/exit-to-app';
 import icListAlt from '@iconify/icons-ic/twotone-list-alt';
 import icTableChart from '@iconify/icons-ic/twotone-table-chart';
 import icCheckCircle from '@iconify/icons-ic/twotone-check-circle';
@@ -20,6 +20,7 @@ import icNotificationsOff from '@iconify/icons-ic/twotone-notifications-off';
 import { Icon } from '@visurel/iconify-angular';
 import { PopoverRef } from '../../../../components/popover/popover-ref';
 import { AuthenticationService } from '../../../../../app/Services/AuthenticationService';
+import { Router } from '@angular/router';
 
 export interface OnlineStatus {
   id: 'online' | 'away' | 'dnd' | 'offline';
@@ -81,6 +82,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   trackById = trackById;
   icPerson = icPerson;
   icSettings = icSettings;
+  icExit=icExit;
   icChevronRight = icChevronRight;
   icArrowDropDown = icArrowDropDown;
   icBusiness = icBusiness;
@@ -89,6 +91,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   icNotificationsOff = icNotificationsOff;
 
   constructor(private cd: ChangeDetectorRef,
+              private router: Router,
               private AuthenticationService: AuthenticationService,
               private popoverRef: PopoverRef<ToolbarUserDropdownComponent>) { }
 
@@ -104,5 +107,7 @@ export class ToolbarUserDropdownComponent implements OnInit {
   close() {
     this.popoverRef.close();
     this.AuthenticationService.logout()
+    //[routerLink]="['/login']" 
+    this.router.navigate(['/login']);
   }
 }

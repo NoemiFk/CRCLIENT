@@ -67,9 +67,9 @@ export class InvoiceComponent implements OnInit, AfterViewInit {
   @Input()
   columns: TableColumn<Invoice>[] = [
     { label: 'Fecha', property: 'created', type: 'date', visible: true },
-
-    { label: 'Vista Preva', property: 'status', type: 'object', object:'preview', visible: true },
-    { label: 'CFDI', property: 'UUID', type: 'object', object:'invoice', visible: true, cssClasses: ['font-medium'] },
+    { label: 'UUID', property: 'uuid', type: 'object', object:'invoice', visible: true },
+   // { label: 'Vista Preva', property: 'status', type: 'object', object:'preview', visible: true },
+    { label: 'CFDI', property: 'invoice_id', type: 'object', object:'invoice', visible: true, cssClasses: ['font-medium'] },
     { label: 'PPD', property: 'folio',type: 'object', object:'ppd', visible: true }
   ];
   pageSize = 10;

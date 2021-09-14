@@ -1,7 +1,7 @@
 <div>
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
     <h2 class="headline m-0"
-        fxFlex="auto">¡Bienvenido!</h2>
+        fxFlex="auto">¡Gracias por tu registro!  </h2>
   </div>
 
   <mat-divider class="-mx-6 text-border"></mat-divider>
@@ -9,26 +9,30 @@
   <mat-dialog-content fxLayout="column">
    
     <div class="text-center"style="padding: 20px 60px;" *ngIf="agency&&agency.contract.type=='test'"> 
-      <h3>Bienvenido a su prueba gratis de 10 dias de la nueva plataforma Collection Robot.</h3>
+      <h4>
+        Bienvenido al software de gestión de Cobranza Collection Robot
+      </h4>
       <h5>
+        Tienes la oportunidad de probar por 10 días sus funcionalidades
         <br>
-        Gracias por tu registro! Nos encanta que tienes la oportunidad de conocer durante la prueba todas las funcionalides (excepto envio de comunicación digital).
+        (excepto el servicio de envío de comunicación digital) 
         <br>
-        Collection Robot es la solucion mas flexible, economico y eficiente para automatizar y digitalizar tu proceso y estrategia de cobranza.
-    </h5>
+        Collection Robot es una solución tecnológica, flexible, económica para  digitalizar & automatizar tu proceso de cobranza. Te ayuda a incrementar la recuperación y reducir tus costos operativos
+        <br>
+        Antes de que finalicen los 10 días de prueba, debes entrar a la opción del menú “Contrata tu Plan” para continuar disfrutando de los beneficios del Collection Robot
+      </h5>
   </div>
   <div class="text-center"style="padding: 20px 60px;" *ngIf="agency&&agency.contract.type=='pay'"> 
-    <h2>Hola.</h2>
-    <h3>
-    <br>
-     Bienvenido a nuestra palaforma de cobranza <b>Collection Robot</b>, estamos felices de tenerte aquí
-    <br>
-    y esperamos que disfrutes tu plan, dentro de la plataforma podrás realizar 
-    <br>
-    diferentes actividades, que ayudaran a llevar a tu financiera/Agencia a otro nivel.
-  </h3>
-  <h4>Te recordamos que tendrás 10 días naturales para  
-    generar la factura y realizar el pago.</h4>
+    <h4>Bienvenido al software de gestión de Cobranza Collection Robot.</h4>
+    <h5>
+      Te pedimos realizar el pago de la Factura en un plazo no mayor a 10 días, los datos para realizarlo se encuentran en el mail de bienvenida o en el punto del menú: 
+      <br>
+      <b>
+        “Contrata tu plan”  
+      </b>
+      <br>
+      Es importante alimentar los datos adicionales en el punto del menú “Configuración General”
+    </h5>
 </div>
     
   </mat-dialog-content>

@@ -18,7 +18,7 @@ const routes: VexRoutes = [
     loadChildren: () => import('./pages/pages/auth/register/register.module').then(m => m.RegisterModule),
   },
   {
-    path: 'register-pago',
+    path: 'register-pay',
     loadChildren: () => import('./pages/pages/auth/register-pago/register.module').then(m => m.RegisterModule),
   },
   {

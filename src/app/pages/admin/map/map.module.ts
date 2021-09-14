@@ -24,11 +24,15 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatListModule} from '@angular/material/list';
+import { PopoverModule } from 'ngx-bootstrap/popover'
+import { WavesModule } from 'angular-bootstrap-md'
 
 @NgModule({
   declarations: [MapComponent],
   imports: [
     CommonModule,
+    PopoverModule,
+    WavesModule,
     MapRoutingModule,
     MatStepperModule,
     MatSnackBarModule,

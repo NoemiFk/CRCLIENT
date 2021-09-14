@@ -75,9 +75,9 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   selectClient={};
 
   html1="Nombre del Portafolio.  "
-  html2="Verde si cuenta con mapeo y rojo en caso de que no.  "
-  html3="Fecha de la ultima actualización de la información."
-  html4="No. De Registros que contiene.  "
+  html2="Indica si el mapeo esta realizado."
+  html3="Fecha de Carga y/o Actualización del archivo."
+  html4="Indica cuantos clientes morosos (registros) contiene el portafolio."
 
   @Input()
   columns: TableColumn<Portafolio>[] = [
@@ -249,7 +249,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.sort = this.sort;
   }
 
   createPortafolio() {

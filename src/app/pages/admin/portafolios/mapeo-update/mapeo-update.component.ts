@@ -13,7 +13,7 @@ import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import {Services} from '../../../../Services/services'
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import icInfo from '@iconify/icons-ic/info';
 @Component({
   selector: 'vex-mapeo-update',
   templateUrl: './mapeo-update.component.html',
@@ -32,7 +32,7 @@ export class MapUpdateComponent implements OnInit {
   icPrint = icPrint;
   icDownload = icDownload;
   icDelete = icDelete;
-
+  icInfo=icInfo;
   icPerson = icPerson;
   icMyLocation = icMyLocation;
   icLocationCity = icLocationCity;
@@ -54,7 +54,7 @@ export class MapUpdateComponent implements OnInit {
               private Services: Services,
               private snackbar: MatSnackBar) {
   }
-
+  displayedColumnsA2: string[] = ['Dato','Segmentación','Comunicación','Portal','Aval','Validación'];
   portafolio_id="";
   ngOnInit() {
     
@@ -77,6 +77,7 @@ export class MapUpdateComponent implements OnInit {
       this.defaults = {} as Portafolio;
     }
   }
+  table=[]
   getMap(id){
     this.Services.getMap(id)
     .subscribe(
@@ -92,6 +93,19 @@ export class MapUpdateComponent implements OnInit {
             this.endorsement=data.data.endorsement||[];
             this.validations=data.data.validations
             console.log(this.analysis)
+            this.map.forEach((element , i)=> {
+              
+              this.table.push(
+                {
+                  map:element,
+                  segmentation:this.segmentation[i],
+                  strategies:this.strategies[i],
+                  customerPortal:this.customerPortal[i],
+                  endorsement:this.endorsement[i],
+                  validations:this.validations[i]
+                })
+            });
+            console.log(this.table)
            /* this.map.forEach(element => {
                this.endorsement.push({
                  data:element.toString(),
@@ -113,6 +127,7 @@ export class MapUpdateComponent implements OnInit {
   }
 
   saveChange(val,index){
+    console.log("val,index",val,index)
     switch (val) {
       case "analysis":
         console.log(this.analysis[index].status)

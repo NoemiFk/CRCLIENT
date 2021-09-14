@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inp
 import { NavigationDropdown, NavigationItem, NavigationLink } from '../../../interfaces/navigation-item.interface';
 import { dropdownAnimation } from '../../../animations/dropdown.animation';
 import { NavigationEnd, Router } from '@angular/router';
+import pause from '@iconify/icons-ic/stop';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter } from 'rxjs/operators';
 import { NavigationService } from '../../../services/navigation.service';
@@ -23,7 +24,7 @@ export class SidenavItemComponent implements OnInit, OnChanges {
   isOpen: boolean;
   isActive: boolean;
   icKeyboardArrowRight = icKeyboardArrowRight;
-
+  pause=pause;
   isLink = this.navigationService.isLink;
   isDropdown = this.navigationService.isDropdown;
   isSubheading = this.navigationService.isSubheading;

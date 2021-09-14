@@ -11,8 +11,14 @@ export class WidgetAssistantComponent implements OnInit {
   icCheckCircle = icCheckCircle;
 
   constructor() { }
+  days=localStorage.getItem('days')
+  x = true;
+  //days=10
 
   ngOnInit() {
+    this.x= true
+    console.log(this.days)
+    
   }
 
 }

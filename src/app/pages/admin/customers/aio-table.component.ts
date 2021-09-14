@@ -69,9 +69,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   data$: Observable<Customer[]> = this.subject$.asObservable();
   customers: Customer[];
   CustomersList:[];
-  html11="<p>Nombre del Portafolio.</p>"
-  html12="<p>No. De Registros que contiene.  </p>"
-  html13="<p>Muestra si hay o no un método de pago seleccionado.  </p>"
+  html11="<p>No. De Portafolios de la financiera.</p>"
+  html12="<p>Indica cuantos clientes morosos (registros) contiene el portafolio. </p>"
+  html13="<p>Indica si hay un metodo de pago alimentado para incluir en la comunicación.</p>"
+  html14="<p>Indica si hay una opcion de pago en linea configurada para realizar pagos en linea.  </p>"
 
 
   @Input()
@@ -81,8 +82,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
     { label: 'Financiera', property: 'name', type: 'text', visible: true, cssClasses: ['font-medium'] },
     { label: 'Portafolios', property: 'countPortafilio', type: 'text', visible: true,info: true, text: this.html11  },
     { label: 'Registros', property: 'countData', type: 'text', visible: true,info: true, text: this.html12  },
-    { label: 'Método de Pago', property: 'paymentMethod',  type: 'boolean', visible: true ,info: true, text: this.html13 },
-    { label: 'Estatus', property: 'status',  type: 'boolean', visible: true  },
+    //{ label: 'Método de Pago', property: 'paymentMethod',  type: 'boolean', visible: true ,info: true, text: this.html13 },
+    { label: 'Pago en línea', property: 'status',  type: 'boolean', visible: true,info: true, text: this.html14  },
     { label: 'RFC', property: 'RFC', type: 'text', visible: false, cssClasses: ['text-secondary', 'font-medium'] },
     { label: 'Tipo', property: 'type', type: 'text', visible: false },
     { label: 'E-mail', property: 'email', type: 'text', visible: false },

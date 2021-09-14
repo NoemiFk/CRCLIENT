@@ -10,6 +10,8 @@ import {Services} from '../../../Services/services'
 import { MatDialog } from '@angular/material/dialog';
 import {CustomerUpdateComponent} from './customer-update/customer-update.component'
 import { from } from 'rxjs';
+import icStar from '@iconify/icons-ic/twotone-check';
+import icStarBorder from '@iconify/icons-ic/twotone-check-box-outline-blank';
 import { Router } from '@angular/router';
 @Component({
   selector: 'vex-pricing',
@@ -24,9 +26,47 @@ export class PricingComponent implements OnInit {
 
   icBeenhere = icBeenhere;
   icStars = icStars;
+  icStar = icStar;
+  icStarBorder=icStarBorder;
   icBusinessCenter = icBusinessCenter;
   icPhoneInTalk = icPhoneInTalk;
   icMail = icMail;
+  proveedores=[
+    
+    {
+      id:2,
+      image:"assets/SMS.png",
+      name:"SMS",
+      active:false,
+      price:0.2,
+      range:"Entrega exitosa"
+    },
+    {
+      id:2,
+      image:"assets/email.png",
+      name:"EMAIL",
+      active:false,
+      price:0.2,
+      range:null
+    },
+    {
+      id:1,
+      image:"assets/blaster.png",
+      name:"MENSAJE DE VOZ",
+      active:false,
+      price:0.2,
+      range:"Entrega exitosa"
+    },
+    
+    {
+      id:2,
+      image:"assets/WhatsApp.png",
+      name:"CARTA",
+      active:false,
+      price:5,
+      range:null
+    }
+  ]
 
   info_admin=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_admin);
@@ -52,7 +92,13 @@ export class PricingComponent implements OnInit {
     }, 1000);
     
   }
-  
+  emitToggleStar(event: MouseEvent,index) {
+    event.stopPropagation();
+    if(this.proveedores[index].active)
+      this.proveedores[index].active=false;
+    else
+      this.proveedores[index].active=true;
+  }
   getAgency() {
    //console.log("Clientt",this.client.agency_id)
     this.Services.getAgency(this.client.agency_id)

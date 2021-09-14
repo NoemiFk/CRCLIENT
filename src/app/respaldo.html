@@ -1,0 +1,130 @@
+<div class="w-full flex justify-between">
+    <p class="flex-1">En esta etapa se debe realizar el mapeo de los campos del portafolio. El mapeo es necesario para seleccionar los campos que se requieren para las diferentes funcionalidades; recomendación para el Mapeo: </p>
+    <button mat-raised-button color="primary" matStepperNext (click)="create()">GUARDAR MAPEO</button>
+  </div>
+  <br>
+  <div>
+    <p><b>1.</b>	Análisis y Segmentación: Seleccionar campos como Cartera Vencida, Por vencer, Fecha último pago, Estado, Producto evitar campos como nombre del cliente, dirección, Fecha de Nacimiento.</p>
+    <p><b>2.</b>	Comunicación: Seleccionar campos para personalización como nombre, dirección, cartera vencida, numero de cliente o contrato, referencia de pago </p>
+    <p><b>3.</b>	Portal: Seleccionar campos que el cliente puede visualizar como el desglose de su cartera vencida, nombre, numero de cliente o contrato, referencia de pago.</p>
+    <p><b>4.</b>	Aval: Seleccionar campos relacionados con el aval, Nombre, Dirección. </p>
+    <p><b>5.</b>	El formato del campo puede ser editado en la columna “Validación” en los casos como por ejemplo el teléfono o  email.</p>
+    <p><b>IMPORTANTE:</b> Se debe considerar seleccionar el formato “Id Unico” para aquel campo que va a ser  el identificador en todos los pasos de gestión, estos podrían ser: No. De Contrato, No. De Cliente etc.</p>
+  </div>
+  <br>
+  <div class="card overflow-auto" style="max-height: 500px;">
+    <div class="my-12 container"
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayoutAlign="start start"
+    fxLayoutAlign.xs="start stretch"
+    fxLayoutGap="10px">
+    <div  fxFlex fxLayout="column" style="margin-right:0px">
+      <b class="text-center">Dato</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of map">
+          <p style="display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 130px;">
+              {{column.datos}}
+          </p> 
+          </mat-list-item>
+      </mat-list>
+    </div>
+    <div  fxFlex fxLayout="column" style="margin-right:0px">
+      <b class="text-center">Ejemplo</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of map">
+          <p style="display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 130px;">
+              {{column.ejemplo}}
+          </p> </mat-list-item>
+      </mat-list>
+    </div>
+    <!--div  fxFlex fxLayout="column">
+      <b class="text-center">Análisis</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of analysis"> 
+          <mat-checkbox class="example-margin w-full text-center"
+          
+          [(ngModel)]="column.status">
+        </mat-checkbox>
+        </mat-list-item>
+      </mat-list>
+    </div-->
+    <div  fxFlex fxLayout="column">
+      <b class="text-center">Segmentación</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of segmentation"> 
+          <mat-checkbox class="example-margin w-full text-center"
+          
+          [(ngModel)]="column.status"
+          >
+        </mat-checkbox>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div  fxFlex fxLayout="column">
+      <b class="text-center">Comunicación</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of strategies"> 
+          <mat-checkbox class="example-margin w-full text-center"
+          
+          [(ngModel)]="column.status"
+          >
+        </mat-checkbox>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div  fxFlex fxLayout="column">
+      <b class="text-center">Portal</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of customerPortal"> 
+          <mat-checkbox class="example-margin w-full text-center"
+          
+          [(ngModel)]="column.status"
+          >
+        </mat-checkbox>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div  fxFlex fxLayout="column">
+      <b class="text-center">Aval</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of endorsement"> 
+          <mat-checkbox class="example-margin w-full text-center"
+          
+          [(ngModel)]="column.status"
+          >
+        </mat-checkbox>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div  fxFlex fxLayout="column">
+      <b class="text-center">Validación</b>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let column of validations"> 
+          <mat-checkbox class="example-margin w-full text-center"
+          
+          [(ngModel)]="column.status"
+          >
+        </mat-checkbox>
+          <select class="sm:ml-6" name="column.type" [(ngModel)]="column.type">
+            <option value="no">Seleccione uno...</option>
+            <option value="id">ID Unico</option>
+            <option value="string">Texto</option>
+            <option value="number">Cantidad</option>
+            <option value="email">E-mail</option>
+            <option value="phone">Numero Telefonico</option>
+            <option value="date">Fecha</option>
+          </select>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    </div>
+  </div>

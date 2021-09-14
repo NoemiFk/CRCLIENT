@@ -120,20 +120,22 @@ export class RegisterComponent implements OnInit {
     //   secondCtrl: ['']
     // });
     this.form = this.fb.group({
-      name: ['', Validators.required],
+      name: [''],
       nameAgency: ['', Validators.required],
       type: [ '',Validators.required],
       bussinesName: [ '',Validators.required],
       cfdiUse: [ 'P01'],
       paymentForm:['03'],
       email: ['', [Validators.required,Validators.pattern(this.emailPattern)]],
-      email1: [''],
-      email2: [''],
+      emailConfirm: ['', [Validators.required,Validators.pattern(this.emailPattern)]],
+      email1: ['', [Validators.required,Validators.pattern(this.emailPattern)]],
+      email2: ['', [Validators.required,Validators.pattern(this.emailPattern)]],
       phone: [''],
       rfc: ['', Validators.required],
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required],
-      terms:['',Validators.requiredTrue]
+      terms:['',Validators.requiredTrue],
+      add:['',Validators.requiredTrue]
     });
   }
 
@@ -147,6 +149,13 @@ export class RegisterComponent implements OnInit {
           });
           return;
     }
+    if(user.email!=user.emailConfirm){
+      //this.router.navigate(['/login']);
+      this.snackbar.open("Error: email diferentes", 'OK', {
+        duration: 10000
+      });
+      return;
+}
     let body={
       name: user.name,
       email: user.email,
@@ -195,7 +204,7 @@ export class RegisterComponent implements OnInit {
             let agencyA=data.data
            //console.log("----",agencyA)
             localStorage.setItem('Agency', JSON.stringify(agencyA));
-            this.getPlan(agencyA.contract.plan_id);
+            //this.getPlan(agencyA.contract.plan_id);
           }
         },
         error => {

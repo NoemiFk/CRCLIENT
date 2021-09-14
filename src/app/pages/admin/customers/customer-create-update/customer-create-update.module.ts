@@ -17,9 +17,13 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { PopoverModule } from 'ngx-bootstrap/popover'
+import { WavesModule } from 'angular-bootstrap-md'
 @NgModule({
   imports: [
     MatDatepickerModule,
+    PopoverModule,
+    WavesModule,
     MatSnackBarModule,
     FormsModule,
     MatNativeDateModule,

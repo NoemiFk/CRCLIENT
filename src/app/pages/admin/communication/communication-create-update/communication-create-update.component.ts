@@ -96,7 +96,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
       portafolio: "Clientes Morosos"
     }]
 
-
+  this.onLabelChange({value:"Client"})
   }
   character=0
   cuanti(){
@@ -141,9 +141,11 @@ export class CommunicationCreateUpdateComponent implements OnInit {
           console.log("getMap ", data)
           if(data.success){
             data.data.strategies.forEach(element => {
-              if(element.status)
+              if(element.status){
+                console.log("---", element)
                 this.communicationData3.push(element.data)
                 this.communicationData.push(element.data)
+              }
                 
             });
             data.data.endorsement.forEach(element => {

@@ -56,6 +56,11 @@
         <input cdkFocusInitial [(ngModel)]="name" matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
+      <mat-form-field class="flex-auto ml-6 ">
+        <mat-label>Descripción</mat-label>
+        <input cdkFocusInitial [(ngModel)]="description" matInput>
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
       <!--mat-form-field class="flex-auto ml-6" *ngIf="mode!='update'">
         <mat-label>Selecciona tipo de Comunicación</mat-label>
         <mat-select  name="type"  [(ngModel)]="type">
@@ -72,11 +77,7 @@
       </mat-form-field-->
     </div>
     <div class="flex flex-col sm:flex-row">
-      <mat-form-field class="flex-auto">
-        <mat-label>Descripción</mat-label>
-        <input cdkFocusInitial [(ngModel)]="description" matInput>
-        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-      </mat-form-field>
+      
     </div>
     <div class="flex flex-col sm:flex-row">
       
@@ -105,6 +106,21 @@
   
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
+      <mat-form-field class="flex-auto  ml-6 ">
+        <mat-label>Impresión</mat-label>
+        <input cdkFocusInitial [(ngModel)]="name" matInput>
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+      <mat-form-field class="flex-auto  ml-6 ">
+        <mat-label>Sobre</mat-label>
+        <input cdkFocusInitial [(ngModel)]="name" matInput>
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
+      <mat-form-field class="flex-auto  ml-6 ">
+        <mat-label>Envio</mat-label>
+        <input cdkFocusInitial [(ngModel)]="name" matInput>
+        <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+      </mat-form-field>
     </div>
     <div>
       <p><mat-icon [icIcon]="icImage" class="mr-3" matPrefix></mat-icon>  Click aqui para agregar una imagen</p>
@@ -115,13 +131,16 @@
 
      
     </div>
-    
+    <div *ngIf="typeCommunication=='Cartas'">
+      <p>Personaliza la carta con los campos elegidos en el mapeo. Haz click en el campo que quieres insertar en la carta y haz click en la posicion en la carta donde quieres incluir la informacion del campo
+      </p>
+    </div>
     <div>
       <br>
             <div>
 
               <label *ngFor="let label of communicationData;let i = index " class="m-2" >
-                <button (click)="addText(label)" color="accent" mat-stroked-button>{{label}}</button> <br *ngIf="(i+1)%10==0" />
+                <button (click)="addText(label)" color="primary" mat-stroked-button>{{label}}</button> <br *ngIf="(i+1)%10==0" />
               </label>
             </div>
            

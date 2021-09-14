@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, findIndex } from 'rxjs/operators';
 import { Segmentation } from './interfaces/segmentation.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -158,7 +158,7 @@ export class SegmentationComponent implements OnInit {
   value = 0;
   bufferValue = 10; 
   segmentation_id = this.route.snapshot.params.id;
-  indexSegmentation = this.route.snapshot.params.index;
+  indexSegmentation = parseInt(this.route.snapshot.params.index);
   segmentation={
     name:"",
     description:"",
@@ -209,6 +209,7 @@ export class SegmentationComponent implements OnInit {
   AddCriteria=true
   spinner=false
   dataSourceIG=[]
+  filter=""
   portafolio={
     client_id:{name:""},
     name_portafolio:"",
@@ -229,7 +230,7 @@ export class SegmentationComponent implements OnInit {
     .subscribe(
         data => {
           if(data.success){
-            console.log(data.data)
+            console.log("PPPP",data.data)
             this.infoList=data.data
           }
         });
@@ -239,6 +240,12 @@ export class SegmentationComponent implements OnInit {
     console.log(ev,i)
     if(ev.code == "Enter")
       this.save(i)
+  }
+  onSearch1(ev, name, count, filter, info){
+    console.log(ev)
+    if(ev.code == "Enter")
+      //this.save(i)
+      this.newCriteriaActual(name,info.rangeA,info.rangeB,count, filter)
   }
   generalP=[]
   isEdit=false
@@ -283,16 +290,17 @@ export class SegmentationComponent implements OnInit {
               })
             }
             this.getPortaolio(this.segment.portafolio_id)
-            this.getSegInfo(this.segment.portafolio_id)
+            if (this.indexSegmentation==0) {
+              this.getSegInfo(this.segment.portafolio_id)
+            }
             this.getMap(this.segment.portafolio_id)
             //console.log("Segmento",this.segment)
-            //console.log("Segmentacion1",data.data.segmentation)
+            console.log("Segmentacion1",data.data.segmentation, this.indexSegmentation)
             //console.log("Segmentacion1",data.data.segmentation.length!=0,data.data.segmentation[this.indexSegmentation],this.segmentation1)
             this.segmentation=data.data.segmentation[this.indexSegmentation]?data.data.segmentation[this.indexSegmentation]:this.segmentation1
-             //console.log("Segmentacion",this.segmentation)
-             //console.log("Segmento",this.segment)
+             console.log("Segmentacion",this.segmentation.criteria)
              if(data.data.segmentation.length){
-              //console.log("_____________No_____________")
+              console.log("_____________No_____________")
               this.isEdit=true
                if(this.segmentation.criteria.length){
                 let promises=[]
@@ -300,74 +308,82 @@ export class SegmentationComponent implements OnInit {
 
             
                  if(this.segmentation.criteria[0]){
-                  // console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                   console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
                    //console.log("<<<<<<<<<<<<<<<<<<<<<",JSON.parse(this.segmentation.query))
                    
                    
                    this.segmentation.criteria[0].dataInfo=this.dataSourceIG;
-                   this.segmentation.criteria[0].dataGrhap={
+                   /*this.segmentation.criteria[0].dataGrhap={
                      "options":this.options,
                      "salesSeries":this.salesSeries,
                      "chart": false
-                   }
+                   }*/
                    this.segmentation.criteria[0].dataSource=[]
                    this.segmentation.criteria[0].dataSeg=[]
                    //this.analytics(0)
-                   promises.push(this.analytics(0))
+                   promises.push(this.analytics1(0))
                    
                    //this.guardar1()
                    }
                  if(this.segmentation.criteria[1]){
-                 
+                  console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
                    this.segmentation.criteria[1].dataInfo=this.dataSourceIG;
-                   this.segmentation.criteria[1].dataGrhap={
+                   /*this.segmentation.criteria[1].dataGrhap={
                      "options":this.options,
                      "salesSeries":this.salesSeries,
                      "chart": false
-                   }
+                   }*/
                    this.segmentation.criteria[1].dataSource=[]
                    this.segmentation.criteria[1].dataSeg=[]
                    //this.analytics(1)
-                   promises.push(this.analytics(1))
+                   promises.push(this.analytics1(1))
                    //this.guardar1()
                    }
                  if(this.segmentation.criteria[2]){
-               
+                  console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
                    this.segmentation.criteria[2].dataInfo=this.dataSourceIG;
-                   this.segmentation.criteria[2].dataGrhap={
+                  /* this.segmentation.criteria[2].dataGrhap={
                      "options":this.options,
                      "salesSeries":this.salesSeries,
                      "chart": false
-                   }
+                   }*/
                    this.segmentation.criteria[2].dataSource=[]
                    this.segmentation.criteria[2].dataSeg=[]
                    //this.analytics(2)
-                   promises.push(this.analytics(2))
+                   promises.push(this.analytics1(2))
                    //this.guardar2()
                    }
                  if(this.segmentation.criteria[3]){
-             
+                  console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
                    this.segmentation.criteria[3].dataInfo=this.dataSourceIG;
-                   this.segmentation.criteria[3].dataGrhap={
+                   /*this.segmentation.criteria[3].dataGrhap={
                      "options":this.options,
                      "salesSeries":this.salesSeries,
                      "chart": false
-                   }
+                   }*/
                    this.segmentation.criteria[3].dataSource=[]
                    this.segmentation.criteria[3].dataSeg=[]
                    //this.analytics(3)
-                   promises.push(this.analytics(3))
+                   //promises.push(this.analytics(3))
                    //this.guardar1()
                    }
+                   Promise.all(promises)
+                   .then(result => {
+                       console.log("PROMESAS REALIZADAS", result)
+                   })
+                   .catch(err =>{
+                     console.log(err)
+                   })
                }
                else{
-                 console.log("_____________Nuevo_____________")
-
+                 console.log("_____________Nuevo_____________", this.indexSegmentation)
+                 this.analytics1(this.indexSegmentation)
                }
             }
             else{
               this.isNew=true
               //console.log("_____________Nuevo 1_____________")
+           
 
             }
             
@@ -386,17 +402,23 @@ export class SegmentationComponent implements OnInit {
           (this.indexSegmentation==0)
             this.registerTotal=this.portafolio.register
           console.log("Portafolio",this.segment)
+          let reg = 0
           this.segment.segmentation.forEach(element => {
-            //console.log(element.porcent)
+            console.log("---",element)
+            reg = reg + element.register
             this.value=this.value+element.porcent
             this.bufferValue=this.value
           });
-          console.log("++++",this.segment.segmentation)
+          console.log("--------------->",this.segment.segmentation)
+          var  value = (100 / this.portafolio.register) * reg 
           this.generalP=[{
             cliente: this.portafolio.client_id.name,
             portafolio: this.portafolio.name_portafolio,
+            segmentadocant:reg,
             registros: this.portafolio.register.toString()||"null",
-            segmentado: this.value.toFixed(1) +" %"
+            nosegmentadocant:this.portafolio.register - reg,
+            nosegmentado:(100 - value).toFixed(2),
+            segmentado: value.toFixed(2)
           }]
           this.generalIF=[{
             name:"CLIENTE",
@@ -477,8 +499,8 @@ export class SegmentationComponent implements OnInit {
   registerAc=0
   analytics(x){
     return new Promise((resolve, reject) => {
-
-      this.segmentation.criteria[x].dataGrhap.chart=false;
+      console.log("SEGTES")
+      //this.segmentation.criteria[x].dataGrhap.chart=false;
       //console.log("------X",x)
       let body={
         "query": {},
@@ -619,24 +641,25 @@ export class SegmentationComponent implements OnInit {
             console.log("__getMap__", data)
             if(data.success){
               let dataSeg=data.data
-              this.displayedColumnsNew= ['rango', dataSeg.data[0], dataSeg.data[1],dataSeg.data[2], 'sin info'];
+              console.log("**dataSeg**",dataSeg)
+             /* this.displayedColumnsNew= ['rango', dataSeg.data[0], dataSeg.data[1],dataSeg.data[2], 'sin info'];
               this.segmentation.criteria[x].dataSource = [
                // {date1: dataSeg.porcents[0].toFixed(1), date2: dataSeg.porcents[1].toFixed(1), date3:dataSeg.porcents[2].toFixed(1), date4: dataSeg.porcents[3].toFixed(1)},
                 {date1: "%", date2:dataSeg.porcents[0].toFixed(1)+" %", date3:dataSeg.porcents[1].toFixed(1)+" %", date4:dataSeg.porcents[2].toFixed(1)+" %", date5: dataSeg.porcents[3]?dataSeg.porcents[3].toFixed(1)+" %":"0 %"},
                 {date1:"REGISTROS", date2: dataSeg.lables[0], date3: dataSeg.lables[1], date4: dataSeg.lables[2],date5: dataSeg.lables[3]},
-              ];
-                this.options.labels=data.data.labelsGraph
-                this.salesSeries[0].data=data.data.dataGraph
+              ];*/
+               /* this.options.labels=data.data.labelsGraph
+                this.salesSeries[0].data=data.data.dataGraph*/
                 this.registerActual=data.data.register
                 console.log("registerActual 1",this.registerActual)
-                console.log("registerActual DATA",data.data.labelsGraph)
+               // console.log("registerActual DATA",data.data.labelsGraph)
                 this.segmentation.criteria[x].dataSeg[0]={actual:this.registerActual}
-                console.log("dataSeg", this.segmentation.criteria[x].dataSeg)
-                this.segmentation.criteria[x].dataGrhap={
+                //console.log("dataSeg", this.segmentation.criteria[x].dataSeg)
+                /*this.segmentation.criteria[x].dataGrhap={
                   "options":this.options,
                   "salesSeries":this.salesSeries,
                   "chart": true
-                }
+                }*/
                 if(this.segmentation.criteria[x].rankB || this.segmentation.criteria[x].rankA)
                   this.save(x)
                   resolve(true)
@@ -648,202 +671,427 @@ export class SegmentationComponent implements OnInit {
           });
     })
   }
-  ultimoQuery={}
-  save(x){
-    console.log("sabe",x)
-    let body={
-      "query": {},
-      "criterio1": "Riesgo"
-     }
-     let q1={}
-     let q2={}
-     let q3={}
-     let query1={}
-     let query2={}
-     let query3={}
-    //console.log("type",this.segmentation.criteria[x])
-    //console.log("type",this.segmentation.criteria)
-    switch (x) {
-      case 0:
-        let q1= this.getQuery(x);
-        //console.log(q1)
-        /** 
-         * {[this.segmentation.criteria[x].name]: {
-            "$gte": parseInt(this.segmentation.criteria[x].rankA),
-            "$lte": parseInt(this.segmentation.criteria[x].rankB)
-            }
-          }
-        */
-        body={
-          "query": q1,
-          "criterio1": this.segmentation.criteria[x].name
-        }
-        if(this.indexSegmentation == 1){
-
-          //console.log("version save 2",this.segment.segmentation[0].query)
-          query1= JSON.parse(this.segment.segmentation[0].query)
-          //console.log("version  save 2.1",query1)
-          body={
-            "query": {
-              "$and": [ q1,query1
-              ]
-          },
-            "criterio1": this.segmentation.criteria[x].name
-          }
-        }
-        if(this.indexSegmentation == 2){
-
-          //console.log("version 3",this.segment.segmentation[1].query)
-          query1= JSON.parse(this.segment.segmentation[0].query)
-          query2= JSON.parse(this.segment.segmentation[1].query)
-          //console.log("version 3.1",query1)
-          body={
-            "query": {
-              "$and": [ q1,query1,query2
-              ]
-          },
-            "criterio1": this.segmentation.criteria[x].name
-          }
-        }
-        //console.log(body.query)
-        break;
+  analytics1(x){
+    return new Promise((resolve, reject) => {
+      console.log("SEGTES", x)
+      //this.segmentation.criteria[x].dataGrhap.chart=false;
+      //console.log("------X",x)
+      let body={
+        "query": {},
+        "criterio1": "Riesgo",
+      }
+      let query1= {}
+      let query2= {}
+      /*switch (x) {
         case 1:
-          let q01 = this.getQuery(0);
-          let q02= this.getQuery(x);
-          //console.log(q01)
-          //console.log(q02)
-          
           body={
-            "query": {
-                "$and": [ q01,q02
+            "query": {},
+          }
+          console.log("version 2",this.segment.segmentation[0].query)
+            query1= JSON.parse(this.segment.segmentation[0].query)
+            console.log("version 2.1",query1)
+            body={
+              "query": query1,
+            }
+          break;
+          case 2:
+            
+            console.log("version 3",this.segment.segmentation[1].query)
+            query1= JSON.parse(this.segment.segmentation[0].query)
+            query2= JSON.parse(this.segment.segmentation[1].query)
+            console.log("version 3.1",query1)
+            body={
+              "query": {
+                "$and": [ query1,query2
                 ]
-            },
+            }}
+            break;
+        default:
+          break;
+      }*/
+      switch (x) {
+        case 0:
+          let val={}
+          let q1= this.getQuery(x);
+          console.log(q1)
+          //console.log("<<<<<<<<<<<<<<<<<<<<<",JSON.parse(this.segment.segmentation[0].query))
+          //console.log("<<<<<<<<<<<<<<<<<<<<<",this.segment.segmentation[0].query)
+          //if(this.segment.segmentation[0].query)
+          // val=JSON.parse(this.segment.segmentation[0].query)
+          let query1= {}
+          let query2= {}
+          body={
+            "query": {},
             "criterio1": this.segmentation.criteria[x].name
           }
           if(this.indexSegmentation == 1){
-
-            //console.log("version save 2",this.segment.segmentation[0].query)
-            let query1= JSON.parse(this.segment.segmentation[0].query)
-            //console.log("version  save 2.1",query1)
+  
+            //console.log("version 2",this.segment.segmentation[0].query)
+            query1= JSON.parse(this.segment.segmentation[0].query)
+            //console.log("version 2.1",query1)
             body={
-              "query": {
-                "$and": [ q01,q02,query1
-                ]
-            },
+              "query": query1,
               "criterio1": this.segmentation.criteria[x].name
             }
           }
           if(this.indexSegmentation == 2){
-
-            //console.log("version save 2",this.segment.segmentation[0].query)
-            let query1= JSON.parse(this.segment.segmentation[0].query)
-            let query2= JSON.parse(this.segment.segmentation[1].query)
-            //console.log("version  save 2.1",query1)
+  
+            console.log("version 3",this.segment.segmentation[1].query)
+            query1= JSON.parse(this.segment.segmentation[0].query)
+            query2= JSON.parse(this.segment.segmentation[1].query)
+            console.log("version 3.1",query1)
             body={
               "query": {
-                "$and": [ q01,q02,query1,query2
+                "$and": [ query1,query2
                 ]
             },
               "criterio1": this.segmentation.criteria[x].name
             }
           }
           break;
-        case 2:
-          let q11 = this.getQuery(0);
-          let q12= this.getQuery(1);
-          let q13= this.getQuery(x);
-          //console.log(q11)
-          //console.log(q12)
-          //console.log(q13)
+        case 1:
+          let q01 = this.getQuery(0);
+          let q02= this.getQuery(x);
+          console.log(q01)
+          console.log(q02)
           
           body={
-            "query": {
-                "$and": [ q11,q12,q13
-                ]
-              
-            },
+            "query": q01,
             "criterio1": this.segmentation.criteria[x].name
           }
           if(this.indexSegmentation == 1){
-
-            //console.log("version save 2",this.segment.segmentation[0].query)
+  
+            console.log("version 2",this.segment.segmentation[0].query)
             let query1= JSON.parse(this.segment.segmentation[0].query)
+            //let query2= JSON.parse(this.segment.segmentation[1].query)
+            console.log("version 2.1",query1)
+            body={
+              "query": {
+                "$and": [ q01,query1
+                ]
+              },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+          }
+          if(this.indexSegmentation == 2){
+  
+            console.log("version 3",this.segment.segmentation[1].query)
+            let query1= JSON.parse(this.segment.segmentation[0].query)
+            let query2= JSON.parse(this.segment.segmentation[1].query)
+            console.log("version 3.1",query1)
+            body={
+              "query": {
+                "$and": [ q01,query1,query2
+                ]
+            },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+          }
+          break;
+          case 2: 
+          console.log("CRITERIO 3")
+            let q11 = this.getQuery(1);
+            let q12= this.getQuery(x);
+            let q13= this.getQuery(0);
+            console.log(q11)
+            console.log(q12)
+            
+            body={
+              "query": {
+                  "$and": [ q11,q13
+                  ]
+                
+              },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+            if(this.indexSegmentation == 1){
+  
+              console.log("version 2",this.segment.segmentation[0].query)
+              let query1= JSON.parse(this.segment.segmentation[0].query)
+              //let query2= JSON.parse(this.segment.segmentation[1].query)
+              console.log("version 2.1",query1)
+              body={
+                "query": {
+                  "$and": [  q11,q13,query1
+                  ]
+                },
+                "criterio1": this.segmentation.criteria[x].name
+              }
+            }
+            if(this.indexSegmentation == 2){
+  
+              console.log("version 2",this.segment.segmentation[0].query)
+              let query1= JSON.parse(this.segment.segmentation[0].query)
+              let query2= JSON.parse(this.segment.segmentation[1].query)
+              console.log("version 2.1",query1)
+              body={
+                "query": {
+                  "$and": [  q11,q13,query1,query2
+                  ]
+                },
+                "criterio1": this.segmentation.criteria[x].name
+              }
+            }
+          break;
+      
+        default:
+          break;
+      }
+      
+      
+      console.log("________",body,"________")
+      this.Services.getASR2(this.segment.portafolio_id,body)
+      .subscribe(
+          data => {
+            console.log("______________________________________________________________")
+            console.log("Hola---------------------",x, data)
+            if(data.success){
+              console.log(data.data)
+             this.infoList=data.data
+             console.log("***dataSeg***",data.data)
+             this.registerActual=data.data[0].register
+                console.log("registerActual 1",this.registerActual)
+               // console.log("registerActual DATA",data.data.labelsGraph)
+                this.segmentation.criteria[x].dataSeg[0]={actual:this.registerActual}
+             if(this.segmentation.criteria[x].rankB || this.segmentation.criteria[x].rankA){
+              console.log("--------X--------",x)
+               this.save(x)
+               .then(result => {
+                    console.log("PROMESAS SAVE", result)
+                    resolve(true)
+                })
+                .catch(err =>{
+                  console.log(err)
+                })
+               
+             }
+            }
+          },
+          error => {
+            //this.error=true
+          });
+    })
+  }
+  ultimoQuery={}
+  save(x){
+    return new Promise((resolve, reject) => {
+    
+      console.log("sabe",x)
+      let body={
+        "query": {},
+        "criterio1": "Riesgo"
+       }
+       let q1={}
+       let q2={}
+       let q3={}
+       let query1={}
+       let query2={}
+       let query3={}
+      //console.log("type",this.segmentation.criteria[x])
+      //console.log("type",this.segmentation.criteria)
+      switch (x) {
+        case 0:
+          let q1= this.getQuery(x);
+          //console.log(q1)
+          /** 
+           * {[this.segmentation.criteria[x].name]: {
+              "$gte": parseInt(this.segmentation.criteria[x].rankA),
+              "$lte": parseInt(this.segmentation.criteria[x].rankB)
+              }
+            }
+          */
+          body={
+            "query": q1,
+            "criterio1": this.segmentation.criteria[x].name
+          }
+          if(this.indexSegmentation == 1){
+  
+            //console.log("version save 2",this.segment.segmentation[0].query)
+            query1= JSON.parse(this.segment.segmentation[0].query)
             //console.log("version  save 2.1",query1)
             body={
               "query": {
-                "$and": [ q11,q12,q13,query1
+                "$and": [ q1,query1
                 ]
             },
               "criterio1": this.segmentation.criteria[x].name
             }
           }
           if(this.indexSegmentation == 2){
-
-            //console.log("version save 2",this.segment.segmentation[0].query)
-            let query1= JSON.parse(this.segment.segmentation[0].query)
-            let query2= JSON.parse(this.segment.segmentation[1].query)
-            //console.log("version  save 2.1",query1)
+  
+            //console.log("version 3",this.segment.segmentation[1].query)
+            query1= JSON.parse(this.segment.segmentation[0].query)
+            query2= JSON.parse(this.segment.segmentation[1].query)
+            //console.log("version 3.1",query1)
             body={
               "query": {
-                "$and": [ q11,q12,q13,query1,query2
+                "$and": [ q1,query1,query2
                 ]
             },
               "criterio1": this.segmentation.criteria[x].name
             }
           }
-          break;    
-      default:
-        break;
-    }
-    this.segmentation.criteria[x].query= JSON.stringify(body);
-    this.ultimoQuery=body.query
-    console.log("-",body,"-")
-    this.Services.getASR2(this.segment.portafolio_id,body)
-      .subscribe(
-          data => {
-            console.log("Hola--", data)
-            if(data.success){
-               //console.log(data.data)
-             let info2=data.data[0].register;
-             this.infoList=data.data
-             console.log("registerActual 2",this.registerActual)
-             let actual= this.segmentation.criteria[x].dataSeg[0].actual
-             console.log("registerActual 3", actual)
-             let register=actual-info2;
-             this.AddCriteria=true
-             if(register==0 || x==2 ) this.AddCriteria=false
-             let porcent2= (info2*100)/this.registerTotal 
-             this.segmentation.porcent=porcent2;
-             this.segmentation.register=info2
-             this.bufferValue=porcent2
-             this.value=0;
-             this.segment.segmentation.forEach(element => {
-              //console.log(element.porcent)
-              this.value=this.value+element.porcent
-              this.bufferValue=this.value
-            });
-            this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
-               console.log("........",this.value,actual,register, porcent2,info2)
-               console.log("registerActual",actual)
-               
-               this.segmentation.criteria[x].dataSeg=[{
-                "actual": actual,
-                "info": info2,
-                "porcent":porcent2.toFixed(1),
-                "register":register,
-              }]
-              this.segmentation.criteria[x].dataSeg[0].inf
-              console.log("--dataSeg--",this.segmentation.criteria[x].dataSeg)
+          //console.log(body.query)
+          break;
+          case 1:
+            let q01 = this.getQuery(0);
+            let q02= this.getQuery(x);
+            //console.log(q01)
+            //console.log(q02)
+            
+            body={
+              "query": {
+                  "$and": [ q01,q02
+                  ]
+              },
+              "criterio1": this.segmentation.criteria[x].name
             }
-          },
-          error => {
-            //this.error=true
-          });
+            if(this.indexSegmentation == 1){
+  
+              //console.log("version save 2",this.segment.segmentation[0].query)
+              let query1= JSON.parse(this.segment.segmentation[0].query)
+              //console.log("version  save 2.1",query1)
+              body={
+                "query": {
+                  "$and": [ q01,q02,query1
+                  ]
+              },
+                "criterio1": this.segmentation.criteria[x].name
+              }
+            }
+            if(this.indexSegmentation == 2){
+  
+              //console.log("version save 2",this.segment.segmentation[0].query)
+              let query1= JSON.parse(this.segment.segmentation[0].query)
+              let query2= JSON.parse(this.segment.segmentation[1].query)
+              //console.log("version  save 2.1",query1)
+              body={
+                "query": {
+                  "$and": [ q01,q02,query1,query2
+                  ]
+              },
+                "criterio1": this.segmentation.criteria[x].name
+              }
+            }
+            break;
+          case 2:
+            let q11 = this.getQuery(0);
+            let q12= this.getQuery(1);
+            let q13= this.getQuery(x);
+            //console.log(q11)
+            //console.log(q12)
+            //console.log(q13)
+            
+            body={
+              "query": {
+                  "$and": [ q11,q12,q13
+                  ]
+                
+              },
+              "criterio1": this.segmentation.criteria[x].name
+            }
+            if(this.indexSegmentation == 1){
+  
+              //console.log("version save 2",this.segment.segmentation[0].query)
+              let query1= JSON.parse(this.segment.segmentation[0].query)
+              //console.log("version  save 2.1",query1)
+              body={
+                "query": {
+                  "$and": [ q11,q12,q13,query1
+                  ]
+              },
+                "criterio1": this.segmentation.criteria[x].name
+              }
+            }
+            if(this.indexSegmentation == 2){
+  
+              //console.log("version save 2",this.segment.segmentation[0].query)
+              let query1= JSON.parse(this.segment.segmentation[0].query)
+              let query2= JSON.parse(this.segment.segmentation[1].query)
+              //console.log("version  save 2.1",query1)
+              body={
+                "query": {
+                  "$and": [ q11,q12,q13,query1,query2
+                  ]
+              },
+                "criterio1": this.segmentation.criteria[x].name
+              }
+            }
+            break;    
+        default:
+          break;
+      }
+      this.segmentation.criteria[x].query= JSON.stringify(body);
+      this.ultimoQuery=body.query
+      console.log("-",body,"-")
+      this.Services.getASR2(this.segment.portafolio_id,body)
+        .subscribe(
+            data => {
+              console.log("Hola__________",x, data)
+              if(data.success){
+                let info2=data.data[0].register;
+                this.infoList=data.data
+                console.log("registerActual 2",this.registerActual, this.segmentation.criteria[x])
+                let actual= this.segmentation.criteria[x].dataSeg[0].actual || 0
+                console.log("registerActual 3", actual)
+                let reg = 0
+                this.segment.segmentation.forEach(element => {
+                  console.log("---",element)
+                  reg = reg + element.register
+                  this.value=this.value+element.porcent
+                  this.bufferValue=this.value
+                });
+                console.log("++++",this.portafolio.register, reg )
+                var  value = (100 / this.portafolio.register) * reg 
+                
+                this.generalP=[{
+                cliente: this.portafolio.client_id.name,
+                portafolio: this.portafolio.name_portafolio,
+                segmentadocant:reg,
+                registros: this.portafolio.register.toString()||"null",
+                nosegmentadocant:this.portafolio.register - reg,
+                nosegmentado:(100 - value).toFixed(2),
+                segmentado: value.toFixed(2)
+                }]
+                let register=actual-info2;
+                this.AddCriteria=true
+                if(register==0 || x==2 ) this.AddCriteria=false
+                let porcent2= (info2*100)/this.registerTotal 
+                this.segmentation.porcent=porcent2;
+                this.segmentation.register=info2
+                this.bufferValue=porcent2
+                this.value=0;
+                this.segment.segmentation.forEach(element => {
+                //console.log(element.porcent)
+                this.value=this.value+element.porcent
+                this.bufferValue=this.value
+                });
+                this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+                 console.log("........",this.value,actual,register, porcent2,info2)
+                 console.log("registerActual",actual)
+                 
+                 this.segmentation.criteria[x].dataSeg=[{
+                  "actual": actual,
+                  "info": info2,
+                  "porcent":porcent2.toFixed(1),
+                  "register":register,
+                }]
+                this.segmentation.criteria[x].dataSeg[0].inf
+                console.log("--dataSeg--",this.segmentation.criteria[x].dataSeg)
+                resolve(true)
+              }
+            },
+            error => {
+              reject(false)
+              //this.error=true
+            });
+    });
   }
   getQuery(x){
     let q={}
     console.log("******",this.segmentation.criteria[x])
-    switch (this.segmentation.criteria[x].type) {
+    //switch (this.segmentation.criteria[x].type) {
+      switch (this.segmentation.criteria[x].type) {
       case 'rank':
         q={[this.segmentation.criteria[x].name]: {
           "$gte": parseInt(this.segmentation.criteria[x].rankA),
@@ -892,25 +1140,34 @@ export class SegmentationComponent implements OnInit {
       this.segment.segmentation.push(this.segmentation)
     }
   }
-  newCriteriaActual(name,A,B,count){
+  newCriteriaActual(name,A,B,count,filter){
+    console.log("AAAAAA",name,A,B,count,filter)
     let criteria=this.segmentation.criteria||[]
-    criteria.push({
-      dataInfo:[{}],
-      dataGrhap: [],
-      dataSeg: [],
-      dataSource:  [],
-      name: name,
-      percentage: 0,
-      rankA: A,
-      rankB: B,
-      type: "rank"
-    })
+    const index = this.segmentation.criteria.findIndex((crit) => crit.name === name);
+    if(index ==-1)
+      criteria.push({
+        dataInfo:[{}],
+        dataGrhap: [],
+        dataSeg: [],
+        dataSource:  [],
+        name: name,
+        percentage: 0,
+        rankA: A,
+        rankB: B,
+        type: filter
+      })
+    else{
+      criteria[index].rankA=A
+      criteria[index].rankB=B
+      criteria[index].filter=filter
+      
+    }
     this.segmentation.criteria=criteria
     if(!this.segment.segmentation[this.indexSegmentation]){
       console.log("Creamos nuevo")
       this.segment.segmentation.push(this.segmentation)
     }
-    this.segmentation.criteria[criteria.length - 1].dataSeg[0]={actual:count}
+    this.segmentation.criteria[criteria.length - 1].dataSeg[0]={actual:count||0}
     this.save(criteria.length - 1)
   }
 
@@ -924,6 +1181,7 @@ export class SegmentationComponent implements OnInit {
   create(){
     console.log("create")
     const seg = this.segmentation; 
+    let new1 =[]
     console.log(seg)
     let body1={
       query:{}
@@ -983,8 +1241,13 @@ export class SegmentationComponent implements OnInit {
       type:""
     }
     this.segment.segmentation[this.indexSegmentation]=body
-    //console.log("BODY",this.segment.segmentation)
+    console.log("BODY",this.segment.segmentation)
     
+    this.segment.segmentation.forEach(element => {
+      if(element.criteria.length)
+        new1.push(element)
+    });
+    this.segment.segmentation= new1
     let body3={
       porcent:this.generalIF[3].data,
       segmentation:this.segment.segmentation
@@ -1015,6 +1278,7 @@ export class SegmentationComponent implements OnInit {
       this.bufferValue=this.value
     });
     this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+    //Volver a cargar 
   }
   deleteSeg(){
     console.log(this.indexSegmentation)
@@ -1040,6 +1304,7 @@ export class SegmentationComponent implements OnInit {
   getQueryNot(x){
     let q={}
      console.log("***********",x,this.segmentation.criteria[x])
+   // switch (this.segmentation.criteria[x].type) {
     switch (this.segmentation.criteria[x].type) {
       case 'rank':
         q=	{

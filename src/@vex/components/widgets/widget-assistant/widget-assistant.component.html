@@ -1,35 +1,80 @@
-<div class="card bg-primary" fxLayout="row" fxLayout.xs="column">
+<div class="card bg-primary" fxLayout="row" fxLayout.xs="column" *ngIf="x">
   <div class="p-4 ml-4" fxFlex="none" fxFlexAlign="center">
     <img src="assets/img/illustrations/checklist.svg" style="height: 168px; width: 152px">
   </div>
 
-  <div class="p-6 text-primary-contrast" fxFlex="auto">
-    <h2 class="headline m-0">Bienvenido al Collection Robot</h2>
-    <p class="caption m-0 opacity-50">Digitaliza y automatiza en 5 pasos:</p>
-
-    <div class="mt-4" fxLayout="row" fxLayoutAlign="start center">
-      <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">1.	Administración Financieras</span>
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days >'3'">
+    <h4 class="headline m-0" style="font-size: 20px;">Bienvenido a Collection Robot 
+      Digitalización & automatización de la gestión de Cobranza. 
+      </h4>
+      <br>
+    <div >
+      <p>Es importante alimentar los datos adicionales en el punto del menú: 
+        <br>
+        <br>
+        <b>
+          “Configuración General”
+        </b>
+       </p>
     </div>
 
-    <div class="mt-1" fxLayout="row" fxLayoutAlign="start center">
-      <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">2.	Administración Portafolios </span>
+    
+  </div>
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days == '3'">
+    <h4 class="headline m-0" style="font-size: 20px;">¡Quedan 3 días para el vencimiento del periodo de prueba!</h4>
+     
+    <div >
+      <p>Entra a la opción de menú: 
+        <br>
+        <b>
+
+          “Contrata tu Plan” 
+        </b>
+        <br>
+        Continua disfrutando del las funcionalidades y más beneficios de Collection Robot a contratar tu plan mensual 
+
+       </p>
     </div>
 
-    <div class="mt-1" fxLayout="row" fxLayoutAlign="start center">
-      <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer"> 3.	Segmentación</span>
+    
+  </div>
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days == '1'">
+    <h4 class="headline m-0" style="font-size: 20px;">¡Hoy vence tu periodo de Prueba! 
+    </h4>
+     
+    <div >
+      <p>Entra a la opción del menú :   
+
+        <br>
+        <b>
+
+          “Contrata tu Plan” 
+        </b>
+        <br>
+        Continua disfrutando del las funcionalidades y más beneficios de Collection Robot a contratar tu plan mensual 
+
+       </p>
     </div>
 
-    <div class="mt-1" fxLayout="row" fxLayoutAlign="start center">
-      <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">4.	Comunicación digital</span>
+    
+  </div>
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days == '0'">
+    <h4 class="headline m-0" style="font-size: 20px;">Tu periodo de Prueba ha vencido! </h4>
+     
+    <div >
+      <p>Entra a la opción de menú: 
+        <br>
+        <b>
+
+          “Contrata tu Plan” 
+        </b>
+        <br>
+        Activa el PLAN MENSUAL y continua disfrutando de las funcionalidades y más beneficios de Collection Robot 
+ 
+
+       </p>
     </div>
 
-    <div class="mt-1" fxLayout="row" fxLayoutAlign="start center">
-      <ic-icon [icon]="icCheckCircle" class="mr-2" size="24px"></ic-icon>
-      <span class="body-2 cursor-pointer">5.	Estrategia de Gestión</span>
-    </div>
+    
   </div>
 </div>

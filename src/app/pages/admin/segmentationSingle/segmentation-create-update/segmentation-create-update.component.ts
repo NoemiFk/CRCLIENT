@@ -585,7 +585,7 @@ export class SegmentationCreateUpdateComponent implements OnInit {
   info2=0
   guardar2(){
     const segmentacion = this.defaults;
-    console.log("------Guardar 2")
+    console.log("------GUARDAR 2")
     let body={
       criterio1:segmentacion.segmentation[this.indexACT].criteria[0].name,
       criterio2: segmentacion.segmentation[this.indexACT].criteria[1].name,

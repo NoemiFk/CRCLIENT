@@ -55,7 +55,10 @@
 .item-icon, .item-label, .item-dropdown-icon {
   transition: inherit;
 }
-
+.circle{
+  border-radius: 50%;
+  border: 2px orangered solid;
+}
 .item-icon {
   //color: var(--sidenav-item-icon-color);
   color: white;

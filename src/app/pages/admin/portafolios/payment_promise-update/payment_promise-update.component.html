@@ -1,7 +1,7 @@
 
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
     <h2 class="headline m-0"
-        fxFlex="auto">Actualizar Promesas de Pago 
+        fxFlex="auto">Actualizar Promesas de Pago
       </h2>
 
     
@@ -16,7 +16,7 @@
 
   <mat-dialog-content fxLayout="column">
     <mat-horizontal-stepper *ngIf="currentPromises.length">
-      <mat-step label="Promesas de Pago Cargados" state="chat">
+      <!--mat-step label="Promesas de Pago Cargados" state="chat">
        
         <div class="card overflow-auto" style="max-height: 500px;">
           <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
@@ -49,12 +49,7 @@
           </div>
           <table @stagger [dataSource]="currentPromises" class="w-full" mat-table matSort >
 
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-      
-         
-      
-            <!-- Text Columns -->
+           
             <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
               <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
                 <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -64,7 +59,7 @@
       
       
             <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
-            <!--(click)="updateCustomer(row)"-->
+           
             <tr 
                 *matRowDef="let row; columns: visibleColumns;"
                 @fadeInUp
@@ -77,13 +72,13 @@
           <button mat-button matStepperPrevious>ATRAS</button>
           <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
         </div>
-      </mat-step>
+      </mat-step-->
       <mat-step label="Cargar Archivo" state="phone">
         <div style="padding: 20px;">
 
           <h5>Actualizar el archivo de promesas de pago:</h5>
-          <p>1. Formato en archivo excel.csv</p>
-          <p>2. Campos requeridos (en este orden) : Identificador del cliente , fecha de promesa, monto de promesa).</p>
+          <p>1. El formato del archivo puede ser xlsx o csv</p>
+          <p>2. El archvio debe contener los siguientes campos (en el siguiente orden):</p>
          
         </div>
         <div  class="text-center">
@@ -103,7 +98,7 @@
           <button mat-raised-button class="primary" matStepperNext>SIGUIENTE</button>
         </div>
       </mat-step>
-      <mat-step label="Vista Previa" state="chat">
+      <!--mat-step label="Vista Previa" state="chat">
        
         <div class="card overflow-auto" style="max-height: 500px;">
           <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
@@ -136,12 +131,7 @@
           </div>
           <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort >
 
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-      
-         
-      
-            <!-- Text Columns -->
+
             <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
               <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
                 <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -151,7 +141,7 @@
       
       
             <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
-            <!--(click)="updateCustomer(row)"-->
+
             <tr 
                 *matRowDef="let row; columns: visibleColumns;"
                 @fadeInUp
@@ -164,11 +154,11 @@
           <button mat-button matStepperPrevious>ATRAS</button>
           <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
         </div>
-      </mat-step>
+      </mat-step-->
     
     </mat-horizontal-stepper>
     <mat-horizontal-stepper *ngIf="!currentPromises.length">
-      <mat-step label="Cargar Archivo" state="phone">
+      <mat-step label="Cargar Archivo " state="phone">
         <div style="padding: 20px;">
 
           <h5>Actualizar el archivo de promesas de pago:</h5>
@@ -193,7 +183,7 @@
           <button mat-raised-button class="primary" matStepperNext>SIGUIENTE</button>
         </div>
       </mat-step>
-      <mat-step label="Vista Previa" state="chat">
+      <!--mat-step label="Vista Previa" state="chat">
        
         <div class="card overflow-auto" style="max-height: 500px;">
           <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
@@ -226,12 +216,7 @@
           </div>
           <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort >
 
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-      
-         
-      
-            <!-- Text Columns -->
+           
             <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
               <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
                 <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
@@ -241,7 +226,7 @@
       
       
             <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
-            <!--(click)="updateCustomer(row)"-->
+            
             <tr 
                 *matRowDef="let row; columns: visibleColumns;"
                 @fadeInUp
@@ -254,7 +239,7 @@
           <button mat-button matStepperPrevious>ATRAS</button>
           <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
         </div>
-      </mat-step>
+      </mat-step-->
     
     </mat-horizontal-stepper>
   </mat-dialog-content>

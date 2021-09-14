@@ -30,8 +30,8 @@
         </button-->
 
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li> <p>Presionando el botón <img src="https://documents-cr.s3.us-west-2.amazonaws.com/Captura%20de%20Pantalla%202021-08-13%20a%20la%28s%29%208.01.30.png" class="avatar h-8 w-8 align-middle">puedes dar de alta una financiera nueva, indicando el nombre de la financiera y los datos de contacto. Solo el administrador puede realizar la configuración.</p></li>
-            <li>Además puedes subir el logo de la financiera que se usara también para el portal del cliente y las comunicaciones.</li>
+            <li> <p class="text-justify"> Presionando el botón <img src="https://documents-cr.s3.us-west-2.amazonaws.com/Captura%20de%20Pantalla%202021-08-13%20a%20la%28s%29%208.01.30.png" class="avatar h-8 w-8 align-middle">puedes dar de alta una financiera nueva, indicando el nombre de la financiera y los datos de contacto.</p></li>
+            <!--li> <p class="text-justify"> Seleccionar el método de pago y dar de alta los datos de referencia, para ofrecer a tus clientes realizar el pago de forma inmediata a través del portal, enviando el link por medio de la comunicación.</p></li-->
           </ol>
         </div></ng-template>
        
@@ -40,15 +40,16 @@
             <mat-icon [icIcon]="icClose"></mat-icon>
           </button-->
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li> Selecciona los métodos de pago que la financiera ofrece a sus clientes a través del portal de pago el cual le puedes hacer llegar al cliente a través de la comunicación para indicar como pagar su saldo vencido 
+            <li> Alimentar el método de pago que se incluye en las comunicaciones a clientes para indicar como pagar su saldo vencido.
             </li>
+            <li> Elije las opciones de pago que la financiera quiere ofrecer a sus clientes para pagar su saldos vencido a través del portal para aprovechar las opciones de pago es necesario que la financiera este dada de alta en las diferentes pasarelas para ingresar la información requerida. </li>
           </ol>
         </div></ng-template>
         <h6>1. Alta y Administración de Financiera que asigna portafolio.<mat-icon class="pt-1" [icIcon]="icInfo" 
           [popover]="popTemplate"
           placement="right"
           ></mat-icon></h6>
-        <h6>2. Selección método de pago.<mat-icon class="pt-1" [icIcon]="icInfo" 
+        <h6>2. Alimenta metodo de pago y opciones de pago para el portal.<mat-icon class="pt-1" [icIcon]="icInfo" 
             [popover]="popTemplate2"
             placement="right"
             ></mat-icon></h6>
@@ -123,7 +124,7 @@
         </button>
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+      <table @stagger [dataSource]="dataSource" class="w-full table1" mat-table matSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -159,30 +160,15 @@
             </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
               <div class="flex">
-                <a  *ngIf="row[column.property]==true && column.property !='status'" 
+                <a  *ngIf="row[column.property]==true" 
                 class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-green bg-green-light"
                   mat-icon-button>
                   <mat-icon [icIcon]="icCheck" size="18px"></mat-icon>
                 </a>
-                <a   *ngIf="row[column.property]==false && column.property !='status'" 
+                <a   *ngIf="row[column.property]==false " 
                   class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-red bg-red-light"
                   mat-icon-button>
                   <mat-icon [icIcon]="icNo" size="18px"></mat-icon>
-                </a>
-                <a  *ngIf="!row[column.property] && column.property =='status'" 
-                class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-red bg-red-light"
-                mat-stroked-button>
-                Inavctivo
-              </a>
-              <a  *ngIf="row[column.property]==true && column.property =='status'" 
-                  class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-green bg-green-light"
-                  mat-stroked-button>
-                  {{ row[column.property]==true?"Activo":"Inavctivo"}}
-                </a>
-                <a   *ngIf="row[column.property]==false && column.property =='status'" 
-                  class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-red bg-red-light"
-                  mat-stroked-button>
-                  {{ row[column.property]==true?"Activo":"Inavctivo"}}
                 </a>
               </div>
              
@@ -301,11 +287,11 @@
               mat-icon-button matTooltip="Portafolios">
               <mat-icon [icIcon]="icPortafolio" size="18px"></mat-icon>
               </a>
-              <a (click)="$event.stopPropagation(); active(row._id)"
+              <!--a (click)="$event.stopPropagation(); active(row._id)"
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Activar Portafolio">
               <mat-icon [icIcon]="icActive" size="18px"></mat-icon>
-              </a>
+              </a-->
             </div>
             
             <!--button (click)="$event.stopPropagation()"

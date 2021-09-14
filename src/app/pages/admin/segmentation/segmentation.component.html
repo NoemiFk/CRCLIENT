@@ -15,11 +15,13 @@
       </mat-button-toggle-group-->
       <div>
 
-        <h3>3. Segmentación del Portafolio</h3>
-        <h6 class="mb-0">Con base a los campos seleccionado en el mapeo segmenta tu portafolio.</h6>
-        <h6 class="mb-0"> La segmentación ayuda a priorizar y optimizar las acciones de cobranza.</h6>
-        <h6 class="mb-0">Se recomienda no más de 3 segmentos por portafolio se pueden combinar hasta 3 criterio de segmentación.</h6>
+        <h3>Paso 3. Segmentación del Portafolio</h3>
+        
+        <h6 class="mb-2"> 1. Con base a los campos seleccionado en el mapeo segmenta tu portafolio.</h6>
+        <h6 class="mb-2"> 2. La segmentación ayuda a priorizar y optimizar las acciones de cobranza.</h6>
+        <h6 class="mb-2"> 3. Se recomienda no más de 3 segmentos por portafolio se pueden combinar hasta 3 criterio de segmentación.</h6>
       </div>
+      
     </div>
   </vex-page-layout-header>
 
@@ -89,7 +91,7 @@
         </button-->
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+      <table @stagger [dataSource]="dataSource" class="w-full table1" mat-table matSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -127,7 +129,7 @@
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
               [popover]="popTemplate6"
-              placement="right"
+              placement="top"
               ></mat-icon>
             </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
@@ -142,7 +144,7 @@
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
               [popover]="popTemplate6"
-              placement="right"
+              placement="top"
               ></mat-icon>
             </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.object][column.property] }}</td>
@@ -181,7 +183,7 @@
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES
             <mat-icon  [icIcon]="icInfo"  *ngIf="columns[5].info"
             [popover]="popTemplate6"
-            placement="right"
+            placement="top"
             ></mat-icon>
           </th>
           <td *matCellDef="let row" mat-cell>

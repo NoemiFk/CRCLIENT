@@ -1,7 +1,12 @@
 <div @stagger>
   <div class="bg-card py-10 px-gutter">
-    <h1 @fadeInUp class="display-2 mt-0 mb-4 text-center">Planes</h1>
+    <p @fadeInUp class="display-2 mt-0 mb-4 text-center text-4xl">Contrata tu Plan </p>
     <h2 @fadeInUp class="subheading-2 text-hint text-center max-w-lg mx-auto m-0">Únete a nosotros con el mejor plan de pagos.</h2>
+    <h2 @fadeInUp class="subheading-2 text-hint text-center mx-auto m-0">Te pedimos realizar el pago a la cuenta Bancomer 8328973492372934  indicando como referencia tu numero de cliente.
+    </h2>
+    <h2 @fadeInUp class="subheading-2 text-hint text-center max-w-lg mx-auto m-0">Tu numero de Cliente es:</h2>
+    <h2 @fadeInUp class="subheading-2 text-hint text-center max-w-lg mx-auto m-0"><b>o8934569364502735265</b></h2>
+
   </div>
 
   <div class="my-12 container"
@@ -17,14 +22,9 @@
              fxLayoutAlign="center center">
              <ic-icon [icon]="icBeenhere" size="48px"></ic-icon>
         </div>
-        <h2 class="headline my-6">Plan de Prueba</h2>
-    
-        <div class="body-1"><span class="body-2">2</span> Usuarios</div>
-        <div class="body-1"><span class="body-2">20 </span> Clientes</div>
-        <div class="body-1"><span class="body-2">5GB</span> Almacenamiento</div>
-        <div class="body-1"><span class="body-2">10 Días</span> Prueba</div>
-    
-        <h3 class="display-2 font-bold my-6"><span class="text-secondary headline align-top">$</span> 0.00</h3>
+        <h2 class="headline my-6 text-center">Activar Plan Sangrah
+          $3750.00 Pesos mas IVA mensuales 
+          </h2>
     
         <button class="rounded-full max-w-full w-200" color="warn" *ngIf="plan1" mat-raised-button type="button">PLAN ACTIVO</button>
         <button class="rounded-full max-w-full w-200" color="primary" *ngIf="!plan1" mat-raised-button type="button" disabled>ACTIVAR</button>
@@ -37,14 +37,8 @@
              <ic-icon [icon]="icStars" size="48px"></ic-icon>
         </div>
     
-        <h2 class="headline my-6">Plan de Pago</h2>
-    
-        <div class="body-1"><span class="body-2">10</span> Usuarios</div>
-        <div class="body-1"><span class="body-2">500</span> Clientes</div>
-        <div class="body-1"><span class="body-2">10GB</span> Almacenamiento</div>
-        <div class="body-1"><span class="body-2">Soporte</span> Personalizado</div>
-    
-        <h3 class="display-2 font-bold my-6"><span class="text-secondary headline align-top">$</span>3,00.00</h3>
+        <h2 class="headline my-6 text-center">Abre pantalla para complementar datos fiscales, y activa plan
+        </h2>
     
         <button class="rounded-full max-w-full w-200" color="warn" *ngIf="plan2" mat-raised-button type="button">PLAN ACTIVO</button>
         <button class="rounded-full max-w-full w-200" color="primary" *ngIf="!plan2" mat-raised-button type="button" (click)="open()" >ACTIVAR</button>
@@ -52,6 +46,42 @@
     
       
     
+  </div>
+  <div class="bg-card py-10 px-gutter">
+    <h2 @fadeInUp class="subheading-2 text-hint text-center max-w-lg mx-auto m-0"><b>Activar o desactivar servicios de comunicación:  </b></h2>
+    <h2 @fadeInUp class="subheading-2 text-hint text-center mx-auto m-0"> Para contratar los servicios de comunicación digitales activa el checkbox en cada canal de comunicación. En caso que lo quieres desactivar el servicio deshabilita el check box. 
+    </h2>
+
+  </div>
+  <div>
+    <div fxLayout="row" class="bg-card py-10">
+      <div  class="overflow-y-auto" fxFlex="auto">
+        <div class="p-gutter"
+            vexContainer
+            gdColumns="1fr 1fr 1fr 1fr"
+            gdColumns.lt-md="1fr 1fr"
+            gdColumns.xs="1fr"
+            gdGap="24px">
+
+          <div class="card overflow-hidden"  *ngFor="let data of proveedores;  let i = index;">
+
+            <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative" matRipple>
+              <button (click)="emitToggleStar($event, i)" class="absolute top-2 left-2" mat-icon-button type="button">
+                <mat-icon *ngIf="data.active" [icIcon]="icStar" class="text-amber"></mat-icon>
+                <mat-icon *ngIf="!data.active" [icIcon]="icStarBorder"></mat-icon>
+              </button>
+
+              <h2 class="title mb-1 mt-3 flex-grow">{{data.name}}</h2>
+              <p>{{data.price| currency}} <b>MXN</b></p>
+              <small *ngIf="data.range" style="color: #326d05;"> Entrega Exitosa</small>
+              
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
   
+ 
+
 </div>

@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit {
     .subscribe(
         data => {
           if(data.success){
-            //console.log(data)
             let user=data.data;
+            console.log(user)
             this.getAgency(user.agency_id)
            
 
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
     
   }
   getAgency(agency) {
-   //console.log("Clientt",agency)
+   console.log("Clientt",agency)
     this.Services.getAgency(agency)
     .subscribe(
         data => {

@@ -60,5 +60,28 @@
   background-color: white;
 }
 .table1 .popover-content{
-  width: 200px !important;
+  width: 250px !important;
+}
+.table1 .popover-content p{
+  margin-bottom: 0px;
+}
+
+.snackbarInfo {
+  background-color: white;
+  color: black;
+  border: 3px rgb(0, 153, 255) solid;
+}
+
+.snackbarError {
+  background-color: white;
+  color: black;
+  border: 3px red solid;
+}
+.snackbarWarning {
+  background-color: white;
+  color: black;
+  border: 3px orange solid;
+}
+.snackbarWarning .mat-simple-snackbar-action {
+  color: orange;
 }

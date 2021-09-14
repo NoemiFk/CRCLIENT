@@ -249,7 +249,7 @@ export class ToolbarComponent implements OnInit {
   calculate(){
     let dateRegister= new Date(this.client.created);
    //console.log(this.plan.trialPeriod)
-    let newDates= dateRegister.setDate(dateRegister.getDate() + this.plan.trialPeriod.days);
+    let newDates= dateRegister.setDate(dateRegister.getDate() + 0);
    //console.log(new Date(newDates))
     let fin=new Date(newDates)
     //newDates = new Date(newDates);
@@ -259,6 +259,8 @@ export class ToolbarComponent implements OnInit {
     var fecha2 = moment(fin);
     this.days=fecha2.diff(fecha1, 'days')
 
+    localStorage.setItem('days', JSON.stringify(this.days));
+    
 console.log(fecha2.diff(fecha1, 'days'), ' dias de diferencia');
   }
   

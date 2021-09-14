@@ -35,15 +35,20 @@
                   <mat-error> Seleccione el tipo de empresa</mat-error>
                 </mat-form-field>
 
-                <mat-form-field fxFlex="grow">
+                <!--mat-form-field fxFlex="grow">
                   <mat-label>Nombre de Usuario</mat-label>
                   <input formControlName="name" matInput >
                   <mat-error> Introduzca un nombre de usuario</mat-error>
-                </mat-form-field>
+                </mat-form-field-->
         
                 <mat-form-field fxFlex="grow">
                   <mat-label>E-Mail</mat-label>
                   <input type="email" formControlName="email" matInput >
+                  <mat-error> Introduzca un email valido</mat-error>
+                </mat-form-field>
+                <mat-form-field fxFlex="grow">
+                  <mat-label>E-Mail (Confirma tu e-mail)</mat-label>
+                  <input type="email" formControlName="emailConfirm" matInput >
                   <mat-error> Introduzca un email valido</mat-error>
                 </mat-form-field>
 
@@ -69,7 +74,7 @@
               </div>
             </div>
 
-            <div class="p-6 flex-auto" fxLayout="column" fxLayoutGap="16px" >
+            <div class="p-6 flex-auto" fxLayout="column" fxLayoutGap="30px" >
               <div fxFlex="auto" fxLayout="column">
 
                 <mat-form-field fxFlex="grow">
@@ -136,7 +141,10 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <b>
-                    Agregue la comunicación digital 100% integrada al Collection Robot
+                    <div [formGroup]="form" fxLayout="row" fxLayoutAlign="center center">
+                      <mat-checkbox class="caption" formControlName="add">Agregue la comunicación digital 100% integrada al Collection Robot</mat-checkbox>
+                    </div>
+                    
                   </b>
                 </mat-panel-title>
                 <mat-panel-description>

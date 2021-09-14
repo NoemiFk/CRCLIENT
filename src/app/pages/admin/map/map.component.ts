@@ -36,7 +36,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {Services} from '../../../Services/services'
 import { type } from 'os';
-
+import icInfo from '@iconify/icons-ic/info';
 @UntilDestroy()
 @Component({
   selector: 'vex-map',
@@ -58,6 +58,7 @@ import { type } from 'os';
 export class MapComponent implements OnInit, AfterViewInit {
 
   layoutCtrl = new FormControl('boxed');
+  displayedColumnsA2: string[] = ['Dato','Ejemplo','Segmentación','Comunicación','Portal','Aval','Validación'];
 
   /**
    * Simulating a service with HTTP that returns Observables
@@ -77,6 +78,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   willDownload=false;
   labels = aioTableLabels;
   portal=""
+  icInfo=icInfo;
   icPhone = icPhone;
   icMail = icMail;
   icMap = icMap;
@@ -126,6 +128,50 @@ export class MapComponent implements OnInit, AfterViewInit {
     return of(aioTableData.map(customer => new Customer(customer)));
   }
 
+
+  saveChange(val,index){
+    switch (val) {
+      case "analysis":
+        console.log(this.analysis[index].status)
+        if(this.analysis[index].status) this.analysis[index].status=false
+        else this.analysis[index].status=true
+        console.log(this.analysis[index])
+        break;
+        case "segmentation":
+          console.log(this.segmentation[index].status)
+          if(this.segmentation[index].status) this.segmentation[index].status=false
+          else this.segmentation[index].status=true
+          console.log(this.segmentation[index])
+        break;
+        case "strategies":
+          console.log(this.strategies[index].status)
+          if(this.strategies[index].status) this.strategies[index].status=false
+          else this.strategies[index].status=true
+          console.log(this.strategies[index])
+        break;
+        case "customerPortal":
+          console.log(this.customerPortal[index].status)
+          if(this.customerPortal[index].status) this.customerPortal[index].status=false
+          else this.customerPortal[index].status=true
+          console.log(this.customerPortal[index])
+        break;
+        case "endorsement":
+          console.log(this.endorsement[index].status)
+          if(this.endorsement[index].status) this.endorsement[index].status=false
+          else this.endorsement[index].status=true
+          console.log(this.endorsement[index])
+        break;
+        case "validations":
+          console.log(this.validations[index].status)
+          if(this.validations[index].status) this.validations[index].status=false
+          else this.validations[index].status=true
+          console.log(this.validations[index])
+        break;
+    
+      default:
+        break;
+    }
+  }
   ngOnInit() {
     this.getData().subscribe(customers => {
       this.subject$.next(customers);
@@ -440,23 +486,44 @@ export class MapComponent implements OnInit, AfterViewInit {
 
    
     let array = this.splitArray(this.jsDatos)
-
-   array.forEach(element => {
+    let promises= []
+   array.forEach((element, x) => {
       console.log(element.length)
-       
-      this.Services.createRegister(element,this.portafolio_id)
-      .subscribe(
-          data => {
-            if(data.success){
-             //console.log(data.data)
-              //this.info=data.data
-            }
-          },
-          error => {
-            //this.error=true
-          });
-   });
+      if(x==0){
+        element[x].firts = true
+      }
+      else{
+        element[x].firts= false
+      }
+       promises.push(
+         this.registerCart(element)
+       )
 
+      
+   });
+   Promise.all(promises)
+    .then(result => {
+        console.log("Termino de Cargar datos ", result)
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+
+  }
+  registerCart(element){
+    return new Promise((resolve, reject) => {
+      this.Services.createRegister(element,this.portafolio_id)
+        .subscribe(
+            data => {
+              if(data.success){
+                resolve(true)
+              }
+            },
+            error => {
+              //this.error=true
+              reject(error)
+            });
+    });
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -488,6 +555,7 @@ export class MapComponent implements OnInit, AfterViewInit {
    datos: String[];
    name:'Datos'
    map=[];
+   table=[];
    columns1=[]
    analysis=[]
    segmentation=[]
@@ -528,17 +596,36 @@ export class MapComponent implements OnInit, AfterViewInit {
       //document.getElementById('output').innerHTML = jsonData.Datos.length.toString();
       //document.getElementById('output').innerHTML = dataString.slice(0, 300).concat("...");
       //this.setDownload(dataString);
+      this.jsonData.Datos.forEach(element => {
+        
+        if(this.isNew){
+
+          element.create_at_cr = new Date()
+          element.update_at_cr = new Date()
+          element.active_cr = "true"
+        }
+        if(!this.isNew){
+          element.update_at_cr = new Date()
+        }
+      });
       setTimeout(() => {
        //console.log("Tiempo")
         let keys=[];
         if(this.jsonData &&this.jsonData.Datos.length){
       
           for(var k in this.jsonData.Datos[0]){
+            if(k.includes('__EMPTY')){
+              this.jsonData = {Datos:[]};
+              this.snackbar.open("Tu cartera actual contiene encabezados vacios, valida esta información", 'OK', {
+                duration: 10000
+              });
+            }
             keys.push(k);
-          }  
+          } 
+          
           this.datos=keys;
           this.columns=[];
-          this.datos.forEach(element => {
+          this.datos.forEach((element,i) => {
             console.log(element)
                 this.type = typeof jsonData.Datos[0][element.toString()]
                 console.log("----type-----",this.type)
@@ -583,6 +670,17 @@ export class MapComponent implements OnInit, AfterViewInit {
               status: this.type == null?false: true,
               type:this.type 
             });
+            
+            this.table.push(
+              {
+                map:element,
+                segmentation:this.segmentation[i],
+                ejemplo:jsonData.Datos[i][element.toString()],
+                strategies:this.strategies[i],
+                customerPortal:this.customerPortal[i],
+                endorsement:this.endorsement[i],
+                validations:this.validations[i]
+              })
           });
         }
         
@@ -606,6 +704,13 @@ export class MapComponent implements OnInit, AfterViewInit {
       strategies: this.strategies,
       customerPortal: this.customerPortal,
       validations: this.validations
+    }
+    const index = this.validations.findIndex((val) => val.type === "id");
+    if(index==-1){
+      this.snackbar.open("En el MAPEO debe asignar un campo ID Unico.", 'OK', {
+        duration: 10000
+      });
+      return;
     }
     this.Services.createMap(body)
     .subscribe(

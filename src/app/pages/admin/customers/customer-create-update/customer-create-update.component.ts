@@ -5,6 +5,7 @@ import { Customer } from '../interfaces/customer.model';
 import icMoreVert from '@iconify/icons-ic/twotone-more-vert';
 import icClose from '@iconify/icons-ic/twotone-close';
 import icPrint from '@iconify/icons-ic/twotone-print';
+import icInfo from '@iconify/icons-ic/info';
 import icDownload from '@iconify/icons-ic/twotone-cloud-download';
 import icDelete from '@iconify/icons-ic/twotone-delete';
 import icPhone from '@iconify/icons-ic/twotone-phone';
@@ -33,6 +34,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
   icMoreVert = icMoreVert;
   icClose = icClose;
   icPrint = icPrint;
+  icInfo=icInfo;
   icDownload = icDownload;
   icDelete = icDelete;
   icPerson = icPerson;
@@ -221,7 +223,7 @@ export class CustomerCreateUpdateComponent implements OnInit {
         bank:this.nuevoBanco.value,
         cta: this.nuevaCta.value
       });
-      this.ngOnInit();
+      //this.ngOnInit();
   }
 
 

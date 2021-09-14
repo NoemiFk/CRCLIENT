@@ -21,36 +21,34 @@
         <h3  class="mb-0">Paso 2. Administración Portafolios</h3> 
         <ng-template #popTemplate3><div>
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li> <p>Carga los archivos de los portafolios a gestionar, presionando el botón.            </p></li>
-            <li>El archivo no debe contener espacios vacíos.            </li>
-            <li>El archivo debe estar en formato csv.            </li>
+            <li>Carga los archivos de los portafolios a gestionar, presionando el botón.</li>
+            <li>La primera columna debe contener los encabezados.  </li>
+            <li>El archivo debe estar en formato .xls            </li>
           </ol>
         </div></ng-template>
         <ng-template #popTemplate4><div>
           
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li>Selecciona los campos  para la segmentación, la comunicación y el portal del cliente. También puedes indicar los campos que corresponden al aval. </li>
-            <li>Este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestión.            </li>
-            <li>Campos que se usan p.e. para la segmentación son: días de morosidad, monto cartera vencida o riesgo, estado, producto etc.</li>
-            <li>Campos que se usan p.e para la comunicación son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto.            </li>
-            <li>Campos que se usan p.e para el portal del cliente son: Nombre, producto, identificador crédito, detalle cartera vencida, producto, identificador crédito, detalle cartera vencida.</li>
-            <li>En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono            </li>
+            <li class="text-justify">Selecciona los campos  para la segmentación, la comunicación y el portal del cliente. También puedes indicar los campos que corresponden al aval. </li>
+            <li class="text-justify">Este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestión.            </li>
+            <li class="text-justify"><p>Campos que se usan p.e. para la <b>segmentación</b> son: días de morosidad, monto cartera vencida o riesgo, estado, producto etc.</p></li>
+            <li class="text-justify"><p>Campos que se usan p.e. para la <b>comunicación</b> son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto.</p></li>
+            <li class="text-justify"><p>Campos que se usan p.e. para el <b>portal del cliente </b>son: Nombre, producto, identificador crédito, detalle cartera vencida, producto, identificador crédito, detalle cartera vencida.</p></li>
+            <li class="text-justify">En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono            </li>
           </ol>
         </div></ng-template>
         <ng-template #popTemplate5><div>
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li> Carga en Collection Robot información valiosa para optimizar la gestión y recursos. Todos archivos siempre deben estar en formato csv.
+            <li class="text-justify"> Carga en Collection Robot información valiosa para optimizar la gestión y recursos. Todos archivos siempre deben estar en formato .xls
             </li>
           </ol>
-          <p><b>Promesas de Pago:</b> Sube las  promesas de pago que obtienes para que Collection Robot considere  y suspenda el envío de comunicación hasta obtener información sobre el cumplimiento del pago. El archivo a cargar debe contener los campos de Identificador cliente, Fecha de Promesa y
+          <p class="text-justify"><b>Promesas de Pago:</b> Sube las  promesas de pago que obtienes para que Collection Robot considere  y suspenda el envío de comunicación hasta obtener información sobre el cumplimiento del pago. <b>Formato:</b> Identificador cliente, Fecha de Promesa y
             Monto de promesa. 
             </p>
-            <p><b>Pagos:</b> Actualiza los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envió de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago
+            <p class="text-justify"><b>Pagos:</b> Actualiza los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envió de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago. <b>Formato:</b> Identificador cliente, Fecha de Pago, Monto de pago
             </p>
-            <p><b>Formato:</b> Identificador cliente, Fecha de Pago, Monto de pago
-            </p>
-            <p><b>Resultados de Gestión:</b>
-              Formato: Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
+            <p class="text-justify"><b>Resultados de Gestión:</b>
+              Actualizar los resultados de gestión para os reportes. <b>Formato:</b> Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
               </p>
         </div></ng-template>
         <h6 class="mb-0">1. Alta de Portafolio de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
@@ -189,14 +187,14 @@
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
               <div class="flex">
                 <a  *ngIf="row[column.property]==true" 
-                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-green bg-green-light"
+                  class="h-8 leading-none flex items-center justify-center ml-1 text-green bg-green-light"
                   mat-stroked-button>
-                  {{ row[column.property]==true?"Cargado":"Sin Datos"}}
+                  {{ row[column.property]==true?"Realizado":"Sin Datos"}}
                 </a>
                 <a   *ngIf="row[column.property]==false" 
-                  class="w-8 h-8 leading-none flex items-center justify-center ml-1 hover:bg-hover text-red bg-red-light"
+                  class="h-8 leading-none flex items-center justify-center ml-1 text-red bg-red-light"
                   mat-stroked-button>
-                  {{ row[column.property]==true?"Cargado":"Sin Datos"}}
+                  {{ row[column.property]==true?"Realizado":"Sin Datos"}}
                 </a>
               </div>
              
@@ -223,7 +221,12 @@
           <ng-template #popTemplate14><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
 
           <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property">
-            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
+              <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
+              [popover]="popTemplate14"
+              placement="top"
+              ></mat-icon>
+            </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] | date : "dd-MM-yy"}}</td>
           </ng-container>
         </ng-container>

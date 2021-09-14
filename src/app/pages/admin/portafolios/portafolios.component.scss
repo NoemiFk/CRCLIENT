@@ -14,15 +14,16 @@
     background-color: white;
 }
 ol {
-    list-style: none;
-    counter-reset: my-awesome-counter;
-  }
-  ol li {
-    counter-increment: my-awesome-counter;
-    display: flex;
-  }
-  ol li::before {
-    content: counter(my-awesome-counter) ". ";
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-  }
+  list-style: none;
+  counter-reset: my-awesome-counter;
+}
+ol li {
+  counter-increment: my-awesome-counter;
+  display: flex;
+}
+ol li::before {
+  content: counter(my-awesome-counter) ". ";
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  margin-right: 10px;
+}

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,8 +17,15 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatListModule} from '@angular/material/list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableModule } from '@angular/material/table';
+import { PopoverModule } from 'ngx-bootstrap/popover'
+import { WavesModule } from 'angular-bootstrap-md'
 @NgModule({
   imports: [
+    FormsModule,
+    PopoverModule,
+    WavesModule,
+    MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
     CommonModule,

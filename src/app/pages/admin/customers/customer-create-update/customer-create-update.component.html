@@ -79,71 +79,32 @@
 
 
     <div>
-
+      <ng-template #popTemplate><div>
+        texto
+      </div>
+      </ng-template>
       <mat-tab-group>
-        <mat-tab label="Método de Pago"> 
+     
+        <mat-tab> 
+          <ng-template mat-tab-label>
+            Pago en linea  
+          </ng-template>
           <div class="p-5">
-            <h3>Método de Pago</h3>
-            <p>Selecciona en método de pago a tu cartera.</p>
 
+            <h3>Método de Pago de tu portal</h3>
+              <p>Aquí podras configurar el método de pago en linea de tu portal con la pasarela de pago de tu preferencia .</p>
+  
               <div class="flex flex-col sm:flex-row ">
                 <mat-form-field class="flex-auto">
                   <mat-label>Nombre</mat-label>
                   <mat-select  matNativeControl name="type"  [formControl]="nuevoPago">
-                    <mat-option value="Tranferencia">Tranferencia</mat-option>
-                    <mat-option value="Tarjeta">Tarjeta </mat-option>
-                    <mat-option value="Oxxo">Oxxo</mat-option>
-                    <mat-option value="Depósito">Depósito</mat-option>
+                    <mat-option value="Conekta">Conekta</mat-option>
+                    <mat-option value="Stripe">Stripe </mat-option>
+                    <mat-option value="xx">Otro</mat-option>
                   </mat-select>        
                   <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
                 </mat-form-field>
-
-                <mat-form-field class="flex-auto ml-3">
-                  <mat-label>Banco</mat-label>
-                  <input matInput [formControl]="nuevoBanco">           
-                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-
-                <mat-form-field class="flex-auto ml-3">
-                  <mat-label>Cuenta</mat-label>
-                  <input matInput [formControl]="nuevaCta">        
-                  <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                </mat-form-field>
-                <button mat-stroked-button color="primary" class="flex-auto ml-3" (click)="addPay()"> Agregar</button>
               </div>
-
-              <!-- ------------------------------------------------ ------------------------------>
-              <div class="flex flex-col sm:flex-row ">
-              <div class="p-5 flex-auto">
-                <h4>Métodos seleccionados</h4>
-
-                <div class="flex flex-col sm:flex-row " *ngFor="let item of pay; let i = index">
-                  <mat-form-field class="flex-auto">
-                    <mat-label>Nombre</mat-label>
-                    <input  [(ngModel)]="item.name" matInput [ngModelOptions]="{standalone: true}">           
-                    <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                  </mat-form-field>
-
-                  <mat-form-field class="flex-auto ml-3">
-                    <mat-label>Banco</mat-label>
-                    <input  [(ngModel)]="item.bank" matInput [ngModelOptions]="{standalone: true}">           
-                    <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                  </mat-form-field>
-
-                  <mat-form-field class="flex-auto ml-3">
-                    <mat-label>Cuenta</mat-label>
-                    <input  [(ngModel)]="item.cta" matInput [ngModelOptions]="{standalone: true}">        
-                    <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-                  </mat-form-field>
-
-                  <button mat-stroked-button color="warn" class="flex-auto ml-3" (click)="deletePay(i)"> Eliminar</button>
-
-                </div>
-
-              </div>
-            </div>
-              
-
           </div>
         </mat-tab>
       </mat-tab-group>
@@ -151,9 +112,9 @@
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close  color="warn" type="button">Cancelar</button>
-    <button *ngIf="isCreateMode()" mat-flat-button mat-button color="primary" mat-button type="submit" [disabled]="form.invalid">Agregar</button>
-    <button *ngIf="isUpdateMode()" mat-flat-button color="primary" mat-button type="submit" [disabled]="form.invalid">Guardar</button>
+    <button mat-button mat-dialog-close  color="warn" type="button">CANCELAR</button>
+    <button *ngIf="isCreateMode()" mat-flat-button mat-button color="primary" mat-button type="submit" [disabled]="form.invalid">GUARDAR1</button>
+    <button *ngIf="isUpdateMode()" mat-flat-button color="primary" mat-button type="submit" [disabled]="form.invalid">GUARDAR</button>
   </mat-dialog-actions>
 </form>
 

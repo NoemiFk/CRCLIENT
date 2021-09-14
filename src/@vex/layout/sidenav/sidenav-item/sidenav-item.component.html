@@ -36,7 +36,8 @@
        fxLayout="row"
        matRipple>
     <mat-icon *ngIf="level === 0" [icIcon]="item.icon" class="item-icon" fxFlex="none"></mat-icon>
-    <span class="item-label" fxFlex="auto">{{ item.label }}</span>
+    <span class="item-label" *ngIf="item.label != 'Configuración'" fxFlex="auto">{{ item.label }}</span>
+    <span class="item-label" *ngIf="item.label == 'Configuración'" fxFlex="auto">{{ item.label }} <span> <mat-icon [icIcon]="pause" class="pt-1" style="color: brown;" ></mat-icon> </span></span>
     <span *ngIf="item.badge"
           [ngClass]="[item.badge.bgClass, item.badge.textClass]"
           class="item-badge"
