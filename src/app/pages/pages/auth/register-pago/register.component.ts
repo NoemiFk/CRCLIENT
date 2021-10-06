@@ -204,7 +204,7 @@ export class RegisterComponent implements OnInit {
             let agencyA=data.data
            //console.log("----",agencyA)
             localStorage.setItem('Agency', JSON.stringify(agencyA));
-            //this.getPlan(agencyA.contract.plan_id);
+            this.getPlan(agencyA.contract.plan_id);
           }
         },
         error => {

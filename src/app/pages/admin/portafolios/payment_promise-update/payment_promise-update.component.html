@@ -75,16 +75,15 @@
       </mat-step-->
       <mat-step label="Cargar Archivo" state="phone">
         <div style="padding: 20px;">
-
           <h5>Actualizar el archivo de promesas de pago:</h5>
-          <p>1. El formato del archivo puede ser xlsx o csv</p>
-          <p>2. El archvio debe contener los siguientes campos (en el siguiente orden):</p>
+          <p>1. El formato del archivo debe ser xlsx o csv.</p>
+          <p>2. El archvio debe contener los siguientes campos (en el siguiente orden): Identificador cliente , Fecha de promesa (dd/mm/aa), Monto de promesa </p>
          
         </div>
         <div  class="text-center">
           <div class="fileControl-wrapper text-center">
             <br>
-              <button mat-flat-button color="primary">Subir Archivo</button>
+              <button mat-flat-button color="primary">Seleccionar Archivo </button>
             <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
               multiple="multiple"  />
         
@@ -162,14 +161,14 @@
         <div style="padding: 20px;">
 
           <h5>Actualizar el archivo de promesas de pago:</h5>
-          <p>1. Formato en archivo excel.csv</p>
-          <p>2. Campos requeridos (en este orden) : Identificador del cliente , fecha de promesa, monto de promesa).</p>
+          <p>1. El formato del archivo debe ser xlsx o csv.</p>
+          <p>2. El archvio debe contener los siguientes campos (en el siguiente orden): Identificador cliente , Fecha de promesa (dd/mm/aa), Monto de promesa </p>
          
         </div>
         <div  class="text-center">
           <div class="fileControl-wrapper text-center">
             <br>
-              <button mat-flat-button color="primary">Subir Archivo</button>
+              <button mat-flat-button color="primary">Seleccionar Archivo </button>
             <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
               multiple="multiple"  />
         

@@ -58,22 +58,23 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   subject$: ReplaySubject<Communication[]> = new ReplaySubject<Communication[]>(1);
   data$: Observable<Communication[]> = this.subject$.asObservable();
   customers: Communication[];
-  html = `
-  <p> Indica la cantidad de SMS creadas, presionado el signo + se puede crear una nueva comunicación.
-
-  </p>
-  `;
+  html = `<p> Indica la cantidad de SMS creadas, presionado el signo + se puede crear una nueva comunicación.</p>`;
+  html2 = `<p> Indica la cantidad de Blaster creadas, presionado el signo + se puede crear una nueva comunicación.</p>`;
+  html3 = `<p> Indica la cantidad de Mails creadas, presionado el signo + se puede crear una nueva comunicación.</p>`;
+  htm4 = `<p> Indica la cantidad de Cartas creadas, presionado el signo + se puede crear una nueva comunicación.</p>`;
+  html5 = `<p> Indica la cantidad de Notificaciones creadas, presionado el signo + se puede crear una nueva comunicación.</p>`;
+  html6 = `<p> Indica la cantidad de Demandas creadas, presionado el signo + se puede crear una nueva comunicación.</p>`;
   @Input()
   columns: TableColumn<Communication>[] = [
     { label: 'Checkbox', property: 'checkbox', type: 'checkbox', visible: true },
     { label: 'Financiera', property: 'name', type: 'object', object:'client_id', visible: true },
     { label: 'Portafolio', property: 'name_portafolio', type: 'object', object:'portafolio_id', visible: true },
     { label: 'SMS', property: 'SMS', type: 'number', visible: true, cssClasses: ['font-medium'], info: true, text: this.html },
-    { label: 'Blaster', property: 'Blaster', type: 'number', visible: true, cssClasses: ['font-medium'] },
-    { label: 'E-Mails', property: 'Mail', type: 'number', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Cartas', property: 'Letter', type: 'number', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Notificaciones', property: 'Notification', type: 'number', visible: true, cssClasses: ['font-medium'] },
-    { label: 'Demandas', property: 'Demand', type: 'number', visible: false, cssClasses: ['font-medium'] },
+    { label: 'Blaster', property: 'Blaster', type: 'number', visible: true, cssClasses: ['font-medium'], info: true, text: this.html2 },
+    { label: 'Mails', property: 'Mail', type: 'number', visible: true, cssClasses: ['font-medium'], info: true, text: this.html3  },
+    { label: 'Cartas', property: 'Letter', type: 'number', visible: true, cssClasses: ['font-medium'], info: true, text: this.htm4  },
+    { label: 'Notificaciones', property: 'Notification', type: 'number', visible: true, cssClasses: ['font-medium'], info: true, text: this.html5  },
+    //{ label: 'Demandas', property: 'Demand', type: 'number', visible: false, cssClasses: ['font-medium'], info: true, text: this.html6  },
     { label: 'Segmentos', property: 'labels', type: 'button', visible: false },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }
   ];

@@ -69,10 +69,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   data$: Observable<Customer[]> = this.subject$.asObservable();
   customers: Customer[];
   CustomersList:[];
-  html11="<p>No. De Portafolios de la financiera.</p>"
+  html11="<p>No. de Portafolios de la financiera.</p>"
   html12="<p>Indica cuantos clientes morosos (registros) contiene el portafolio. </p>"
-  html13="<p>Indica si hay un metodo de pago alimentado para incluir en la comunicación.</p>"
-  html14="<p>Indica si hay una opcion de pago en linea configurada para realizar pagos en linea.  </p>"
+  html13="<p>Indica si hay un método de pago alimentado para incluir en la comunicación.</p>"
+  html14="<p>Indica si hay una opción de pago configurada para que el cliente pueda realizar pagos por medio del portal </p>"
 
 
   @Input()
@@ -162,10 +162,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
 
   html2 = `
   <p> <b>1. </b>
-  Alimenta los metodos de pago que la financiera ofrece a sus clientes para realizar los pagos. El metodo de pago serian las opciones de pago en el portal del cliente y se puede incluir en las comunicaciónes con el cliente para indicar como pagar su atraso. 
+  Alimenta los métodos de pago que la financiera ofrece a sus clientes para realizar los pagos. El método de pago serian las opciones de pago en el portal del cliente y se puede incluir en las comunicaciónes con el cliente para indicar como pagar su atraso. 
   </p>
   <p> <b>2. </b>
-  Es un dato muy sensible y solamente el adminstrador de CR puede realizar cambios en el metodo de pago.
+  Es un dato muy sensible y solamente el adminstrador de CR puede realizar cambios en el método de pago.
   </p> 
     `;
 

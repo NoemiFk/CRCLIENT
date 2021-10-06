@@ -1,0 +1,260 @@
+<mat-step label="Vista Previa" state="chat">
+       
+    <div class="card overflow-auto" style="max-height: 500px;">
+      <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
+          <span >Resultados de Gestión</span>
+        </h2>
+  
+  
+        <div class="bg-card rounded-full border px-4"
+             fxFlex="400px"
+             fxFlex.lt-md="auto"
+             fxHide.xs
+             fxLayout="row"
+             fxLayoutAlign="start center">
+          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+          <input [formControl]="searchCtrl"
+                 class="px-4 py-3 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search">
+        </div>
+  
+        <span fxFlex></span>
+  
+        <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
+          <mat-icon [icIcon]="icSearch"></mat-icon>
+        </button>
+  
+       
+  
+      </div>
+      <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort >
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+  
+     
+  
+        <!-- Text Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+          </ng-container>
+        </ng-container>
+  
+  
+        <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
+        <!--(click)="updateCustomer(row)"-->
+        <tr 
+            *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out cursor-pointer"
+            mat-row></tr>
+      </table>
+    </div>
+    <br>
+    <div class="text-right">
+      <button mat-button matStepperPrevious>ATRAS</button>
+      <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
+    </div>
+  </mat-step>
+
+  <mat-step label="Vista Previa" state="chat">
+       
+    <div class="card overflow-auto" style="max-height: 500px;">
+      <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
+          <span >Resultados de Gestión</span>
+        </h2>
+  
+  
+        <div class="bg-card rounded-full border px-4"
+             fxFlex="400px"
+             fxFlex.lt-md="auto"
+             fxHide.xs
+             fxLayout="row"
+             fxLayoutAlign="start center">
+          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+          <input [formControl]="searchCtrl"
+                 class="px-4 py-3 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search">
+        </div>
+  
+        <span fxFlex></span>
+  
+        <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
+          <mat-icon [icIcon]="icSearch"></mat-icon>
+        </button>
+  
+       
+  
+      </div>
+      <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort >
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+  
+     
+  
+        <!-- Text Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+          </ng-container>
+        </ng-container>
+  
+  
+        <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
+        <!--(click)="updateCustomer(row)"-->
+        <tr 
+            *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out cursor-pointer"
+            mat-row></tr>
+      </table>
+    </div>
+    <br>
+    <div class="text-right">
+      <button mat-button matStepperPrevious>ATRAS</button>
+      <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
+    </div>
+  </mat-step>
+
+
+
+  ----------------
+
+  <mat-step label="Vista Previa" state="chat">
+       
+    <div class="card overflow-auto" style="max-height: 500px;">
+      <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
+          <span >Pagos</span>
+        </h2>
+  
+  
+        <div class="bg-card rounded-full border px-4"
+             fxFlex="400px"
+             fxFlex.lt-md="auto"
+             fxHide.xs
+             fxLayout="row"
+             fxLayoutAlign="start center">
+          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+          <input [formControl]="searchCtrl"
+                 class="px-4 py-3 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search">
+        </div>
+  
+        <span fxFlex></span>
+  
+        <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
+          <mat-icon [icIcon]="icSearch"></mat-icon>
+        </button>
+  
+       
+  
+      </div>
+      <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort >
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+  
+     
+  
+        <!-- Text Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+          </ng-container>
+        </ng-container>
+  
+  
+        <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
+        <!--(click)="updateCustomer(row)"-->
+        <tr 
+            *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out cursor-pointer"
+            mat-row></tr>
+      </table>
+    </div>
+    <br>
+    <div class="text-right">
+      <button mat-button matStepperPrevious>ATRAS</button>
+      <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
+    </div>
+  </mat-step>
+
+
+
+  <mat-step label="Vista Previa" state="chat">
+       
+    <div class="card overflow-auto" style="max-height: 500px;">
+      <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
+        <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
+          <span >Pagos</span>
+        </h2>
+  
+  
+        <div class="bg-card rounded-full border px-4"
+             fxFlex="400px"
+             fxFlex.lt-md="auto"
+             fxHide.xs
+             fxLayout="row"
+             fxLayoutAlign="start center">
+          <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
+          <input [formControl]="searchCtrl"
+                 class="px-4 py-3 border-0 outline-none w-full bg-transparent"
+                 placeholder="Buscar..."
+                 type="search">
+        </div>
+  
+        <span fxFlex></span>
+  
+        <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
+          <mat-icon [icIcon]="icSearch"></mat-icon>
+        </button>
+  
+       
+  
+      </div>
+      <table @stagger [dataSource]="jsDatos" class="w-full" mat-table matSort >
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+  
+     
+  
+        <!-- Text Columns -->
+        <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
+          <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
+            <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
+            <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property] }}</td>
+          </ng-container>
+        </ng-container>
+  
+  
+        <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
+        <!--(click)="updateCustomer(row)"-->
+        <tr 
+            *matRowDef="let row; columns: visibleColumns;"
+            @fadeInUp
+            class="hover:bg-hover trans-ease-out cursor-pointer"
+            mat-row></tr>
+      </table>
+    </div>
+    <br>
+    <div class="text-right">
+      <button mat-button matStepperPrevious>ATRAS</button>
+      <button mat-button matStepperNext (click)="createRegister()">CARGAR ARCHIVO</button>
+    </div>
+  </mat-step>
+
+
+  --------------------------------------

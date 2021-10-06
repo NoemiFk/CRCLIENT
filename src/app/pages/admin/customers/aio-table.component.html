@@ -39,18 +39,21 @@
           <!--button class="text-secondary closeB"  color="primary"  mat-mini-fab  mat-icon-button type="button">
             <mat-icon [icIcon]="icClose"></mat-icon>
           </button-->
-          <ol style="list-style: auto; margin-left:2px; margin-top:8px">
+          <p>Configura las opciones de pago que la financiera ofrece a sus clientes para pagar el saldo vencido a través del portal. Es importante que la financiera se registre en las diferentes pasarelas para ingresar la información requerida y activar el pago en línea</p>
+          <!--ol style="list-style: auto; margin-left:2px; margin-top:8px">
             <li> Alimentar el método de pago que se incluye en las comunicaciones a clientes para indicar como pagar su saldo vencido.
             </li>
             <li> Elije las opciones de pago que la financiera quiere ofrecer a sus clientes para pagar su saldos vencido a través del portal para aprovechar las opciones de pago es necesario que la financiera este dada de alta en las diferentes pasarelas para ingresar la información requerida. </li>
-          </ol>
+          </ol-->
         </div></ng-template>
         <h6>1. Alta y Administración de Financiera que asigna portafolio.<mat-icon class="pt-1" [icIcon]="icInfo" 
-          [popover]="popTemplate"
+          [outsideClick]="true"
+[popover]="popTemplate"
           placement="right"
           ></mat-icon></h6>
-        <h6>2. Alimenta metodo de pago y opciones de pago para el portal.<mat-icon class="pt-1" [icIcon]="icInfo" 
-            [popover]="popTemplate2"
+        <h6>2. Configurar opciones de pago para el portal  .<mat-icon class="pt-1" [icIcon]="icInfo" 
+            [outsideClick]="true"
+[popover]="popTemplate2"
             placement="right"
             ></mat-icon></h6>
        
@@ -154,7 +157,8 @@
           <ng-container *ngIf="column.type === 'boolean'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate12"
+              [outsideClick]="true"
+[popover]="popTemplate12"
               placement="top"
               ></mat-icon>
             </th>
@@ -190,7 +194,8 @@
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate11"
+              [outsideClick]="true"
+[popover]="popTemplate11"
               placement="top"
               ></mat-icon>
             </th>

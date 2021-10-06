@@ -189,7 +189,33 @@
 
 
 
-
+  /*switch (x) {
+    case 1:
+      body={
+        "query": {},
+      }
+      console.log("version 2",this.segment.segmentation[0].query)
+        query1= JSON.parse(this.segment.segmentation[0].query)
+        console.log("version 2.1",query1)
+        body={
+          "query": query1,
+        }
+      break;
+      case 2:
+        
+        console.log("version 3",this.segment.segmentation[1].query)
+        query1= JSON.parse(this.segment.segmentation[0].query)
+        query2= JSON.parse(this.segment.segmentation[1].query)
+        console.log("version 3.1",query1)
+        body={
+          "query": {
+            "$and": [ query1,query2
+            ]
+        }}
+        break;
+    default:
+      break;
+  }*/
 
 
   def reserve_stock_units
@@ -211,3 +237,38 @@
       channel_integration = ChannelIntegration.find_by(id: product["channel_integration_id"])
       task = Shopify::ShopifySetInventoryWorker.perform_async(channel_integration.id, channel_integration.location, product[:inventory_item_id],qty)
   end
+
+
+
+  /* if(this.segmentation.criteria[1]){
+    console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+     
+     this.segmentation.criteria[1].dataSource=[]
+     this.segmentation.criteria[1].dataSeg=[]
+     //promises.push(this.analytics1(1))
+     this.analytics1(0)
+     .then(result => {
+           console.log("PROMESAS SAVE", result)
+           this.save(0)
+       })
+       .catch(err =>{
+         console.log(err)
+       });
+     }
+   if(this.segmentation.criteria[2]){
+    console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+    
+     this.segmentation.criteria[2].dataSource=[]
+     this.segmentation.criteria[2].dataSeg=[]
+    
+     //promises.push(this.analytics1(2))
+    
+     }*/
+   
+    /* Promise.all(promises)
+     .then(result => {
+         console.log("PROMESAS REALIZADAS", result)
+     })
+     .catch(err =>{
+       console.log(err)
+     })*/

@@ -73,7 +73,7 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
     { label: 'Nombre', property: 'name', type: 'text', visible: true },
     { label: 'Descripcion', property: 'description', type: 'text', visible: true },
     { label: 'Registros', property: 'registers', type: 'text', visible: false, cssClasses: ['font-medium'] },
-    { label: '% Segementado', property: 'porcent', type: 'text', visible: false },
+    { label: '% Segmentado', property: 'porcent', type: 'text', visible: false },
     //{ label: 'Segmentos', property: 'segmentation', type: 'text', visible: true },
     { label: 'Segmentos', property: 'labels', type: 'button', visible: false },
     { label: 'Actions', property: 'actions', type: 'button', visible: true }

@@ -12,12 +12,16 @@ export class WidgetAssistantComponent implements OnInit {
 
   constructor() { }
   days=localStorage.getItem('days')
-  x = true;
-  //days=10
+  x = false;
+  day=0
 
   ngOnInit() {
-    this.x= true
-    console.log(this.days)
+    this.x = false
+    if(this.day==10 || this.day==3 ||this.day==1 || this.day==0)
+      this.x = true
+
+    this.day = parseInt(this.days)
+    console.log("--",this.day)
     
   }
 

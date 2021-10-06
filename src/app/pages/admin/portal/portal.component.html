@@ -182,7 +182,8 @@
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES
             <ng-template #popTemplate8><div [innerHtml]="html"> </div></ng-template>
               <mat-icon  [icIcon]="icInfo"  *ngIf=" true"
-              [popover]="popTemplate8"
+              [outsideClick]="true"
+[popover]="popTemplate8"
               placement="right"
               ></mat-icon>
           </th>

@@ -17,9 +17,9 @@
 
         <h3>Paso 3. Segmentación del Portafolio</h3>
         
-        <h6 class="mb-2"> 1. Con base a los campos seleccionado en el mapeo segmenta tu portafolio.</h6>
+        <h6 class="mb-2"> 1. Con base a los campos seleccionados en el mapeo segmenta tu portafolio.</h6>
         <h6 class="mb-2"> 2. La segmentación ayuda a priorizar y optimizar las acciones de cobranza.</h6>
-        <h6 class="mb-2"> 3. Se recomienda no más de 3 segmentos por portafolio se pueden combinar hasta 3 criterio de segmentación.</h6>
+        <h6 class="mb-2"> 3. Se recomienda no más de 3 segmentos por portafolio, se pueden combinar hasta 3 criterios de segmentación.</h6>
       </div>
       
     </div>
@@ -128,7 +128,8 @@
             <ng-template #popTemplate6><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate6"
+              [outsideClick]="true"
+[popover]="popTemplate6"
               placement="top"
               ></mat-icon>
             </th>
@@ -143,7 +144,8 @@
           <ng-container *ngIf="column.type === 'object'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate6"
+              [outsideClick]="true"
+[popover]="popTemplate6"
               placement="top"
               ></mat-icon>
             </th>
@@ -182,7 +184,8 @@
           <ng-template #popTemplate6><div [innerHtml]="columns[5].text"></div></ng-template>
           <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>SEGMENTACIONES
             <mat-icon  [icIcon]="icInfo"  *ngIf="columns[5].info"
-            [popover]="popTemplate6"
+            [outsideClick]="true"
+[popover]="popTemplate6"
             placement="top"
             ></mat-icon>
           </th>
@@ -198,6 +201,7 @@
                    class="text-secondary bg-base text-hint cursor-pointer hover:bg-hover"
                    fxFlex="none"
                    fxLayout="row"
+                   *ngIf="row.segmentation.length != 3"
                    fxLayoutAlign="center center">
                 <ic-icon [icon]="icAdd" size="18px"></ic-icon>
               </div>

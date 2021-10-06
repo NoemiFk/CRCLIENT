@@ -98,7 +98,11 @@ export class ToolbarComponent implements OnInit {
   color6="primary"
   ngOnInit() {
     console.log("Ruta",this.router.url);
-    switch (this.router.url) {
+    this.url= this.router.url
+    if (this.router.url.includes("portafoliosId")){
+      this.url = "/admin/portafolios"
+    }
+    switch (this.url) {
       case "/admin/portafolios":
         
         this.color2="accent"
@@ -171,8 +175,13 @@ export class ToolbarComponent implements OnInit {
   href(x){
     this.router.navigate([x]);
   }
+  url=""
   verify(){
-    switch (this.router.url) {
+    this.url= this.router.url
+    if (this.router.url.includes("portafoliosId")){
+      this.url = "/admin/portafolios"
+    }
+    switch (this.url) {
       case "/admin/portafolios":
         this.color2="accent"
         this.color1="primary"
@@ -181,6 +190,14 @@ export class ToolbarComponent implements OnInit {
         this.color5="primary"
         this.color6="primary"
         break;
+        case "/admin/portafoliosId/:id":
+          this.color2="accent"
+          this.color1="primary"
+          this.color3="primary"
+          this.color4="primary"
+          this.color5="primary"
+          this.color6="primary"
+          break;
         case "/admin/customers":
         
           this.color2="primary"
@@ -249,7 +266,7 @@ export class ToolbarComponent implements OnInit {
   calculate(){
     let dateRegister= new Date(this.client.created);
    //console.log(this.plan.trialPeriod)
-    let newDates= dateRegister.setDate(dateRegister.getDate() + 0);
+    let newDates= dateRegister.setDate(dateRegister.getDate() + 11);
    //console.log(new Date(newDates))
     let fin=new Date(newDates)
     //newDates = new Date(newDates);

@@ -37,6 +37,9 @@ import icMap from '@iconify/icons-ic/twotone-map';
 import { Router } from '@angular/router';
 import {Services} from '../../../Services/services'
 import { MapUpdateComponent } from './mapeo-update/mapeo-update.component';
+import { PayUpdateComponent } from '../portafolios/pay-update/pay-update.component';
+import { PaymentPromiseUpdateComponent } from '../portafolios/payment_promise-update/payment_promise-update.component';
+import { ManagementResultsUpdateComponent } from '../portafolios/management_results-update/management_results-update.component';
 
 @UntilDestroy()
 @Component({
@@ -400,6 +403,70 @@ export class AioTableComponent implements OnInit, AfterViewInit {
      */
 
     this.dialog.open(MapUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
+  }
+  ////////////////////////////////////
+  uploadPay(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(PayUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
+  }
+  uploadPayPromises(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(PaymentPromiseUpdateComponent, {
+      data: portafolio
+    }).afterClosed().subscribe(MapUpdate => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      if (MapUpdate) {
+        /**
+         * Here we are updating our local array.
+         * You would probably make an HTTP request here.
+         */
+      }
+    });
+  }
+  uploadManagementResults(portafolio: Portafolio) {
+    console.log(portafolio)
+    /**
+     * Here we are updating our local array.
+     * You would probably make an HTTP request here.
+     */
+
+    this.dialog.open(ManagementResultsUpdateComponent, {
       data: portafolio
     }).afterClosed().subscribe(MapUpdate => {
       /**

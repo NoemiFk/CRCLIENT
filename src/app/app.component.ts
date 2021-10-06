@@ -119,10 +119,12 @@ export class AppComponent {
         routerLinkActiveOptions: { exact: true }
       },
       {
-        type: 'dropdown',
+        type: 'link',
         label: 'Configuración',
         icon: icSettings,
-        children: [
+        route: '/admin/generalSettings',
+        routerLinkActiveOptions: { exact: true }
+        /*children: [
           {
             type: 'link',
             label: 'General',
@@ -148,7 +150,7 @@ export class AppComponent {
             label: 'Proveedores',
             route: '/login'
           },
-        ]
+        ]*/
       },
       {
         type: 'link',
@@ -164,13 +166,13 @@ export class AppComponent {
         children: [
           {
             type: 'link',
-            label: 'Administración Financieras',
+            label: 'Admin Financieras',
             route: '/admin/customers',
             icon: icPerson
           },
           {
             type: 'link',
-            label: 'Administración Portafolios',
+            label: 'Admin Portafolios',
             route: '/admin/portafolios',
             icon: icPortafolio
           },
@@ -213,7 +215,7 @@ export class AppComponent {
           },
           {
             type: 'link',
-            label: 'Estrategias',
+            label: 'Estrategia de Gestión',
             route: '/admin/strategy',
             icon: icGrhap
           },

@@ -162,7 +162,7 @@ export class StrategyComponent implements OnInit {
   }];
   html='<p> Determina los dias maximos que se queda cada asunto en el Collection Robot </p>'
   html2='<p>  Determina la salida del asunto del Collection Robot despues de x cantidad de comunicaciones sin éxito (no entregados – o sin respuesta)</p>'
-  html3='<p> Presiona el simbolo + y agrega la accion de gestion que quieres programar en el dia correspondiente. También puedes definir la hora del envio</p>'
+  html3='<p> Presiona el simbolo + y agrega la accion de gestion que quieres programar en el dia correspondiente. También puedes definir la hora del envío</p>'
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'determinate';
   value = 0;

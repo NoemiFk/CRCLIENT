@@ -83,19 +83,20 @@ export class PortafolioCreateUpdateComponent implements OnInit {
     if (this.defaults) {
       this.mode = 'update';
       let portafolio = this.defaults;
-      console.log(this.defaults)
+      console.log("-------------",this.defaults)
       this.defaults= {
         "_id":portafolio._id,
         "name_portafolio": portafolio.name_portafolio,
         "description": portafolio.description,
         "agency_id": portafolio.agency_id,
         "type": portafolio.type,
-        "client_id": portafolio.client_id,
+        "client_id": portafolio.client_id._id,
       }
       this.form.get('name_portafolio').setValue(this.defaults.name_portafolio)
       this.form.get('type').setValue(this.defaults.type)
       this.form.get('agency_id').setValue(this.defaults.agency_id)
       this.form.get('description').setValue(this.defaults.description)
+      this.form.get('client_id').setValue(this.defaults.client_id)
     } else {
       this.defaults = {} as Portafolio;
     }
@@ -170,6 +171,7 @@ export class PortafolioCreateUpdateComponent implements OnInit {
           }
         },
         error => {
+          this.dialogRef.close("--");
           //this.error=true
         });
 

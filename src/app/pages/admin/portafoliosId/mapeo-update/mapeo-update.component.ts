@@ -13,7 +13,7 @@ import icLocationCity from '@iconify/icons-ic/twotone-location-city';
 import icEditLocation from '@iconify/icons-ic/twotone-edit-location';
 import {Services} from '../../../../Services/services'
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import icInfo from '@iconify/icons-ic/info';
 @Component({
   selector: 'vex-mapeo-update',
   templateUrl: './mapeo-update.component.html',
@@ -28,7 +28,7 @@ export class MapUpdateComponent implements OnInit {
 
   icMoreVert = icMoreVert;
   icClose = icClose;
-
+  icInfo= icInfo
   icPrint = icPrint;
   icDownload = icDownload;
   icDelete = icDelete;
@@ -47,6 +47,8 @@ export class MapUpdateComponent implements OnInit {
   endorsement=[]
   customerPortal=[]
   validations=[]
+  displayedColumnsA2: string[] = ['Dato','Segmentación','Comunicación','Portal','Aval','Validación'];
+ 
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -77,6 +79,7 @@ export class MapUpdateComponent implements OnInit {
       this.defaults = {} as Portafolio;
     }
   }
+  table=[]
   getMap(id){
     this.Services.getMap(id)
     .subscribe(
@@ -98,6 +101,19 @@ export class MapUpdateComponent implements OnInit {
                 status:false
               });
              });
+             this.map.forEach((element , i)=> {
+              
+              this.table.push(
+                {
+                  map:element,
+                  segmentation:this.segmentation[i],
+                  strategies:this.strategies[i],
+                  customerPortal:this.customerPortal[i],
+                  endorsement:this.endorsement[i],
+                  validations:this.validations[i]
+                })
+            });
+            console.log(this.table)
             //this.segmentacion=data.data.segmentation
            // this.CustomersList=data.data
             

@@ -95,7 +95,7 @@ export class GeneralSettingsComponent implements OnInit {
       RFC: ['',[Validators.required,Validators.minLength(13),Validators.maxLength(13)]],
       razonSocial: [''],
       usoFactura: [''],
-      metodoPago: [''],
+      métodoPago: [''],
       direccion1: [''],
       direccion2: [''],
       ciudad: [''],
@@ -140,7 +140,7 @@ export class GeneralSettingsComponent implements OnInit {
       
 
       if(this.agenciaActual.paymentForm == '03'){
-        this.form.get('metodoPago').setValue('03') 
+        this.form.get('métodoPago').setValue('03') 
       }
       this.form.get('direccion1').setValue(this.agenciaActual.address.address1)  
       this.form.get('direccion2').setValue(this.agenciaActual.address.address2)  
@@ -185,7 +185,7 @@ export class GeneralSettingsComponent implements OnInit {
         "RFC": agency.RFC,
         "razonSocial": agency.nombreEmpresa,
         "cfdiUse": agency.usoFactura,
-        "paymentForm": agency.metodoPago,
+        "paymentForm": agency.métodoPago,
         "address": {
           "address1": agency.direccion1,
           "address2": agency.direccion2,

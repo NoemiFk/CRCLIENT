@@ -23,20 +23,22 @@
         <h3  class="mb-0">Paso 2. Administración Portafolios</h3> 
         <ng-template #popTemplate3><div>
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li>Carga los archivos de los portafolios a gestionar, presionando el botón.</li>
-            <li>La primera columna debe contener los encabezados.  </li>
-            <li>El archivo debe estar en formato .xls            </li>
+            <li><p>Carga los archivos de los portafolios a gestionar, presionando el botón <img src="https://iconsangrah.s3.us-west-2.amazonaws.com/Captura+de+Pantalla+2021-10-04+a+la(s)+8.01.06.png" class="avatar h-8 w-8 align-middle"></p></li>
+            <li>Para subir correctamente el archivo, la primera columna del archvio debe contener los encabezados, no deben existir filas vacias
+            </li>
+            <li>El archivo debe estar en formato csv o xlxs </li>
           </ol>
         </div></ng-template>
         <ng-template #popTemplate4><div>
           
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li class="text-justify">Selecciona los campos  para la segmentación, la comunicación y el portal del cliente. También puedes indicar los campos que corresponden al aval. </li>
-            <li class="text-justify">Este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestión.            </li>
+            <li class="text-justify">Selecciona los campos  para la segmentación, la comunicación y el portal del cliente. También puedes indicar los campos que corresponden al aval</li>
+            <li class="text-justify">Este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestión</li>
             <li class="text-justify"><p>Campos que se usan p.e. para la <b>segmentación</b> son: días de morosidad, monto cartera vencida o riesgo, estado, producto etc.</p></li>
-            <li class="text-justify"><p>Campos que se usan p.e. para la <b>comunicación</b> son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto.</p></li>
-            <li class="text-justify"><p>Campos que se usan p.e. para el <b>portal del cliente </b>son: Nombre, producto, identificador crédito, detalle cartera vencida, producto, identificador crédito, detalle cartera vencida.</p></li>
+            <li class="text-justify"><p>Campos que se usan p.e. para la <b>comunicación</b> son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto</p></li>
+            <li class="text-justify"><p>Campos que se usan p.e. para el <b>portal del cliente </b>son: Nombre, producto, identificador crédito, detalle cartera vencida, producto, identificador crédito, detalle cartera vencida</p></li>
             <li class="text-justify">En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono            </li>
+            <li class="text-justify">Te recomendamos leer y seguir las instrucciones en cada punto del encabezado</li>
           </ol>
         </div></ng-template>
         <ng-template #popTemplate5><div>
@@ -47,22 +49,25 @@
           <p class="text-justify"><b>Promesas de Pago:</b> Sube las  promesas de pago que obtienes para que Collection Robot considere  y suspenda el envío de comunicación hasta obtener información sobre el cumplimiento del pago. <b>Formato:</b> Identificador cliente, Fecha de Promesa y
             Monto de promesa. 
             </p>
-            <p class="text-justify"><b>Pagos:</b> Actualiza los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envió de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago. <b>Formato:</b> Identificador cliente, Fecha de Pago, Monto de pago
+            <p class="text-justify"><b>Pagos:</b> Actualiza los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envió de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago. <b>Formato:</b> Identificador cliente,  (dd/mm/aa), Monto de pago
             </p>
             <p class="text-justify"><b>Resultados de Gestión:</b>
               Actualizar los resultados de gestión para os reportes. <b>Formato:</b> Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
               </p>
         </div></ng-template>
         <h6 class="mb-0">1. Alta de Portafolio de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
-          [popover]="popTemplate3"
+          [outsideClick]="true"
+[popover]="popTemplate3"
           placement="right"
           ></mat-icon></h6>
-        <h6 class="mb-0">2. Mapeo de Portafolio .<mat-icon class="pt-1" [icIcon]="icInfo" 
-            [popover]="popTemplate4"
+        <h6 class="mb-0">2. Mapeo del Portafolio .<mat-icon class="pt-1" [icIcon]="icInfo" 
+            [outsideClick]="true"
+[popover]="popTemplate4"
             placement="right"
             ></mat-icon></h6>
          <h6 class="mb-0">3. Actualización de Promesas de Pago, Pagos y Resultados de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
-            [popover]="popTemplate5"
+            [outsideClick]="true"
+[popover]="popTemplate5"
             placement="right"
             ></mat-icon></h6>
        
@@ -173,7 +178,8 @@
           <ng-container *ngIf="column.type === 'boolean'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate19"
+              [outsideClick]="true"
+[popover]="popTemplate19"
               placement="top"
               ></mat-icon>
             </th>
@@ -202,7 +208,8 @@
           <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate18"
+              [outsideClick]="true"
+[popover]="popTemplate18"
               placement="top"
               ></mat-icon>
             </th>
@@ -216,7 +223,8 @@
           <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate17"
+              [outsideClick]="true"
+[popover]="popTemplate17"
               placement="top"
               ></mat-icon>
             </th>
@@ -231,7 +239,8 @@
           <ng-container *ngIf="column.type === 'object'" [matColumnDef]="column.property">
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate16"
+              [outsideClick]="true"
+[popover]="popTemplate16"
               placement="top"
               ></mat-icon>
             </th>
@@ -318,17 +327,17 @@
           <td *matCellDef="let row" class="w-10 text-secondary" mat-cell>
             <div class="flex">
 
-              <a (click)="$event.stopPropagation();" *ngIf="row.register"
+              <a (click)="$event.stopPropagation(); uploadPay(row)" *ngIf="row.register"
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Actualizar Pagos">
               <mat-icon [icIcon]="icPay" size="18px"></mat-icon>
               </a>
-              <a (click)="$event.stopPropagation();" *ngIf="row.register"
+              <a (click)="$event.stopPropagation();  uploadPayPromises(row)" *ngIf="row.register"
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Actualizar Promesas de Pagos">
               <mat-icon [icIcon]="icPromisses" size="18px"></mat-icon>
               </a>
-              <a (click)="$event.stopPropagation();" *ngIf="row.register"
+              <a (click)="$event.stopPropagation(); uploadManagementResults(row)" *ngIf="row.register"
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Actualizar Resultados de Gestión">
               <mat-icon [icIcon]="icList" size="18px"></mat-icon>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { Quill } from "quill";
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,20 +24,29 @@ import { QuillModule } from 'ngx-quill';
 import { SecondaryToolbarModule } from '../../../../../@vex/components/secondary-toolbar/secondary-toolbar.module';
 import { BreadcrumbsModule } from '../../../../../@vex/components/breadcrumbs/breadcrumbs.module';
 
+import { ImageResize } from 'quill-image-resize-module';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 @NgModule({
   imports: [
     MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
     QuillModule.forRoot({
       modules: {
         toolbar: [
           ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-          ['blockquote', 'code-block'],
+          //['blockquote', 'code-block'],
 
           [{ header: 1 }, { header: 2 }],               // custom button values
           [{ list: 'ordered' }, { list: 'bullet' }],
-          [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
+          //[{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
           [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
           [{ direction: 'rtl' }],                         // text direction
 
@@ -46,15 +56,14 @@ import { BreadcrumbsModule } from '../../../../../@vex/components/breadcrumbs/br
           [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
           [{ align: [] }],
 
-          ['clean'],                                         // remove formatting button
+          //['clean'],                                         // remove formatting button
 
-          ['link', 'image', 'video']                         // link and image, video
+          ['link', 'image']                         // link and image, video
         ]
-       
       }
     }),
     SecondaryToolbarModule,
-    BreadcrumbsModule,
+    //BreadcrumbsModule,
     HttpClientModule,
     AngularEditorModule,
     CommonModule,

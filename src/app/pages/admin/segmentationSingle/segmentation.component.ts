@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
-import { filter, findIndex } from 'rxjs/operators';
+import { filter, findIndex, timeout } from 'rxjs/operators';
 import { Segmentation } from './interfaces/segmentation.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -38,6 +38,8 @@ import { defaultChartOptions } from '../../../../@vex/utils/default-chart-option
 import { createDateArray } from '../../../../@vex/utils/create-date-array';
 import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 import icInfo from '@iconify/icons-ic/info';
+import { query } from '@angular/animations';
+import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 
 @UntilDestroy()
 @Component({
@@ -71,6 +73,7 @@ export class SegmentationComponent implements OnInit {
   icPerson = icPerson;
   icInfo=icInfo;
   icAdd=icAdd;
+  icDelete=icDelete;
   info_client=localStorage.getItem('currentAgency')
   client=JSON.parse(this.info_client);
   constructor( private Services: Services,private router: Router, private route:ActivatedRoute) {
@@ -142,7 +145,7 @@ export class SegmentationComponent implements OnInit {
   displayedColumnsSEG: string[] = ['Registros','Datos_Segmentados', 'Porcentaje', 'No_Segmentados'];
   displayedColumns: string[] = ['date1', 'date2', 'date3', 'date4', 'date5'];
   displayedColumnsNew: string[] = ['date1', 'date2', 'date3', 'date4', 'date5'];
-
+  rest_assigned = false;
 
   displayedColumnsA1: string[] = ['RESUMEN DE PORTAFOLIO', '-'];
   displayedColumnsA2: string[] = ['Cliente', 'Portafolio','Registros','Segmentación','segmentado', 'no_sgmentado', 'porcentaje'];
@@ -153,9 +156,12 @@ export class SegmentationComponent implements OnInit {
     data:""
   }];
 
+  registros=""
+
   color: ThemePalette = 'primary';
   mode: ProgressBarMode = 'determinate';
   value = 0;
+  viewOptions= false
   bufferValue = 10; 
   segmentation_id = this.route.snapshot.params.id;
   indexSegmentation = parseInt(this.route.snapshot.params.index);
@@ -167,6 +173,7 @@ export class SegmentationComponent implements OnInit {
     register:0,
     porcent:0,
     query:"",
+    add_rest:false
   }
   segmentation1={
     name:"",
@@ -179,6 +186,8 @@ export class SegmentationComponent implements OnInit {
   }
   segment={
     _id:"",
+    query_rest:"",
+    query_rest_assigned:false,
     portafolio_id:"",
     segmentation:[{
       name:"",
@@ -188,6 +197,7 @@ export class SegmentationComponent implements OnInit {
       register:0,
       porcent:0,
       query:"",
+      add_rest:false
     },{
       name:"",
       description:"",
@@ -196,6 +206,7 @@ export class SegmentationComponent implements OnInit {
       register:0,
       porcent:0,
       query:"",
+      add_rest:false
     },{
       name:"",
       description:"",
@@ -204,6 +215,7 @@ export class SegmentationComponent implements OnInit {
       register:0,
       porcent:0,
       query:"",
+      add_rest:false
     }]
   }
   AddCriteria=true
@@ -219,6 +231,12 @@ export class SegmentationComponent implements OnInit {
   ngOnInit() {
     console.log(this.indexSegmentation, this.segmentation_id)
     this.getSegmentation()
+    setTimeout(() => {
+      
+      this.createInit()
+      this.getSegmentation()
+    }, 500);
+   
     
     
   }
@@ -231,7 +249,11 @@ export class SegmentationComponent implements OnInit {
         data => {
           if(data.success){
             console.log("PPPP",data.data)
-            this.infoList=data.data
+            this.infoList=[]
+            data.data.forEach(element => {
+              if(element.datos.length)
+               this.infoList.push(element)
+            });
           }
         });
   }
@@ -247,9 +269,25 @@ export class SegmentationComponent implements OnInit {
       //this.save(i)
       this.newCriteriaActual(name,info.rangeA,info.rangeB,count, filter)
   }
+  validCriterio(name){
+    let active = false
+    //this.segment.segmentation.forEach(element => {
+      //console.log(this.segment.segmentation[this.indexSegmentation])
+      //if()
+      const index = this.segment.segmentation[this.indexSegmentation].criteria.findIndex((crit) => {
+        return crit.name === name});
+      if(index!=-1) active = true
+      
+    //});
+    return active
+  }
+
   generalP=[]
   isEdit=false
   isNew=false
+  SEGMENTOPORTAFOLIO={
+    segmentation:{}
+  }
   getSegmentation(){
     this.Services.getSegmentation(this.segmentation_id)
     .subscribe(
@@ -265,6 +303,7 @@ export class SegmentationComponent implements OnInit {
                 register:0,
                 porcent:0,
                 query:"",
+                add_rest:false
               })
             }
             if (this.segment.segmentation.length < 2)  {
@@ -276,6 +315,7 @@ export class SegmentationComponent implements OnInit {
                 register:0,
                 porcent:0,
                 query:"",
+                add_rest:false
               })
             }
             if (this.segment.segmentation.length < 3)  {
@@ -287,111 +327,252 @@ export class SegmentationComponent implements OnInit {
                 register:0,
                 porcent:0,
                 query:"",
+                add_rest:false
               })
             }
             this.getPortaolio(this.segment.portafolio_id)
-            if (this.indexSegmentation==0) {
-              this.getSegInfo(this.segment.portafolio_id)
-            }
             this.getMap(this.segment.portafolio_id)
+            this.get_query_rest()
             //console.log("Segmento",this.segment)
+            this.SEGMENTOPORTAFOLIO = data.data.segmentation
             console.log("Segmentacion1",data.data.segmentation, this.indexSegmentation)
             //console.log("Segmentacion1",data.data.segmentation.length!=0,data.data.segmentation[this.indexSegmentation],this.segmentation1)
             this.segmentation=data.data.segmentation[this.indexSegmentation]?data.data.segmentation[this.indexSegmentation]:this.segmentation1
-             console.log("Segmentacion",this.segmentation.criteria)
-             if(data.data.segmentation.length){
+             console.log("Segmentacion",this.segmentation)
+             console.log("Segmentacion1",data.data.segmentation)
+             console.log("Segmentacion 2",this.segment)
+            if(data.data.segmentation.length){
               console.log("_____________No_____________")
               this.isEdit=true
                if(this.segmentation.criteria.length){
                 let promises=[]
-                
-
-            
                  if(this.segmentation.criteria[0]){
+                  this.viewOptions= false
                    console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
-                   //console.log("<<<<<<<<<<<<<<<<<<<<<",JSON.parse(this.segmentation.query))
-                   
-                   
-                   this.segmentation.criteria[0].dataInfo=this.dataSourceIG;
-                   /*this.segmentation.criteria[0].dataGrhap={
-                     "options":this.options,
-                     "salesSeries":this.salesSeries,
-                     "chart": false
-                   }*/
                    this.segmentation.criteria[0].dataSource=[]
                    this.segmentation.criteria[0].dataSeg=[]
                    //this.analytics(0)
-                   promises.push(this.analytics1(0))
-                   
-                   //this.guardar1()
-                   }
-                 if(this.segmentation.criteria[1]){
-                  console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
-                   this.segmentation.criteria[1].dataInfo=this.dataSourceIG;
-                   /*this.segmentation.criteria[1].dataGrhap={
-                     "options":this.options,
-                     "salesSeries":this.salesSeries,
-                     "chart": false
-                   }*/
-                   this.segmentation.criteria[1].dataSource=[]
-                   this.segmentation.criteria[1].dataSeg=[]
-                   //this.analytics(1)
-                   promises.push(this.analytics1(1))
-                   //this.guardar1()
-                   }
-                 if(this.segmentation.criteria[2]){
-                  console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
-                   this.segmentation.criteria[2].dataInfo=this.dataSourceIG;
-                  /* this.segmentation.criteria[2].dataGrhap={
-                     "options":this.options,
-                     "salesSeries":this.salesSeries,
-                     "chart": false
-                   }*/
-                   this.segmentation.criteria[2].dataSource=[]
-                   this.segmentation.criteria[2].dataSeg=[]
-                   //this.analytics(2)
-                   promises.push(this.analytics1(2))
-                   //this.guardar2()
-                   }
-                 if(this.segmentation.criteria[3]){
-                  console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
-                   this.segmentation.criteria[3].dataInfo=this.dataSourceIG;
-                   /*this.segmentation.criteria[3].dataGrhap={
-                     "options":this.options,
-                     "salesSeries":this.salesSeries,
-                     "chart": false
-                   }*/
-                   this.segmentation.criteria[3].dataSource=[]
-                   this.segmentation.criteria[3].dataSeg=[]
-                   //this.analytics(3)
-                   //promises.push(this.analytics(3))
-                   //this.guardar1()
-                   }
-                   Promise.all(promises)
-                   .then(result => {
-                       console.log("PROMESAS REALIZADAS", result)
-                   })
-                   .catch(err =>{
-                     console.log(err)
-                   })
+                   //promises.push(this.analytics1(0))
+                    this.analytics1(0)
+                    .then(result => {
+                          console.log("analytics1", result)
+                          this.save(0)
+                          .then(result => {
+                            console.log("save", result)
+                            //#################################################
+                            if(this.segmentation.criteria[1]){
+                              console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                              this.segmentation.criteria[1].dataSource=[]
+                              this.segmentation.criteria[1].dataSeg=[]
+                              //this.analytics(0)
+                              //promises.push(this.analytics1(0))
+                               this.analytics1(1)
+                               .then(result => {
+                                     console.log("analytics1", result)
+                                     this.save(1)
+                                     .then(result => {
+                                       console.log("save", result)
+                                       //#################################################
+                                       if(this.segmentation.criteria[2]){
+                                        console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                                        this.segmentation.criteria[2].dataSource=[]
+                                        this.segmentation.criteria[2].dataSeg=[]
+                                        //this.analytics(0)
+                                        //promises.push(this.analytics1(0))
+                                         this.analytics1(2)
+                                         .then(result => {
+                                               console.log("analytics1", result)
+                                               this.save(2)
+                                               .then(result => {
+                                                 console.log("save", result)
+                                                 this.viewOptions= true
+                                               })
+                                               .catch(err =>{
+                                                 console.log(err)
+                                               });
+                                           })
+                                           .catch(err =>{
+                                             console.log(err)
+                                           });
+                                         }
+                                         else
+                                         this.viewOptions= true
+                                     })
+                                     .catch(err =>{
+                                       console.log(err)
+                                     });
+                                 })
+                                 .catch(err =>{
+                                   console.log(err)
+                                 });
+                            }
+                            else
+                              this.viewOptions= true
+                            
+                          })
+                          .catch(err =>{
+                            console.log(err)
+                          });
+                      })
+                      .catch(err =>{
+                        console.log(err)
+                      });
+                    }
+              
+               
                }
                else{
-                 console.log("_____________Nuevo_____________", this.indexSegmentation)
-                 this.analytics1(this.indexSegmentation)
+                 if(this.segment.segmentation,this.indexSegmentation-1>=0){
+
+                   console.log("<<<<<<<<<<<<<<<<<<<<<",this.segment.segmentation,this.indexSegmentation-1, this.segment.segmentation[this.indexSegmentation-1].query)
+                   this.getNewCriteria(this.segment.segmentation[this.indexSegmentation-1].query)
+                 }
+                 else{
+                  if (this.indexSegmentation==0 ) {
+                    this.getSegInfo(this.segment.portafolio_id)
+                    this.viewOptions= true 
+                  }
+                 }
                }
+               console.log("CREATE________________")
+               
+               
             }
             else{
-              this.isNew=true
-              //console.log("_____________Nuevo 1_____________")
+              if(data.data.segmentation[0].register>1){
+                console.log("_____________EXITE SEGMENTACION 1_____________")
+              }
+              else{
+                this.isNew=true
+                console.log("_____________La segmentacion de este portafolio es nueva_____________")
+                if (this.indexSegmentation==0 ) {
+                  this.getSegInfo(this.segment.portafolio_id)
+                }
+              }
+              if(data.data.segmentation[1].register>1){
+                console.log("_____________EXITE SEGMENTACION 1_____________")
+              }
+              if(data.data.segmentation[2].register>1){
+                console.log("_____________EXITE SEGMENTACION 1_____________")
+              }
+
+              
            
 
             }
+               
             
           }
         },
         error => {
           //this.error=true
         });
+  }
+  
+  getSegmentationDelete(){
+    this.getPortaolio(this.segment.portafolio_id)
+            this.getMap(this.segment.portafolio_id)
+            this.get_query_rest()
+            console.log("Segmentacion",this.segmentation)
+             console.log("Segmentacion1",this.segment.segmentation)
+             console.log("Segmentacion 2",this.segment)
+            if(this.segment.segmentation.length){
+              console.log("_____________No_____________")
+              
+              this.isEdit=true
+               if(this.segmentation.criteria.length){
+                let promises=[]
+                 if(this.segmentation.criteria[0]){
+                  this.viewOptions= false
+                   console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                   this.segmentation.criteria[0].dataSource=[]
+                   this.segmentation.criteria[0].dataSeg=[]
+                   //this.analytics(0)
+                   //promises.push(this.analytics1(0))
+                    this.analytics1(0)
+                    .then(result => {
+                          console.log("analytics1", result)
+                          this.save(0)
+                          .then(result => {
+                            console.log("save", result)
+                            //#################################################
+                            if(this.segmentation.criteria[1]){
+                              console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                              this.segmentation.criteria[1].dataSource=[]
+                              this.segmentation.criteria[1].dataSeg=[]
+                              //this.analytics(0)
+                              //promises.push(this.analytics1(0))
+                               this.analytics1(1)
+                               .then(result => {
+                                     console.log("analytics1", result)
+                                     this.save(1)
+                                     .then(result => {
+                                       console.log("save", result)
+                                       //#################################################
+                                       if(this.segmentation.criteria[2]){
+                                        console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                                        this.segmentation.criteria[2].dataSource=[]
+                                        this.segmentation.criteria[2].dataSeg=[]
+                                        //this.analytics(0)
+                                        //promises.push(this.analytics1(0))
+                                         this.analytics1(2)
+                                         .then(result => {
+                                               console.log("analytics1", result)
+                                               this.save(2)
+                                               .then(result => {
+                                                 console.log("save", result)
+                                                 this.viewOptions= true
+                                               })
+                                               .catch(err =>{
+                                                 console.log(err)
+                                               });
+                                           })
+                                           .catch(err =>{
+                                             console.log(err)
+                                           });
+                                         }
+                                         else
+                                         this.viewOptions= true
+                                     })
+                                     .catch(err =>{
+                                       console.log(err)
+                                     });
+                                 })
+                                 .catch(err =>{
+                                   console.log(err)
+                                 });
+                            }
+                            else
+                              this.viewOptions= true
+                            
+                          })
+                          .catch(err =>{
+                            console.log(err)
+                          });
+                      })
+                      .catch(err =>{
+                        console.log(err)
+                      });
+                    }
+              
+                  
+               }
+               else{
+                 if(this.segment.segmentation,this.indexSegmentation-1>=0){
+
+                   console.log("<<<<<<<<<<<<<<<<<<<<<",this.segment.segmentation,this.indexSegmentation-1, this.segment.segmentation[this.indexSegmentation-1].query)
+                   this.getNewCriteria(this.segment.segmentation[this.indexSegmentation-1].query)
+                 }
+                 else{
+                  if (this.indexSegmentation==0 ) {
+                    this.getSegInfo(this.segment.portafolio_id)
+                    this.viewOptions= true 
+                  }
+                 }
+               }
+               
+            }
+            
   }
   getPortaolio(id){
   this.Services.getPortafolio(id)
@@ -403,13 +584,18 @@ export class SegmentationComponent implements OnInit {
             this.registerTotal=this.portafolio.register
           console.log("Portafolio",this.segment)
           let reg = 0
-          this.segment.segmentation.forEach(element => {
-            console.log("---",element)
-            reg = reg + element.register
-            this.value=this.value+element.porcent
+          this.segment.segmentation.forEach(item => {
+            console.log("Portafolio",this.segment.segmentation)
+            console.log("--->>>--",item.name,item.register,item.porcent)
+            console.log("--->>>",item)
+            console.log("--->>>--",item.name,item.register,item.porcent)
+            reg = reg + item.register
+            console.log("---",reg)
+            this.value=this.value+item.porcent
             this.bufferValue=this.value
           });
           console.log("--------------->",this.segment.segmentation)
+          console.log("--- REG",reg)
           var  value = (100 / this.portafolio.register) * reg 
           this.generalP=[{
             cliente: this.portafolio.client_id.name,
@@ -420,6 +606,8 @@ export class SegmentationComponent implements OnInit {
             nosegmentado:(100 - value).toFixed(2),
             segmentado: value.toFixed(2)
           }]
+          this.registros = this.value.toFixed(1) +" %"
+          console.log("REGISTROS",this.registros)
           this.generalIF=[{
             name:"CLIENTE",
             data: this.portafolio.client_id.name
@@ -430,7 +618,6 @@ export class SegmentationComponent implements OnInit {
           },
           {
             name:"REGISTROS",
-            
             data: this.portafolio.register.toString()||"null"
           },
           {
@@ -545,6 +732,7 @@ export class SegmentationComponent implements OnInit {
               "criterio1": this.segmentation.criteria[x].name
             }
           }
+          
           break;
         case 1:
           let q01 = this.getQuery(0);
@@ -638,7 +826,6 @@ export class SegmentationComponent implements OnInit {
       this.Services.getASegment(body,this.segment.portafolio_id)
       .subscribe(
           data => {
-            console.log("__getMap__", data)
             if(data.success){
               let dataSeg=data.data
               console.log("**dataSeg**",dataSeg)
@@ -682,33 +869,7 @@ export class SegmentationComponent implements OnInit {
       }
       let query1= {}
       let query2= {}
-      /*switch (x) {
-        case 1:
-          body={
-            "query": {},
-          }
-          console.log("version 2",this.segment.segmentation[0].query)
-            query1= JSON.parse(this.segment.segmentation[0].query)
-            console.log("version 2.1",query1)
-            body={
-              "query": query1,
-            }
-          break;
-          case 2:
-            
-            console.log("version 3",this.segment.segmentation[1].query)
-            query1= JSON.parse(this.segment.segmentation[0].query)
-            query2= JSON.parse(this.segment.segmentation[1].query)
-            console.log("version 3.1",query1)
-            body={
-              "query": {
-                "$and": [ query1,query2
-                ]
-            }}
-            break;
-        default:
-          break;
-      }*/
+ 
       switch (x) {
         case 0:
           let val={}
@@ -839,7 +1000,8 @@ export class SegmentationComponent implements OnInit {
       }
       
       
-      console.log("________",body,"________")
+      
+      console.log("BODY________",body,"________")
       this.Services.getASR2(this.segment.portafolio_id,body)
       .subscribe(
           data => {
@@ -847,22 +1009,19 @@ export class SegmentationComponent implements OnInit {
             console.log("Hola---------------------",x, data)
             if(data.success){
               console.log(data.data)
-             this.infoList=data.data
-             console.log("***dataSeg***",data.data)
+             //this.infoList=data.data
+             data.data.forEach(element => {
+               console.log(element)
+               if(element.datos.length)
+                this.infoList.push(element)
+             });
+             console.log("***dataSeg***",data.data, this.infoList)
              this.registerActual=data.data[0].register
                 console.log("registerActual 1",this.registerActual)
                // console.log("registerActual DATA",data.data.labelsGraph)
                 this.segmentation.criteria[x].dataSeg[0]={actual:this.registerActual}
              if(this.segmentation.criteria[x].rankB || this.segmentation.criteria[x].rankA){
-              console.log("--------X--------",x)
-               this.save(x)
-               .then(result => {
-                    console.log("PROMESAS SAVE", result)
-                    resolve(true)
-                })
-                .catch(err =>{
-                  console.log(err)
-                })
+             resolve(true)
                
              }
             }
@@ -872,8 +1031,40 @@ export class SegmentationComponent implements OnInit {
           });
     })
   }
+  get_query_rest(){
+
+    console.log("########SEGMENTACION###########",this.segment.segmentation)
+    let params = []
+    let query = {}
+    
+    this.segment.segmentation.forEach(element => {
+      if(element.query){
+        console.log(JSON.parse(element.query))
+        params.push(JSON.parse(element.query))
+      }
+      
+    });
+    if(params.length){
+      
+      query = {
+        "$and" : params
+      }
+      console.log(query)
+      console.log(JSON.stringify(query))
+    }
+     return JSON.stringify(query)
+  }
   ultimoQuery={}
+  goto(x){
+    console.log(this.segmentation_id+"/"+x)
+    this.router.navigate(['/admin/segmentationSingle/'+this.segmentation_id+"/"+x]);
+    setTimeout(() => {
+      location.reload();
+    }, 100);
+
+  }
   save(x){
+    
     return new Promise((resolve, reject) => {
     
       console.log("sabe",x)
@@ -1023,14 +1214,19 @@ export class SegmentationComponent implements OnInit {
       }
       this.segmentation.criteria[x].query= JSON.stringify(body);
       this.ultimoQuery=body.query
-      console.log("-",body,"-")
+      console.log("BODY-",body,"-",body.toString())
       this.Services.getASR2(this.segment.portafolio_id,body)
         .subscribe(
             data => {
               console.log("Hola__________",x, data)
               if(data.success){
                 let info2=data.data[0].register;
-                this.infoList=data.data
+                this.infoList=[]
+                data.data.forEach(element => {
+                  console.log(element)
+                  if(element.datos.length)
+                   this.infoList.push(element)
+                });
                 console.log("registerActual 2",this.registerActual, this.segmentation.criteria[x])
                 let actual= this.segmentation.criteria[x].dataSeg[0].actual || 0
                 console.log("registerActual 3", actual)
@@ -1066,7 +1262,8 @@ export class SegmentationComponent implements OnInit {
                 this.value=this.value+element.porcent
                 this.bufferValue=this.value
                 });
-                this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+                //this.portafolio.register=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+                this.registros=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
                  console.log("........",this.value,actual,register, porcent2,info2)
                  console.log("registerActual",actual)
                  
@@ -1074,7 +1271,7 @@ export class SegmentationComponent implements OnInit {
                   "actual": actual,
                   "info": info2,
                   "porcent":porcent2.toFixed(1),
-                  "register":register,
+                  "register":this.registerTotal - info2,
                 }]
                 this.segmentation.criteria[x].dataSeg[0].inf
                 console.log("--dataSeg--",this.segmentation.criteria[x].dataSeg)
@@ -1087,8 +1284,33 @@ export class SegmentationComponent implements OnInit {
             });
     });
   }
+  getNewCriteria(query){
+    return new Promise((resolve, reject) => {
+      let body={
+        query: JSON.parse(query)
+      }
+      console.log("BODY########",body)
+      this.Services.getASR2(this.segment.portafolio_id,body)
+      .subscribe(
+          data => {
+            console.log("Hola__________!!!!!", data)
+            if(data.success){
+              let info2=data.data[0].register;
+              this.viewOptions = true;
+              this.infoList=data.data
+              console.log("registerActual 2",this.registerActual, this.infoList)
+              resolve(true)
+            }
+          },
+          error => {
+            reject(false)
+            //this.error=true
+          });
+    })
+  }
   getQuery(x){
     let q={}
+    let value= null
     console.log("******",this.segmentation.criteria[x])
     //switch (this.segmentation.criteria[x].type) {
       switch (this.segmentation.criteria[x].type) {
@@ -1100,26 +1322,39 @@ export class SegmentationComponent implements OnInit {
         }
         break;
         case 'higher':
-          q={[this.segmentation.criteria[x].name]: {
-            "$gte": parseInt(this.segmentation.criteria[x].rankA)
-            }
+          value = parseInt(this.segmentation.criteria[x].rankA)
+          if(typeof value === 'string' || !value){
+            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA}
+          }else{
+            q={[this.segmentation.criteria[x].name]: {"$gte": parseInt(this.segmentation.criteria[x].rankA) }}
           }
           break;
         case 'less':
-          q={[this.segmentation.criteria[x].name]: {
-            "$lte": parseInt(this.segmentation.criteria[x].rankA)
-            }
+          value = parseInt(this.segmentation.criteria[x].rankA)
+          if(typeof value === 'string' || !value){
+            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA}
+          }else{
+            q={[this.segmentation.criteria[x].name]: { "$lte":parseInt(this.segmentation.criteria[x].rankA)} }
           }
           break;
         case 'equal':
-          q={[this.segmentation.criteria[x].name]: parseInt(this.segmentation.criteria[x].rankA)
+          value = parseInt(this.segmentation.criteria[x].rankA)
+          console.log("*************",value)
+          if(typeof value === 'string' || !value){
+            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA}
+          }else{
+            q={[this.segmentation.criteria[x].name]: parseInt(this.segmentation.criteria[x].rankA) }
           }
           break;
     
+        case 'exists':
+          q={[this.segmentation.criteria[x].name]: {"$exists": true}}
+          break;
+      
       default:
         break;
       }
-      //console.log("QUERY",q)
+      console.log("QUERY",q)
       return q
   }
   newCriteria(){
@@ -1143,6 +1378,8 @@ export class SegmentationComponent implements OnInit {
   newCriteriaActual(name,A,B,count,filter){
     console.log("AAAAAA",name,A,B,count,filter)
     let criteria=this.segmentation.criteria||[]
+    if((criteria.length + 1)== 4)
+     return;
     const index = this.segmentation.criteria.findIndex((crit) => crit.name === name);
     if(index ==-1)
       criteria.push({
@@ -1187,7 +1424,8 @@ export class SegmentationComponent implements OnInit {
       query:{}
     }
     let x=this.segmentation.criteria.length-1
-     //console.log("HOLAAAAAAA_________",x)
+    console.log("HOLAAAAAAA_________",x)
+    
      console.log("BODY",this.segment.segmentation)
     switch (x) {
       case 0:
@@ -1211,7 +1449,7 @@ export class SegmentationComponent implements OnInit {
             }
           }
           break;
-        case 1:
+        case 2:
           let q11 = this.getQueryNot(0);
           let q12= this.getQueryNot(1);
           let q13= this.getQueryNot(2);
@@ -1229,8 +1467,8 @@ export class SegmentationComponent implements OnInit {
       default:
         break;
     }
-    //console.log("_________",this.segment.segmentation[this.indexSegmentation])
-
+    console.log("________________________________",body1)
+    console.log("________________________________",JSON.stringify(body1.query))
     let body={
       name:seg.name,
       description:seg.description,
@@ -1238,7 +1476,8 @@ export class SegmentationComponent implements OnInit {
       porcent:seg.porcent,
       query:JSON.stringify(body1.query),
       criteria:this.segmentation.criteria,
-      type:""
+      type:"",
+      add_rest:false
     }
     this.segment.segmentation[this.indexSegmentation]=body
     console.log("BODY",this.segment.segmentation)
@@ -1249,9 +1488,12 @@ export class SegmentationComponent implements OnInit {
     });
     this.segment.segmentation= new1
     let body3={
-      porcent:this.generalIF[3].data,
+      porcent:this.registros,
+      query_rest:this.get_query_rest(),
+      query_rest_assigned:this.segment.query_rest_assigned,
       segmentation:this.segment.segmentation
     }
+    console.log("BODY----",body3)
      this.Services.newSegmentation(this.segment._id, body3)
       .subscribe(
           data => {
@@ -1268,23 +1510,120 @@ export class SegmentationComponent implements OnInit {
 
  
   }
-  delete(i){
-    //console.log(i, this.segmentation.criteria)
-    this.segmentation.criteria.splice(i,1)
-    this.value=0;
+  createInit(){
+    console.log("create")
+    const seg = this.segmentation; 
+    let new1 =[]
+    console.log(seg)
+    let body1={
+      query:{}
+    }
+    let x=this.segmentation.criteria.length-1
+    console.log("HOLAAAAAAA_________",x)
+    
+     console.log("BODY",this.segment.segmentation)
+    switch (x) {
+      case 0:
+        let q1= this.getQueryNot(0);
+        console.log(q1)
+        body1={
+          "query": q1
+        }
+        console.log(body1)
+        break;
+        case 1:
+          let q01 = this.getQueryNot(0);
+          let q02= this.getQueryNot(1);
+          console.log(q01)
+          console.log(q02)
+          
+          body1={
+            "query": {
+                "$and": [ q01,q02]
+              
+            }
+          }
+          break;
+        case 2:
+          let q11 = this.getQueryNot(0);
+          let q12= this.getQueryNot(1);
+          let q13= this.getQueryNot(2);
+          console.log(q11)
+          console.log(q12)
+          console.log(q13)
+          
+          body1={
+            "query": {
+                "$and": [ q11,q12,q13]
+              
+            }
+          }
+          break;
+      default:
+        break;
+    }
+    console.log("________________________________",body1)
+    console.log("________________________________",JSON.stringify(body1.query))
+    let body={
+      name:seg.name,
+      description:seg.description,
+      register:seg.register,
+      porcent:seg.porcent,
+      query:JSON.stringify(body1.query),
+      criteria:this.segmentation.criteria,
+      type:"",
+      add_rest:false
+    }
+    this.segment.segmentation[this.indexSegmentation]=body
+    console.log("BODY",this.segment.segmentation)
+    
     this.segment.segmentation.forEach(element => {
-      //console.log(element.porcent)
-      this.value=this.value+element.porcent
-      this.bufferValue=this.value
+      if(element.criteria.length)
+        new1.push(element)
     });
-    this.generalIF[3].data=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+    this.segment.segmentation= new1
+    let body3={
+      porcent:this.registros,
+      query_rest:this.get_query_rest(),
+      query_rest_assigned:this.segment.query_rest_assigned,
+      segmentation:this.segment.segmentation
+    }
+    console.log("BODY----",body3,this.segment._id)
+     this.Services.newSegmentation(this.segment._id, body3)
+      .subscribe(
+          data => {
+            if(data.success){
+              //console.log(data.data)
+              //this.router.navigate(['/admin/segmentation']);
+              //this.dialogRef.close(seg);
+              
+            }
+          },
+          error => {
+            //this.error=true
+          });
+
+ 
+  }
+  delete(i){
+    console.log(i, this.segment)
+
+      this.segmentation.criteria.splice(i,1)
+      this.value=0;
+      this.segment.segmentation.forEach(element => {
+        //console.log(element.porcent)
+        this.value=this.value+element.porcent
+        this.bufferValue=this.value
+      });
+      this.registros=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+      this.getSegmentationDelete()
     //Volver a cargar 
   }
   deleteSeg(){
     console.log(this.indexSegmentation)
     this.segment.segmentation.splice(this.indexSegmentation,1)
     let body3={
-      porcent:this.generalIF[3].data,
+      porcent:this.registros,
       segmentation:this.segment.segmentation
     }
     this.Services.newSegmentation(this.segment._id, body3)
@@ -1304,6 +1643,7 @@ export class SegmentationComponent implements OnInit {
   getQueryNot(x){
     let q={}
      console.log("***********",x,this.segmentation.criteria[x])
+     let value= null
    // switch (this.segmentation.criteria[x].type) {
     switch (this.segmentation.criteria[x].type) {
       case 'rank':
@@ -1335,13 +1675,23 @@ export class SegmentationComponent implements OnInit {
           }
           break;
         case 'equal':
-          q={[this.segmentation.criteria[x].name]:  { "$nin": [ parseInt(this.segmentation.criteria[x].rankA)]}}
+          value = parseInt(this.segmentation.criteria[x].rankA)
+          console.log("*************",value)
+          if(typeof value === 'string' || !value){
+            q={[this.segmentation.criteria[x].name]:  { "$nin": [this.segmentation.criteria[x].rankA]}}
+
+          }else{
+            //q={[this.segmentation.criteria[x].name]: parseInt(this.segmentation.criteria[x].rankA) }
+            q={[this.segmentation.criteria[x].name]:  { "$nin": [ parseInt(this.segmentation.criteria[x].rankA)]}}
+          }
           break;
-    
+          case 'exists':
+            q={"$exists": true}
+            break;
       default:
         break;
       }
-     // console.log("QUERY NOT",q)
+     console.log("QUERY NOT",q)
       return q
   }
 }

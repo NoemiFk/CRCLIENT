@@ -492,7 +492,7 @@ updateCustomer() {
       case "Mensaje":
         this.value="SMS"
         break;
-      case "Notificacion":
+      case "Notificación":
         this.value="Notification"
         break;
       case "Demanda":

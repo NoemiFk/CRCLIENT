@@ -66,13 +66,9 @@
         </mat-form-field>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="center center" >
-        <mat-checkbox class="caption" formControlName="terms">Acepto los <a>términos y condiciones.</a></mat-checkbox>
+      <div fxLayout="row" fxLayoutAlign="center center" > 
+        <mat-checkbox class="caption" formControlName="terms">Acepto  <a href="http://client.collectionrobot.cf/AP.pdf" target="blank">términos del Contrato</a> <br> y reconozco que leí las <a href="http://client.collectionrobot.cf/AP.pdf" target="blank">Políticas de Privacidad .</a></mat-checkbox>
       </div>
-
-        <small>
-          <a href="http://client.collectionrobot.cf/AP.pdf" target="blank">Aviso de Privacidad y Contrato de Servicio</a>
-        </small>
 
       <button (click)="send()" color="primary" mat-raised-button type="button" [disabled]="form.invalid">
         CREAR CUENTA

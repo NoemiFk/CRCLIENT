@@ -36,11 +36,11 @@ import ImageResize from 'quill-image-resize-module'
       modules: {
         toolbar: [
           ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-          ['blockquote', 'code-block'],
+          //['blockquote', 'code-block'],
 
           [{ header: 1 }, { header: 2 }],               // custom button values
           [{ list: 'ordered' }, { list: 'bullet' }],
-          [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
+          //[{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
           [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
           [{ direction: 'rtl' }],                         // text direction
 
@@ -50,10 +50,11 @@ import ImageResize from 'quill-image-resize-module'
           [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
           [{ align: [] }],
 
-          ['clean'],                                         // remove formatting button
+          //['clean'],                                         // remove formatting button
 
-          ['link', 'image', 'video']                         // link and image, video
+          ['link', 'image']                         // link and image, video
         ]
+       
       }
     }),
     SecondaryToolbarModule,

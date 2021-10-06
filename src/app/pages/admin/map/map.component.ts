@@ -58,7 +58,7 @@ import icInfo from '@iconify/icons-ic/info';
 export class MapComponent implements OnInit, AfterViewInit {
 
   layoutCtrl = new FormControl('boxed');
-  displayedColumnsA2: string[] = ['Dato','Ejemplo','Segmentación','Comunicación','Portal','Aval','Validación'];
+  displayedColumnsA2: string[] = ['Campo','Ejemplo','Segmentación','Comunicación','Portal','Aval','Validación'];
 
   /**
    * Simulating a service with HTTP that returns Observables
@@ -262,14 +262,18 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   portafolio={
-    name_portafolio:""
+    name_portafolio:"",
+    register:0
   }
+  registros = 0
   getPortaolio(id){
     this.Services.getPortafolio(id)
     .subscribe(
         data => {
           if(data.success){
             this.portafolio=data.data;
+            console.log("PORTAFOL",this.portafolio)
+            this.registros = this.portafolio.register
             
           }
         },
@@ -412,16 +416,25 @@ export class MapComponent implements OnInit, AfterViewInit {
       }
     });
   }
+  actualizando= false
+  datosactualizados = 0
   updateDataMapeo(){
-
+    this.actualizando= true
       //console.log("CREAR Mapa", this.portafolio_id)
    
        this.Services.updateRegister(this.jsDatos,this.portafolio_id)
        .subscribe(
            data => {
              if(data.success){
-              this.router.navigate(['/admin/portafolios']);
-              //console.log(data.data)
+               this.datosactualizados = this.jsonData.Datos.length  - this.registros
+               if(this.datosactualizados < 0)
+               this.datosactualizados = this.datosactualizados  * -1
+               //console.log(data.data) 
+               
+              
+                setTimeout(() => {
+                  this.router.navigate(['/admin/portafolios']);
+                }, 1200);
                //this.info=data.data
              }
            },
@@ -493,7 +506,8 @@ export class MapComponent implements OnInit, AfterViewInit {
         element[x].firts = true
       }
       else{
-        element[x].firts= false
+        console.log(element[x])
+        element[x].firts = false
       }
        promises.push(
          this.registerCart(element)
@@ -693,6 +707,9 @@ export class MapComponent implements OnInit, AfterViewInit {
       this.active= false
    //},60000);
     },300)
+  }
+  valid(){
+    
   }
   create(){
     let body={

@@ -3,9 +3,11 @@
     <img src="assets/img/illustrations/checklist.svg" style="height: 168px; width: 152px">
   </div>
 
-  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days >'3'">
-    <h4 class="headline m-0" style="font-size: 20px;">Bienvenido a Collection Robot 
-      Digitalización & automatización de la gestión de Cobranza. 
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="day > 3">
+    <h4 class="headline m-0" style="font-size: 20px;"><b>
+
+      Bienvenido a Collection Robot Digitalización & automatización de la gestión de Cobranza. 
+    </b>
       </h4>
       <br>
     <div >
@@ -20,8 +22,13 @@
 
     
   </div>
-  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days == '3'">
-    <h4 class="headline m-0" style="font-size: 20px;">¡Quedan 3 días para el vencimiento del periodo de prueba!</h4>
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="day == 3">
+    <h4 class="headline m-0" style="font-size: 20px;">
+      <b>
+
+        ¡Quedan 3 días para el vencimiento del periodo de prueba!
+      </b>
+    </h4>
      
     <div >
       <p>Entra a la opción de menú: 
@@ -38,8 +45,11 @@
 
     
   </div>
-  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days == '1'">
-    <h4 class="headline m-0" style="font-size: 20px;">¡Hoy vence tu periodo de Prueba! 
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="day == 1">
+    <h4 class="headline m-0" style="font-size: 20px;">
+      <b>
+        ¡Hoy vence tu periodo de Prueba! 
+      </b>
     </h4>
      
     <div >
@@ -58,8 +68,12 @@
 
     
   </div>
-  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="days == '0'">
-    <h4 class="headline m-0" style="font-size: 20px;">Tu periodo de Prueba ha vencido! </h4>
+  <div class="p-6 text-primary-contrast" fxFlex="auto" style="text-align: center;" *ngIf="day == 0">
+    <h4 class="headline m-0" style="font-size: 20px;">
+      <b>
+        ¡Tu periodo de Prueba ha vencido! 
+      </b>
+    </h4>
      
     <div >
       <p>Entra a la opción de menú: 

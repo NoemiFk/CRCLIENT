@@ -16,7 +16,7 @@
       <div>
         <h3>Paso 4: Comunicación Digital</h3>
         <!--h4>Alta y Actualizacion de Portafolios – Actualizacion de Promesas de Pago, Pagos y Resultados de Gestion..</h4-->
-        <h6>Disena la comunicación digital y cartas/notificacion por cada portafolio</h6>
+        <h6>Disena la comunicación digital y cartas/notificación por cada portafolio</h6>
       </div>
     </div>
   </vex-page-layout-header>
@@ -79,7 +79,7 @@
        
       </div>
 
-      <table @stagger [dataSource]="dataSource" class="w-full" mat-table matSort>
+      <table @stagger [dataSource]="dataSource" class="w-full table1" mat-table matSort>
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -130,8 +130,9 @@
             <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}
               <ng-template #popTemplate7><div [innerHtml]="column.text">{{ column.text }} </div></ng-template>
               <mat-icon  [icIcon]="icInfo"  *ngIf="column.info == true"
-              [popover]="popTemplate7"
-              placement="right"
+              [outsideClick]="true"
+[popover]="popTemplate7"
+              placement="top"
               ></mat-icon>
             </th>
             <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>

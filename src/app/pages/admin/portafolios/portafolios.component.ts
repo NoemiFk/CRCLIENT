@@ -74,10 +74,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   PortafoliosList:[];
   selectClient={};
 
-  html1="Nombre del Portafolio.  "
-  html2="Indica si el mapeo esta realizado."
-  html3="Fecha de Carga y/o Actualización del archivo."
-  html4="Indica cuantos clientes morosos (registros) contiene el portafolio."
+  html1="Nombre del portafolio"
+  html2="Indica si el mapeo esta realizado"
+  html3="Fecha de carga y/o actualización del archivo"
+  html4="Indica cuantos clientes morosos (registros) contiene el portafolio"
 
   @Input()
   columns: TableColumn<Portafolio>[] = [
@@ -240,7 +240,8 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-   //console.log("Clientt",this.client)
+   console.log("Clientt",this.client)
+   this.client_id= this.client._id
     this.dataSource = new MatTableDataSource();
     this.getAgency() 
     this.getPortafoliosListAgency();
@@ -279,7 +280,7 @@ export class AioTableComponent implements OnInit, AfterViewInit {
          * Here we are updating our local array.
          * You would probably make an HTTP request here.
          */
-        this.getPortafoliosList(this.client_id);
+         this.getPortafoliosListAgency();
       }
     });
   }
