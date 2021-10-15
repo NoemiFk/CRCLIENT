@@ -99,7 +99,7 @@
       <div class="flex flex-col sm:flex-row mt-6" *ngIf="infoList.length && viewOptions">
         
         <div class="flex flex-auto flex-col mr-2 ml-2" *ngFor="let info of infoList | slice:0:5;"  style="width: 30%;" [ngClass]="{'criteriaActive' : validCriterio(info.data) }" >
-          <div class="container card-footer" style="font-size: 12px; ">
+          <div class="container card-footer" style="font-size: 12px;" >
             <p><b>{{info.data}}</b></p>
             <ul style="overflow: scroll; height: 150px;">
               <li *ngFor="let data of info.datos" class="criterio" (click)="newCriteriaActual(info.data, data.A, data.B,info.register, info.filter)">
@@ -115,7 +115,7 @@
                 <option value="exists"> Existe</option>
                 <!--option [value]="option.data" *ngFor="let option of segmentacion;">{{option.data}}</option-->
               </select>
-            <div class="flex flex-col sm:flex-row " *ngIf="infoList.length ">
+            <div class="flex flex-col sm:flex-row " *ngIf="infoList.length">
 
               <input  *ngIf="info.filter!='rank'"  [(ngModel)]="info.rangeA" class="w-14 h-6"  (keydown)="onSearch1($event, info.data,info.register, info.filter,info)">
               <input  *ngIf="info.filter=='rank'"  [(ngModel)]="info.rangeA" class="w-14 h-6"  (keydown)="onSearch1($event, info.data,info.register, info.filter,info)">

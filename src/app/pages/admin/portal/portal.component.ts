@@ -65,8 +65,8 @@ export class PortalComponent implements OnInit, AfterViewInit {
   html = `
   <p> 
   Muestra el estatus de la estrategia:
-<p><b style=" color:red">Rojo</b> = falta definicion de una estrategia de gestion </p>
-<p><b style=" color:green">Verde</b>  = estrategia de gestion definida </p>
+<p><b style=" color:red">Rojo</b> = falta definición de una estrategia de gestión</p>
+<p><b style=" color:green">Verde</b>  = estrategia de gestióndefinida </p>
 
 
   </p>

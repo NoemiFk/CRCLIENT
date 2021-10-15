@@ -233,10 +233,10 @@ export class SegmentationComponent implements OnInit {
     this.getSegmentation()
     setTimeout(() => {
       
-      this.createInit()
-      this.getSegmentation()
-    }, 500);
-   
+      //this.createInit()
+      //this.getSegmentation()
+      this.AnaliticsAllSegment()
+    }, 1000);
     
     
   }
@@ -332,7 +332,7 @@ export class SegmentationComponent implements OnInit {
             }
             this.getPortaolio(this.segment.portafolio_id)
             this.getMap(this.segment.portafolio_id)
-            this.get_query_rest()
+            let query_rest = this.get_query_rest()
             //console.log("Segmento",this.segment)
             this.SEGMENTOPORTAFOLIO = data.data.segmentation
             console.log("Segmentacion1",data.data.segmentation, this.indexSegmentation)
@@ -425,7 +425,8 @@ export class SegmentationComponent implements OnInit {
                  if(this.segment.segmentation,this.indexSegmentation-1>=0){
 
                    console.log("<<<<<<<<<<<<<<<<<<<<<",this.segment.segmentation,this.indexSegmentation-1, this.segment.segmentation[this.indexSegmentation-1].query)
-                   this.getNewCriteria(this.segment.segmentation[this.indexSegmentation-1].query)
+                   //this.getNewCriteria(this.segment.segmentation[this.indexSegmentation-1].query)
+                   this.getNewCriteria(query_rest)
                  }
                  else{
                   if (this.indexSegmentation==0 ) {
@@ -1050,7 +1051,7 @@ export class SegmentationComponent implements OnInit {
         "$and" : params
       }
       console.log(query)
-      console.log(JSON.stringify(query))
+      console.log("QUERY REST",JSON.stringify(query))
     }
      return JSON.stringify(query)
   }
@@ -1621,11 +1622,29 @@ export class SegmentationComponent implements OnInit {
   }
   deleteSeg(){
     console.log(this.indexSegmentation)
-    this.segment.segmentation.splice(this.indexSegmentation,1)
+    console.log(this.segment.segmentation)
+    this.value = 0
+    let delete_segment = []
+    this.segment.segmentation.forEach(element => {
+      if (element.name) {
+        delete_segment.push(element)
+      }
+    });
+    delete_segment.splice(this.indexSegmentation,1)
+    console.log(delete_segment)
+    delete_segment.forEach(element => {
+      console.log("**********",element.porcent)
+      this.value=this.value+element.porcent
+      this.bufferValue=this.value
+    });
+    this.registros=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+    //this.segment.segmentation.splice(this.indexSegmentation,1)
+    //console.log(this.segment.segmentation)
     let body3={
       porcent:this.registros,
-      segmentation:this.segment.segmentation
+      segmentation:delete_segment//this.segment.segmentation
     }
+    console.log("ELIMINAR SEGMENTO",body3)
     this.Services.newSegmentation(this.segment._id, body3)
     .subscribe(
         data => {
@@ -1693,5 +1712,46 @@ export class SegmentationComponent implements OnInit {
       }
      console.log("QUERY NOT",q)
       return q
+  }
+  AnaliticsAllSegment(){
+    console.log("ANALISIS ",this.segment.segmentation)
+    this.segment.segmentation.forEach(element => {
+      console.log(element.criteria.length)
+      let length1=element.criteria.length-1
+      console.log(element.criteria[length1].query)
+      let query1= JSON.parse(element.criteria[length1].query)
+      console.log(query1.query)
+      let query2=JSON.stringify(query1.query)
+      console.log(query2)
+      let body ={
+        query:query1.query
+      }
+      this.Services.Analysis(this.segment.portafolio_id, body)
+      .subscribe(
+          data => {
+            if(data.success){
+              console.log("DATOS ANALISADOS",data.data)
+              console.log("Hola", element)
+              console.log("Hola", this.portafolio.register)
+             let porcent = (100/this.portafolio.register)*data.data.result
+             console.log("Hola", porcent)
+             element.porcent=porcent
+             element.register=data.data.result
+              
+            }
+          },
+          error => {
+            //this.error=true
+          });
+      
+    });
+    this.value=0;
+    this.segment.segmentation.forEach(element => {
+      //console.log(element.porcent)
+      this.value=this.value+element.porcent
+      this.bufferValue=this.value
+    });
+    this.registros=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
+    this.getSegmentationDelete()
   }
 }

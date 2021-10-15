@@ -23,7 +23,7 @@
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
             <li><p>Carga los archivos de los portafolios a gestionar, presionando el botón <img src="https://iconsangrah.s3.us-west-2.amazonaws.com/Captura+de+Pantalla+2021-10-04+a+la(s)+8.01.06.png" class="avatar h-8 w-8 align-middle"></p></li>
            
-            <li>Para subir correctamente el archivo, la primera columna del archvio debe contener los encabezados, no deben existir filas vacias
+            <li>Para subir correctamente el archivo, la primera columna del archivo debe contener los encabezados, no deben existir filas vacias
             </li>
             <li>El archivo debe estar en formato csv o xlxs </li>
           </ol>
@@ -31,13 +31,13 @@
         <ng-template #popTemplate4><div>
           
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
-            <li class="text-justify">Selecciona los campos  para la segmentación, la comunicación y el portal del cliente. También puedes indicar los campos que corresponden al aval</li>
-            <li class="text-justify">Este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestión</li>
+            <li class="text-justify"><p>Selecciona los campos  para la segmentación, la comunicación y el portal del cliente. También puedes indicar los campos que corresponden al aval</p></li>
+            <li class="text-justify"><p>En este paso es necesario que indiques al Collection Robot que campos quieres usar en cada etapa del proceso de gestión</p></li>
             <li class="text-justify"><p>Campos que se usan p.e. para la <b>segmentación</b> son: días de morosidad, monto cartera vencida o riesgo, estado, producto etc.</p></li>
             <li class="text-justify"><p>Campos que se usan p.e. para la <b>comunicación</b> son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto</p></li>
             <li class="text-justify"><p>Campos que se usan p.e. para el <b>portal del cliente </b>son: Nombre, producto, identificador crédito, detalle cartera vencida, producto, identificador crédito, detalle cartera vencida</p></li>
-            <li class="text-justify">En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono            </li>
-            <li class="text-justify">Te recomendamos leer y seguir las instrucciones en cada punto del encabezado</li>
+            <li class="text-justify"><p>En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono</p></li>
+            <li class="text-justify"><p>Te recomendamos leer y seguir las instrucciones en cada punto del encabezado</p></li>
           </ol>
         </div></ng-template>
         <ng-template #popTemplate5><div>
@@ -51,20 +51,20 @@
             <p class="text-justify"><b>Pagos:</b> Actualiza los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envió de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago. <b>Formato:</b> Identificador cliente, Fecha de Pago (dd/mm/aa), Monto de pago
             </p>
             <p class="text-justify"><b>Resultados de Gestión:</b>
-              Actualizar los resultados de gestión para os reportes. <b>Formato:</b> Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
+              Actualizar los resultados de gestión para losreportes. <b>Formato:</b> Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
               </p>
         </div></ng-template>
-        <h6 class="mb-0">1. Alta de Portafolio de gestión<mat-icon class="pt-1" [icIcon]="icInfo" 
+        <h6 class="mb-0">1. Alta de Portafolio de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
           [outsideClick]="true"
 [popover]="popTemplate3"
           placement="right"
           ></mat-icon></h6>
-        <h6 class="mb-0">2. Mapeo del Portafolio <mat-icon class="pt-1" [icIcon]="icInfo" 
+        <h6 class="mb-0">2. Mapeo del Portafolio.<mat-icon class="pt-1" [icIcon]="icInfo" 
             [outsideClick]="true"
 [popover]="popTemplate4"
             placement="right"
             ></mat-icon></h6>
-         <h6 class="mb-0">3. Actualización de Promesas de Pago, Pagos y Resultados de gestión<mat-icon class="pt-1" [icIcon]="icInfo" 
+         <h6 class="mb-0">3. Actualización de Promesas de Pago, Pagos y Resultados de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 
             [outsideClick]="true"
 [popover]="popTemplate5"
             placement="right"
