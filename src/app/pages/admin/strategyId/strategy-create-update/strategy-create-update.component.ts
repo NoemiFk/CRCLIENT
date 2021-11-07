@@ -85,12 +85,12 @@ export class StrategyCreateUpdateComponent implements OnInit {
   client_id = "60c3d84785f7f11ddd6b285c";
   getCommunications=[]
   getCommunication() {
-    this.Services.getCommunication(this.client_id)
+    this.Services.getCommunicationListPort(this.defaults.portafolio_id)
     .subscribe(
         data => {
-        console.log("Hola ", data.data)
+        console.log("Hola-------------------- ", data.data)
           if(data.success){
-            this.Communication=data.data
+            this.Communication=data.data[0]
             if(this.defaults.Comunicacion=="CARTA"){
               console.log("---",this.Communication.Letter)
               this.getCommunications=this.Communication.Letter
@@ -111,7 +111,7 @@ export class StrategyCreateUpdateComponent implements OnInit {
               
               this.getCommunications=this.Communication.Demand
             }
-            if(this.defaults.Comunicacion=="E-MAIL"){
+            if(this.defaults.Comunicacion=="MAIL"){
               
               this.getCommunications=this.Communication.Mail
             }
@@ -138,7 +138,7 @@ export class StrategyCreateUpdateComponent implements OnInit {
   onLabelChange(ev){
     this.currentComunication = ev.value
     console.log("currentComunication",this.currentComunication)
-    this.convert()
+    //this.convert()
   }
 
   salesSeries: ApexAxisChartSeries = [{
@@ -195,11 +195,12 @@ export class StrategyCreateUpdateComponent implements OnInit {
   dataSourceIG=[]
   displayedColumnsIG: string[] = ['Cliente', 'Portafolio', 'Registros'];
   displayedColumnsSEG: string[] = ['Datos_Segmentados', 'Porcentaje', 'No_Segmentados'];
-  times="12:00 pm"
+  times="12:00"
   ngOnInit() {
     this.getCommunication()
      console.log("Comun")
      if (this.defaults ) {
+      console.log("Default",this.defaults)
       console.log("Default",this.defaults.name_seg, this.defaults[this.defaults.name_seg])
       console.log("--",this.defaults[this.defaults.name_seg] ? this.defaults[this.defaults.name_seg].label:"")
       this.init=this.defaults[this.defaults.name_seg] ? this.defaults[this.defaults.name_seg].hour:""

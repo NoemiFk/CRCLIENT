@@ -240,6 +240,7 @@ export class RegisterComponent implements OnInit {
     else
       this.payment[index].active=true;
   }
+  
 
   toggleVisibility() {
     if (this.visible) {
@@ -268,7 +269,7 @@ export class RegisterComponent implements OnInit {
     const user = this.form.value;
    //console.log(stepper, user)
     if(!user.email||!user.name|| !user.nameAgency||!user.password){
-      this.snackbar.open("Error: Completa la informacion", 'OK', {
+      this.snackbar.open("Error: Completa la información", 'OK', {
         duration: 10000
       });
       return;

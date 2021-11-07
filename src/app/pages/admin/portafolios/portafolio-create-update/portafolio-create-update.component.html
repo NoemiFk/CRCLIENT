@@ -18,7 +18,7 @@
 
       <mat-form-field class="flex-auto mt-6" >
         <mat-label>Selecciona Financiera</mat-label>
-        <mat-select matNativeControl name="client_id" formControlName="client_id">
+        <mat-select matNativeControl name="client_id" formControlName="client_id" mcdkFocusInitial>
 
           <mat-option [value]="option._id" *ngFor="let option of CustomersList" (click)="onChange()">{{option.name}}</mat-option>
 
@@ -34,7 +34,7 @@
     <div class="flex flex-col sm:flex-row">
       <mat-form-field class="flex-auto">
         <mat-label>Nombre (máximo 30 caracteres)</mat-label>
-        <input cdkFocusInitial formControlName="name_portafolio"  matInput>
+        <input  formControlName="name_portafolio"  matInput>
         <mat-error> Debe incluir un nombre</mat-error>
         <mat-icon [icIcon]="icPortafolio" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
@@ -49,9 +49,9 @@
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close type="button">CANCELAR</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit" [disabled]="form.invalid">AGREGAR PORTAFOLIO</button>
-    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">GUARDAR CAMBIOS</button>
+    <button mat-button mat-dialog-close color="warn" type="button">CANCELAR</button>
+    <button *ngIf="isCreateMode()" color="primary" mat-button mat-flat-button type="submit" [disabled]="form.invalid">AGREGAR PORTAFOLIO</button>
+    <button *ngIf="isUpdateMode()" color="primary" mat-button mat-flat-button type="submit">GUARDAR CAMBIOS</button>
   </mat-dialog-actions>
 </form>
 

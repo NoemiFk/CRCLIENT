@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit,ViewChild,ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Communication } from '../interfaces/communication.model';
@@ -19,7 +19,15 @@ import {Services} from '../../../../Services/services'
 import { ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animation';
-
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import icInfo from '@iconify/icons-ic/info';
+import icError from '@iconify/icons-ic/error';
+import icWarning from '@iconify/icons-ic/warning';
+import icQuestion from '@iconify/icons-ic/question-answer';
 @Component({
   selector: 'vex-strategy-create-update',
   templateUrl: './communication-create-update.component.html',
@@ -33,6 +41,9 @@ import { fadeInUp400ms } from '../../../../../@vex/animations/fade-in-up.animati
 export class CommunicationCreateUpdateComponent implements OnInit {
 
   static id = 100;
+  @ViewChild('screen') screen: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('downloadLink') downloadLink: ElementRef;
 
   form: FormGroup;
   text = ``;
@@ -47,7 +58,10 @@ export class CommunicationCreateUpdateComponent implements OnInit {
   icPrint = icPrint;
   icDownload = icDownload;
   icDelete = icDelete;
-
+  icInfo =icInfo
+  icError = icError
+  icWarning = icWarning
+  icQuestion=icQuestion
   segmentObjet={
     _id:"",
     portafolio_id:"",
@@ -378,7 +392,7 @@ export class CommunicationCreateUpdateComponent implements OnInit {
               if(element.status){
                 console.log("---", element)
                 this.communicationData3.push(element.data)
-                this.communicationData.push(element.data)
+               //this.communicationData.push(element.data)
               }
                 
             });
@@ -443,12 +457,15 @@ export class CommunicationCreateUpdateComponent implements OnInit {
 
   save() {
     if (this.mode === 'create') {
+      if (!this.name) {
+        return
+      }
       this.createCustomer();
     } else if (this.mode === 'update') {
       this.updateCustomer();
     }
   }
-  
+  printPDF = true
 
   createCustomer() {
 
@@ -464,9 +481,13 @@ export class CommunicationCreateUpdateComponent implements OnInit {
     this.Services.updateDataCommunication(this.defaults.portafolio_id,this.value,this.datos)
     .subscribe(
         data => {
-          console.log("UPDATE ", data)
+          console.log("UPDATE ", data, this.title)
           if(data.success){
-            this.dialogRef.close();
+            if(this.title != "Cartas" && this.title != "Notificaciones"){
+
+              this.dialogRef.close();
+            }
+            this.printPDF = false
           }
         },
         error => {
@@ -514,13 +535,76 @@ export class CommunicationCreateUpdateComponent implements OnInit {
          data => {
         console.log("Segmentations ", data)
            if(data.success){
-             
-             this.dialogRef.close(data.data);
+            this.downloadImage()
+             //this.dialogRef.close(data.data);
            }
          },
          error => {
            //this.error=true
          });
     
+  }
+
+  ///////////
+  headHTML='<div class="ql-editor">'
+  endHTML='</div>'
+ 
+  GeneratePDF(){
+    html2canvas(document.querySelector('.ql-editor')).then(canvas => {
+      this.canvas.nativeElement.src = canvas.toDataURL();
+      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+      this.downloadLink.nativeElement.download = 'marble-diagram.png';
+      this.downloadLink.nativeElement.click();
+    });
+    
+  }
+
+  downloadImage(){
+
+    
+    html2canvas(document.querySelector('.ql-editor')).then(canvas => {
+      var imgWidth = 170;
+      var pageHeight = 295;
+      var imgHeight = canvas.height * imgWidth / canvas.width;
+      var heightLeft = imgHeight;
+
+      //////
+      console.log("!!!!!!!!!!!!!!!!!",this.latterType)
+        let pdf=null
+        if(this.latterType="A4")
+         pdf = new jsPDF('p', 'mm', "A4"); // A4 size page of PDF
+        else
+         pdf = new jsPDF('p', 'mm', [220, 340]); // A4 size page of PDF
+      /////
+      for (let index = 0; index < 3; index++) {
+      
+      
+        this.canvas.nativeElement.src = canvas.toDataURL();
+        this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+        //this.downloadLink.nativeElement.download = 'marble-diagram.png';
+        //this.downloadLink.nativeElement.click();
+        
+         
+        var position = 0;
+        pdf.addImage(this.downloadLink.nativeElement.href , 'PNG', 20, 10, imgWidth, imgHeight)
+        pdf.addPage();
+
+    }
+      let doc = pdf.save('test.pdf');
+      var blob = pdf.output('blob'); 
+      var blobPDF =  new Blob([blob], { type : 'application/pdf'});
+      var blobUrl = URL.createObjectURL(blobPDF);
+      window.open(blobUrl);
+      //var myFile = blobToFile(myBlob, "my-image.png");
+      //var file = new File([blob], 'untitled.pdf')
+      const myFile = new File([blobPDF], "test.pdf", {
+        type: blobPDF.type,
+      });
+      /*this.uploadService.uploadFile(myFile)
+      .then(
+        data => {
+          console.log(data)
+        })*/
+    });
   }
 }

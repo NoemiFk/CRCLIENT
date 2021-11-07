@@ -23,9 +23,8 @@
           <ol style="list-style: auto; margin-left:2px; margin-top:8px">
             <li><p>Carga los archivos de los portafolios a gestionar, presionando el botón <img src="https://iconsangrah.s3.us-west-2.amazonaws.com/Captura+de+Pantalla+2021-10-04+a+la(s)+8.01.06.png" class="avatar h-8 w-8 align-middle"></p></li>
            
-            <li>Para subir correctamente el archivo, la primera columna del archivo debe contener los encabezados, no deben existir filas vacias
-            </li>
-            <li>El archivo debe estar en formato csv o xlxs </li>
+            <li>Para subir correctamente la información del archivo, la primera fila del archivo debe contener los encabezados, no deben existir columnas vacias.</li>
+            <li>El archivo debe estar en formato csv o xlsx </li>
           </ol>
         </div></ng-template>
         <ng-template #popTemplate4><div>
@@ -37,7 +36,7 @@
             <li class="text-justify"><p>Campos que se usan p.e. para la <b>comunicación</b> son: Nombre y dirección del cliente, identificador del crédito, monto atraso, información del producto</p></li>
             <li class="text-justify"><p>Campos que se usan p.e. para el <b>portal del cliente </b>son: Nombre, producto, identificador crédito, detalle cartera vencida, producto, identificador crédito, detalle cartera vencida</p></li>
             <li class="text-justify"><p>En caso de contar con avales se debe indicar los campos del aval como nombre, dirección, teléfono</p></li>
-            <li class="text-justify"><p>Te recomendamos leer y seguir las instrucciones en cada punto del encabezado</p></li>
+            <li class="text-justify"><p>Es necesario elegir un campo de seguridad para el acceso del portal del cliente</p></li>
           </ol>
         </div></ng-template>
         <ng-template #popTemplate5><div>
@@ -45,13 +44,13 @@
             <li class="text-justify"> Carga en Collection Robot información valiosa para optimizar la gestión y recursos. Todos archivos siempre deben estar en formato .xls o .csv
             </li>
           </ol>
-          <p class="text-justify"><b>Promesas de Pago:</b> Sube las  promesas de pago que obtienes para que Collection Robot considere  y suspenda el envío de comunicación hasta obtener información sobre el cumplimiento del pago. <b>Formato:</b> Identificador cliente, Fecha de Promesa y
+          <p class="text-justify"><b>Promesas de Pago:</b> Sube las  promesas de pago que obtienes para que Collection Robot considere  y suspenda el envío de comunicación hasta obtener información sobre el cumplimiento del pago. <b>Formato:</b> Identificador cliente, Fecha de Promesa (dd/mm/aa) y
             Monto de promesa 
             </p>
             <p class="text-justify"><b>Pagos:</b> Actualiza los pagos que obtienes de los clientes. El Collection Robot considera los pagos para el envió de información de cartera vencida al cliente y para medir el cumplimiento de las promesas de pago. <b>Formato:</b> Identificador cliente, Fecha de Pago (dd/mm/aa), Monto de pago
             </p>
             <p class="text-justify"><b>Resultados de Gestión:</b>
-              Actualizar los resultados de gestión para losreportes. <b>Formato:</b> Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
+              Actualizar los resultados de gestión para los reportes. <b>Formato:</b> Identificador cliente, Fecha gestión, Canal gestión, Resultado (éxito, sin éxito)
               </p>
         </div></ng-template>
         <h6 class="mb-0">1. Alta de Portafolio de gestión.<mat-icon class="pt-1" [icIcon]="icInfo" 

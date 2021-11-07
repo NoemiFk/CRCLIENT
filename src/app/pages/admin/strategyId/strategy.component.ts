@@ -169,7 +169,7 @@ export class StrategyComponent implements OnInit {
   bufferValue = 10; 
   canales=[
     {label:"SMS",days:0},
-    {label:"E-MAIL",days:0},
+    {label:"MAIL",days:0},
     {label:"BLASTER",days:0}
   ]
   segmentation_id = this.route.snapshot.params.id;
@@ -223,7 +223,7 @@ export class StrategyComponent implements OnInit {
   ngOnInit() {
     
     this.getSegmentation()
-    //this.getStrategy()
+    this.getStrategy()
     this.searchCtrl.valueChanges.pipe(
       untilDestroyed(this)
     ).subscribe(value => this.onFilterChange(value));
@@ -244,7 +244,40 @@ export class StrategyComponent implements OnInit {
           //this.error=true
         });
   }
+  getStrategy(){
+    this.Services.getStrategy(this.segmentation_id)
+    .subscribe(
+        data => {
+          if(data.success){
+            this.active=true
+            this.jsDatos=data.data.calendary;
+            this.days = data.data.days
+            this.noneDays =  data.data.noneDays
+            console.log(this.jsDatos)
+            for (let index = 1; index < parseInt(data.data.days) + 1; index++) {
 
+              this.datos.push("Día "+ index)
+               
+             }
+             this.datos.unshift("Comunicacion")
+            this.columns=[];
+            let table=[]
+            this.datos.forEach(element => {
+            table.push({[element]:""})
+             //console.log(element)
+             if(element!="Comunicacion")
+              this.columns.push({ label: element.toString(), property: element.toString(), type: 'text', visible: true })
+              else
+              this.columns.push({ label: element.toString(), property: element.toString(), type: 'text', visible: true })
+        
+            })
+            //calendary:this.jsDatos
+          }
+        },
+        error => {
+          //this.error=true
+        });
+  }
   onCheckboxChange(x){
     console.log(x.checked)
     this.visible=x.checked
@@ -344,6 +377,7 @@ export class StrategyComponent implements OnInit {
   editStrategy(customer: Strategy, label) {
     console.log("**",label)
     customer.name_seg=label
+    customer.portafolio_id=this.segmenta.portafolio_id
     this.dialog.open(StrategyCreateUpdateComponent, {
       data: customer
     }).afterClosed().subscribe(updatedSegmentation => {
@@ -377,7 +411,7 @@ export class StrategyComponent implements OnInit {
     let body={
       portafolio_id: this.segmenta.portafolio_id,
       segmentation_id: this.segmenta._id,
-      segmentation: this.segmentation_id,
+      segmentation: this.segmenta.segmentation[this.indexSegmentation]._id,
       isCanal:this.visible,
       canales:this.canales,
       days:this.days,
@@ -399,7 +433,7 @@ export class StrategyComponent implements OnInit {
             });
   }
   onSearch(ev){
-    if(ev.code=="Enter")
+    //if(ev.code=="Enter")
       this.addStrategy()
   }
   addStrategy(){
@@ -413,7 +447,7 @@ export class StrategyComponent implements OnInit {
     this.columns=[];
     let table=[]
     this.datos.forEach(element => {
-  table.push({[element]:""})
+    table.push({[element]:""})
      //console.log(element)
      if(element!="Comunicacion")
       this.columns.push({ label: element.toString(), property: element.toString(), type: 'text', visible: true })
@@ -423,7 +457,7 @@ export class StrategyComponent implements OnInit {
     })
    
    this.jsDatos.push([{"Comunicacion":"SMS"}])
-   this.jsDatos.push([{"Comunicacion":"E-MAIL"}])
+   this.jsDatos.push([{"Comunicacion":"MAIL"}])
    this.jsDatos.push([{"Comunicacion":"BLASTER"}])
    this.jsDatos.push([{"Comunicacion":"CARTA"}])
    this.active=true

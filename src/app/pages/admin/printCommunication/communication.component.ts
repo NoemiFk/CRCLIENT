@@ -199,7 +199,7 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   }
 
   updateCommunication(row) {
-    console.log("Informacion 1-2",this.print)
+    console.log("Información 1-2",this.print)
     this.print.row=row
     this.dialog.open(CommunicationCreateUpdateComponent, {
       data: this.print

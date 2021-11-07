@@ -170,7 +170,7 @@ morePay= false
   bufferValue = 10; 
   canales=[
     {label:"SMS",days:0},
-    {label:"E-MAIL",days:0},
+    {label:"MAIL",days:0},
     {label:"BLASTER",days:0}
   ]
   segmentation_id = this.route.snapshot.params.id;
@@ -501,7 +501,7 @@ morePay= false
     })
    
    this.jsDatos.push([{"Comunicacion":"SMS"}])
-   this.jsDatos.push([{"Comunicacion":"E-MAIL"}])
+   this.jsDatos.push([{"Comunicacion":"MAIL"}])
    this.jsDatos.push([{"Comunicacion":"BLASTER"}])
    this.jsDatos.push([{"Comunicacion":"CARTA"}])
    this.active=true

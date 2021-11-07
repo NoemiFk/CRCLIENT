@@ -22,6 +22,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Services } from '../../../Services/services';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import icStar from '@iconify/icons-ic/twotone-check';
+import icStarBorder from '@iconify/icons-ic/twotone-check-box-outline-blank';
 @Component({
   selector: 'vex-general-settings',
   templateUrl: './general-settings.component.html',
@@ -44,7 +46,8 @@ export class GeneralSettingsComponent implements OnInit {
 
   icMoreVert = icMoreVert;
   icClose = icClose;
-
+  icStar= icStar
+  icStarBorder = icStarBorder
   icPrint = icPrint;
   icDownload = icDownload;
   icDelete = icDelete;
@@ -62,7 +65,12 @@ export class GeneralSettingsComponent implements OnInit {
   icBaselineApps = icBaselineApps;
   icPinDrop = icPinDrop;
   icInfo = icInfo;
-
+  services=[{
+    service:"",
+    nameProvider:"",
+    asunto:"",
+    sendEmail:""
+  }]
   //--------------------------------
   private emailValidators = Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")
               
@@ -78,6 +86,43 @@ export class GeneralSettingsComponent implements OnInit {
               
             ) {      
   }
+
+  proveedores=[
+    
+    {
+      id:2,
+      image:"assets/SMS.png",
+      name:"SMS",
+      active:false,
+      price:0.2,
+      range:"Entrega exitosa"
+    },
+    {
+      id:2,
+      image:"assets/email.png",
+      name:"EMAIL",
+      active:false,
+      price:0.2,
+      range:null
+    },
+    {
+      id:1,
+      image:"assets/blaster.png",
+      name:"MENSAJE DE VOZ",
+      active:false,
+      price:0.2,
+      range:"Entrega exitosa"
+    },
+    
+    {
+      id:2,
+      image:"assets/WhatsApp.png",
+      name:"CARTA",
+      active:false,
+      price:5,
+      range:null
+    }
+  ]
 
   ngOnInit() {
     console.log('Agencia Actual',this.agenciaActual)
@@ -112,6 +157,14 @@ export class GeneralSettingsComponent implements OnInit {
     this.setValues();
 
     
+  }
+  AgregarServ(){
+    this.services.push({
+      service:"",
+      nameProvider:"",
+      asunto:"",
+      sendEmail:""
+    })
   }
 
   setValues() {
@@ -154,6 +207,13 @@ export class GeneralSettingsComponent implements OnInit {
       
       
   };
+  emitToggleStar(event: MouseEvent,index) {
+    event.stopPropagation();
+    if(this.proveedores[index].active)
+      this.proveedores[index].active=false;
+    else
+      this.proveedores[index].active=true;
+  }
 
   getAgency() {
     this.Services.getAgency(this.agenciaActual._id)

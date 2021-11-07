@@ -50,12 +50,12 @@
 
     <div class="flex flex-col sm:flex-row">
       <mat-form-field class="flex-auto">
-        <mat-label>Nombre</mat-label>
+        <mat-label>Nombre  (máximo 30 caracteres)</mat-label>
         <input cdkFocusInitial [(ngModel)]="name" matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
       <mat-form-field class="flex-auto ml-6 ">
-        <mat-label>Descripción</mat-label>
+        <mat-label>Descripción  (máximo 100 caracteres)</mat-label>
         <input cdkFocusInitial [(ngModel)]="description" matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
@@ -66,7 +66,7 @@
           <mat-option value="Carta">Carta</mat-option>
           <mat-option value="Blaster">Blaster</mat-option>
           <mat-option value="SMS">SMS</mat-option>
-          <mat-option value="Email">E-mail</mat-option>
+          <mat-option value="Email">Mail</mat-option>
           <mat-option value="Notificaciones">Notificaciones</mat-option>
           <mat-option value="Demandas">Demandas</mat-option>
         </mat-select>
@@ -90,7 +90,7 @@
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
       <mat-form-field class="flex-auto  ml-6 "  *ngIf="typeCommunication=='Mails'">
-        <mat-label>Asusnto de e-mail</mat-label>
+        <mat-label>Asunto de mail</mat-label>
         <input cdkFocusInitial [(ngModel)]="subject" matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
@@ -98,37 +98,50 @@
         <mat-label>Selecciona tamaño del documento</mat-label>
         <mat-select  name="type"  [(ngModel)]="latterType">
           <mat-option value="">Seleccionar tamaño del documento</mat-option>
-          <mat-option value="A4">A4 - Cata</mat-option>
+          <mat-option value="A4">A4 - Tamano Carta (8,5” x 11”) Papel Bond 90 gramos
+          </mat-option>
           <mat-option value="A5">Oficio</mat-option>
         </mat-select>
   
         <mat-icon [icIcon]="icEditLocation" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
-      <mat-form-field class="flex-auto  ml-6 " *ngIf="typeCommunication=='Cartas'">
+      
+    </div>
+    <div class="flex flex-col sm:flex-row" *ngIf="typeCommunication=='Cartas'">
+      <mat-form-field class="flex-auto " *ngIf="typeCommunication=='Cartas'">
         <mat-label>Impresión</mat-label>
-        <input cdkFocusInitial [(ngModel)]="name" matInput>
+        <input cdkFocusInitial value ="Impresión 4x0 Tintas y 1x0 Tintas"matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
       <mat-form-field class="flex-auto  ml-6 " *ngIf="typeCommunication=='Cartas'">
         <mat-label>Sobre</mat-label>
-        <input cdkFocusInitial [(ngModel)]="name" matInput>
+        <input cdkFocusInitial value="Sobre blanco de linea con ventana y con impresión de logo institucional" matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
       <mat-form-field class="flex-auto  ml-6 " *ngIf="typeCommunication=='Cartas'">
         <mat-label>Envío</mat-label>
-        <input cdkFocusInitial [(ngModel)]="name" matInput>
+        <input cdkFocusInitial value="Mensajeria privada" matInput>
         <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
       </mat-form-field>
     </div>
     
-    <div class="flex flex-col sm:flex-row">
-      
-
+    <div class="flex flex-col sm:flex-row"  *ngIf="typeCommunication=='Cartas'">
+      <div class="alert alert-warning" role="alert">
+        <mat-icon  [icIcon]="icWarning" 
+              class="pt-1"
+              ></mat-icon> 
+              El costo por la impresión y envio de cada carta es de 4 Pesos
+      </div>
      
     </div>
     <div >
-      <h5>Personaliza la carta con los campos elegidos en el mapeo. Haz click en el campo que quieres insertar en la carta y haz click en la posicion en la carta donde quieres incluir la informacion del campo
-      </h5>
+      <div class="alert alert-primary" role="alert">
+        <mat-icon  [icIcon]="icInfo" 
+              class="pt-1"
+              ></mat-icon> 
+             Personaliza <label *ngIf="typeCommunication=='Cartas' || typeCommunication=='Notificaciones'">las {{title}}</label> <label *ngIf="typeCommunication!='Cartas' &&  typeCommunication!='Notificaciones'">los {{title}}</label> con los campos elegidos en el mapeo. Haz click en el campo que quieres insertar y haz click en la posicion en donde quieres incluir la información del campo
+      </div>
+     
     </div>
     <div>
       <br>
@@ -138,9 +151,20 @@
                 <button (click)="addText(label)" color="primary" mat-stroked-button>{{label}}</button> <br *ngIf="(i+1)%10==0" />
               </label>
             </div>
-            <div>
-              <h5>Puedes insertar logos haciendo click en el boton <mat-icon [icIcon]="icImage" class="mr-3" matPrefix></mat-icon>  </h5>
-              <h5> Copia el link dentro del editor selecciona y da click en es botón <mat-icon [icIcon]="icLink" class="mr-3" matPrefix></mat-icon>para comvertirlo en un enlace.</h5>
+            <div >
+            
+                <div class="alert alert-secondary" role="alert" *ngIf="typeCommunication!='Blaster' && typeCommunication!='SMS'">
+                  <mat-icon  [icIcon]="icInfo" 
+                  class="pt-1"
+                  ></mat-icon> 
+                  Puedes insertar logos haciendo click en el boton <mat-icon [icIcon]="icImage" class="mr-3" matPrefix></mat-icon>
+                </div>
+                <div class="alert alert-secondary" role="alert" *ngIf="typeCommunication!='Blaster' && typeCommunication!='Cartas' && typeCommunication!='Notificaciones'  ">
+                  <mat-icon  [icIcon]="icInfo" 
+                  class="pt-1"
+                  ></mat-icon> 
+                  Copia el link dentro del editor selecciona y da click en el botón <mat-icon [icIcon]="icLink" class="mr-3" matPrefix></mat-icon>para convertirlo en un enlace.
+                </div>
             </div>
             <br>
             <div class="flex flex-col sm:flex-row mb-2">
@@ -214,43 +238,63 @@
     
     <mat-dialog-actions align="end" *ngIf="title=='Cartas' || title=='Notificaciones'">
       <button mat-button mat-dialog-close color="warn" type="button">CANCELAR</button>
-      <button (click)="createCustomer()" class="uppercase" cmat-flat-button mat-button color="primary" type="submit">CREAR {{title}}</button>
+      <button (click)="createCustomer()" class="uppercase" mat-flat-button mat-button color="primary" type="submit"   [disabled]="name==''">CREAR {{title}} </button>
       <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR CARTA</button>
     </mat-dialog-actions>
+    <br>
     <div class="padding-20" fxLayout="column"  *ngIf="title=='Cartas' || title=='Notificaciones'">
 
-      <h4>Quieres generar el pdf de las cartas en este momento? (tambien lo puedes hacer posterior!)</h4>
-      <div class="flex flex-col sm:flex-row">
-        <div class="flex-auto self-center" style="text-align: center;">
-          <mat-checkbox cdkFocusInitial (click)="$event.stopPropagation()" [(ngModel)]="visible" color="primary" (change)="onCheckboxChange($event)">
-           <b>Portafolio completo</b> 
-          </mat-checkbox>
-        </div>
+      <div class="alert alert-info" role="alert">
+        <mat-icon  [icIcon]="icQuestion" 
+              class="pt-1"
+              ></mat-icon> 
+       ¿Quieres generar el pdf de las {{title}} en este momento? (¡tambien lo puedes hacer posterior!)
       </div>
-      <div class="flex  mt-6" >
-  
-        <mat-form-field class="flex-auto " *ngIf="!visible">
-          <mat-label>Selecciona Segmento</mat-label>
-          <mat-select [(ngModel)]="currentSegmentationList" (selectionChange)="onSegChange($event)" >
-            <mat-option *ngFor="let label of SegmentationList" [value]="label">
-              <div [ngClass]="label.previewClass"
-                  class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block" ></div>
-              <span>{{ label.name }}</span>
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <div class="flex flex-col sm:flex-row">
         
-        </div>
+        <div class="flex  mt-6" >
+    
+          <mat-form-field class="flex-auto " >
+            <mat-label>¿Qué información deseas imprimir?</mat-label>
+            <mat-select [(ngModel)]="visible"  (change)="onCheckboxChange($event)">
+              <mat-option [value]=true>
+                <span>Portafolio Completo</span>
+              </mat-option>
+              <mat-option [value]=false>
+                <span>Por Segmentos</span>
+              </mat-option>
+              <mat-option [value]=true>
+                <span>Por Nombre</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          </div>
+        <div class="flex  mt-6 ml-6" >
+    
+          <mat-form-field class="flex-auto " *ngIf="!visible">
+            <mat-label>Selecciona Segmento</mat-label>
+            <mat-select [(ngModel)]="currentSegmentationList" (selectionChange)="onSegChange($event)" >
+              <mat-option *ngFor="let label of SegmentationList" [value]="label">
+                <div [ngClass]="label.previewClass"
+                    class="h-6 w-6 align-middle ltr:mr-2 rtl:ml-2 rounded inline-block" ></div>
+                <span>{{ label.name }}</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+          </div>
+      </div>
         <mat-dialog-actions align="end">
           <button mat-button mat-dialog-close type="button">CANCELAR</button>
-          <button (click)="generar()" color="primary" mat-flat-button mat-button type="submit">GENERAR PDF</button>
+          <button (click)="generar()" color="primary" mat-flat-button mat-button type="submit"  [disabled]="printPDF">GENERAR PDF</button>
         </mat-dialog-actions>
     </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" *ngIf="title!='Cartas' && title!='Notificaciones'">
   <button mat-button mat-dialog-close color="warn" type="button">CANCELAR</button>
-  <button (click)="createCustomer()" class="uppercase" mat-flat-button mat-button color="primary" mat-button type="submit">CREAR {{title}}</button>
+  <button (click)="createCustomer()" class="uppercase" mat-flat-button mat-button color="primary" mat-button type="submit"  [disabled]="name==''">CREAR {{title}}</button>
   <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit">EDITAR CARTA</button>
 </mat-dialog-actions>
 

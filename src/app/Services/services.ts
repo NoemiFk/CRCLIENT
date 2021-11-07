@@ -217,7 +217,9 @@ export class Services {
             });
         }
     getASR2(id:string, body:object) {
-        console.log(body)
+        console.log("****QUERY****",JSON.stringify(body))
+        //{"$and":[{"$or":[{"dias_no_pago":{"$lt":20}},{"dias_no_pago":{"$gt":96}}]},{"$or":[{"interes":{"$lt":394}},{"interes":{"$gt":720}}]}]}
+        //{"$and":[{"$or":[{"dias_no_pago":{"$lt":20}},{"dias_no_pago":{"$gt":96}}]},{"$or":[{"interes":{"$lt":394}},{"interes":{"$gt":720}}]}]}}
         return this.http.post<any>(URL+'/map/s2/'+id, body)
             .map(resp => {
             
@@ -265,6 +267,14 @@ export class Services {
               return resp;
           });
     }
+    deleteRegister(id:string) {
+        return this.http.delete<any>(URL+'/map/'+id)
+            .map(resp => {
+            
+               console.log("delete",resp)
+                return resp;
+            });
+      }
     //Planes
     getPlansList() {
         return this.http.get<any>(URL+'/plans')
@@ -356,6 +366,14 @@ export class Services {
       //Segmentacion
         getCommunicationList(id:string) {
             return this.http.get<any>(URL+'/communications/'+id)
+                .map(resp => {
+                
+                    //console.log(" getPlansList",resp)
+                    return resp;
+                });
+        }
+        getCommunicationListPort(id:string) {
+            return this.http.get<any>(URL+'/communicationsport/'+id)
                 .map(resp => {
                 
                     //console.log(" getPlansList",resp)

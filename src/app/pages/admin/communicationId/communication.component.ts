@@ -302,7 +302,7 @@ export class CommunicationComponent implements OnInit, AfterViewInit {
   }
 
   updateCommunication(customer) {
-    console.log("Informacion 1",customer)
+    console.log("Información 1",customer)
     customer.client=this.Communication.client_id;
     customer.segmentation_id=this.client_id
     this.dialog.open(CommunicationCreateUpdateComponent, {

@@ -6,14 +6,15 @@
          class="w-full flex flex-col  justify-between"> <!-- sm:flex-row-->
       
       <h3  class="mb-0" *ngIf="isNew=='true'">Subir archivo de portafolio</h3> 
-      <h3  class="mb-0"*ngIf="isNew!='true'">Actualizacion de portafolio</h3> 
+      <h3  class="mb-0"*ngIf="isNew!='true'"> Actualización de portafolio</h3> 
        </div>
   </vex-page-layout-header>
 
   <vex-page-layout-content [class.container]="layoutCtrl.value === 'boxed'"
                            [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
                            class="-mt-6">
-
+                          
+                          
     <div class="card overflow-auto -mt-16" *ngIf="isNew=='true'">
       <p class="cursor-pointer pt-2 pl-4" (click)="back()" > <mat-icon class="pt-2"  [icIcon]="icBack"></mat-icon> <b> Regresar</b></p>
 
@@ -24,7 +25,7 @@
                 <h4>Cargar Archivo</h4>
                 <!--p>Carga aquí tu layout</p-->
                 <p>1. El formato del archivo debe ser xlsx o csv. </p>
-                <p>2. La primera columna debe ser el encabezcado, no deben exisitr columnas o filas vacias para poder subir el archivo con éxito.
+                <p>2. La primera fila debe ser el encabezcado, no deben exisitr columnas o filas vacias para poder subir el archivo con éxito.
                 </p>
               </div>
               <div  class="text-center">
@@ -51,7 +52,7 @@
                 
             </div>
               <div class="text-right" *ngIf="jsonData.Datos.length && !active">
-                <button mat-raised-button class="primary" matStepperNext (click)="createRegister()">SUBIR ARCHIVO</button>
+                <button  mat-flat-button mat-button color="primary"  matStepperNext (click)="createRegister()">SUBIR ARCHIVO</button>
               </div>
             </mat-step>
             <!--mat-step label="Vista Previa" state="chat">
@@ -132,8 +133,25 @@
                 <p class="flex-1">En esta etapa se debe realizar el mapeo de los campos del portafolio. El mapeo es necesario para seleccionar los campos que se requieren para las diferentes funcionalidades; recomendación para el Mapeo: </p>
                 <button mat-raised-button color="primary" matStepperNext (click)="create()">GUARDAR MAPEO</button>
               </div>
-              <p><b>IMPORTANTE:</b>Te recomendamos leer y seguir  las instrucciones en cada punto del encabezado.
-              </p>
+              <br>
+              <div class="alert alert-primary" role="alert">
+                <mat-icon  [icIcon]="icInfo" 
+                      class="pt-1"
+                      ></mat-icon> 
+                      <b>IMPORTANTE:</b> Te recomendamos leer y seguir las instrucciones en cada punto del encabezado.
+              </div>
+              
+                <div class="alert alert-warning" role="alert"  *ngIf="alert3" >
+                  <mat-icon  [icIcon]="icWarning" 
+                      class="pt-1"
+                      ></mat-icon> En el MAPEO debe asignar un campo ID Unico.
+                </div>
+                <div class="alert alert-warning" role="alert"  *ngIf="alert4" >
+                  <mat-icon  [icIcon]="icWarning" 
+                      class="pt-1"
+                      ></mat-icon> Solo puedes seleccionar 10 criterios para segmentación..
+                </div>
+              
               <br>
               <br>
               <ng-template #popTemplate27><div>Segmentación: Seleccionar campos como Cartera Vencida, Por vencer, Fecha último pago, Estado, Producto evitar campos como nombre del cliente, dirección, Fecha de Nacimiento.</div></ng-template>
@@ -192,7 +210,8 @@
                     </th>
                     <td mat-cell *matCellDef="let element;let i = index;" class="text-center" > 
                       <mat-checkbox class="example-margin w-full text-center" [checked]="element.segmentation.status" ([ngModel])=" element.segmentation.status"
-                      (change)="$event ? saveChange('segmentation',i) : null">
+                      (change)="$event ? saveChange('segmentation',i) : null" [disabled]="element.segmentation.status == false &&  disableSegment">
+                      {{element.segmentation.status == false && disableSegment}}
                     </mat-checkbox>
                     </td>
                   </ng-container>
@@ -254,7 +273,7 @@
                         <option value="id">ID Unico</option>
                         <option value="string">Texto</option>
                         <option value="number">Cantidad</option>
-                        <option value="email">E-mail</option>
+                        <option value="email">Mail</option>
                         <option value="phone">Número Telefónico</option>
                         <option value="date">Fecha</option>
                       </select>
@@ -268,8 +287,8 @@
               <br>
               
               <div class="text-right">
-                <button mat-button matStepperPrevious>ATRAS</button>
-                <button mat-button matStepperNext (click)="create()">GUARDAR MAPEO</button>
+                <button mat-button color="warn" matStepperPrevious>ATRAS</button>
+                <button mat-raised-button color="primary"  matStepperNext (click)="create()">GUARDAR MAPEO</button>
               </div>
             </mat-step>
           
@@ -282,164 +301,22 @@
             </ng-template>
           </mat-horizontal-stepper>
 
-    <!--div class="bg-app-bar px-6 h-16 border-b sticky left-0" fxLayout="row" fxLayoutAlign="start center">
-      <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-        <span *ngIf="selection.isEmpty()">Cartera</span>
-        <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
-          Cartera<span *ngIf="selection.selected.length > 1">s</span> seleccionadas</span>
-      </h2>
 
-      <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
-        <button (click)="deleteCustomers(selection.selected)"
-                color="primary"
-                mat-icon-button
-                matTooltip="Eliminar selecionados"
-                type="button">
-          <mat-icon [icIcon]="icDelete"></mat-icon>
-        </button>
-
-        <button color="primary" mat-icon-button matTooltip="Descargar" type="button">
-          <mat-icon [icIcon]="icFolder"></mat-icon>
-        </button>
-      </div>
-
-      <div class="bg-card rounded-full border px-4"
-           fxFlex="400px"
-           fxFlex.lt-md="auto"
-           fxHide.xs
-           fxLayout="row"
-           fxLayoutAlign="start center">
-        <ic-icon [icIcon]="icSearch" size="20px"></ic-icon>
-        <input [formControl]="searchCtrl"
-               class="px-4 py-3 border-0 outline-none w-full bg-transparent"
-               placeholder="Buscar..."
-               type="search">
-      </div>
-
-      <span fxFlex></span>
-
-      <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
-        <mat-icon [icIcon]="icSearch"></mat-icon>
-      </button>
-
-      <button [matMenuTriggerFor]="columnFilterMenu"
-              class="ml-4"
-              fxFlex="none"
-              mat-icon-button
-              matTooltip="Filtrar Columnas"
-              type="button">
-        <mat-icon [icIcon]="icFilterList"></mat-icon>
-      </button>
-
-      <button (click)="createMapeo()"
-              class="ml-4"
-              color="primary"
-              fxFlex="none"
-              mat-mini-fab
-              matTooltip="Generar Mapeo"
-              type="button">
-        <mat-icon [icIcon]="icAdd"></mat-icon>
-      </button>
-      <button (click)="upload()"
-              class="ml-4"
-              color="primary"
-              fxFlex="none"
-              mat-mini-fab
-              matTooltip="Cargar Archivo"
-              type="button">
-        <mat-icon [icIcon]="icUpload"></mat-icon>
-      </button>
-      <button (click)="load()"
-              class="ml-4"
-              color="warn"
-              fxFlex="none"
-              mat-mini-fab
-              matTooltip="Actualizar Cartera"
-              type="button">
-        <mat-icon [icIcon]="icLoad"></mat-icon>
-      </button>
-    </div-->
-    
-    
     </div>
     <div class="card overflow-auto -mt-16" *ngIf="isNew=='false'">
+      
       <div class="pt-4 pl-4 pr-4"  fxLayout="row" fxLayoutAlign="space-between center">
         <p *ngIf="created" class="cursor-pointer" (click)="back()"> <mat-icon class="pt-2" [icIcon]="icBack"></mat-icon> <b> Regresar</b></p>
         <p *ngIf="created">Fecha de creacion: <b> {{created | date}}</b></p>
         <!--p *ngIf="updated">Fecha de actualizacion: <b>{{updated | date}}</b></p-->
       </div>
       <mat-horizontal-stepper>
-        <!--mat-step label="Cartera Activa" state="chat">
-          <br>
-          <p>Cartera Activa mapeada en el portafolio</p>
-          <br>
-          <div class="spinner" *ngIf="!dataSourceUpload.length"></div>
-          <div class="card overflow-auto" style="max-height: 500px;" *ngIf="dataSourceUpload.length">
-            <div style="color: white;" class="bg-app-bar px-6 h-16 border-b sticky left-0"fxLayout="row" fxLayoutAlign="start center">
-              <h2 class="title my-0 ltr:pr-4 rtl:pl-4 ltr:mr-4 rtl:ml-4 ltr:border-r rtl:border-l" fxFlex="none" fxHide.xs>
-                <span *ngIf="selection.isEmpty()">Cartera</span>
-                <span *ngIf="selection.hasValue()">{{ selection.selected.length }}
-                  Cartera<span *ngIf="selection.selected.length > 1">s</span> seleccionadas</span>
-              </h2>
-        
-              <div *ngIf="selection.hasValue()" class="mr-4 pr-4 border-r" fxFlex="none">
-                <button (click)="deleteCustomers(selection.selected)"
-                        color="primary"
-                        mat-icon-button
-                        matTooltip="Eliminar selecionados"
-                        type="button">
-                  <mat-icon [icIcon]="icDelete"></mat-icon>
-                </button>
-        
-                <button color="primary" mat-icon-button matTooltip="Descargar" type="button">
-                  <mat-icon [icIcon]="icFolder"></mat-icon>
-                </button>
-              </div>
-              <span fxFlex></span>
-        
-              <button class="ml-4" fxFlex="none" fxHide.gt-xs mat-icon-button type="button">
-                <mat-icon [icIcon]="icSearch"></mat-icon>
-              </button>
-        
-              <button [matMenuTriggerFor]="columnFilterMenu"
-                      class="ml-4"
-                      fxFlex="none"
-                      mat-icon-button
-                      matTooltip="Filtrar Columnas"
-                      type="button">
-                <mat-icon [icIcon]="icFilterList"></mat-icon>
-              </button>
-        
-            </div>
-            <table @stagger [dataSource]="dataSourceUpload" class="w-full" mat-table matSort>
-
-              
-              <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
-                <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-                  <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header> {{ column.label }}</th>
-                  <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>{{ row[column.property]}}</td>
-                </ng-container>
-              </ng-container>
-        
-        
-              <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
-              <tr 
-                  *matRowDef="let row; columns: visibleColumns;"
-                  @fadeInUp
-                  class="hover:bg-hover trans-ease-out cursor-pointer"
-                  mat-row></tr>
-            </table>
-          </div>
-          <br>
-          <div class="text-right">
-          </div>
-        </mat-step-->
-        <mat-step label="Actualizar Portafolio" state="phone">
+       <mat-step label="Actualizar Portafolio" state="phone">
           <div style="padding: 20px;">
 
-            <h3>Subir Archivo de actualizacion Portafolio</h3>
+            <h3>Subir Archivo de  actualización Portafolio</h3>
             <p>1. El formato del archivo debe ser xlsx o csv. </p>
-            <p>2. La primera columna debe ser el encabezcado, no deben exisitr columnas o filas vacias para poder subir el archivo con éxito. 
+            <p>2. La primera fila debe ser el encabezcado, no deben exisitr columnas o filas vacias para poder subir el archivo con éxito. 
 
           </div>
           <!--div  class="text-center">
@@ -452,7 +329,7 @@
         <div class="spinner" *ngIf="active"></div>
         <div class="fileControl-wrapper text-center">
           <br>
-            <button mat-flat-button color="primary">Seleccionar archivo de actualización</button>
+            <button mat-flat-button color="primary" *ngIf="!active" >Seleccionar archivo de actualización</button>
           <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
             multiple="multiple"  />
       
@@ -465,7 +342,14 @@
               <h5 *ngIf="registros">  Registros ya existentes:  {{registros}}</h5>
             </div>
         </div>
-
+        <br>
+        <div class="alert alert-danger" role="alert"  *ngIf="alert1" >
+          Los datos mapeados de este archivo no corresponden a los datos cargados al crear el portafolio valide esta Información.
+        </div>
+        <div class="alert alert-warning" role="alert"  *ngIf="alert2" >
+          Tu cartera actual contiene encabezados vacios, estos campos no se tomaran en cuenta, valida esta información.
+        </div>
+        
           <div class="text-right" *ngIf="jsonData.Datos.length && !active">
             <button mat-flat-button mat-button color="primary" matStepperNext (click)="updateDataMapeo()">ACTUALIZAR ARCHIVO</button>
             
@@ -554,7 +438,7 @@
                 </mat-checkbox>
                   <select class="sm:ml-6" name="type"  >
                     <option value="no">Seleccione uno...</option>
-                    <option value="Email">E-mail</option>
+                    <option value="Email">Mail</option>
                     <option value="number">Numero Telefonico</option>
                     <option value="date">Fecha</option>
                   </select>

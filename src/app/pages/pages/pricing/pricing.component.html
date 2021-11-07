@@ -26,8 +26,8 @@
           $3750.00 Pesos mas IVA mensuales 
           </h2>
     
-        <button class="rounded-full max-w-full w-200" color="warn" *ngIf="plan1" mat-raised-button type="button">PLAN ACTIVO</button>
-        <button class="rounded-full max-w-full w-200" color="primary" *ngIf="!plan1" mat-raised-button type="button" disabled>ACTIVAR</button>
+        <button class="rounded-full max-w-full w-200" color="warn" *ngIf="plan1" mat-raised-button type="button">ACTIVAR PLAN</button>
+        <button class="rounded-full max-w-full w-200" color="primary" *ngIf="!plan1" mat-raised-button type="button" disabled>ACTIVAR PLAN</button>
       </div>
     
       <div class="card p-6" fxFlex fxLayout="column" fxLayoutAlign="start center">
@@ -40,8 +40,8 @@
         <h2 class="headline my-6 text-center">Abre pantalla para complementar datos fiscales, y activa plan
         </h2>
     
-        <button class="rounded-full max-w-full w-200" color="warn" *ngIf="plan2" mat-raised-button type="button">PLAN ACTIVO</button>
-        <button class="rounded-full max-w-full w-200" color="primary" *ngIf="!plan2" mat-raised-button type="button" (click)="open()" >ACTIVAR</button>
+        <button class="rounded-full max-w-full w-200" color="warn" *ngIf="plan2" mat-raised-button type="button">ABRIR</button>
+        <button class="rounded-full max-w-full w-200" color="primary" *ngIf="!plan2" mat-raised-button type="button" (click)="open()" >ABRIR</button>
       </div>
     
       
@@ -52,9 +52,7 @@
     <h2 @fadeInUp class="subheading-2 text-hint text-center mx-auto m-0"> Para contratar los servicios de comunicación digitales activa el checkbox en cada canal de comunicación. En caso que lo quieres desactivar el servicio deshabilita el check box. 
     </h2>
 
-  </div>
-  <div>
-    <div fxLayout="row" class="bg-card py-10">
+    <mat-card-content>
       <div  class="overflow-y-auto" fxFlex="auto">
         <div class="p-gutter"
             vexContainer
@@ -62,15 +60,15 @@
             gdColumns.lt-md="1fr 1fr"
             gdColumns.xs="1fr"
             gdGap="24px">
-
+  
           <div class="card overflow-hidden"  *ngFor="let data of proveedores;  let i = index;">
-
+  
             <div class="p-4 text-center hover:bg-hover trans-ease-out cursor-pointer relative" matRipple>
               <button (click)="emitToggleStar($event, i)" class="absolute top-2 left-2" mat-icon-button type="button">
                 <mat-icon *ngIf="data.active" [icIcon]="icStar" class="text-amber"></mat-icon>
                 <mat-icon *ngIf="!data.active" [icIcon]="icStarBorder"></mat-icon>
               </button>
-
+  
               <h2 class="title mb-1 mt-3 flex-grow">{{data.name}}</h2>
               <p>{{data.price| currency}} <b>MXN</b></p>
               <small *ngIf="data.range" style="color: #326d05;"> Entrega Exitosa</small>
@@ -79,8 +77,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </mat-card-content>
   </div>
+
+  
   
  
 

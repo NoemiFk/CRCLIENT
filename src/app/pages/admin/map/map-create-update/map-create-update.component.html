@@ -114,7 +114,7 @@
             </mat-checkbox>
             <select class="sm:ml-6" name="type"  >
               <option value="no">Seleccione uno...</option>
-              <option value="Email">E-mail</option>
+              <option value="Email">Mail</option>
               <option value="number">Numero Telefonico</option>
               <option value="date">Fecha</option>
             </select>
@@ -133,19 +133,4 @@
   </mat-dialog-actions>
 </form>
 
-<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icPrint"></mat-icon>
-    <span>Print</span>
-  </button>
 
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icDownload"></mat-icon>
-    <span>Export</span>
-  </button>
-
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icDelete"></mat-icon>
-    <span>Eliminar</span>
-  </button>
-</mat-menu>

@@ -221,12 +221,12 @@
               <mat-icon [icIcon]="icMoreHoriz"></mat-icon>
             </button-->
             <div class="flex">
-              
-              <a (click)=" $event.stopPropagation(); updateSegmentation(row)" 
+              <!--updateSegmentation(row)-->
+              <!--a (click)=" $event.stopPropagation();" 
               class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
               mat-icon-button matTooltip="Editar">
              <mat-icon [icIcon]="icEdit" size="18px"></mat-icon>
-              </a>
+              </a-->
               <a (click)=" $event.stopPropagation(); deleteSegmentation(row)" 
                 class="w-8 h-8 leading-none flex items-center justify-center hover:bg-hover text-primary bg-primary-light"
                 mat-icon-button matTooltip="Eliminar">
@@ -237,7 +237,8 @@
         </ng-container>
 
         <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row>--</tr>
-        <tr (click)="updateSegmentation(row)"
+       <!--(click)="updateSegmentation(row)"-->
+        <tr 
             *matRowDef="let row; columns: visibleColumns;"
             @fadeInUp
             class="hover:bg-hover trans-ease-out cursor-pointer"

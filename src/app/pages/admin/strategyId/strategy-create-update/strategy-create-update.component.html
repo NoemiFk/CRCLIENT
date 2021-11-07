@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
 
     <h2 class="headline m-0"
-        fxFlex="auto">Nueva Accion de gestion</h2>
+        fxFlex="auto">Nueva Accion de Gestión</h2>
 
   
 
@@ -18,7 +18,8 @@
     <div class="flex flex-col sm:flex-row">
 
       <mat-form-field class="flex-auto" >
-        <mat-label>Selecciona comunicación</mat-label>
+        
+        <mat-label> <span *ngIf="!getCommunications.length">Sin comunicación definida</span> <span *ngIf="getCommunications.length">Selecciona comunicación </span> </mat-label>
         <mat-select cdkFocusInitial [(ngModel)]="communication" (selectionChange)="onLabelChange($event)"  >
           <mat-option [value]="option" *ngFor="let option of getCommunications;">{{option.name}}</mat-option>
         </mat-select>
@@ -30,38 +31,66 @@
       
     </div>
     <div class="flex flex-col self-center sm:flex-row ml-6">
-      <div class="ngx-timepicker-field-example">
-        <ngx-timepicker-field min="12:10 am" max="08:11 pm" [(ngModel)]="times"></ngx-timepicker-field>
-    </div>
-    </div>
-    <div id="html" class="ql-editor pl-24 pr-24"></div>
+   
+    </div><!-- #docregion mat-menu-trigger-for -->
+    <button mat-button [matMenuTriggerFor]="menu">Selecciona un horario</button>
+    <!-- #enddocregion mat-menu-trigger-for -->
+    <mat-menu #menu="matMenu">
+      <table>
+        <tr>
+          <th>
+            <button mat-button color="primary" (click)="times='08:00'">08:00</button>
+          </th>
+          <th>
+            <button  mat-button color="primary" (click)="times='09:00'" >09:00</button>
+          </th>
+          <th><button  mat-button color="primary" (click)="times='10:00'" > 10:00</button></th>
+          
+        </tr>
+        <tr>
+          <th>
+            <button mat-button color="primary" (click)="times='11:00'" >11:00</button>
+          </th>
+          <th>
+            <button  mat-button color="primary" (click)="times='12:00'" >12:00</button>
+          </th>
+          <th><button  mat-button color="primary" (click)="times='13:00'" > 13:00</button></th>
 
-    
+        </tr>
+        <tr>
+          <th>
+            <button mat-button color="primary" (click)="times='14:00'" >14:00</button>
+          </th>
+          <th>
+            <button  mat-button color="primary" (click)="times='15:00'" >15:00</button>
+          </th>
+          <th><button  mat-button color="primary" (click)="times='16:00'" > 16:00</button></th>
+
+        </tr>
+        <tr>
+          <th>
+            <button mat-button color="primary" (click)="times='17:00'" >17:00</button>
+          </th>
+          <th>
+            <button  mat-button color="primary" (click)="times='18:00'" >18:00</button>
+          </th>
+          <th><button  mat-button color="primary" (click)="times='19:00'" > 19:00</button></th>
+       
+        </tr>
+      </table>
+    </mat-menu>
+    <p><b>Horario:</b> {{times}}</p>
+
    
     
   </mat-dialog-content>
 
 
   <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close type="button">CANCEL</button>
-    <button *ngIf="isCreateMode()" color="primary" mat-button type="submit" (click)="save()">CREAR ESTRATEGIA</button>
-    <button *ngIf="isUpdateMode()" color="primary" mat-button type="submit" (click)="save()">EDITAR ESTRATEGIA </button>
+    <button mat-button mat-dialog-close color="warn" type="button">CANCELAR</button>
+    <button *ngIf="isCreateMode()"  mat-flat-button mat-button color="primary" type="submit"  [disabled]="!communication" (click)="save()">CREAR ESTRATEGIA</button>
+    <button *ngIf="isUpdateMode()"  color="primary" mat-button type="submit" (click)="save()">EDITAR ESTRATEGIA </button>
   </mat-dialog-actions>
 
 
-<mat-menu #settingsMenu="matMenu" xPosition="before" yPosition="below">
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icPrint"></mat-icon>
-    <span>Print</span>
-  </button>
 
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icDownload"></mat-icon>
-    <span>Export</span>
-  </button>
-
-  <button mat-menu-item>
-    <mat-icon [icIcon]="icDelete"></mat-icon>
-    <span>Eliminar</span>
-  </button>
-</mat-menu>

@@ -3,7 +3,7 @@
   <vex-page-layout-header fxLayout="column" fxLayoutAlign="center start">
     <div>
 
-      <h3>Paso 5. Estrategia de Gestion </h3>
+      <h3>Paso 5. Estrategia de Gestión</h3>
       <p> </p>
     </div>
   </vex-page-layout-header>
@@ -55,12 +55,16 @@
         </div>
         <div class="flex-auto flex flex-col sm:flex-row ml-2 mr-2">
 
+         
           <mat-form-field class="flex-auto mt-6"  style="width: 80%;">
-            <mat-label>Salida despues de intentos sin exito</mat-label>
-            <input cdkFocusInitial [(ngModel)]="noneDays" matInput  (keydown)="onSearch($event)">
-    
-    
-            <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
+            <mat-select cdkFocusInitial [(ngModel)]="noneDays" (selectionChange)="addStrategy()"  >
+              <mat-option [value]="4" >5 Intentos no exitosos</mat-option>
+              <mat-option [value]="5" >6 Intentos no exitosos</mat-option>
+              <mat-option [value]="6" >7 Intentos no exitosos</mat-option>
+              <mat-option [value]="8" >8 Intentos no exitosos</mat-option>
+              <mat-option [value]="9" >9 Intentos no exitosos</mat-option>
+              <mat-option [value]="10" >10 Intentos no exitosos</mat-option>
+            </mat-select>
           </mat-form-field>
           <div class="align-self-sm-center" >
             <ng-template #popTemplate10><div [innerHtml]="html2"> </div></ng-template>
@@ -72,64 +76,6 @@
           </div>
         </div>
       </div>
-        <!--div class="flex flex-col sm:flex-row">
-          <div class="flex flex-auto flex-col" style="width: 50%;" >
-            <table mat-table [dataSource]="generalIF" class="mat-elevation-z8 text-center"  style="width: 100%;">
-              <ng-container matColumnDef="RESUMEN DE PORTAFOLIO">
-                <th mat-header-cell *matHeaderCellDef style="color:black"class="text-center uppercase"> <b>RESUMEN DE PORTAFOLIO</b> </th>
-                <td mat-cell *matCellDef="let element"  style="color:black"class="text-sm-left uppercase"> <b>{{element.name}}</b>  </td>
-              </ng-container>
-              <ng-container matColumnDef="-">
-                <th mat-header-cell *matHeaderCellDef> <b></b>  </th>
-                <td mat-cell *matCellDef="let element"  style="color:black"class="text-sm-left uppercase"><b> {{element.data}}</b> </td>
-              </ng-container>
-            
-              <tr mat-header-row *matHeaderRowDef="displayedColumnsA1"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumnsA1;"></tr>
-            </table>
-          </div>
-          <div class="flex flex-auto flex-col pl-5"style="width: 50%;" >
-            <div class="flex flex-col sm:flex-row">
-
-              <mat-form-field class="flex-auto mt-6"  style="width: 80%;">
-                <mat-label>Días Maximo de Collection Robot</mat-label>
-                <input cdkFocusInitial [(ngModel)]="days" matInput>
-        
-                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-              </mat-form-field>
-              <div class="align-self-sm-center" >
-                <ng-template #popTemplate9><div [innerHtml]="html"> </div></ng-template>
-                <mat-icon  [icIcon]="icInfo" 
-                [outsideClick]="true"
-[popover]="popTemplate9"
-                placement="left"
-                ></mat-icon>
-              </div>
-            </div>
-            <div class="flex flex-col sm:flex-row">
-
-              <mat-form-field class="flex-auto mt-6"  style="width: 80%;">
-                <mat-label>Salida despues de intentos sin exito</mat-label>
-                <input cdkFocusInitial [(ngModel)]="noneDays" matInput>
-        
-        
-                <mat-icon [icIcon]="icPerson" class="mr-3" matPrefix></mat-icon>
-              </mat-form-field>
-              <div class="align-self-sm-center" >
-                <ng-template #popTemplate10><div [innerHtml]="html2"> </div></ng-template>
-                <mat-icon  [icIcon]="icInfo" 
-                [outsideClick]="true"
-[popover]="popTemplate10"
-                placement="left"
-                ></mat-icon>
-              </div>
-            </div>
-            <button (click)="addStrategy()">Agregar Estrategia</button>
-          </div> 
-        </div-->
-        
-
-      
 
       <div  *ngIf="false" >
         <div class="flex flex-col sm:flex-row" *ngFor="let canal of canales">
@@ -196,7 +142,7 @@
               <!-- Text Columns -->
               <ng-container *ngFor="let column of columns; trackBy: trackByProperty">
                 <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.property">
-                  <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>{{ column.label }}</th>
+                  <th *matHeaderCellDef class="uppercase" mat-header-cell mat-sort-header>{{ column.label == 'Comunicacion' ? 'COMUNICACIÓN':  column.label}}</th>
                   <td *matCellDef="let row" [ngClass]="column.cssClasses" mat-cell>
                     <p *ngIf="column.label=='Comunicacion'">
                       {{row[0][column.label]}}

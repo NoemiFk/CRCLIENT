@@ -13,15 +13,15 @@
 
   <mat-dialog-content fxLayout="column">
     <br>
-    <p> Se puede realizar la actualizacion del mapeo en cualquier momento para indicar los campos que se requiren en las diferentes funcionalidades del Collection Robot. 
+    <p> Se puede realizar la  actualización del mapeo en cualquier momento para indicar los campos que se requiren en las diferentes funcionalidades del Collection Robot. 
     </p>
     <br>
-    <!--div>
-      <p><b>1.</b>	Análisis y Segmentación: Seleccionar campos como Cartera Vencida, Por vencer, Fecha último pago, Estado, Producto evitar campos como nombre del cliente, dirección, Fecha de Nacimiento.</p>
+    <div>
+      <p><b>1.</b>	Segmentación: Seleccionar campos como Cartera Vencida, Por vencer, Fecha último pago, Estado, Producto evitar campos como nombre del cliente, dirección, Fecha de Nacimiento.</p>
       <p><b>2.</b>	Comunicación: Seleccionar campos para personalización como nombre, dirección, cartera vencida, numero de cliente o contrato, referencia de pago </p>
       <p><b>3.</b>	Portal: Seleccionar campos que el cliente puede visualizar como el desglose de su cartera vencida, nombre, numero de cliente o contrato, referencia de pago.</p>
-      <p><b>4.</b>	Aval: Seleccionar campos relacionados con el aval, Nombre, Dirección.--</p>
-    </div-->
+      <p><b>4.</b>	Aval: Seleccionar campos relacionados con el aval, Nombre, Dirección. </p>
+    </div>
     <br>
     <ng-template #popTemplate22><div>Segmentación: Seleccionar campos como Cartera Vencida, Por vencer, Fecha último pago, Estado, Producto evitar campos como nombre del cliente, dirección, Fecha de Nacimiento.</div></ng-template>
 
@@ -39,7 +39,7 @@
       <table mat-table [dataSource]="table" class="mat-elevation-z8 text-center table1"  style="width: 100%; " *ngIf="table.length">
 
         <ng-container matColumnDef="Dato">
-          <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Dato</b> 
+          <th mat-header-cell *matHeaderCellDef class="text-center uppercase" style="background: rgb(1, 90, 167);"> <b>Nombre de Campo</b> 
             <mat-icon  [icIcon]="icInfo" 
             [outsideClick]="true"
 [popover]="popTemplate21"
@@ -117,12 +117,12 @@
             class="pt-1"
             ></mat-icon> </th>
           <td mat-cell *matCellDef="let element; let i = index;" class="text-center" >
-            <select class="sm:ml-6" name="element.validations.type" [(ngModel)]="element.validations.type">
+            <select class="sm:ml-6" name="element.validations.type" [(ngModel)]="element.validations.type" style="background: transparent;">
               <option value="no">Seleccione uno...</option>
               <option value="id">ID Unico</option>
               <option value="string">Texto</option>
               <option value="number">Cantidad</option>
-              <option value="email">E-mail</option>
+              <option value="email">Mail</option>
               <option value="phone">Numero Telefonico</option>
               <option value="date">Fecha</option>
             </select>
@@ -216,7 +216,7 @@
             <option value="id">ID Unico</option>
             <option value="string">Texto</option>
             <option value="number">Cantidad</option>
-            <option value="email">E-mail</option>
+            <option value="email">Mail</option>
             <option value="phone">Numero Telefonico</option>
             <option value="date">Fecha</option>
           </select>

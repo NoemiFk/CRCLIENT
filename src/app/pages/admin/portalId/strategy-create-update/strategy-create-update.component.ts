@@ -111,7 +111,7 @@ export class StrategyCreateUpdateComponent implements OnInit {
               
               this.getCommunications=this.Communication.Demand
             }
-            if(this.defaults.Comunicacion=="E-MAIL"){
+            if(this.defaults.Comunicacion=="MAIL"){
               
               this.getCommunications=this.Communication.Mail
             }

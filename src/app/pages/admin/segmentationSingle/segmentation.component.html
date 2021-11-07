@@ -90,12 +90,24 @@
       </div>
       <div>
         <br>
-        <h2 class="m-0 title mb-6">
-            Selecciona los criterios de segmentación de los campos del mapeo que 
-            se muestran a continuación haciendo clic en uno de los rangos propuestos 
-            o define tus propios rangos.  Una vez seleccionado aparece en verde.
-        </h2>
+        <div class="alert alert-primary" role="alert">
+          <mat-icon  [icIcon]="icInfo" 
+                class="pt-1"
+                ></mat-icon> 
+                <b>IMPORTANTE:</b>  Selecciona los criterios de segmentación de los campos del mapeo que 
+                se muestran a continuación haciendo clic en uno de los rangos propuestos 
+                o define tus propios rangos.  Una vez seleccionado aparece en verde.
+        </div>
+        <div class="alert alert-danger" *ngIf="alert2">
+          <mat-icon  [icIcon]="icError" 
+                class="pt-1"
+                ></mat-icon> 
+                <b>Error:</b> Este Portafolio no tiene Mapeo
+        </div>
+       
       </div>
+      <br>
+      <div class="spinner" *ngIf="!viewOptions"></div>
       <div class="flex flex-col sm:flex-row mt-6" *ngIf="infoList.length && viewOptions">
         
         <div class="flex flex-auto flex-col mr-2 ml-2" *ngFor="let info of infoList | slice:0:5;"  style="width: 30%;" [ngClass]="{'criteriaActive' : validCriterio(info.data) }" >
@@ -103,7 +115,7 @@
             <p><b>{{info.data}}</b></p>
             <ul style="overflow: scroll; height: 150px;">
               <li *ngFor="let data of info.datos" class="criterio" (click)="newCriteriaActual(info.data, data.A, data.B,info.register, info.filter)">
-                <b >{{data.range}}</b>
+                <b >{{data.range  == " "  || data.range  == '(null)' ? "Sin información":data.range}}</b>
                 ({{data.count}})</li>
             </ul>
             <p class="mt-6"><b>Selecciona Rango:</b></p>
@@ -181,17 +193,17 @@
       <br>
       
       
-      <div *ngFor="let option of segmentation.criteria;  let i = index; ">
+      <div *ngFor="let option of segmentation.criteria;  let i = index; " >
        
 
-        <div class="flex flex-col sm:flex-row mt-6" >
+        <div class="flex flex-col sm:flex-row mt-6" *ngIf="viewOptions" >
           
-          <div class="flex flex-auto align-items-center"> <b>Criterio {{i+1}}</b></div>
-          <div class="flex flex-auto align-items-center">
+          <div class="flex flex-auto align-items-center w-0"> <b>Criterio {{i+1}}</b></div>
+          <div class="flex flex-auto align-items-center w-12">
             <b> {{option.name}}   </b> 
             
           </div>
-          <div class="flex flex-auto align-items-center">
+          <div class="flex flex-auto align-items-center w-24">
             <button class="ml-6" (click)="delete(i)" color="warn" mat-flat-button  type="submit">ELIMINAR CRITERIO</button>
 
             <!--a (click)="delete(i)"
@@ -200,10 +212,7 @@
             <mat-icon [icIcon]="icDelete" size="18px"></mat-icon>
           </a-->
           </div>
-          <div class="flex flex-auto">
-
-          </div>
-          <div class="flex flex-auto">
+          <div class="flex flex-auto w-2/5">
             <table mat-table [dataSource]="option.dataSeg" class="mat-elevation-z8 text-center " style="width: 100%;">
         
               <ng-container matColumnDef="Registros">
@@ -235,7 +244,8 @@
       <div>
         <mat-checkbox class="example-margin w-full text-center"
         
-        [(ngModel)]="rest_assigned"
+        [(ngModel)]="segment.segmentation[indexSegmentation].add_rest"
+        (change)="query_rest_assignedChange(segment.segmentation[indexSegmentation].add_rest)" 
         >
         Deseas asignar la información no segmentada a este segmento ?
       </mat-checkbox>
