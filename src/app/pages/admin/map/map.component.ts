@@ -561,7 +561,7 @@ export class MapComponent implements OnInit, AfterViewInit {
    this.count=0
    console.log(this.jsDatos.length)
     this.jsDatos.forEach((el,y) => {
-      console.log("-----------------------",)
+      //console.log("-----------------------",)
       if(y==0){
         el.firts = true
       }
@@ -596,7 +596,8 @@ export class MapComponent implements OnInit, AfterViewInit {
             console.log(this.datosactualizados, this.registros)
           this.active=false
           setTimeout(() => {
-            this.router.navigate(['/admin/portafolios']);
+            if(!this.alert1)
+              this.router.navigate(['/admin/portafolios']);
           },8000)
 
         }
@@ -625,6 +626,9 @@ export class MapComponent implements OnInit, AfterViewInit {
               reject(error)
             });
     });
+  }
+  return(){
+    this.active= false
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -807,7 +811,7 @@ export class MapComponent implements OnInit, AfterViewInit {
                const index = this.datos.findIndex((val) => {
                 return val === element});
                if(index==-1){
-                console.log(element)
+                //console.log(element)
                  this.alert1=true
                  return;
                }

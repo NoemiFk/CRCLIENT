@@ -239,7 +239,7 @@ export class SegmentationComponent implements OnInit {
       
       //this.createInit()
       //this.getSegmentation()
-      this.AnaliticsAllSegment()
+      //this.AnaliticsAllSegment()
     }, 1000);
     
     
@@ -248,6 +248,7 @@ export class SegmentationComponent implements OnInit {
   rangeA=0
   rangeB=0
   getSegInfo(id) {
+    console.log("getSegInfo")
     this.alert2= false
     this.Services.getSegInfo(id)
     .subscribe(
@@ -307,42 +308,68 @@ export class SegmentationComponent implements OnInit {
         data => {
           if(data.success){
             this.segment=data.data;
-            if (this.segment.segmentation.length < 1)  {
-              this.segment.segmentation.push({
-                name:"",
-                description:"",
-                type:"rank",
-                criteria:[],
-                register:0,
-                porcent:0,
-                query:"",
-                add_rest:false
-              })
+            console.log("$$$$$$$$$$$$$$$$$$$$$$$",data.data.segmentation.length, 3-data.data.segmentation.length)
+            //Nuevo
+            let limit = 0
+            if (data.data.segmentation.length == 0) {
+              limit = 3
             }
-            if (this.segment.segmentation.length < 2)  {
-              this.segment.segmentation.push({
-                name:"",
-                description:"",
-                type:"rank",
-                criteria:[],
-                register:0,
-                porcent:0,
-                query:"",
-                add_rest:false
-              })
+            if (data.data.segmentation.length == 1) {
+              limit = 2
             }
-            if (this.segment.segmentation.length < 3)  {
-              this.segment.segmentation.push({
-                name:"",
-                description:"",
-                type:"rank",
-                criteria:[],
-                register:0,
-                porcent:0,
-                query:"",
-                add_rest:false
-              })
+            if (data.data.segmentation.length == 2) {
+              limit = 1
             }
+            for (let index = 0; index < limit; index++) {
+              this.segment.segmentation.push({
+                    name:"",
+                    description:"",
+                    type:"rank",
+                    criteria:[],
+                    register:0,
+                    porcent:0,
+                    query:"",
+                    add_rest:false
+                  })
+              
+            }
+            //Bloqueo
+            // if (this.segment.segmentation.length < 1)  {
+            //   this.segment.segmentation.push({
+            //     name:"",
+            //     description:"",
+            //     type:"rank",
+            //     criteria:[],
+            //     register:0,
+            //     porcent:0,
+            //     query:"",
+            //     add_rest:false
+            //   })
+            // }
+            // if (this.segment.segmentation.length < 2)  {
+            //   this.segment.segmentation.push({
+            //     name:"",
+            //     description:"",
+            //     type:"rank",
+            //     criteria:[],
+            //     register:0,
+            //     porcent:0,
+            //     query:"",
+            //     add_rest:false
+            //   })
+            // }
+            // if (this.segment.segmentation.length < 3)  {
+            //   this.segment.segmentation.push({
+            //     name:"",
+            //     description:"",
+            //     type:"rank",
+            //     criteria:[],
+            //     register:0,
+            //     porcent:0,
+            //     query:"",
+            //     add_rest:false
+            //   })
+            // }
             this.getPortaolio(this.segment.portafolio_id)
             this.getMap(this.segment.portafolio_id)
             let query_rest = this.get_query_rest()
@@ -354,6 +381,24 @@ export class SegmentationComponent implements OnInit {
              console.log("Segmentacion",this.segmentation)
              console.log("Segmentacion1",data.data.segmentation)
              console.log("Segmentacion 2",this.segment)
+
+            if(this.segment.segmentation.length){
+
+              if(this.segment.segmentation[this.indexSegmentation].query){
+                this.segment.segmentation[this.indexSegmentation].criteria.forEach((criteria,x) => {
+                  console.log("***********", criteria.percentage)
+                  
+                  this.segmentation.criteria[x].dataSeg=[{
+                    "actual": criteria.register,
+                    "info": criteria.segments,
+                    "porcent":criteria.percentage.toFixed(1),
+                    "register":criteria.nos_egments,
+                  }]
+                  let query = JSON.parse(criteria.query)
+                  this.get_infoList(query)
+                })
+              }
+            }
              if(data.data.query_rest_assigned){
               this.segmentation_query_rest = this.segmentation
              }
@@ -362,78 +407,81 @@ export class SegmentationComponent implements OnInit {
               this.isEdit=true
                if(this.segmentation.criteria.length){
                 let promises=[]
-                 if(this.segmentation.criteria[0]){
-                  this.viewOptions= false
-                   console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
-                   this.segmentation.criteria[0].dataSource=[]
-                   this.segmentation.criteria[0].dataSeg=[]
-                   //this.analytics(0)
-                   //promises.push(this.analytics1(0))
-                    this.analytics1(0)
-                    .then(result => {
-                          console.log("analytics1", result)
-                          this.save(0)
-                          .then(result => {
-                            console.log("save", result)
-                            //#################################################
-                            if(this.segmentation.criteria[1]){
-                              console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
-                              this.segmentation.criteria[1].dataSource=[]
-                              this.segmentation.criteria[1].dataSeg=[]
-                              //this.analytics(0)
-                              //promises.push(this.analytics1(0))
-                               this.analytics1(1)
-                               .then(result => {
-                                     console.log("analytics1", result)
-                                     this.save(1)
-                                     .then(result => {
-                                       console.log("save", result)
-                                       //#################################################
-                                       if(this.segmentation.criteria[2]){
-                                        console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
-                                        this.segmentation.criteria[2].dataSource=[]
-                                        this.segmentation.criteria[2].dataSeg=[]
-                                        //this.analytics(0)
-                                        //promises.push(this.analytics1(0))
-                                         this.analytics1(2)
-                                         .then(result => {
-                                               console.log("analytics1", result)
-                                               this.save(2)
-                                               .then(result => {
-                                                 console.log("save", result)
-                                                 this.viewOptions= true
-                                               })
-                                               .catch(err =>{
-                                                 console.log(err)
-                                               });
-                                           })
-                                           .catch(err =>{
-                                             console.log(err)
-                                           });
-                                         }
-                                         else
-                                         this.viewOptions= true
-                                     })
-                                     .catch(err =>{
-                                       console.log(err)
-                                     });
-                                 })
-                                 .catch(err =>{
-                                   console.log(err)
-                                 });
-                            }
-                            else
-                              this.viewOptions= true
+                this.viewOptions= true
+                console.log(this.infoList.length,  this.viewOptions)
+                //Bloqueo
+                //  if(this.segmentation.criteria[0]){
+                //   this.viewOptions= false
+                //    console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                //    this.segmentation.criteria[0].dataSource=[]
+                //    this.segmentation.criteria[0].dataSeg=[]
+                //    //this.analytics(0)
+                //    //promises.push(this.analytics1(0))
+                //     this.analytics1(0)
+                //     .then(result => {
+                //           console.log("analytics1", result)
+                //           this.save(0)
+                //           .then(result => {
+                //             console.log("save", result)
+                //             //#################################################
+                //             if(this.segmentation.criteria[1]){
+                //               console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                //               this.segmentation.criteria[1].dataSource=[]
+                //               this.segmentation.criteria[1].dataSeg=[]
+                //               //this.analytics(0)
+                //               //promises.push(this.analytics1(0))
+                //                this.analytics1(1)
+                //                .then(result => {
+                //                      console.log("analytics1", result)
+                //                      this.save(1)
+                //                      .then(result => {
+                //                        console.log("save", result)
+                //                        //#################################################
+                //                        if(this.segmentation.criteria[2]){
+                //                         console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                //                         this.segmentation.criteria[2].dataSource=[]
+                //                         this.segmentation.criteria[2].dataSeg=[]
+                //                         //this.analytics(0)
+                //                         //promises.push(this.analytics1(0))
+                //                          this.analytics1(2)
+                //                          .then(result => {
+                //                                console.log("analytics1", result)
+                //                                this.save(2)
+                //                                .then(result => {
+                //                                  console.log("save", result)
+                //                                  this.viewOptions= true
+                //                                })
+                //                                .catch(err =>{
+                //                                  console.log(err)
+                //                                });
+                //                            })
+                //                            .catch(err =>{
+                //                              console.log(err)
+                //                            });
+                //                          }
+                //                          else
+                //                          this.viewOptions= true
+                //                      })
+                //                      .catch(err =>{
+                //                        console.log(err)
+                //                      });
+                //                  })
+                //                  .catch(err =>{
+                //                    console.log(err)
+                //                  });
+                //             }
+                //             else
+                //               this.viewOptions= true
                             
-                          })
-                          .catch(err =>{
-                            console.log(err)
-                          });
-                      })
-                      .catch(err =>{
-                        console.log(err)
-                      });
-                    }
+                //           })
+                //           .catch(err =>{
+                //             console.log(err)
+                //           });
+                //       })
+                //       .catch(err =>{
+                //         console.log(err)
+                //       });
+                //     }
               
                
                }
@@ -608,11 +656,11 @@ export class SegmentationComponent implements OnInit {
           this.portafolio=data.data;
           (this.indexSegmentation==0)
             this.registerTotal=this.portafolio.register
-          console.log("Portafolio",this.segment)
+          console.log("Portafolio",this.portafolio)
           let reg = 0
-          this.segment.segmentation.forEach(item => {
-            console.log("Portafolio",this.segment.segmentation)
-            console.log("--->>>--",item.name,item.register,item.porcent)
+          this.segment.segmentation.forEach((item, x) => {
+            console.log("Portafolio",this.segment.segmentation[x])
+            console.log("--->>>--",this.segment.segmentation[x].name,this.segment.segmentation[x].register,this.segment.segmentation[x].porcent)
             console.log("--->>>",item)
             console.log("--->>>--",item.name,item.register,item.porcent)
             reg = reg + item.register
@@ -635,22 +683,8 @@ export class SegmentationComponent implements OnInit {
           console.log("generalP 1",this.generalP[0])
           this.registros = this.value.toFixed(1) +" %"
           console.log("REGISTROS",this.registros)
-          this.generalIF=[{
-            name:"CLIENTE",
-            data: this.portafolio.client_id.name
-          },
-          {
-            name:"PORTAFOLIO",
-            data: this.portafolio.name_portafolio
-          },
-          {
-            name:"REGISTROS",
-            data: this.portafolio.register.toString()||"null"
-          },
-          {
-            name:"SEGMENTADO",
-            data: this.value.toFixed(1) +" %"
-          }]
+         
+          
         }
       },
       error => {
@@ -1116,6 +1150,24 @@ export class SegmentationComponent implements OnInit {
     }, 100);
 
   }
+  get_infoList(body) {
+    
+    this.Services.getASR2(this.segment.portafolio_id,body)
+        .subscribe( 
+        data => {
+          this.infoList=[]
+          data.data.forEach(element => {
+            console.log(element)
+            if(element.datos.length)
+             this.infoList.push(element)
+          });
+        },
+        error => {
+          //this.error=true
+        });
+
+        
+  }
   save(x){
     
     return new Promise((resolve, reject) => {
@@ -1364,6 +1416,22 @@ export class SegmentationComponent implements OnInit {
       segmentado: value.toFixed(1)
       }]
       console.log("generalP 2",this.generalP[0])
+      this.generalIF=[{
+        name:"CLIENTE",
+        data: this.portafolio.client_id.name
+      },
+      {
+        name:"PORTAFOLIO",
+        data: this.portafolio.name_portafolio
+      },
+      {
+        name:"REGISTROS",
+        data: this.portafolio.register.toString()||"null"
+      },
+      {
+        name:"SEGMENTADO",
+        data: this.value.toFixed(1) +" %"
+      }]
   }
   getNewCriteria(query){
     return new Promise((resolve, reject) => {

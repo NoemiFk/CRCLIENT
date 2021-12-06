@@ -310,7 +310,7 @@ export class StrategyComponent implements OnInit {
           this.generalP=[{
             cliente: this.portafolio.client_id.name,
             portafolio: this.portafolio.name_portafolio,
-            registros: this.portafolio.register.toString()||"null",
+            registros: this.segmentacionData.register.toString()||"null",
             segmentado: this.segmentacionData.name
           }]
           this.generalIF=[{
@@ -338,8 +338,8 @@ export class StrategyComponent implements OnInit {
   segmentacionData={
     name:"",
     portafolio_id:"",
-    segmentation_id:""
-    
+    segmentation_id:"",
+    register:""
   }
   segmentacion={}
   displayedColumnsS = ["comunication"]
