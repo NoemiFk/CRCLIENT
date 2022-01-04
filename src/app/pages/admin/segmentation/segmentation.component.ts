@@ -147,6 +147,16 @@ export class SegmentationComponent implements OnInit, AfterViewInit {
           //console.log("Hola ", data)
           if(data.success){
             this.SegmentationsList=data.data
+            this.SegmentationsList.sort(function (a, b) {
+              if (b.created > a.created) {
+                return 1;
+              }
+              if (b.created < a.created) {
+                return -1;
+              }
+              // a must be equal to b
+              return 0;
+            });
             this.labels = data.data;
             
             //return this.SegmentationsList;

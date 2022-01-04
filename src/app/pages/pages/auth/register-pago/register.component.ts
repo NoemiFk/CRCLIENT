@@ -135,7 +135,7 @@ export class RegisterComponent implements OnInit {
       password: ['', Validators.required],
       passwordConfirm: ['', Validators.required],
       terms:['',Validators.requiredTrue],
-      add:['',Validators.requiredTrue]
+      add:['']
     });
   }
 
@@ -157,7 +157,7 @@ export class RegisterComponent implements OnInit {
       return;
 }
     let body={
-      name: user.name,
+      name: user.nameAgency,
       email: user.email,
       email1: user.email1,
       email2: user.email2,

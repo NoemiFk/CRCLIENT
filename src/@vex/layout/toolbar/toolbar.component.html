@@ -83,6 +83,7 @@
         [fxHide]="mobileQuery"
         color="{{color3}}"
         mat-button
+        [disabled]="bloqueo"
         (click)="href('/admin/segmentation')"
         style="font-size: x-small;"
         [class.bg-accent-light]="color3=='accent'"
@@ -95,6 +96,7 @@
         [fxHide]="mobileQuery"
         color="{{color4}}"
         mat-button
+        [disabled]="bloqueo"
         (click)="href('/admin/communication')"
         style="font-size: x-small;"
         [class.bg-accent-light]="color4=='accent'"
@@ -108,6 +110,7 @@
         [fxHide]="mobileQuery"
         color="{{color5}}"
         mat-button
+        [disabled]="bloqueo"
         (click)="href('/admin/strategy')"
         style="font-size: x-small;"
         [class.bg-accent-light]="color5=='accent'"
@@ -121,6 +124,7 @@
         [fxHide]="mobileQuery"
         color="{{color6}}"
         mat-button
+        [disabled]="bloqueo"
         (click)="href('/admin/portal')"
         style="font-size: x-small;"
         [class.bg-accent-light]="color6=='accent'"

@@ -96,6 +96,7 @@ export class ToolbarComponent implements OnInit {
   color4="primary"
   color5="primary"
   color6="primary"
+  bloqueo = false
   ngOnInit() {
     console.log("Ruta",this.router.url);
     this.url= this.router.url
@@ -171,6 +172,7 @@ export class ToolbarComponent implements OnInit {
     if(this.plan && this.agency.contract.type=='test')
     this.calculate()
     if(this.days>=1) this.noticeCustomer()
+    if(this.days<=0) this.bloqueo = true
   }
   href(x){
     this.router.navigate([x]);

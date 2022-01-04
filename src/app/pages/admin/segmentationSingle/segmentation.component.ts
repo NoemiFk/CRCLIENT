@@ -169,6 +169,7 @@ export class SegmentationComponent implements OnInit {
   bufferValue = 10; 
   segmentation_id = this.route.snapshot.params.id;
   indexSegmentation = parseInt(this.route.snapshot.params.index);
+  colors_table: ['red', 'blue', 'green']
   segmentation={
     name:"",
     description:"",
@@ -257,12 +258,13 @@ export class SegmentationComponent implements OnInit {
             console.log("PPPP",data.data)
             this.infoList=[]
             data.data.forEach(element => {
-              if(element.datos.length)
-              console.log(!element.datos[0].B,element.datos[0])
-                if(!element.datos[0].B){
-                  element.filter = "equal"
-                }
-               this.infoList.push(element)
+              if(element.datos.length > 0){
+                console.log(!element.datos[0].B,element.datos[0])
+                  if(!element.datos[0].B){
+                    element.filter = "equal"
+                  }
+                 this.infoList.push(element)
+              }
             });
           }
         },
@@ -284,14 +286,19 @@ export class SegmentationComponent implements OnInit {
       this.newCriteriaActual(name,info.rangeA,info.rangeB,count, filter)
   }
   validCriterio(name){
-    let active = false
+    console.log(name)
+    let active = 'transparent'
     //this.segment.segmentation.forEach(element => {
       //console.log(this.segment.segmentation[this.indexSegmentation])
       //if()
       const index = this.segment.segmentation[this.indexSegmentation].criteria.findIndex((crit) => {
         return crit.name === name});
-      if(index!=-1) active = true
-      
+      if(index!=-1) {
+        if(index == 0) active = '#e4ffe5'
+        if(index == 1) active = '#d2e9fa'
+        if(index == 2) active = '#aeaeae'
+          
+      }
     //});
     return active
   }
@@ -556,7 +563,7 @@ export class SegmentationComponent implements OnInit {
                 let promises=[]
                  if(this.segmentation.criteria[0]){
                   this.viewOptions= false
-                   console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query)
+                   console.log("<<<<<<<<<<<<<<<<<<<<<",this.segmentation.query, this.segmentation.criteria.length)
                    this.segmentation.criteria[0].dataSource=[]
                    this.segmentation.criteria[0].dataSeg=[]
                    //this.analytics(0)
@@ -576,7 +583,7 @@ export class SegmentationComponent implements OnInit {
                               //promises.push(this.analytics1(0))
                                this.analytics1(1)
                                .then(result => {
-                                     console.log("analytics1", result)
+                                     console.log("analytics2", result)
                                      this.save(1)
                                      .then(result => {
                                        console.log("save", result)
@@ -589,11 +596,12 @@ export class SegmentationComponent implements OnInit {
                                         //promises.push(this.analytics1(0))
                                          this.analytics1(2)
                                          .then(result => {
-                                               console.log("analytics1", result)
+                                               console.log("analytics3", result)
                                                this.save(2)
                                                .then(result => {
                                                  console.log("save", result)
                                                  this.viewOptions= true
+                                                 this.calcularTotal()
                                                })
                                                .catch(err =>{
                                                  console.log(err)
@@ -603,8 +611,10 @@ export class SegmentationComponent implements OnInit {
                                              console.log(err)
                                            });
                                          }
-                                         else
-                                         this.viewOptions= true
+                                         else{
+                                          this.calcularTotal()
+                                          this.viewOptions= true
+                                         }
                                      })
                                      .catch(err =>{
                                        console.log(err)
@@ -614,8 +624,10 @@ export class SegmentationComponent implements OnInit {
                                    console.log(err)
                                  });
                             }
-                            else
+                            else{
+                              this.calcularTotal()
                               this.viewOptions= true
+                            }
                             
                           })
                           .catch(err =>{
@@ -634,7 +646,14 @@ export class SegmentationComponent implements OnInit {
                  if(this.segment.segmentation,this.indexSegmentation-1>=0){
 
                    console.log("DELETE",this.segment.segmentation,this.indexSegmentation-1, this.segment.segmentation[this.indexSegmentation-1].query)
-                   this.getNewCriteria(this.segment.segmentation[this.indexSegmentation-1].query)
+                   var segment = [...this.segment.segmentation]
+                   let splice = segment.splice(this.indexSegmentation,1)
+                   console.log("########################################################",splice)
+                   console.log("########################################################",segment)
+                   let newQuery = this.get_query_rest_calculate(segment)
+                   console.log("########################################################",newQuery)
+                   this.getNewCriteria(newQuery)
+                   //this.getNewCriteria(this.segment.segmentation[this.indexSegmentation-1].query)
                  }
                  else{
                   if (this.indexSegmentation==0 ) {
@@ -681,7 +700,8 @@ export class SegmentationComponent implements OnInit {
             segmentado: value.toFixed(1)
           }]
           console.log("generalP 1",this.generalP[0])
-          this.registros = this.value.toFixed(1) +" %"
+          
+          this.registros = this.value>100?"100.00 %":this.value.toFixed(1)+"%"
           console.log("REGISTROS",this.registros)
          
           
@@ -1141,6 +1161,51 @@ export class SegmentationComponent implements OnInit {
       console.log("QUERY REST",JSON.stringify(query))
      return JSON.stringify(query)
   }
+  get_query_rest_calculate(segment){
+
+    console.log("########SEGMENTACION###########",segment)
+    let params = []
+    let query = {}
+    
+    segment.forEach(element => {
+      if(element.query){
+        console.log("***",JSON.parse(element.query))
+        params.push(JSON.parse(element.query))
+      }
+      
+    });
+    console.log("############PL#############",params.length)
+    switch (params.length) {
+      case 0:
+        query = {}
+      break;
+      case 1:
+        query =  params[0]
+      break;
+      case 2:
+          query =  {
+            "$and":params
+          }
+      break;
+      case 3:
+          query =  {
+            "$and":params
+          }
+      break;
+    
+      default:
+        break;
+    }
+    
+  
+    //{"$and":[{"$or":[{"dias_no_pago":{"$lt":20}},{"dias_no_pago":{"$gt":96}}]},{"$or":[{"interes":{"$lt":394}},{"interes":{"$gt":720}}]}]}
+    //{"$and":[{"$or":[{"dias_no_pago":{"$lt":20}},{"dias_no_pago":{"$gt":96}}]},{"$or":[{"interes":{"$lt":394}},{"interes":{"$gt":720}}]}]}
+
+    //{"$and":[{"$or":[{"dias_no_pago":{"$lt":20}},{"dias_no_pago":{"$gt":96}}]},{"$or":[{"interes":{"$lt":394}},{"interes":{"$gt":720}}]}]}
+    console.log(query)
+      console.log("QUERY REST",JSON.stringify(query))
+     return JSON.stringify(query)
+  }
   ultimoQuery={}
   goto(x){
     console.log(this.segmentation_id+"/"+x)
@@ -1158,7 +1223,7 @@ export class SegmentationComponent implements OnInit {
           this.infoList=[]
           data.data.forEach(element => {
             console.log(element)
-            if(element.datos.length)
+            if(element.datos.length > 0)
              this.infoList.push(element)
           });
         },
@@ -1168,6 +1233,7 @@ export class SegmentationComponent implements OnInit {
 
         
   }
+  rest_query_default = {}
   save(x){
     
     return new Promise((resolve, reject) => {
@@ -1330,7 +1396,7 @@ export class SegmentationComponent implements OnInit {
                 this.infoList=[]
                 data.data.forEach(element => {
                   console.log(element)
-                  if(element.datos.length)
+                  if(element.datos.length > 0)
                    this.infoList.push(element)
                 });
                 console.log("registerActual 2",this.registerActual, this.segmentation.criteria[x])
@@ -1447,7 +1513,11 @@ export class SegmentationComponent implements OnInit {
             if(data.success){
               let info2=data.data[0].register;
               this.viewOptions = true;
-              this.infoList=data.data
+              this.infoList=[]
+              data.data.forEach(element => {
+                if(element.datos.length > 0)
+                  this.infoList.push(element)
+              })
               console.log("registerActual 2",this.registerActual, this.infoList, this.segmentation_query_rest)
               resolve(true)
             }
@@ -1485,7 +1555,7 @@ export class SegmentationComponent implements OnInit {
             value = this.validIsNumber(this.segmentation.criteria[x].rankA)
             console.log("*************",value)
             if(typeof value === 'string' || !value){
-              q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA}
+              q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA }
             }else{
               q={[this.segmentation.criteria[x].name]: parseInt(this.segmentation.criteria[x].rankA) }
             }
@@ -1497,7 +1567,7 @@ export class SegmentationComponent implements OnInit {
           value = this.validIsNumber(this.segmentation.criteria[x].rankA)
           console.log("*************",value)
           if(typeof value === 'string' || !value){
-            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA}
+            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA }
           }else{
             q={[this.segmentation.criteria[x].name]: {"$gte": parseInt(this.segmentation.criteria[x].rankA) }}
           }
@@ -1506,7 +1576,7 @@ export class SegmentationComponent implements OnInit {
           value = this.validIsNumber(this.segmentation.criteria[x].rankA)
           console.log("*************",value)
           if(typeof value === 'string' || !value){
-            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA}
+            q={[this.segmentation.criteria[x].name]:this.segmentation.criteria[x].rankA }
           }else{
             q={[this.segmentation.criteria[x].name]: { "$lte":parseInt(this.segmentation.criteria[x].rankA)} }
           }
@@ -1516,7 +1586,7 @@ export class SegmentationComponent implements OnInit {
           value = this.validIsNumber(this.segmentation.criteria[x].rankA)
           console.log("*************",value)
           if(typeof value === 'string' || !value){
-            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA}
+            q={[this.segmentation.criteria[x].name]: this.segmentation.criteria[x].rankA }
           }else{
             q={[this.segmentation.criteria[x].name]: parseInt(this.segmentation.criteria[x].rankA) }
           }
@@ -1602,6 +1672,8 @@ export class SegmentationComponent implements OnInit {
     }
     this.segmentation.criteria[criteria.length - 1].dataSeg[0]={actual:count||0}
     this.save(criteria.length - 1)
+    this.calcularTotal()
+    this.getSegmentationDelete()
   }
 
   edit(){
@@ -1616,12 +1688,15 @@ export class SegmentationComponent implements OnInit {
     console.log(i, this.segment)
 
       this.segmentation.criteria.splice(i,1)
-      this.value=0;
-      // this.segment.segmentation.forEach(element => {
-      //   //console.log(element.porcent)
-      //   this.value=this.value+element.porcent
-      //   this.bufferValue=this.value
-      // });
+      let registers=0;
+      let porcent =0;
+      this.segmentation.criteria.forEach(element => {
+        console.log(element)
+        registers = registers + element.register
+        porcent = porcent + element.percentage
+      });
+      this.segmentation.register = registers
+      this.segmentation.porcent = porcent
       // this.registros=this.value>100?"100.00 %":this.value.toFixed(1)+"%"
       this.calcularTotal()
       this.getSegmentationDelete()
@@ -1726,7 +1801,7 @@ export class SegmentationComponent implements OnInit {
           value = this.validIsNumber(this.segmentation.criteria[x].rankA)
           console.log("*************",value)
           if(typeof value === 'string' || !value){
-            q={[this.segmentation.criteria[x].name]:  { "$nin": [this.segmentation.criteria[x].rankA]}}
+            q={[this.segmentation.criteria[x].name]:  { "$nin": [this.segmentation.criteria[x].rankA] }}
 
           }else{
             //q={[this.segmentation.criteria[x].name]: parseInt(this.segmentation.criteria[x].rankA) }
@@ -1790,70 +1865,104 @@ export class SegmentationComponent implements OnInit {
   }
   segmentation_query_rest=null
   query_rest_assignedChange(e){
-    
-    this.segmentation.add_rest = e
-    this.getNewCriteria(this.get_query_rest())
-    .then(result =>{
-      if(e){
-
-        let actualRegisters = this.infoList[0].register
-        console.log("TRUE",actualRegisters)
-        if(this.segmentation.criteria.length){
-          console.log("criteria",actualRegisters)
-          this.segmentation.query = this.get_query_rest()
-          this.segmentation.register =  this.segmentation.register + actualRegisters
-          
-    
-          console.log("================*",this.portafolio.register, (100 /this.portafolio.register  ), ( 100 /this.portafolio.register ) * this.segmentation.register)
-          this.segmentation.porcent = ( 100 / this.portafolio.register ) * this.segmentation.register
-          console.log("================*",this.portafolio.register)
-        }else{
-          console.log("NO criteria",actualRegisters)
-          this.segmentation.query =  this.get_query_rest()
-          this.segmentation.register = actualRegisters
-          console.log("================*",actualRegisters)
-    
-          console.log("================*",this.portafolio.register, (100 /this.portafolio.register  ), ( 100 /this.portafolio.register )* actualRegisters)
-          this.segmentation.porcent = ( 100 / this.portafolio.register ) * actualRegisters
-          console.log("================*",this.portafolio.register)
-        }
-    
-        this.segment.query_rest_assigned = e
-        this.segmentation_query_rest = this.segmentation
-        console.log("================",this.segmentation_query_rest)
-        this.calcularTotal()
+    console.log("Actual",this.segment.segmentation)
+    console.log("Actual",this.segment.segmentation[this.indexSegmentation])
+    if(e){
+      let registers = 0
+      console.log("TRUE",this.segment.segmentation[this.indexSegmentation].register,this.generalP[0].nosegmentadocant, this.infoList[0].register )
+      if(this.segmentation.criteria.length){
+      registers = this.generalP[0].nosegmentadocant + this.infoList[0].register
       }else{
+        registers = this.generalP[0].nosegmßentadocant
+      }
+      this.segment.segmentation[this.indexSegmentation].register = registers
+      this.segment.segmentation[this.indexSegmentation].porcent = (registers*100)/this.portafolio.register
+      this.segmentation.add_rest = e
+      this.segmentation_query_rest = this.get_query_rest()
+      let actualRegisters = this.infoList[0].register
+    }
+    else{
+      console.log("ELSE",this.segment.segmentation[this.indexSegmentation].register)
+      let registers = 0
+      if(this.segmentation.criteria.length){
+        let rest = this.segment.segmentation[this.indexSegmentation].register - this.infoList[0].register
+      registers = this.segment.segmentation[this.indexSegmentation].register - rest// - this.infoList[0].register
+      }else{
+        registers = 0
+      }
+      this.segment.segmentation[this.indexSegmentation].register = registers
+      this.segment.segmentation[this.indexSegmentation].porcent = (registers*100)/this.portafolio.register
+      this.segmentation.add_rest = e
+      this.segmentation_query_rest = this.get_query_rest()
+      let actualRegisters = this.infoList[0].register
+    }
+    this.calcularTotal()
+    // this.getNewCriteria(this.get_query_rest())
+    // .then(result =>{
+    //   console.log("Result##################################################",result)
+    //   if(e){
 
-        //this.getPortaolio(this.segment.portafolio_id)
-        //this.getSegmentationDelete()
-        //this.deleteSeg()
-        let actualRegisters =  this.portafolio.register - this.infoList[0].register
-        if(this.segmentation.criteria.length){
-          console.log("criteria FALSE",actualRegisters)
-          this.segmentation.query = this.get_query_rest()
-          this.segmentation.register =  this.segmentation.register - this.infoList[0].register
+    //     let actualRegisters = this.infoList[0].register
+    //     console.log("TRUE",actualRegisters)
+    //     if(this.segmentation.criteria.length){
+    //       console.log("criteria",actualRegisters)
+    //       this.segmentation.query = this.get_query_rest()
+    //       this.segmentation.register =  this.segmentation.register + actualRegisters
           
     
-          console.log("================*",this.portafolio.register, (100 / this.portafolio.register  ), ( 100 /this.portafolio.register ) * this.segmentation.register)
-          this.segmentation.porcent = ( 100 / this.portafolio.register ) *  this.segmentation.register
-          console.log("================*",this.portafolio.register)
-        }else{
-          this.segmentation.query =  this.get_query_rest()
-          console.log("criteria FALSE",actualRegisters)
-          this.segmentation.register = this.segmentation.register - actualRegisters
-          console.log("================*",actualRegisters)
+    //       console.log("================*",this.portafolio.register, (100 /this.portafolio.register  ), ( 100 /this.portafolio.register ) * this.segmentation.register)
+    //       this.segmentation.porcent = ( 100 / this.portafolio.register ) * this.segmentation.register
+    //       console.log("================*",this.portafolio.register)
+    //     }else{
+    //       console.log("NO criteria",actualRegisters)
+    //       this.segmentation.query =  this.get_query_rest()
+    //       this.segmentation.register = actualRegisters
+    //       console.log("================*",actualRegisters)
     
-          console.log("================*",this.portafolio.register, (100 /this.portafolio.register  ), ( 100 /this.portafolio.register )* this.segmentation.register)
-          this.segmentation.porcent = ( 100 / this.portafolio.register ) * this.segmentation.register
-          console.log("================*",this.portafolio.register)
-        }
+    //       console.log("================*",this.portafolio.register, (100 /this.portafolio.register  ), ( 100 /this.portafolio.register )* actualRegisters)
+    //       this.segmentation.porcent = ( 100 / this.portafolio.register ) * actualRegisters
+    //       console.log("================*",this.portafolio.register)
+    //     }
     
-        this.segment.query_rest_assigned = e
-        this.segmentation_query_rest = this.segmentation
-        console.log("================",this.segmentation_query_rest)
-        this.calcularTotal()
-      }
-    })
+    //     this.segment.query_rest_assigned = e
+    //     this.segmentation_query_rest = this.segmentation
+    //     console.log("================",this.segmentation_query_rest)
+    //     this.calcularTotal()
+    //   }else{
+
+    //     //this.getPortaolio(this.segment.portafolio_id)
+    //     //this.getSegmentationDelete()
+    //     //this.deleteSeg()
+    //     console.log("actualRegisters",this.portafolio.register , this.infoList[0].register)
+    //     let actualRegisters =  this.portafolio.register - this.infoList[0].register
+    //     if(this.segmentation.criteria.length){
+    //       console.log("criteria FALSE",actualRegisters)
+    //       this.segmentation.query = this.get_query_rest()
+    //       console.log("criteria FALSE",this.segmentation.register , this.infoList[0].register)
+    //       this.segmentation.register =  this.segmentation.register - this.infoList[0].register
+    //       console.log("criteria FALSE",this.segmentation.register)
+          
+    
+    //       console.log("================*",this.portafolio.register, (100 / this.portafolio.register  ), ( 100 /this.portafolio.register ) * this.segmentation.register)
+    //       this.segmentation.porcent = ( 100 / this.portafolio.register ) *  this.segmentation.register
+    //       console.log("================*",this.portafolio.register)
+    //     }else{
+    //       this.segmentation.query =  this.get_query_rest()
+    //       console.log("criteria FALSE",actualRegisters)
+    //       this.segmentation.register = 0
+    //       console.log("================*",actualRegisters)
+    
+    //       console.log("================*",this.portafolio.register, (100 /this.portafolio.register  ), ( 100 /this.portafolio.register )* this.segmentation.register)
+    //       this.segmentation.porcent = ( 100 / this.portafolio.register ) * this.segmentation.register
+    //       console.log("================*",this.portafolio.register)
+    //     }
+    
+    //     this.segment.query_rest_assigned = e
+    //     this.segmentation_query_rest = this.segmentation
+    //     console.log("================",this.segmentation_query_rest)
+    //     this.calcularTotal()
+    //   }
+    // })
     console.log("================",this.segmentation_query_rest)
   }
   getRest(){

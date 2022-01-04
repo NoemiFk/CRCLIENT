@@ -460,28 +460,28 @@ export class MapComponent implements OnInit, AfterViewInit {
   datosactualizados = 0
   updateDataMapeo(){
     this.active= true
-    this.deleteRegister()
-      
+   
+    this.updateRegister(this.jsDatos)
   }
-
+  nuevos = 0
+  eliminados = 0
+  actualizados = 0
   updateRegister (register){
-    return new Promise((resolve, reject) => {
       this.Services.updateRegister(register,this.portafolio_id)
       .subscribe(
           data => {
             if(data.success){
+              console.log("********",data, this.registros )
               this.actualizando= true
-              this.datosactualizados = this.jsonData.Datos.length  - this.registros
-              if(this.datosactualizados < 0)
-              this.datosactualizados = this.datosactualizados  * -1
-              resolve(true)
+              this.nuevos = data.data.nuevos,
+              this.eliminados = (this.registros - data.data.actualizados)*(-1),
+              this.actualizados = data.data.actualizados
+              this.deleteRegister()
             }
           },
           error => {
-            //this.error=true
-            reject(false)
+
           });
-    });
   }
   deleteRegister (){
       this.Services.deleteRegister(this.portafolio_id)
