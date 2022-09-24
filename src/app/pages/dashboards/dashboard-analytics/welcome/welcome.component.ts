@@ -55,24 +55,9 @@ export class WelcomeComponent implements OnInit {
     let body= {
       "welcome": false,
     }
-    this.updateAgency(body)
    
   }
-  updateAgency(body) {
-    let customer_id = this.agency._id;
-    this.Services.updateAgency( customer_id, body)
-    .subscribe(
-        data => {
-          //console.log("Hola ", data)
-          if(data.success){
-            this.agency=data.data
-            this.dialogRef.close(data.data);
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
+ 
 
  
 

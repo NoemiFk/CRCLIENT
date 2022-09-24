@@ -81,7 +81,6 @@ export class RegisterComponent implements OnInit {
           if(data.success){
             //console.log(data)
             let user=data.data;
-            this.getAgency(user.agency_id)
 
           }
         },
@@ -100,37 +99,7 @@ export class RegisterComponent implements OnInit {
     
 
   }
-  getAgency(agency) {
-   //console.log("Clientt",agency)
-    this.Services.getAgency(agency)
-    .subscribe(
-        data => {
-          if(data.success){
-            let agencyA=data.data
-           //console.log("----",agencyA)
-            localStorage.setItem('Agency', JSON.stringify(agencyA));
-            this.getPlan(agencyA.contract.plan_id);
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
-  getPlan(id) {
-    this.Services.getPlan(id)
-    .subscribe(
-        data => {
-          //console.log("Hola ", data)
-          if(data.success){
-            let plan=data.data
-            localStorage.setItem('Plan', JSON.stringify(plan));
-            this.router.navigate(['/']);
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
+
 
   toggleVisibility() {
     if (this.visible) {

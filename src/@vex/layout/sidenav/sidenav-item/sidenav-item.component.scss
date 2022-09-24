@@ -19,15 +19,18 @@
     border-left-color: var(--sidenav-item-border-color-active);
 
     .item-icon {
-      color: var(--sidenav-item-icon-color-active);
+      //color: var(--sidenav-item-icon-color-active);
+      color: #015aa8;
     }
 
     .item-label {
-      color: var(--sidenav-item-color-active);
+      //color: var(--sidenav-item-color-active);
+      color: white;
     }
 
     .item-dropdown-icon {
-      color: var(--sidenav-item-color-active);
+      color: blueviolet;
+     // color: var(--sidenav-item-color-active);
     }
   }
 
@@ -54,7 +57,8 @@
 }
 
 .item-icon {
-  color: var(--sidenav-item-icon-color);
+  //color: var(--sidenav-item-icon-color);
+  color: white;
   font-size: var(--sidenav-item-icon-size);
   height: var(--sidenav-item-icon-size);
   margin-inline-end: var(--sidenav-item-icon-gap);

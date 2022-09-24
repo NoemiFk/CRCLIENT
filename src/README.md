@@ -115,7 +115,7 @@ This works the same for all the other colors too.
 
 ```typescript
 // Colors (style.scss)
---color-primary: 92, 119, 255;
+--color-primary: 255, 255, 255;
 --color-primary-contrast: 255, 255, 255;
 
 --color-accent: 255, 64, 129;

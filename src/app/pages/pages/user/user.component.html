@@ -1,0 +1,347 @@
+<!-- <vex-page-layout>
+
+<vex-page-layout-header fxLayout="column" fxLayoutAlign="center start">
+    <div [class.container]="layoutCtrl.value === 'boxed'"
+         [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+         class="w-full flex flex-col sm:flex-row justify-between">
+        <h3>Portal de Usuario</h3>
+    </div>
+  </vex-page-layout-header>
+
+  <vex-page-layout-content vexContainer>
+    <div class="card">
+      <mat-tab-group>
+        <mat-tab label="Perfil">
+          <div class="p-6">
+            <div [class.container]="layoutCtrl.value === 'boxed'"
+            [class.px-gutter]="layoutCtrl.value === 'fullwidth'"
+            class="-mt-6">
+
+            <div class="">
+             <div >
+               
+               <div fxLayout="row">
+                 <div class="text-right body-1 w-full" fxLayout="column" fxLayoutAlign="center center">
+                  
+                   <table class="mt-6">
+                     <tbody>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><h3>NOMBRE</h3></td>
+                       <td class="text-left pl-4"><b>NANCY</b></td>
+                     </tr>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><h3>APELLIDO</h3></td>
+                       <td class="text-left pl-4"><b>MORALES</b></td>
+                     </tr>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><H3>NO. DE CONTRATO</H3></td>
+                       <td class="text-left pl-4"><b>D-23-44</b></td>
+                     </tr>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><H3>PRODUCTO</H3></td>
+                       <td class="text-left pl-4"><b>CREDITO</b></td>
+                     </tr>
+                     </tbody>
+                   </table>
+                   <table class="mt-6">
+                     <tbody>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><h3>MENSUALIDAD</h3></td>
+                       <td class="text-left pl-4"><b>$ 10,000.00</b></td>
+                     </tr>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><h3>SEGURO</h3></td>
+                       <td class="text-left pl-4"><b>$ 1,000.00</b></td>
+                     </tr>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><H3>MORATORIO</H3></td>
+                       <td class="text-left pl-4"><b>$ 1,000.00</b></td>
+                     </tr>
+                     <tr>
+                       <td class="text-secondary body-2 text-center"><H3>TOTAL</H3></td>
+                       <td class="text-left pl-4"><b>$12,000.00</b></td>
+                     </tr>
+                     </tbody>
+                   </table>
+           
+                  
+                 </div>
+               </div>
+               <div fxLayout="row" class="bg-primary p-5 mt-10" style="color: white;">
+                 <div class="text-right body-1 w-full" fxLayout="column" fxLayoutAlign="center center">
+                <h4 class="text-center">Su cuenta muestra un atraso de $12,000.00Pesos. 
+               </h4>
+                 </div>
+               </div>
+               <div fxLayout="row" class="text-center pt-10">
+                 <div fxFlex="50%" >
+                   <button  mat-flat-button  color="primary" (click)="change(1)"> 1 Pago
+                   </button>
+                 </div>
+                 <div fxFlex="50%">
+                   <button mat-flat-button  color="primary" (click)="change(2)">Más pagos
+                   </button>
+                 </div>
+               </div>
+               <div fxLayout="row" class="text-center pt-10">
+                 <h3>Plan de Pagos</h3>
+               </div>
+               <div *ngIf="onePay">
+                 <h3><b>Atraso Total: 12000 </b></h3>
+                 <div class="flex flex-col">
+             
+                   <mat-form-field class="flex-auto">
+                     <mat-label>Elige Fecha</mat-label>
+                     <input [matDatepicker]="startDatepicker" [(ngModel)]="date" matInput>
+                     <mat-datepicker-toggle [for]="startDatepicker" matSuffix></mat-datepicker-toggle>
+                     <mat-datepicker #startDatepicker></mat-datepicker>
+                   </mat-form-field>
+                   <mat-form-field class="flex-auto">
+                     <mat-label>Cantidad</mat-label>
+                     <input [(ngModel)]="cantidad" matInput>
+                     
+                   </mat-form-field>
+
+                 </div>
+                 <button mat-flat-button  color="accent" (click)="pay=true">Pagar
+                 </button>
+               </div>
+               <div *ngIf="onePay==false">
+                 <h3><b>Atraso Total: 12000 </b></h3>
+                 <div class="flex flex-col">
+
+                   <mat-form-field class="flex-auto" >
+                     <mat-label>Elige cantidad de pagos
+                     </mat-label>
+                     <mat-select  name="criterio1" [(ngModel)]="type" (selectionChange)="changePay($event)" >
+                       <mat-option value=1> 1 Pago</mat-option>
+                       <mat-option value=2> 2 Pago</mat-option>
+                       <mat-option value=3> 3 Pago</mat-option>
+                       <mat-option value=4> 4 Pago</mat-option>
+                     </mat-select>
+               
+                     <mat-icon [icIcon]="icEdit" class="mr-3" matPrefix></mat-icon>
+                   </mat-form-field>
+                 </div>
+                 <div class="flex flex-col sm:flex-row" *ngFor="let pay of pays">
+                   <div class="flex flex-auto flex-col" >
+                     <mat-form-field class="flex-auto">
+                       <mat-label>Elige Fecha</mat-label>
+                       <input [matDatepicker]="startDatepicker" [(ngModel)]="pay.date" matInput>
+                       <mat-datepicker-toggle [for]="startDatepicker" matSuffix></mat-datepicker-toggle>
+                       <mat-datepicker #startDatepicker></mat-datepicker>
+                     </mat-form-field>
+                     <mat-form-field class="flex-auto">
+                       <mat-label>Cantidad</mat-label>
+                       <input [(ngModel)]="pay.cant" matInput>
+                       
+                     </mat-form-field>
+                     </div>
+                     </div>
+                     <button mat-flat-button  color="accent" (click)="pay=true">Pagar
+                     </button>
+               </div>
+           
+               <div *ngIf="pay" class="mt-20">
+
+                 <h3>Método de Pago</h3>
+                 <table class="table w-full">
+                   <thead>
+                   <tr>
+                     <td class="body-2 text-secondary">BANCO</td>
+                     <td class="body-2 text-secondary">CUENTA</td>
+                   </tr>
+                   </thead>
+                   <tbody>
+                   <tr>
+                     <td class="py-6 border-b">SANTANDER</td>
+                     <td class="py-6 border-b">298369826398562</td>
+                   </tr>
+             
+                   <tr>
+                     <td class="py-6 border-b">OXXO</td>
+                     <td class="py-6 border-b">$9597288403984</td>
+                   </tr>
+             
+                   <tr>
+                     <td class="py-6 border-b">DEPOSITO</td>
+                     <td class="py-6 border-b">98439568926392</td>
+                   </tr>
+             
+                   <tr>
+                     <td class="py-6 border-b">TRANSFERENCIA</td>
+                     <td class="py-6 border-b">349759820304957</td>
+                   </tr>
+                   </tbody>
+                 </table>
+               </div>
+           
+             </div>
+           </div>
+
+</div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Opciones de Pagos">
+          <div class="p-6">
+            <p>Hola</p>
+          </div>
+        </mat-tab>
+        <mat-tab label="Cuenta">
+          <div class="p-6">
+            <p>Hola</p>
+          </div>
+        </mat-tab>
+
+      </mat-tab-group>
+    </div>
+  </vex-page-layout-content>
+  
+  
+</vex-page-layout>
+<footer>
+  <div fxLayout="row">
+    <div fxFlex="50%">
+      <img class="h-20" src="assets/img/demo/logoPrincipal.svg">
+
+      
+    </div>
+    <div fxFlex="50%">
+      <img class="h-20" src="https://documents-cr.s3.us-west-2.amazonaws.com/73684d56-cd43-4d86-889e-2aaf84255a73.JPG">
+    </div>
+
+
+  </div>
+</footer>
+
+ -->
+
+
+ <div class="p-gutter container">
+  <div @fadeInUp class="card p-16">
+    <div fxLayout="row">
+      <div fxFlex="50%">
+        <img class="h-40" src="assets/img/demo/logoPrincipal.svg">
+
+        <div class="mt-12">
+          <h4 class="body-2 text-secondary mt-0">RECIPIENT</h4>
+          <h3 class="title m-0">David Smith</h3>
+          <div class="text-secondary">
+            <p class="m-0">712 Clarkson Ave</p>
+            <p class="m-0">Brooklyn, NY</p>
+            <p class="m-0">11203, USA</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-right body-1" fxFlex="50%" fxLayout="column" fxLayoutAlign="start end">
+        <h1 class="display-2 m-0">INVOICE</h1>
+
+        <table class="mt-6">
+          <tbody>
+          <tr>
+            <td class="text-secondary body-2">INVOICE NO.</td>
+            <td class="text-left pl-4">2019/0592</td>
+          </tr>
+          <tr>
+            <td class="text-secondary body-2">INVOICE DATE</td>
+            <td class="text-left pl-4">10/04/2019</td>
+          </tr>
+          <tr>
+            <td class="text-secondary body-2">PROJECT NO.</td>
+            <td class="text-left pl-4">D-23-44</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <div class="mt-12">
+          <h4 class="body-2 text-secondary mt-0">COMPANY</h4>
+          <h3 class="title m-0">IceCold Tech Ltd.</h3>
+          <div class="text-secondary">
+            <p class="m-0">907 Eastern Pkwy</p>
+            <p class="m-0">Brooklyn, NY</p>
+            <p class="m-0">11213, USA</p>
+
+            <p class="m-0 mt-3">
+              <ic-icon [icon]="icMail" class="mr-2" inline="true" size="1.25em"></ic-icon>
+              <span>hello@example.com</span>
+            </p>
+
+            <p class="m-0">
+              <ic-icon [icon]="icPhone" class="mr-2" inline="true" size="1.25em"></ic-icon>
+              <span>+1 (961) 400-3535</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table w-full mt-24">
+      <thead>
+      <tr>
+        <td class="body-2 text-secondary">SERVICE</td>
+        <td class="body-2 text-secondary">PRICE PER</td>
+        <td class="body-2 text-secondary">UNIT</td>
+        <td class="body-2 text-secondary">QUANTITY</td>
+        <td class="body-2 text-secondary text-right">TOTAL</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="py-6 border-b">New Dashboard Prototype, Design & Code</td>
+        <td class="py-6 border-b">$35.00</td>
+        <td class="py-6 border-b">Hour</td>
+        <td class="py-6 border-b">40</td>
+        <td class="py-6 border-b font-medium text-right">$1,400.00</td>
+      </tr>
+
+      <tr>
+        <td class="py-6 border-b">Graphic Pack - Monthly Subscription (includes Updates)</td>
+        <td class="py-6 border-b">$49.99</td>
+        <td class="py-6 border-b">User</td>
+        <td class="py-6 border-b">5</td>
+        <td class="py-6 border-b font-medium text-right">$249.95</td>
+      </tr>
+
+      <tr>
+        <td class="py-6 border-b">Logo & Branding Pack</td>
+        <td class="py-6 border-b">$499.99</td>
+        <td class="py-6 border-b">Piece</td>
+        <td class="py-6 border-b">1</td>
+        <td class="py-6 border-b font-medium text-right">$499.99</td>
+      </tr>
+
+      <tr>
+        <td class="py-6 border-b">Bug Fixes</td>
+        <td class="py-6 border-b">$15.00</td>
+        <td class="py-6 border-b">Hour</td>
+        <td class="py-6 border-b">10</td>
+        <td class="py-6 border-b font-medium text-right">$150.00</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="mt-8" fxLayout="column" fxLayoutAlign="start end">
+      <table class="subheading-2 font-medium pr-6">
+        <tbody>
+        <tr>
+          <td class="text-secondary text-right">SUBTOTAL</td>
+          <td class="pl-12">$2,299.94‬</td>
+        </tr>
+        <tr>
+          <td class="text-secondary text-right">TAX (19%)</td>
+          <td class="pl-12">$436.99‬</td>
+        </tr>
+        <tr>
+          <td class="text-secondary text-right">DISCOUNT (5%)</td>
+          <td class="pl-12">-$114.99‬</td>
+        </tr>
+        <tr>
+          <td class="headline font-medium text-right pt-6">TOTAL</td>
+          <td class="headline font-medium pl-12 pt-6">$2,621.94‬</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

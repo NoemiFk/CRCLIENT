@@ -126,7 +126,6 @@ export class DashboardAnalyticsComponent implements OnInit {
     this.dialog.open(WelcomeComponent, {
     }).afterClosed().subscribe(welcome => {
       if (welcome) {
-        this.getAgency(this.agency._id);
         /*this.dialog.open(CustomerUpdateComponent, {
           data: this.agency
         }).afterClosed().subscribe(updatedCustomer => {
@@ -156,21 +155,6 @@ export class DashboardAnalyticsComponent implements OnInit {
       
     });
   }
-  getAgency(agency) {
-    console.log("Clientt",agency)
-    this.Services.getAgency(agency)
-    .subscribe(
-        data => {
-          if(data.success){
-            let agencyA=data.data
-            console.log("----",agencyA)
-            localStorage.setItem('Agency', JSON.stringify(agencyA));
-            //this.getPlan(agencyA.contract.plan_id);
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
+  
 
 }

@@ -7,8 +7,10 @@
   --padding-12: 0.75rem;
   --padding-8: 0.5rem;
   --padding-4: 0.25rem;
+  
 
-  --color-primary: 92, 119, 255;
+  //--color-primary: 92, 119, 255;
+  --color-primary: 0, 62, 115;
   --color-primary-contrast: 255, 255, 255;
 
   --color-accent: 255, 64, 129;
@@ -63,7 +65,8 @@
   // Background
   --background-base: rgb(245, 245, 248);
   --background-card: #{map-get(map-get($vex-theme, background), card)};
-  --background-app-bar: #{map-get(map-get($vex-theme, background), app-bar)};
+  //--background-app-bar: #{map-get(map-get($vex-theme, background), app-bar)};
+  --background-app-bar: rgb(1, 90, 167);
   --background-hover: #{map-get(map-get($vex-theme, background), hover)};
 
   // Elevation

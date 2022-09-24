@@ -49,7 +49,6 @@ export class CustomerFactComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPlansList();
     if (this.defaults) {
       this.mode = 'update';
       let customer= this.defaults;
@@ -175,37 +174,7 @@ export class CustomerFactComponent implements OnInit {
         plan_id:"6070a4c7e4a7f92970c0cd75",
     },
     }
-    this.updateAgency(body)
     
-  }
-  updateAgency(body) {
-    let customer_id = this.defaults._id;
-    this.Services.updateAgency( customer_id, body)
-    .subscribe(
-        data => {
-          //console.log("Hola ", data)
-          if(data.success){
-            this.agency=data.data
-            this.dialogRef.close(data.data);
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
-  PlansList=[]
-  getPlansList() {
-    this.Services.getPlansList()
-    .subscribe(
-        data => {
-          //console.log("Hola ", data)
-          if(data.success){
-            this.PlansList=data.data;
-          }
-        },
-        error => {
-          //this.error=true
-        });
   }
 
   isCreateMode() {

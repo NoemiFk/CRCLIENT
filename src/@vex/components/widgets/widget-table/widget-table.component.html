@@ -40,7 +40,7 @@
     </ng-container>
 
 
-    <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+    <tr *matHeaderRowDef="visibleColumns" class="bg-app-bar"  mat-header-row></tr>
     <!--suppress UnnecessaryLabelJS -->
     <tr *matRowDef="let row; columns: visibleColumns;" mat-row></tr>
   </table>

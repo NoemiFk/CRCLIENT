@@ -39,14 +39,6 @@ const routes: VexRoutes = [
         redirectTo: '/'
       },
       {
-        path: '',
-        loadChildren: () => import('./pages/dashboards/dashboard-analytics/dashboard-analytics.module').then(m => m.DashboardAnalyticsModule),
-      },
-      {
-        path: 'engagement',
-        loadChildren: () => import('./pages/pages/pricing/pricing.module').then(m => m.PricingModule)
-      },
-      {
         path: 'apps',
         children: [
           {
@@ -80,14 +72,6 @@ const routes: VexRoutes = [
             }
           },
           {
-            path: 'aio-table',
-            loadChildren: () => import('./pages/apps/aio-table/aio-table.module').then(m => m.AioTableModule),
-          },
-          {
-            path: 'customers',
-            loadChildren: () => import('./pages/admin/customers/aio-table.module').then(m => m.AioTableModule),
-          },
-          {
             path: 'help-center',
             loadChildren: () => import('./pages/apps/help-center/help-center.module').then(m => m.HelpCenterModule),
           },
@@ -102,77 +86,9 @@ const routes: VexRoutes = [
         ]
       },
       {
-        path: 'admin',
-        children: [
-         
-          {
-            path: 'customers',
-            loadChildren: () => import('./pages/admin/customers/aio-table.module').then(m => m.AioTableModule),
-          },
-          {
-            path: 'portafolios',
-            loadChildren: () => import('./pages/admin/portafolios/portafolios.module').then(m => m.AioTableModule),
-          },
-          {
-            path: 'portafoliosId/:id',
-            loadChildren: () => import('./pages/admin/portafoliosId/portafolios.module').then(m => m.AioTableModule),
-          },
-          {
-            path: 'map/:id/:isNew',
-            loadChildren: () => import('./pages/admin/map/map.module').then(m => m.MapModule),
-          },
-          {   
-            path: 'analysis',
-            loadChildren: () => import('./pages/admin/analysis/analysis.module').then(m => m.AnalysisModule),
-          },
-          {
-            path: 'segmentation',
-            loadChildren: () => import('./pages/admin/segmentation/segmentation.module').then(m => m.SegmentationModule),
-          },
-          {
-            path: 'segmentationSingle/:id/:index',
-            loadChildren: () => import('./pages/admin/segmentationSingle/segmentation.module').then(m => m.SegmentationModule),
-          },
-          {
-            path: 'communication',
-            loadChildren: () => import('./pages/admin/communication/communication.module').then(m => m.CommunicationModule),
-          },
-          {
-            path: 'communicationId/:id',
-            loadChildren: () => import('./pages/admin/communicationId/communication.module').then(m => m.CommunicationModule),
-          },
-          {
-            path: 'strategyId/:id/:index',
-            loadChildren: () => import('./pages/admin/strategyId/strategy.module').then(m => m.StrategyModule),
-          },
-          {
-            path: 'printCommunication/:id',
-            loadChildren: () => import('./pages/admin/printCommunication/communication.module').then(m => m.CommunicationModule),
-          },
-          {
-            path: 'strategy',
-            loadChildren: () => import('./pages/admin/strategy/strategy.module').then(m => m.StrategyModule),
-          },
-          {
-            path: 'invoice',
-            loadChildren: () => import('./pages/admin/invoice/invoice.module').then(m => m.InvoiceModule),
-          },
-          {
-            path: 'portal',
-            loadChildren: () => import('./pages/admin/portal/portal.module').then(m => m.PortalModule),
-          },{
-            path: 'generalSettings',
-            loadChildren: () => import('./pages/admin/general-settings/general-settings.module').then(m => m.GeneralSettingsModule),
-          },
-        ]
-      },
-      {
         path: 'pages',
         children: [
-          {
-            path: 'pricing',
-            loadChildren: () => import('./pages/pages/pricing/pricing.module').then(m => m.PricingModule)
-          },
+         
           {
             path: 'faq',
             loadChildren: () => import('./pages/pages/faq/faq.module').then(m => m.FaqModule)
@@ -182,8 +98,12 @@ const routes: VexRoutes = [
             loadChildren: () => import('./pages/pages/guides/guides.module').then(m => m.GuidesModule)
           },
           {
-            path: 'invoice1',
+            path: 'invoice',
             loadChildren: () => import('./pages/pages/invoice/invoice.module').then(m => m.InvoiceModule)
+          },
+          {
+            path: 'user',
+            loadChildren: () => import('./pages/pages/user/user.module').then(m => m.UserModule)
           },
           {
             path: 'error-404',

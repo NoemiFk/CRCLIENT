@@ -18,6 +18,16 @@
   td.mat-cell,
   td.mat-footer-cell {
     border-bottom-color: var(--foreground-divider);
+    
+  }
+}
+.mat-table {
+  mat-header-row,
+  th.mat-header-cell{
+    border-top-color: white;
+    border-top-width: 1px; 
+    color: rgb(255, 255, 255);
+    font-size: 13px;;
   }
 }
 

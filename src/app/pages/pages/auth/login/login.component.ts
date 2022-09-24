@@ -42,64 +42,34 @@ export class LoginComponent implements OnInit {
   }
 
   send() {
-    const admin = this.form.value;
-    this.AuthenticationService.login(admin.email, admin.password)
-    .subscribe(
-        data => {
-          if(data.success){
-            //console.log(data)
-            let user=data.data;
-            this.getAgency(user.agency_id)
+    this.router.navigate(['/user']);
+    // const admin = this.form.value;
+    // this.AuthenticationService.login(admin.email, admin.password)
+    // .subscribe(
+    //     data => {
+    //       if(data.success){
+    //         //console.log(data)
+    //         let user=data.data;
            
 
-          }
-        },
-        error => {
-         //console.log(error.error)
-          let message="Error";
-          if(!error.error.success)
-            message = error.error.type;
-          this.router.navigate(['/login']);
-          this.snackbar.open(message, 'OK', {
-            duration: 10000
-          });
-        });
+    //       }
+    //     },
+    //     error => {
+    //      //console.log(error.error)
+    //       let message="Error";
+    //       if(!error.error.success)
+    //         message = error.error.type;
+    //       this.router.navigate(['/login']);
+    //       this.snackbar.open(message, 'OK', {
+    //         duration: 10000
+    //       });
+    //     });
 
 
     
   }
-  getAgency(agency) {
-   //console.log("Clientt",agency)
-    this.Services.getAgency(agency)
-    .subscribe(
-        data => {
-          if(data.success){
-            let agencyA=data.data
-           //console.log("----",agencyA)
-            localStorage.setItem('Agency', JSON.stringify(agencyA));
-            this.getPlan(agencyA.contract.plan_id);
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
-  getPlan(id) {
-    this.Services.getPlan(id)
-    .subscribe(
-        data => {
-          //console.log("Hola ", data)
-          if(data.success){
-            let plan=data.data
-            localStorage.setItem('Plan', JSON.stringify(plan));
-            console.log("Dashboards")
-            this.router.navigate(['/']);
-          }
-        },
-        error => {
-          //this.error=true
-        });
-  }
+ 
+ 
 
   toggleVisibility() {
     if (this.visible) {
