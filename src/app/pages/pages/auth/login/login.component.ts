@@ -42,7 +42,17 @@ export class LoginComponent implements OnInit {
   }
 
   send() {
-    this.router.navigate(['/user']);
+    const admin = this.form.value;
+    console.log("SEND")
+    if (admin.email == "12345"){
+      this.router.navigate(['/pages/user']);
+    }else{
+      let message="Error: Usuario incorrecto";
+      this.router.navigate(['/login']);
+      this.snackbar.open(message, 'OK', {
+               duration: 10000
+            });
+    }
     // const admin = this.form.value;
     // this.AuthenticationService.login(admin.email, admin.password)
     // .subscribe(

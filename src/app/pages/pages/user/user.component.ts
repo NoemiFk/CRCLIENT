@@ -25,7 +25,23 @@ import { MatSelectChange } from '@angular/material/select';
 import icPhone from '@iconify/icons-ic/twotone-phone';
 import icMail from '@iconify/icons-ic/twotone-mail';
 import icMap from '@iconify/icons-ic/twotone-map';
+import { UserShipingMethodsComponent } from './user-shiping-methods/user-shiping-methods.component';
 
+import { PayComponent } from './pay/pay.component';
+
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  qty: string;
+  date: string
+}
+
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, name: 'Pago', qty: "1,0079", date: "24/09/2022"},
+  {position: 2, name: 'Pago', qty: "4,0026", date: "24/08/2022"},
+  {position: 3, name: 'Pago', qty: "6,941", date: "24/07/2022"},
+];
 
 @UntilDestroy()
 @Component({
@@ -45,6 +61,7 @@ import icMap from '@iconify/icons-ic/twotone-map';
     }
   ]
 })
+
 export class AioTableComponent implements OnInit, AfterViewInit {
 
   layoutCtrl = new FormControl('boxed');
@@ -60,10 +77,10 @@ export class AioTableComponent implements OnInit, AfterViewInit {
  
   pageSize = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
-  dataSource: MatTableDataSource<Customer> | null;
   selection = new SelectionModel<Customer>(true, []);
   searchCtrl = new FormControl();
-
+  displayedColumns: string[] = ['position', 'name', 'weight', 'date'];
+  dataSource = ELEMENT_DATA;
   labels = aioTableLabels;
   cantidad=8000
   icPhone = icPhone;
@@ -87,16 +104,32 @@ export class AioTableComponent implements OnInit, AfterViewInit {
   }
 
 
-  
   ngOnInit() {
     console.log("holq")
   }
    ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
     //console.log("-->",this.dataSource)
   }
 
+  openshippingmethods() {
+    this.dialog.open(UserShipingMethodsComponent).afterClosed().subscribe(() => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      
+    });
+  }
+
+  openpay(){
+    this.dialog.open(PayComponent).afterClosed().subscribe(() => {
+      /**
+       * Portafolio is the updated portafolio (if the user pressed Save - otherwise it's null)
+       */
+      
+    });
+  }
   change(x){
     console.log(x)
     if(x==1){

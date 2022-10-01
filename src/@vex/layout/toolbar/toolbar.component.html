@@ -1,7 +1,7 @@
 <div class="toolbar w-full" fxLayout="row" fxLayoutAlign="start center" vexContainer>
-  <button (click)="openSidenav()" [fxHide]="!mobileQuery" mat-icon-button type="button">
+  <!-- <button (click)="openSidenav()" [fxHide]="!mobileQuery" mat-icon-button type="button">
     <mat-icon [icIcon]="icMenu"></mat-icon>
-  </button>
+  </button> -->
 
   <a *ngIf="isVerticalLayout$ | async"
      [routerLink]="['/']"
@@ -12,114 +12,11 @@
     <h1 [fxHide]="mobileQuery" class="title ltr:pl-4 rtl:pr-4 m-0 select-none">VEX</h1>
   </a>
 
-  <h2><b></b></h2>
-
-  <mat-menu #addNewMenu="matMenu" [overlapTrigger]="false" xPosition="after" yPosition="below">
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icPersonAdd"></mat-icon>
-      <span>Add Contact</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icDoneAll"></mat-icon>
-      <span>Add Task</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icAssignmentTurnedIn"></mat-icon>
-      <span>Add Project</span>
-    </button>
-
-    <button [matMenuTriggerFor]="documentMenu" mat-menu-item>
-      <mat-icon [icIcon]="icBallot"></mat-icon>
-      <span>Add Document</span>
-    </button>
-  </mat-menu>
-
-  <mat-menu #documentMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icDescription"></mat-icon>
-      <span>Add Quote</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icAssignment"></mat-icon>
-      <span>Add Invoice</span>
-    </button>
-
-    <button mat-menu-item>
-      <mat-icon [icIcon]="icReceipt"></mat-icon>
-      <span>Add Receipt</span>
-    </button>
-  </mat-menu>
-
-  <div #megaMenuOriginRef class="rtl:mr-2" *ngIf="verify()">
-    <button *ngIf="isHorizontalLayout$ | async"
-        class="px-1"
-        [fxHide]="mobileQuery"
-        color="{{color1}}"
-        mat-button
-        (click)="href('/admin/customers')"
-        style="font-size: x-small;"
-        [class.bg-accent-light]="color1=='accent'"
-        [class.bg-primary-light]="color1=='primary'"
-        type="button"><mat-icon class="text-xl"[icIcon]="icPortafolio"></mat-icon>1. Administración Financieras
-    </button>
-    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
-    <button *ngIf="isHorizontalLayout$ | async"
-        class="px-1"
-        [fxHide]="mobileQuery"
-        color="{{color2}}"
-        mat-button
-        (click)="href('/admin/portafolios')"
-        style="font-size: x-small; "
-        [class.bg-accent-light]="color2=='accent'"
-        [class.bg-primary-light]="color2=='primary'"
-        type="button"><mat-icon class="text-xl"[icIcon]="icPortafolio"></mat-icon>2. Administración Portafolios
-    </button>
-    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
-    <button *ngIf="isHorizontalLayout$ | async"
-        class="px-1"
-        [fxHide]="mobileQuery"
-        color="{{color3}}"
-        mat-button
-        (click)="href('/admin/segmentation')"
-        style="font-size: x-small;"
-        [class.bg-accent-light]="color3=='accent'"
-        [class.bg-primary-light]="color3=='primary'"
-        type="button"><mat-icon class="text-xl"[icIcon]="icPortafolio"></mat-icon>3. Segmentación
-    </button>
-    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
-     <button *ngIf="isHorizontalLayout$ | async"
-        class="px-1"
-        [fxHide]="mobileQuery"
-        color="{{color4}}"
-        mat-button
-        (click)="href('/admin/communication')"
-        style="font-size: x-small;"
-        [class.bg-accent-light]="color4=='accent'"
-        [class.bg-primary-light]="color4=='primary'"
-        type="button"><mat-icon class="text-xl"[icIcon]="icPortafolio"></mat-icon>4. Comunicación Digital
-
-    </button>
-    <mat-icon class="pt-2"[icIcon]="icArrow"></mat-icon>
-    <button *ngIf="isHorizontalLayout$ | async"
-        class="px-1"
-        [fxHide]="mobileQuery"
-        color="{{color5}}"
-        mat-button
-        (click)="href('/admin/strategy')"
-        style="font-size: x-small;"
-        [class.bg-accent-light]="color5=='accent'"
-        [class.bg-primary-light]="color5=='primary'"
-        type="button"><mat-icon class="text-xl"[icIcon]="icPortafolio"></mat-icon>5. Estrategia de Gestión
-
-    </button>
-    
+  <h2><b>Financiera total</b></h2>
 
 
 
-  </div>
+
 
 
   <div *ngIf="(isVerticalLayout$ | async) && isNavbarInToolbar$ | async"
@@ -153,25 +50,15 @@
         <mat-icon [icIcon]="emojioneUS"></mat-icon>
       </button>
     </div-->
-    <button _ngcontent-ypn-c303="" mat-stroked-button="" *ngIf="agency&&agency.contract.type=='test'&&days>=0"type="button" class="mat-focus-indicator ng-tns-c303-274 mat-stroked-button mat-button-base mt-1 text-orange" style="margin-right: 12px;"><span class="mat-button-wrapper"></span><span matripple="" class="mat-ripple mat-button-ripple"></span><span class="mat-button-focus-overlay"></span>Días de Prueba: <b>{{days}}</b></button>
+    <!-- <button _ngcontent-ypn-c303="" mat-stroked-button="" *ngIf="agency&&agency.contract.type=='test'&&days>=0"type="button" class="mat-focus-indicator ng-tns-c303-274 mat-stroked-button mat-button-base mt-1 text-orange" style="margin-right: 12px;"><span class="mat-button-wrapper"></span><span matripple="" class="mat-ripple mat-button-ripple"></span><span class="mat-button-focus-overlay"></span>Días de Prueba: <b>{{days}}</b></button> -->
 
 
 
-    <div class="px-1">
-      <vex-toolbar-user></vex-toolbar-user>
+    <div class="px-5">
+      <img _ngcontent-vse-c270="" class="avatar h-8 w-8 align-middle ng-tns-c270-52" src="https://documents-cr.s3.us-west-2.amazonaws.com/73684d56-cd43-4d86-889e-2aaf84255a73.JPG">
+
     </div>
 
-    <mat-menu #languageMenu="matMenu" overlapTrigger="false" xPosition="before" yPosition="below">
-      <button mat-menu-item>
-        <mat-icon [icIcon]="emojioneUS"></mat-icon>
-        <span>English</span>
-      </button>
-
-      <button mat-menu-item>
-        <mat-icon [icIcon]="emojioneDE"></mat-icon>
-        <span>German</span>
-      </button>
-    </mat-menu>
   </div>
 </div>
 

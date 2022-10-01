@@ -1,0 +1,51 @@
+<div>
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <h2 class="headline m-0"
+        fxFlex="auto">Métodos de pago</h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+   
+    <table class="table w-full">
+      <thead>
+      <tr>
+        <td class="body-2 text-secondary">BANCO</td>
+        <td class="body-2 text-secondary">CUENTA</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="py-6 border-b">SANTANDER</td>
+        <td class="py-6 border-b">298369826398562</td>
+      </tr>
+
+      <tr>
+        <td class="py-6 border-b">OXXO</td>
+        <td class="py-6 border-b">$9597288403984</td>
+      </tr>
+
+      <tr>
+        <td class="py-6 border-b">DEPOSITO</td>
+        <td class="py-6 border-b">98439568926392</td>
+      </tr>
+
+      <tr>
+        <td class="py-6 border-b">TRANSFERENCIA</td>
+        <td class="py-6 border-b">349759820304957</td>
+      </tr>
+      </tbody>
+    </table>
+    
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Volver</button>
+    <button color="warn" mat-button (click)="save()"><A>Registrar pago</A></button>
+  </mat-dialog-actions>
+</div>

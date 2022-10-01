@@ -1,0 +1,40 @@
+<div>
+  <div fxLayout="row" fxLayoutAlign="start center" mat-dialog-title>
+    <h2 class="headline m-0"
+        fxFlex="auto">Registrar Pago</h2>
+
+    <button class="text-secondary" mat-dialog-close mat-icon-button type="button">
+      <mat-icon [icIcon]="icClose"></mat-icon>
+    </button>
+  </div>
+
+  <mat-divider class="-mx-6 text-border"></mat-divider>
+
+  <mat-dialog-content fxLayout="column">
+   
+   <p>Cargue aquí su comprobante</p>
+
+   <mat-form-field class="flex-auto">
+    <mat-label>Cantidad</mat-label>
+    <input [(ngModel)]="cantidad" matInput>
+    
+  </mat-form-field>
+
+  <div class="fileControl-wrapper text-center">
+    <br>
+      <button mat-flat-button color="primary">Seleccionar Archivo </button>
+    <input type="file" #uploadControl id="fileControlInput" (change)="onFileChange($event)" name="fileControlInput"
+      multiple="multiple"  />
+
+  </div>
+
+
+
+    
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Volver</button>
+    <button color="warn" mat-dialog-close type="button" ><A>Enviar comprobante</A></button>
+  </mat-dialog-actions>
+</div>
